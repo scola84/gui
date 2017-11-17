@@ -1,0 +1,48 @@
+.menu {
+  background: whitesmoke;
+  position: relative;
+  width: 21.333em;
+  height: 100%;
+  border-right: 1px solid darkgrey;
+}
+
+*[dir=rtl] .menu {
+  border-left: 1px solid darkgrey;
+  border-right: 0;
+}
+
+@media not all and (min-width: 64em) {
+  .menu {
+    max-width: 85%;
+    left: -100%;
+    position: absolute;
+    z-index: 1;
+    transition: left 0.25s;
+  }
+
+  .menu.over {
+    left: 0;
+  }
+
+  *[dir=rtl] .menu {
+    left: 0;
+    right: -100%;
+    transition: right 0.25s;
+  }
+
+  *[dir=rtl] .menu.over {
+    right: 0;
+  }
+}
+
+@media (min-width: 64em) {
+  .panel .bar .button.show-menu {
+    display: none;
+  }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+  .menu {
+    border-width: 0.5px;
+  }
+}

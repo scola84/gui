@@ -1,0 +1,42 @@
+import { Worker } from '@scola/worker';
+import { select } from 'd3';
+import throttle from 'lodash-es/throttle';
+
+export default class CollectionPreparer extends Worker {
+  constructor(methods) {
+    super(methods);
+    this._height = 48;
+  }
+
+  setHeight(value) {
+    this._height = value;
+    return this;
+  }
+
+  act(route, data) {
+    const body = select(route.node).select('.body');
+    const height = parseInt(body.style('height'), 10) || 768;
+
+    data.offset = data.offset || 0;
+    data.count = Math.round(height / this._height) * 2;
+
+    body.classed('nav outset busy', true);
+
+    body.on('scroll', throttle((d, i, n) => {
+      if (body.classed('done') === true) {
+        return;
+      }
+
+      if (body.classed('busy') === true) {
+        return;
+      }
+
+      if (height + n[i].scrollTop > n[i].scrollHeight - (height / 4)) {
+        data.offset += data.count;
+        this.act(route, data);
+      }
+    }, 250));
+
+    this.pass(route, data);
+  }
+}
