@@ -32,7 +32,7 @@ export default class FormBuilder extends Worker {
     list = list
       .enter()
       .append('ul')
-      .classed('list', true)
+      .classed('block', true)
       .merge(list);
 
     list.each((section, index, nodes) => {
@@ -79,12 +79,5 @@ export default class FormBuilder extends Worker {
     });
 
     this.pass(route, data, callback);
-  }
-
-  err(route) {
-    select(route.node)
-      .select('.bar label[for]')
-      .attr('tabindex', null)
-      .classed('disabled', true);
   }
 }

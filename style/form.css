@@ -2,7 +2,7 @@ form ul.hidden {
   display: none;
 }
 
-form ul.list input {
+form ul.block input {
   margin: 0 1em 0 0;
   padding: 0.5em;
   border: 0;
@@ -10,13 +10,13 @@ form ul.list input {
   width: 0;
 }
 
-form ul.list label {
+form ul.block label {
   margin: 0 1em 0 0;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-form ul.list .button {
+form ul.block .button {
   font-size: 2em;
   width: 1em;
   cursor: pointer;
@@ -30,14 +30,14 @@ form ul.list .button {
   border-radius: 50%;
 }
 
-form ul.list .button:before {
+form ul.block .button:before {
   font-size: 75%;
 }
 
-*[dir=rtl] form ul.list input {
+*[dir=rtl] form ul.block input {
   margin: 0 0 0 1em;
 }
 
-*[dir=rtl] form ul.list label {
+*[dir=rtl] form ul.block label {
   margin: 0 0 0 1em;
 }

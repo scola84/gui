@@ -1,16 +1,23 @@
 import { Worker } from '@scola/worker';
 import { select } from 'd3';
 
+const presets = {
+  all: '.panel > .body, .panel > .footer, .panel > .header',
+  body: '.panel > .body',
+  footer: '.panel > .footer',
+  header: '.panel > .header'
+};
+
 export default class ErrorReporter extends Worker {
   constructor(methods) {
     super(methods);
 
     this._format = (error) => error.message;
-    this._class = 'overlay';
+    this._disabled = '';
   }
 
-  setClass(value) {
-    this._class = value;
+  setDisabled(value) {
+    this._disabled = presets[value] ? presets[value] : value;
     return this;
   }
 
@@ -19,7 +26,13 @@ export default class ErrorReporter extends Worker {
     return this;
   }
 
-  err(route, error, callback) {
+  err(route, error) {
+    if (this._disabled) {
+      select(route.node && route.node.parentNode)
+        .selectAll(this._disabled)
+        .classed('disabled', true);
+    }
+
     select(route.node)
       .select('.message')
       .remove();
@@ -28,11 +41,6 @@ export default class ErrorReporter extends Worker {
       .select('.body')
       .insert('div', ':first-child')
       .classed('message', true)
-      .classed(this._class, true)
       .text(this._format(error));
-
-    if (this._class === 'overlay') {
-      this.fail(route, error, callback);
-    }
   }
 }

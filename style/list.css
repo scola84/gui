@@ -1,14 +1,14 @@
-ul.list {
+ul.block {
   margin: 0 0 2em;
   padding: 0;
   list-style: none;
 }
 
-ul.list:first-of-type {
+ul.block:first-of-type {
   margin-top: 2em;
 }
 
-ul.list li {
+ul.block li {
   align-items: center;
   height: 3em;
   padding: 0 0 0 1em;
@@ -18,11 +18,11 @@ ul.list li {
   border-bottom: 1px solid white;
 }
 
-ul.list li.icon:after {
+ul.block li.icon:after {
   left: 3.5em;
 }
 
-ul.list li:after {
+ul.block li:after {
   position: absolute;
   content: '';
   left: 1em;
@@ -32,19 +32,19 @@ ul.list li:after {
   height: 1px;
 }
 
-ul.list li:first-of-type {
+ul.block li:first-of-type {
   border-top: 1px solid darkgrey;
 }
 
-ul.list li:last-of-type {
+ul.block li:last-of-type {
   border-bottom: 1px solid darkgrey;
 }
 
-ul.list li:last-of-type:after {
+ul.block li:last-of-type:after {
   content: none;
 }
 
-ul.list lt {
+ul.block lt {
   font-size: 0.9em;
   display: block;
   padding: 0 1em 0.5em;
@@ -52,81 +52,81 @@ ul.list lt {
   color: darkgrey;
 }
 
-ul.list li .icon {
+ul.block li .icon {
   font-size: 2em;
   width: 1.25em;
   margin: 0.25em 0;
 }
 
-ul.list li .icon.secondary {
+ul.block li .icon.secondary {
   margin-left: auto;
   margin-right: 0.5em;
   width: auto;
   color: darkgrey;
 }
 
-.nav ul.list li {
+.nav ul.block li {
   cursor: pointer;
 }
 
-.nav ul.list li:active {
+.nav ul.block li:active {
   background: lightgrey;
 }
 
-.outset ul.list {
+.outset ul.block {
   margin: 0;
 }
 
-.outset ul.list li:first-of-type {
+.outset ul.block li:first-of-type {
   border-top: 0;
 }
 
-.outset ul.list li:last-of-type {
+.outset ul.block li:last-of-type {
   border-bottom: 0;
 }
 
 @media (min-width: 48em) {
-  .inset ul.list {
+  .inset ul.block {
     margin-left: 1em;
     margin-right: 1em;
   }
 
-  .inset ul.list li:first-of-type {
+  .inset ul.block li:first-of-type {
     border-top: 0;
     border-top-left-radius: 1em;
     border-top-right-radius: 1em;
   }
 
-  .inset ul.list li:last-of-type {
+  .inset ul.block li:last-of-type {
     border-bottom: 0;
     border-bottom-left-radius: 1em;
     border-bottom-right-radius: 1em;
   }
 }
 
-*[dir=rtl] ul.list li {
+*[dir=rtl] ul.block li {
   padding: 0 1em 0 0;
 }
 
-*[dir=rtl] ul.list li .icon.secondary {
+*[dir=rtl] ul.block li .icon.secondary {
   margin-right: auto;
   margin-left: 0.5em;
 }
 
-*[dir=rtl] ul.list li:after {
+*[dir=rtl] ul.block li:after {
   left: 0;
   right: 1em;
 }
 
-*[dir=rtl] ul.list li.icon:after {
+*[dir=rtl] ul.block li.icon:after {
   left: 0;
   right: 3.5em;
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-  ul.list li,
-  ul.list li:first-of-type,
-  ul.list li:last-of-type {
+  ul.block li,
+  ul.block li:first-of-type,
+  ul.block li:last-of-type {
     border-width: 0.5px;
   }
 }

@@ -1,8 +1,8 @@
-import CollectionBuilder from './src/builder/collection';
-import CollectionPreparer from './src/preparer/collection';
 import ErrorReporter from './src/reporter/error';
 import FormBuilder from './src/builder/form';
 import FormReader from './src/reader/form';
+import ListBuilder from './src/builder/list';
+import ListPreparer from './src/preparer/list';
 import NavBuilder from './src/builder/nav';
 import PanelBuilder from './src/builder/panel';
 import PopRouter from './src/router/pop';
@@ -13,11 +13,11 @@ import menu from './src/helper/menu';
 import { view, views } from './src/helper/view';
 
 export {
-  CollectionBuilder,
-  CollectionPreparer,
   ErrorReporter,
   FormBuilder,
   FormReader,
+  ListBuilder,
+  ListPreparer,
   NavBuilder,
   PanelBuilder,
   PopRouter,

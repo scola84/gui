@@ -12,7 +12,9 @@
   background: rgba(255, 255, 255, 0.5);
   display: flex;
   height: 3em;
+  line-height: 3em;
   justify-content: space-between;
+  position: relative;
 }
 
 .panel .bar.footer:not(:empty) {
@@ -33,21 +35,12 @@
   cursor: pointer;
 }
 
-.panel .bar .button.disabled {
-  cursor: default;
+.panel .bar .button:active {
   opacity: 0.5;
 }
 
-.panel .bar .button:not(.disabled):active {
-  opacity: 0.5;
-}
-
-.panel .bar button.button {
-  border: 0;
-  cursor: pointer;
-  background: 0;
-  margin: 0;
-  padding: 0;
+.panel .bar.disabled .button {
+  display: none;
 }
 
 .panel .bar .title {
@@ -69,14 +62,14 @@
   -webkit-overflow-scrolling: touch;
 }
 
-.panel .body .message.inline {
+.panel .body:not(.disabled) .message {
   background: darkgrey;
   text-align: center;
   color: white;
   padding: 0.5em;
 }
 
-.panel .body .message.overlay {
+.panel .body.disabled .message {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -88,6 +81,7 @@
   position: absolute;
   background: whitesmoke;
   padding: 1em;
+  z-index: 1;
 }
 
 .panel .bar .button.left,

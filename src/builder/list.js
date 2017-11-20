@@ -1,7 +1,7 @@
 import { Worker } from '@scola/worker';
 import { select } from 'd3';
 
-export default class CollectionBuilder extends Worker {
+export default class ListBuilder extends Worker {
   constructor(methods) {
     super(methods);
     this._format = (d) => d;
@@ -23,12 +23,17 @@ export default class CollectionBuilder extends Worker {
     list = list
       .enter()
       .append('ul')
-      .classed('list', true)
+      .classed('block', true)
       .merge(list);
 
     const update = list
       .selectAll('li')
       .data(data, (datum) => JSON.stringify(datum));
+
+    if (update.size() === 0 && data.length === 0) {
+      this.fail(route, new Error('empty'));
+      return;
+    }
 
     const exit = update.exit();
 
@@ -43,6 +48,4 @@ export default class CollectionBuilder extends Worker {
 
     this.pass(route, { enter, exit, update }, callback);
   }
-
-  err() {}
 }

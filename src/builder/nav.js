@@ -30,7 +30,7 @@ export default class NavBuilder extends Worker {
     list = list
       .enter()
       .append('ul')
-      .classed('list', true)
+      .classed('block', true)
       .merge(list);
 
     list.each((section, index, nodes) => {

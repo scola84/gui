@@ -2,7 +2,7 @@ import { Worker } from '@scola/worker';
 import { select } from 'd3';
 import throttle from 'lodash-es/throttle';
 
-export default class CollectionPreparer extends Worker {
+export default class ListPreparer extends Worker {
   constructor(methods) {
     super(methods);
     this._height = 48;

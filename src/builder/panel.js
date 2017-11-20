@@ -41,8 +41,7 @@ export default class PanelBuilder extends Worker {
     const node = this._base
       .append('div')
       .classed('panel', true)
-      .style(property, newBegin)
-      .style('z-index', 0);
+      .style(property, newBegin);
 
     node
       .append('div')
