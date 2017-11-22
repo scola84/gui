@@ -9,6 +9,7 @@ import PopRouter from './src/router/pop';
 import ResponseTransformer from './src/transformer/response';
 import ResultReporter from './src/reporter/result';
 import StateRouter from './src/router/state';
+import app from './src/helper/app';
 import menu from './src/helper/menu';
 import { view, views } from './src/helper/view';
 
@@ -24,6 +25,7 @@ export {
   ResponseTransformer,
   ResultReporter,
   StateRouter,
+  app,
   menu,
   view,
   views
