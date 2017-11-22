@@ -36,6 +36,10 @@ export default class PopRouter extends StateRouter {
     this._base
       .style('display', 'flex')
       .on('click.pop', () => {
+        if (route.lock === true) {
+          return;
+        }
+
         this.act({
           name: null,
           node: route.node
