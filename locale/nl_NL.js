@@ -4,6 +4,9 @@ export default {
     save: 'Opslaan'
   },
   error: {
+    long: {
+      empty: 'Geen gegevens gevonden.'
+    },
     short: {
       empty: 'Geen gegevens gevonden'
     }
