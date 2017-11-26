@@ -5,7 +5,7 @@ export default class NavBuilder extends Worker {
   constructor(methods) {
     super(methods);
 
-    this._format = (d) => d;
+    this._format = (datum) => datum;
     this._items = null;
   }
 

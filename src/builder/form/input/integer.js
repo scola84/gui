@@ -1,9 +1,11 @@
 export default class IntegerInput {
-  create(item, field, data) {
-    item
+  create(item, field, data, format) {
+    return item
       .append('input')
       .attr('id', field.name)
       .attr('name', field.name)
+      .attr('placeholder', format)
+      .attr('tabindex', 0)
       .attr('type', 'number')
       .attr('value', data[field.name]);
   }

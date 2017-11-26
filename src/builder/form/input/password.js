@@ -1,4 +1,4 @@
-export default class TextInput {
+export default class PasswordInput {
   create(item, field, data, format) {
     item
       .append('input')
@@ -6,7 +6,6 @@ export default class TextInput {
       .attr('name', field.name)
       .attr('placeholder', format)
       .attr('tabindex', 0)
-      .attr('type', 'text')
-      .attr('value', data[field.name]);
+      .attr('type', 'password');
   }
 }

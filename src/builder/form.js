@@ -8,7 +8,7 @@ export default class FormBuilder extends Worker {
     super(methods);
 
     this._structure = null;
-    this._format = (d) => d;
+    this._format = (datum) => datum.name;
   }
 
   setStructure(value) {
@@ -25,6 +25,7 @@ export default class FormBuilder extends Worker {
     let list = select(route.node)
       .select('.body')
       .append('form')
+      .attr('novalidate', 'novalidate')
       .selectAll('ul')
       .data(this._structure
         .filter((section) => section.fields));
@@ -53,28 +54,28 @@ export default class FormBuilder extends Worker {
       .merge(item);
 
     item.each((field, index, nodes) => {
+      const node = select(nodes[index]);
+
       if (field.icon) {
-        select(nodes[index])
+        node
           .classed('icon', true)
           .append('span')
           .classed('icon ' + field.icon, true);
       }
-    });
 
-    item
-      .append('label')
-      .attr('for', (field) => field.name)
-      .text(this._format);
-
-    item.each((field, index, node) => {
-      if (field.type && input[field.type]) {
-        input[field.type].create(select(node[index]), field, data);
+      if (field.label !== false) {
+        node
+          .append('label')
+          .attr('for', field.name)
+          .text(this._format);
       }
-    });
 
-    item.each((field, index, node) => {
+      if (field.type && input[field.type]) {
+        input[field.type].create(node, field, data, this._format);
+      }
+
       if (field.button && button[field.button]) {
-        button[field.button].create(select(node[index]), field, data);
+        button[field.button].create(node, field, data);
       }
     });
 

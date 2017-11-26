@@ -22,7 +22,7 @@ export default class ListPreparer extends Worker {
 
     body.classed('nav outset busy', true);
 
-    body.on('scroll', throttle((d, i, n) => {
+    body.on('scroll', throttle((datum, index, nodes) => {
       if (body.classed('done') === true) {
         return;
       }
@@ -31,7 +31,10 @@ export default class ListPreparer extends Worker {
         return;
       }
 
-      if (height + n[i].scrollTop > n[i].scrollHeight - (height / 4)) {
+      const top = height + nodes[index].scrollTop;
+      const threshold = nodes[index].scrollHeight - (height / 4);
+
+      if (top > threshold) {
         data.offset += data.count;
         this.act(route, data);
       }

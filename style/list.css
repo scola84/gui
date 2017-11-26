@@ -78,30 +78,11 @@ ul.block li .icon.secondary {
 }
 
 .outset ul.block li:first-of-type {
-  border-top: 0;
+  border-top-color: white;
 }
 
 .outset ul.block li:last-of-type {
-  border-bottom: 0;
-}
-
-@media (min-width: 48em) {
-  .inset ul.block {
-    margin-left: 1em;
-    margin-right: 1em;
-  }
-
-  .inset ul.block li:first-of-type {
-    border-top: 0;
-    border-top-left-radius: 1em;
-    border-top-right-radius: 1em;
-  }
-
-  .inset ul.block li:last-of-type {
-    border-bottom: 0;
-    border-bottom-left-radius: 1em;
-    border-bottom-right-radius: 1em;
-  }
+  border-bottom-color: white;
 }
 
 *[dir=rtl] ul.block li {
@@ -123,10 +104,36 @@ ul.block li .icon.secondary {
   right: 3.5em;
 }
 
+@media (min-width: 48em) {
+  .inset ul.block {
+    margin-left: 1em;
+    margin-right: 1em;
+  }
+
+  .inset ul.block li:first-of-type {
+    border-top-color: white;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+  }
+
+  .inset ul.block li:last-of-type {
+    border-bottom-color: white;
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+  }
+}
+
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-  ul.block li,
-  ul.block li:first-of-type,
+  ul.block li:after {
+    height: 0.5px;
+    bottom: -0.5px;
+  }
+
+  ul.block li:first-of-type {
+    border-top: 0.5px solid darkgrey;
+  }
+
   ul.block li:last-of-type {
-    border-width: 0.5px;
+    border-bottom: 0.5px solid darkgrey;
   }
 }

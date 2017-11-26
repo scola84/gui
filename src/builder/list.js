@@ -4,7 +4,7 @@ import { select } from 'd3';
 export default class ListBuilder extends Worker {
   constructor(methods) {
     super(methods);
-    this._format = (d) => d;
+    this._format = (datum) => datum;
   }
 
   setFormat(value) {
@@ -13,7 +13,13 @@ export default class ListBuilder extends Worker {
   }
 
   act(route, data, callback) {
-    let list = select(route.node)
+    const node = select(route.node);
+
+    node
+      .select('.message')
+      .remove();
+
+    let list = node
       .select('.body')
       .classed('busy', false)
       .classed('done', data.length === 0)

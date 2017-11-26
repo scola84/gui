@@ -1,4 +1,4 @@
-.pop > * {
+.pop {
   position: fixed;
   left: 0;
   right: 0;
@@ -11,8 +11,7 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.pop .over .dialog {
-  background: whitesmoke;
+.pop .dialog {
   border-radius: 1em;
   overflow: hidden;
   position: relative;
@@ -21,7 +20,7 @@
 }
 
 @media not all and (min-width: 48em) {
-  .pop .over .dialog {
+  .pop .dialog {
     border-radius: 0;
     width: 100%;
     height: 100%;

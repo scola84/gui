@@ -1,3 +1,7 @@
+form {
+  margin: 0;
+}
+
 form ul.hidden {
   display: none;
 }
@@ -10,13 +14,75 @@ form ul.block input {
   width: 0;
 }
 
+form ul.block input[type=checkbox] {
+  display: none;
+}
+
+form ul.block input[type=checkbox] + label {
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  cursor: pointer;
+  width: auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  outline: 0;
+  margin-left: auto;
+  right: 4.5em;
+  height: 2em;
+}
+
+form ul.block input[type=checkbox] + label:after {
+  content: '';
+  background: rgb(255, 255, 255);
+  border-radius: 1em;
+  border: 1px solid white;
+  box-shadow: rgb(170, 170, 170) 0 1px 5px;
+  cursor: inherit;
+  height: 1.85em;
+  left: 0;
+  margin: 1px;
+  padding: 0;
+  position: absolute;
+  transition: left 0.25s;
+  width: 1.85em;
+  top: 0;
+}
+
+form ul.block input[type=checkbox] + label:before {
+  content: '';
+  background: rgb(255, 255, 255);
+  border: 1px solid darkgrey;
+  border-radius: 1em;
+  cursor: pointer;
+  height: 2em;
+  position: absolute;
+  transition: background-color 0.25s;
+  width: 3.25em;
+  top: 0;
+}
+
+form ul.block input[type=checkbox]:checked + label:after {
+  left: 1.3em;
+}
+
+form ul.block input[type=checkbox]:checked + label:before {
+  background-color: green;
+  border-color: green;
+}
+
 form ul.block label {
   margin: 0 1em 0 0;
+  padding: 0 0.5em;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 form ul.block .button {
+  border: 0;
+  margin: 0;
+  padding: 0;
   font-size: 2em;
   width: 1em;
   cursor: pointer;
@@ -38,6 +104,42 @@ form ul.block .button:before {
   margin: 0 0 0 1em;
 }
 
+*[dir=rtl] form ul.block input[type=checkbox] + label {
+  right: -4.5em;
+  margin-left: 0;
+  margin-right: auto;
+}
+
+*[dir=rtl] form ul.block input[type=checkbox] + label:after {
+  left: -2.1em;
+}
+
+*[dir=rtl] form ul.block input[type=checkbox]:checked + label:after {
+  left: -3.35em;
+}
+
 *[dir=rtl] form ul.block label {
   margin: 0 0 0 1em;
+}
+
+*[dir=rtl] form ul.block .button {
+  margin: 0 0 0 0.5em;
+}
+
+@media (min-width: 48em) {
+  form ul.block .button:focus {
+    outline: 0;
+    border: 1px dotted black;
+  }
+
+  form ul.block input[type=checkbox] + label:focus:after {
+    border: 1px dotted black;
+  }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+  form ul.block input[type=checkbox] + label:after,
+  form ul.block input[type=checkbox] + label:before {
+    border-width: 0.5px;
+  }
 }

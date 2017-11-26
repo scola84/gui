@@ -63,10 +63,30 @@
 }
 
 .panel .body:not(.disabled) .message {
+  align-items: center;
   background: darkgrey;
-  text-align: center;
+  display: flex;
+  justify-content: center;
   color: white;
   padding: 0.5em;
+}
+
+.panel .body.disabled .message span {
+  font-size: inherit;
+}
+
+.panel .body.disabled .message span:before {
+  display: none;
+}
+
+.panel .body:not(.disabled) .message span {
+  align-items: center;
+  display: flex;
+}
+
+.panel .body:not(.disabled) .message span:before {
+  font-size: 2em;
+  margin-right: 0.25em;
 }
 
 .panel .body.disabled .message {

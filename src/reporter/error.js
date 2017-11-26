@@ -41,6 +41,7 @@ export default class ErrorReporter extends Worker {
       .select('.body')
       .insert('div', ':first-child')
       .classed('message', true)
+      .append('span')
       .text(this._format(error));
   }
 }
