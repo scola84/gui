@@ -25,6 +25,7 @@ export default class FormBuilder extends Worker {
     let list = select(route.node)
       .select('.body')
       .append('form')
+      .attr('id', 'form')
       .attr('novalidate', 'novalidate')
       .selectAll('ul')
       .data(this._structure
@@ -63,12 +64,10 @@ export default class FormBuilder extends Worker {
           .classed('icon ' + field.icon, true);
       }
 
-      if (field.label !== false) {
-        node
-          .append('label')
-          .attr('for', field.name)
-          .text(this._format);
-      }
+      node
+        .append('label')
+        .attr('for', field.name)
+        .text((d, i, n) => this._format(d, i, n, 'label'));
 
       if (field.type && input[field.type]) {
         input[field.type].create(node, field, data, this._format);
