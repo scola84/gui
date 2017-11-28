@@ -1,6 +1,6 @@
 import { event, select } from 'd3';
 
-export default function menu() {
+export default function setupMenu() {
   const body = select('body');
 
   body.on('touchstart', () => {

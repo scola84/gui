@@ -1,15 +1,14 @@
-let register = {};
+const views = {};
 
-function views(value) {
-  register = value;
-  return register;
+function getView(name) {
+  return views[name];
 }
 
-function view(name) {
-  return register[name];
+function setView(name, view) {
+  views[name] = view;
 }
 
 export {
-  view,
-  views
+  getView,
+  setView
 };
