@@ -119,7 +119,7 @@ form ul.block .button:before {
   left: -3.35em;
 }
 
-*[dir=rtl] form ul.block label {
+*[dir=rtl] form ul.block label:not(:empty) {
   margin: 0 0 0 1em;
 }
 
