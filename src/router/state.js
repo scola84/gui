@@ -3,7 +3,14 @@ import { Router } from '@scola/worker';
 export default class StateRouter extends Router {
   constructor(methods) {
     super(methods);
+
+    this._default = null;
     this._name = null;
+  }
+
+  setDefault(value) {
+    this._default = value;
+    return this;
   }
 
   setName(value) {
@@ -58,8 +65,8 @@ export default class StateRouter extends Router {
         hash[this._name] = this._processRoute(route.name, data);
       }
     } else if (typeof hash[this._name] === 'undefined') {
-      if (route.default) {
-        hash[this._name] = this._processRoute(route.default, data);
+      if (this._default !== null) {
+        hash[this._name] = this._processRoute(this._default, data);
       }
     }
 
