@@ -44,13 +44,16 @@
 }
 
 .panel .bar .title {
+  font-weight: bold;
+  left: 20%;
+  line-height: inherit;
+  overflow: hidden;
   position: absolute;
   text-align: center;
-  width: 100%;
-}
-
-.panel .bar.header .title {
-  font-weight: bold;
+  text-overflow: ellipsis;
+  top: 0;
+  white-space: nowrap;
+  width: 60%;
 }
 
 .panel .body {

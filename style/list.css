@@ -78,11 +78,11 @@ ul.block li .icon.secondary {
 }
 
 .outset ul.block li:first-of-type {
-  border-top-color: white;
+  border-top: none;
 }
 
 .outset ul.block li:last-of-type {
-  border-bottom-color: white;
+  border-bottom: none;
 }
 
 *[dir=rtl] ul.block li {
@@ -124,6 +124,10 @@ ul.block li .icon.secondary {
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+  ul.block li {
+    border-bottom: 0.5px solid white;
+  }
+
   ul.block li:after {
     height: 0.5px;
     bottom: -0.5px;
