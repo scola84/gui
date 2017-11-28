@@ -15,10 +15,6 @@ export default class ListBuilder extends Worker {
   act(route, data, callback) {
     const node = select(route.node);
 
-    node
-      .select('.message')
-      .remove();
-
     let list = node
       .select('.body')
       .classed('busy', false)
@@ -32,20 +28,22 @@ export default class ListBuilder extends Worker {
       .classed('block', true)
       .merge(list);
 
-    const update = list
-      .selectAll('li')
-      .data(data, (datum) => JSON.stringify(datum));
+    const item = list
+      .selectAll('li');
 
-    if (update.size() === 0 && data.length === 0) {
-      this.fail(route, new Error('empty'));
-      return;
-    }
+    const update = item
+      .data(data, (datum) => JSON.stringify(datum));
 
     const exit = update.exit();
 
     const enter = update
       .enter()
       .append('li');
+
+    if (item.size() === 0 && data.length === 0) {
+      this.fail(route, new Error('empty'));
+      return;
+    }
 
     enter
       .append('a')
