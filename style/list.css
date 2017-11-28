@@ -28,8 +28,7 @@ ul.block li:after {
   left: 1em;
   right: 0;
   bottom: -1px;
-  background: darkgrey;
-  height: 1px;
+  border-bottom: 1px solid darkgrey;
 }
 
 ul.block li:first-of-type {
@@ -129,7 +128,7 @@ ul.block li .icon.secondary {
   }
 
   ul.block li:after {
-    height: 0.5px;
+    border-bottom: 0.5px solid darkgrey;
     bottom: -0.5px;
   }
 
