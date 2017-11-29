@@ -28,8 +28,7 @@ export default class FormBuilder extends Worker {
       .attr('id', 'form')
       .attr('novalidate', 'novalidate')
       .selectAll('ul')
-      .data(this._structure
-        .filter((section) => section.fields));
+      .data(this._structure.filter((section) => section.fields));
 
     list = list
       .enter()
