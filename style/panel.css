@@ -19,10 +19,12 @@
 
 .panel .bar.footer:not(:empty) {
   border-top: 1px solid darkgrey;
+  order: 3;
 }
 
 .panel .bar.header:not(:empty) {
   border-bottom: 1px solid darkgrey;
+  order: 1;
 }
 
 .panel .bar .button {
@@ -60,6 +62,7 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+  order: 2;
   overflow: auto;
   position: relative;
   -webkit-overflow-scrolling: touch;

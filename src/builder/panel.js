@@ -45,11 +45,11 @@ export default class PanelBuilder extends Worker {
 
     node
       .append('div')
-      .classed('bar header', true);
+      .classed('body', true);
 
     node
       .append('div')
-      .classed('body', true);
+      .classed('bar header', true);
 
     node
       .append('div')
