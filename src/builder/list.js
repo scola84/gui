@@ -47,6 +47,7 @@ export default class ListBuilder extends Worker {
 
     enter
       .append('a')
+      .attr('href', '#')
       .attr('tabindex', 0)
       .text(this._format);
 

@@ -58,6 +58,7 @@ export default class NavBuilder extends Worker {
 
     enter
       .append('a')
+      .attr('href', '#')
       .attr('tabindex', 0)
       .text(this._format);
 
