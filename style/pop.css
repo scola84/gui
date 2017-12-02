@@ -17,6 +17,7 @@
   position: relative;
   width: 34em;
   height: 34em;
+  top: 100%;
 }
 
 @media not all and (min-width: 48em) {

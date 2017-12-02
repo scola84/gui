@@ -47,6 +47,12 @@ export default class PopRouter extends StateRouter {
       })
       .transition()
       .style('opacity', 1);
+
+    this._base
+      .select('.dialog')
+      .transition()
+      .duration(route.move === false ? 0 : 250)
+      .style('top', 0);
   }
 
   _close(route) {
@@ -64,5 +70,11 @@ export default class PopRouter extends StateRouter {
 
         this._base.style('display', 'none');
       });
+
+    this._base
+      .select('.dialog')
+      .transition()
+      .duration(route.move === false ? 0 : 250)
+      .style('top', '100%');
   }
 }
