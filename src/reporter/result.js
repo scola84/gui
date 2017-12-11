@@ -21,6 +21,10 @@ export default class ResultReporter extends Worker {
 
   act(route, data, callback) {
     select(route.node)
+      .select('form')
+      .attr('action', null);
+
+    select(route.node)
       .select('.message')
       .remove();
 

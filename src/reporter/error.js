@@ -34,6 +34,10 @@ export default class ErrorReporter extends Worker {
     }
 
     select(route.node)
+      .select('form')
+      .attr('action', null);
+
+    select(route.node)
       .select('.message')
       .remove();
 
