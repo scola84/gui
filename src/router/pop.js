@@ -2,24 +2,26 @@ import { event, select } from 'd3';
 import StateRouter from './state';
 
 export default class PopRouter extends StateRouter {
-  constructor(methods) {
-    super(methods);
+  constructor(options = {}) {
+    super(options);
+
     this._base = null;
+    this.setBase(options.base);
   }
 
-  setBase(value) {
+  setBase(value = null) {
     this._base = value;
     return this;
   }
 
   act(route, data, callback) {
-    super.act(route, data, callback);
-
     if (route.name) {
       this._open(route);
     } else {
       this._close(route);
     }
+
+    super.act(route, data, callback);
   }
 
   _open(route) {

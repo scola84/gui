@@ -1,19 +1,22 @@
 import { Router } from '@scola/worker';
 
 export default class StateRouter extends Router {
-  constructor(methods) {
-    super(methods);
+  constructor(options = {}) {
+    super(options);
 
     this._default = null;
     this._name = null;
+
+    this.setDefault(options.default);
+    this.setName(options.name);
   }
 
-  setDefault(value) {
+  setDefault(value = null) {
     this._default = value;
     return this;
   }
 
-  setName(value) {
+  setName(value = null) {
     this._name = value;
     return this;
   }

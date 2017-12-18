@@ -1,4 +1,6 @@
-export default class EmailInput {
+import Input from './input';
+
+export default class EmailInput extends Input {
   create(item, field, data, format) {
     item
       .append('input')
@@ -7,6 +9,6 @@ export default class EmailInput {
       .attr('placeholder', (d, i, n) => format(d, i, n, 'placeholder'))
       .attr('tabindex', 0)
       .attr('type', 'email')
-      .attr('value', data[field.name]);
+      .attr('value', this._value(field, data));
   }
 }

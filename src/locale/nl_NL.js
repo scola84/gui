@@ -1,7 +1,11 @@
 export default {
   action: {
-    back: 'Terug',
-    save: 'Opslaan'
+    value: {
+      back: 'Terug',
+      delete: 'Verwijderen',
+      save: 'Opslaan',
+      undelete: 'Herstellen'
+    }
   },
   error: {
     long: {
@@ -13,7 +17,7 @@ export default {
   },
   result: {
     long: {
-      success: 'De gegevens zijn goed verwerkt.'
+      success: 'De bewerking is goed uitgevoerd.'
     }
   }
 };

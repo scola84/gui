@@ -2,12 +2,14 @@ import { Worker } from '@scola/worker';
 import { select } from 'd3';
 
 export default class PanelBuilder extends Worker {
-  constructor(methods) {
-    super(methods);
+  constructor(options = {}) {
+    super(options);
+
     this._base = null;
+    this.setBase(options.base);
   }
 
-  setBase(value) {
+  setBase(value = null) {
     this._base = value;
     return this;
   }

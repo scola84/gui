@@ -1,4 +1,6 @@
-export default class IntegerInput {
+import Input from './input';
+
+export default class IntegerInput extends Input {
   create(item, field, data, format) {
     return item
       .append('input')
@@ -7,6 +9,6 @@ export default class IntegerInput {
       .attr('placeholder', (d, i, n) => format(d, i, n, 'placeholder'))
       .attr('tabindex', 0)
       .attr('type', 'number')
-      .attr('value', data[field.name]);
+      .attr('value', this._value(field, data));
   }
 }

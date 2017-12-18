@@ -1,31 +1,31 @@
-import { Worker } from '@scola/worker';
 import { select } from 'd3';
+import GraphicWorker from '../worker/graphic';
 import button from './form/button';
 import input from './form/input';
 
-export default class FormBuilder extends Worker {
-  constructor(methods) {
-    super(methods);
+export default class FormBuilder extends GraphicWorker {
+  constructor(options = {}) {
+    super(options);
 
     this._structure = null;
-    this._format = (datum) => datum.name;
+    this.setStructure(options.structure);
   }
 
-  setStructure(value) {
+  setStructure(value = null) {
     this._structure = value;
     return this;
   }
 
-  setFormat(value) {
-    this._format = value;
-    return this;
-  }
-
   act(route, data, callback) {
-    let list = select(route.node)
+    const forms = select(route.node)
+      .selectAll('.body>form');
+
+    const form = select(route.node)
       .select('.body')
-      .append('form')
-      .attr('id', 'form')
+      .append('form');
+
+    let list = form
+      .attr('id', 'form-' + forms.size())
       .attr('novalidate', 'novalidate')
       .selectAll('ul')
       .data(this._structure.filter((section) => section.fields));
@@ -40,7 +40,7 @@ export default class FormBuilder extends Worker {
       if (section.name) {
         select(nodes[index])
           .append('lt')
-          .text(this._format);
+          .text((d, i, n) => this.format(d, i, n, 'title'));
       }
     });
 
@@ -66,10 +66,12 @@ export default class FormBuilder extends Worker {
       node
         .append('label')
         .attr('for', field.name)
-        .text((d, i, n) => this._format(d, i, n, 'label'));
+        .text((d, i, n) => this.format(d, i, n, 'label'));
 
       if (field.type && input[field.type]) {
-        input[field.type].create(node, field, data, this._format);
+        input[field.type].create(node, field, data, (d, i, n, c) => {
+          return this.format(d, i, n, c);
+        });
       }
 
       if (field.button && button[field.button]) {
@@ -77,6 +79,6 @@ export default class FormBuilder extends Worker {
       }
     });
 
-    this.pass(route, data, callback);
+    this.pass(route, { form }, callback);
   }
 }

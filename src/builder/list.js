@@ -1,17 +1,7 @@
-import { Worker } from '@scola/worker';
 import { select } from 'd3';
+import GraphicWorker from '../worker/graphic';
 
-export default class ListBuilder extends Worker {
-  constructor(methods) {
-    super(methods);
-    this._format = (datum) => datum;
-  }
-
-  setFormat(value) {
-    this._format = value;
-    return this;
-  }
-
+export default class ListBuilder extends GraphicWorker {
   act(route, data, callback) {
     const node = select(route.node);
 
@@ -49,7 +39,7 @@ export default class ListBuilder extends Worker {
       .append('a')
       .attr('href', '#')
       .attr('tabindex', 0)
-      .text(this._format);
+      .text((d, i, n) => this.format(d, i, n));
 
     this.pass(route, { enter, exit, update }, callback);
   }

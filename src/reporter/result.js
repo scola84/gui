@@ -1,27 +1,22 @@
-import { Worker } from '@scola/worker';
 import { select } from 'd3';
+import GraphicWorker from '../worker/graphic';
 
-export default class ResultReporter extends Worker {
-  constructor(methods) {
-    super(methods);
+export default class ResultReporter extends GraphicWorker {
+  constructor(options = {}) {
+    super(options);
 
-    this._format = () => '';
-    this._class = 'inline';
+    this._class = null;
+    this.setClass(options.class);
   }
 
-  setClass(value) {
+  setClass(value = 'inline') {
     this._class = value;
-    return this;
-  }
-
-  setFormat(value) {
-    this._format = value;
     return this;
   }
 
   act(route, data, callback) {
     select(route.node)
-      .select('form')
+      .selectAll('form')
       .attr('action', null);
 
     select(route.node)
@@ -33,7 +28,7 @@ export default class ResultReporter extends Worker {
       .insert('div', ':first-child')
       .classed('message', true)
       .classed(this._class, true)
-      .text(this._format(data));
+      .text(this.format(data));
 
     this.pass(route, data, callback);
   }

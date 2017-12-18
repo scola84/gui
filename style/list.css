@@ -4,7 +4,7 @@ ul.block {
   list-style: none;
 }
 
-ul.block:first-of-type {
+*:first-of-type > ul.block:first-of-type {
   margin-top: 2em;
 }
 
@@ -46,9 +46,12 @@ ul.block li:last-of-type:after {
 ul.block lt {
   font-size: 0.9em;
   display: block;
-  padding: 0 1em 0.5em;
   text-transform: uppercase;
   color: darkgrey;
+}
+
+ul.block lt:not(:empty) {
+  padding: 0 1em 0.5em;
 }
 
 ul.block li .icon {
@@ -72,7 +75,7 @@ ul.block li .icon.secondary {
   background: lightgrey;
 }
 
-.outset ul.block {
+.outset ul.block:first-of-type {
   margin: 0;
 }
 

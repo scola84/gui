@@ -1,4 +1,4 @@
-import SubmitButton from './button/submit';
+import SubmitButton from './submit';
 
 export default {
   submit: new SubmitButton()

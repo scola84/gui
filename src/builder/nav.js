@@ -1,21 +1,16 @@
-import { Worker } from '@scola/worker';
 import { select } from 'd3';
+import GraphicWorker from '../worker/graphic';
 
-export default class NavBuilder extends Worker {
-  constructor(methods) {
-    super(methods);
+export default class NavBuilder extends GraphicWorker {
+  constructor(options = {}) {
+    super(options);
 
-    this._format = (datum) => datum;
-    this._items = null;
+    this._structure = null;
+    this.setStructure(options.structure);
   }
 
-  setFormat(value) {
-    this._format = value;
-    return this;
-  }
-
-  setItems(value) {
-    this._items = value;
+  setStructure(value = null) {
+    this._structure = value;
     return this;
   }
 
@@ -25,7 +20,7 @@ export default class NavBuilder extends Worker {
       .append('div')
       .classed('nav', true)
       .selectAll('ul')
-      .data(this._items);
+      .data(this._structure);
 
     list = list
       .enter()
@@ -37,7 +32,7 @@ export default class NavBuilder extends Worker {
       if (section.name) {
         select(nodes[index])
           .append('lt')
-          .text(this._format);
+          .text((d, i, n) => this._format(d, i, n, 'title'));
       }
     });
 
@@ -60,7 +55,7 @@ export default class NavBuilder extends Worker {
       .append('a')
       .attr('href', '#')
       .attr('tabindex', 0)
-      .text(this._format);
+      .text((d, i, n) => this.format(d, i, n, 'item'));
 
     enter.each((item, index, nodes) => {
       if (item.dir === 'rtl') {

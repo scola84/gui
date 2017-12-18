@@ -12,7 +12,7 @@ import StateRouter from './src/router/state';
 import setupApp from './src/helper/setup-app';
 import setupMenu from './src/helper/setup-menu';
 import { getView, setView } from './src/helper/view';
-import locale from './src/locale/strings';
+import locale from './src/locale';
 
 export {
   ErrorReporter,

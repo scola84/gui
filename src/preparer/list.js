@@ -3,12 +3,14 @@ import { select } from 'd3';
 import throttle from 'lodash-es/throttle';
 
 export default class ListPreparer extends Worker {
-  constructor(methods) {
-    super(methods);
-    this._height = 48;
+  constructor(options = {}) {
+    super(options);
+
+    this._height = null;
+    this.setHeight(options.height);
   }
 
-  setHeight(value) {
+  setHeight(value = 48) {
     this._height = value;
     return this;
   }

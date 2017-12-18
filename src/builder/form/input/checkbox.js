@@ -1,13 +1,14 @@
 import { event, select } from 'd3';
+import Input from './input';
 
-export default class CheckboxInput {
+export default class CheckboxInput extends Input {
   create(item, field, data) {
     item
       .append('input')
       .attr('id', field.name)
       .attr('name', field.name)
       .attr('type', 'checkbox')
-      .attr('value', data[field.name]);
+      .attr('value', this._value(field, data));
 
     item
       .append('label')

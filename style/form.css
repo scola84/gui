@@ -72,6 +72,15 @@ form ul.block input[type=checkbox]:checked + label:before {
   border-color: green;
 }
 
+form ul.block input[type=submit] {
+  background: none;
+  cursor: pointer;
+}
+
+form ul.block input[type=submit]:active {
+  opacity: 0.5;
+}
+
 form ul.block label:not(:empty) {
   margin: 0 1em 0 0;
   padding: 0 0.5em;

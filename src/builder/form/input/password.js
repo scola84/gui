@@ -1,4 +1,6 @@
-export default class PasswordInput {
+import Input from './input';
+
+export default class PasswordInput extends Input {
   create(item, field, data, format) {
     item
       .append('input')

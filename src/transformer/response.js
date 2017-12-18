@@ -9,6 +9,7 @@ export default class ResponseTransformer extends Worker {
       return;
     }
 
+    this.merge(route, data, response);
     this.pass(route, data, callback);
   }
 }

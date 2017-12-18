@@ -1,5 +1,5 @@
-import { Worker } from '@scola/worker';
 import { select } from 'd3';
+import GraphicWorker from '../worker/graphic';
 
 const presets = {
   all: '.panel > .body, .panel > .footer, .panel > .header',
@@ -8,21 +8,16 @@ const presets = {
   header: '.panel > .header'
 };
 
-export default class ErrorReporter extends Worker {
-  constructor(methods) {
-    super(methods);
+export default class ErrorReporter extends GraphicWorker {
+  constructor(options = {}) {
+    super(options);
 
-    this._format = (error) => error.message;
-    this._disabled = '';
+    this._disabled = null;
+    this.setDisabled(options.disabled);
   }
 
-  setDisabled(value) {
+  setDisabled(value = '') {
     this._disabled = presets[value] ? presets[value] : value;
-    return this;
-  }
-
-  setFormat(value) {
-    this._format = value;
     return this;
   }
 
@@ -46,6 +41,6 @@ export default class ErrorReporter extends Worker {
       .insert('div', ':first-child')
       .classed('message', true)
       .append('span')
-      .text(this._format(error));
+      .text(this.format(error));
   }
 }
