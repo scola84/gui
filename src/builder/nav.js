@@ -28,28 +28,23 @@ export default class NavBuilder extends GraphicWorker {
       .classed('block', true)
       .merge(list);
 
-    list.each((section, index, nodes) => {
-      if (section.name) {
-        select(nodes[index])
-          .append('lt')
-          .text((d, i, n) => this._format(d, i, n, 'title'));
-      }
-    });
+    list
+      .filter((section) => typeof section.name !== 'undefined')
+      .append('lt')
+      .text((d, i, n) => this.format(d, i, n, 'title'));
 
     const enter = list
       .selectAll('li')
       .data((section) => section.items)
       .enter()
+      .filter((d, i, n) => this.filter(d, i, n))
       .append('li');
 
-    enter.each((item, index, nodes) => {
-      if (item.icon) {
-        select(nodes[index])
-          .classed('icon', true)
-          .append('span')
-          .classed('icon ' + item.icon, true);
-      }
-    });
+    enter
+      .filter((item) => typeof item.icon !== 'undefined')
+      .classed('icon', true)
+      .append('span')
+      .attr('class', (item) => 'icon ' + item.icon);
 
     enter
       .append('a')
@@ -57,13 +52,16 @@ export default class NavBuilder extends GraphicWorker {
       .attr('tabindex', 0)
       .text((d, i, n) => this.format(d, i, n, 'item'));
 
-    enter.each((item, index, nodes) => {
-      if (item.dir === 'rtl') {
-        select(nodes[index])
-          .append('span')
-          .classed('icon secondary ion-ios-arrow-forward', true);
-      }
-    });
+    enter
+      .filter((item) => item.dir === 'rtl')
+      .append('span')
+      .classed('icon secondary ion-ios-arrow-forward', true);
+
+    list
+      .filter((section, index, nodes) => {
+        return select(nodes[index]).selectAll('li').size() === 0;
+      })
+      .remove();
 
     this.pass(route, { enter });
   }

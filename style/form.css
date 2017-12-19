@@ -14,6 +14,12 @@ form ul.block input {
   width: 0;
 }
 
+form ul.block input[disabled] {
+  background: inherit;
+  color: inherit;
+  cursor: default;
+}
+
 form ul.block input[type=checkbox] {
   display: none;
 }
@@ -77,8 +83,13 @@ form ul.block input[type=submit] {
   cursor: pointer;
 }
 
+form ul.block input[type=submit][disabled],
 form ul.block input[type=submit]:active {
   opacity: 0.5;
+}
+
+form ul.block input[type=submit][disabled] {
+  cursor: default;
 }
 
 form ul.block label:not(:empty) {

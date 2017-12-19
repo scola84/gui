@@ -1,12 +1,10 @@
-import { event, select } from 'd3';
+import { event } from 'd3';
 import Input from './input';
 
 export default class CheckboxInput extends Input {
   create(item, field, data) {
-    item
+    const input = item
       .append('input')
-      .attr('id', field.name)
-      .attr('name', field.name)
       .attr('type', 'checkbox')
       .attr('value', this._value(field, data));
 
@@ -14,11 +12,12 @@ export default class CheckboxInput extends Input {
       .append('label')
       .attr('for', field.name)
       .attr('tabindex', 0)
-      .on('keydown', (datum, index, nodes) => {
+      .on('keydown', () => {
         if (event.keyCode === 32) {
-          const input = select(nodes[index].previousSibling);
           input.property('checked', !input.property('checked'));
         }
       });
+
+    return input;
   }
 }

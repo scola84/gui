@@ -15,23 +15,17 @@ export default class PanelBuilder extends Worker {
   }
 
   act(route, data) {
-    const readDir = select('html').attr('dir') || 'ltr';
     const moveDir = route.dir;
+    const readDir = select('html').attr('dir') || 'ltr';
     const width = this._base.style('width');
 
-    let property = 'opacity';
-    let oldBegin = 1;
-    let oldEnd = 0;
-    let newBegin = 0;
-    let newEnd = 1;
-
-    if (moveDir) {
-      property = readDir === 'ltr' ? 'left' : 'right';
-      oldBegin = 0;
-      oldEnd = (moveDir === 'rtl' ? '-' : '') + width;
-      newBegin = (moveDir === 'rtl' ? '' : '-') + width;
-      newEnd = 0;
-    }
+    const {
+      property,
+      oldBegin,
+      oldEnd,
+      newBegin,
+      newEnd
+    } = this._calculate(moveDir, readDir, width);
 
     this._base
       .select('.panel')
@@ -64,5 +58,25 @@ export default class PanelBuilder extends Worker {
     route.node = node.node();
 
     this.pass(route, data);
+  }
+
+  _calculate(moveDir, readDir, width) {
+    if (moveDir) {
+      return {
+        property: readDir === 'ltr' ? 'left' : 'right',
+        oldBegin: 0,
+        oldEnd: (moveDir === 'rtl' ? '-' : '') + width,
+        newBegin: (moveDir === 'rtl' ? '' : '-') + width,
+        newEnd: 0
+      };
+    }
+
+    return {
+      property: 'opacity',
+      oldBegin: 1,
+      oldEnd: 0,
+      newBegin: 0,
+      newEnd: 1
+    };
   }
 }

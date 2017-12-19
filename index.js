@@ -5,6 +5,7 @@ import ListBuilder from './src/builder/list';
 import ListPreparer from './src/preparer/list';
 import NavBuilder from './src/builder/nav';
 import PanelBuilder from './src/builder/panel';
+import PanelDisabler from './src/disabler/panel';
 import PopRouter from './src/router/pop';
 import ResponseTransformer from './src/transformer/response';
 import ResultReporter from './src/reporter/result';
@@ -22,6 +23,7 @@ export {
   ListPreparer,
   NavBuilder,
   PanelBuilder,
+  PanelDisabler,
   PopRouter,
   ResponseTransformer,
   ResultReporter,
