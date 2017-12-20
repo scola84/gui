@@ -4,6 +4,10 @@ import GraphicWorker from '../worker/graphic';
 export default class ErrorReporter extends GraphicWorker {
   err(route, error) {
     select(route.node)
+      .selectAll('form')
+      .attr('action', null);
+
+    select(route.node)
       .select('.message')
       .remove();
 

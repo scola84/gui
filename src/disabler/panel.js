@@ -59,7 +59,6 @@ export default class PanelDisabler extends GraphicWorker {
 
     select(route.node)
       .selectAll('form')
-      .attr('disabled', this._form ? 'disabled' : null)
-      .attr('action', null);
+      .attr('disabled', this._form ? 'disabled' : null);
   }
 }
