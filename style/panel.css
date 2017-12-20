@@ -120,6 +120,11 @@
   padding: 0 0 0 1.25em;
 }
 
+.panel .bar .button.icon.left:empty,
+*[dir=rtl] .panel .bar .button.icon.right:empty {
+  padding: 0 0 0 1em;
+}
+
 .panel .bar .button.right,
 *[dir=rtl] .panel .bar .button.left {
   margin: 0 1em 0 auto;
@@ -128,6 +133,11 @@
 .panel .bar .button.icon.right,
 *[dir=rtl] .panel .bar .button.icon.left {
   padding: 0 1.25em 0 0;
+}
+
+.panel .bar .button.icon.right:empty,
+*[dir=rtl] .panel .bar .button.icon.left:empty {
+  padding: 0 1em 0 0;
 }
 
 .panel .bar .button:before {
