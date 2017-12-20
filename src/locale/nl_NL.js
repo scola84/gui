@@ -1,9 +1,10 @@
 export default {
   action: {
     value: {
+      add: 'Toevoegen',
       back: 'Terug',
       delete: 'Verwijderen',
-      save: 'Opslaan',
+      edit: 'Opslaan',
       undelete: 'Herstellen'
     }
   },
