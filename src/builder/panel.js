@@ -61,16 +61,22 @@ export default class PanelBuilder extends Worker {
   }
 
   _calculate(moveDir, readDir, width) {
-    if (moveDir) {
-      return {
-        property: readDir === 'ltr' ? 'left' : 'right',
-        oldBegin: 0,
-        oldEnd: (moveDir === 'rtl' ? '-' : '') + width,
-        newBegin: (moveDir === 'rtl' ? '' : '-') + width,
-        newEnd: 0
-      };
-    }
+    return moveDir ?
+      this._calculateMove(moveDir, readDir, width) :
+      this._calculateFade();
+  }
 
+  _calculateMove(moveDir, readDir, width) {
+    return {
+      property: readDir === 'ltr' ? 'left' : 'right',
+      oldBegin: 0,
+      oldEnd: (moveDir === 'rtl' ? '-' : '') + width,
+      newBegin: (moveDir === 'rtl' ? '' : '-') + width,
+      newEnd: 0
+    };
+  }
+
+  _calculateFade() {
     return {
       property: 'opacity',
       oldBegin: 1,
