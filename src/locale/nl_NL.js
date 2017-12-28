@@ -1,11 +1,17 @@
 export default {
   action: {
-    value: {
-      add: 'Toevoegen',
-      back: 'Terug',
-      delete: 'Verwijderen',
-      edit: 'Opslaan',
-      undelete: 'Herstellen'
+    form: {
+      value: {
+        delete: 'Verwijderen',
+        undelete: 'Herstellen'
+      }
+    },
+    nav: {
+      label: {
+        add: 'Toevoegen',
+        back: 'Terug',
+        edit: 'Opslaan',
+      }
     }
   },
   error: {
