@@ -5,6 +5,8 @@ export default class SubmitInput extends Input {
     return item
       .append('input')
       .attr('type', 'submit')
-      .attr('value', (d, i, n) => format(d, i, n, 'value'));
+      .attr('value', (d, i, n) => {
+        return format(d, i, n, { name: 'form.value' });
+      });
   }
 }
