@@ -14,17 +14,22 @@ ul.block li {
   position: relative;
 }
 
-ul.block li.icon:after {
+ul.block li.icon + li:before {
   left: 3.5em;
 }
 
-ul.block li:after {
+ul.block li:before {
   border-bottom: 1px solid lightgrey;
-  bottom: -1px;
+  top: -1px;
   content: '';
   left: 1em;
   position: absolute;
   right: 0;
+}
+
+ul.block li:active + li:before,
+ul.block li:active:before {
+  left: 0;
 }
 
 ul.block li:first-of-type {
@@ -35,7 +40,7 @@ ul.block li:last-of-type {
   border-bottom: 1px solid lightgrey;
 }
 
-ul.block li:last-of-type:after {
+ul.block li:first-of-type:before {
   content: none;
 }
 
