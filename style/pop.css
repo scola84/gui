@@ -1,29 +1,29 @@
 .pop {
-  position: fixed;
+  align-items: center;
+  background-color: rgba(0,0,0,0.5);
+  bottom: 0;
+  display: none;
+  justify-content: center;
   left: 0;
+  opacity: 0;
+  position: fixed;
   right: 0;
   top: 0;
-  bottom: 0;
-  align-items: center;
-  justify-content: center;
-  display: none;
-  opacity: 0;
-  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .pop .dialog {
   border-radius: 1em;
+  height: 34em;
   overflow: hidden;
   position: relative;
-  width: 34em;
-  height: 34em;
   top: 100%;
+  width: 34em;
 }
 
 @media not all and (min-width: 48em) {
   .pop .dialog {
     border-radius: 0;
-    width: 100%;
     height: 100%;
+    width: 100%;
   }
 }

@@ -1,23 +1,23 @@
 .menu {
   background: whitesmoke;
+  border-right: 1px solid lightgrey;
+  height: 100%;
   position: relative;
   width: 21.333em;
-  height: 100%;
-  border-right: 1px solid darkgrey;
 }
 
 *[dir=rtl] .menu {
-  border-left: 1px solid darkgrey;
+  border-left: 1px solid lightgrey;
   border-right: 0;
 }
 
 @media (max-width: 48em) {
   .menu {
-    max-width: 85%;
     left: -100%;
+    max-width: 85%;
     position: absolute;
-    z-index: 1;
     transition: left 0.25s;
+    z-index: 1;
   }
 
   .menu.over {

@@ -1,40 +1,40 @@
 .panel {
   background: whitesmoke;
-  position: absolute;
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  position: absolute;
+  width: 100%;
 }
 
 .panel .bar:not(:empty) {
   align-items: center;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255,255,255,0.5);
   display: flex;
   height: 3em;
-  line-height: 3em;
   justify-content: space-between;
+  line-height: 3em;
   position: relative;
 }
 
 .panel .bar.footer:not(:empty) {
-  border-top: 1px solid darkgrey;
+  border-top: 1px solid lightgrey;
   order: 3;
 }
 
 .panel .bar.header:not(:empty) {
-  border-bottom: 1px solid darkgrey;
+  border-bottom: 1px solid lightgrey;
   order: 1;
 }
 
 .panel .bar .button {
   align-items: center;
   color: inherit;
+  cursor: pointer;
   display: flex;
   height: 2em;
-  text-decoration: inherit;
   position: relative;
-  cursor: pointer;
+  text-decoration: inherit;
 }
 
 .panel .bar .button:active {
@@ -59,21 +59,21 @@
 }
 
 .panel .body {
+  -webkit-overflow-scrolling: touch;
   display: flex;
   flex: 1;
   flex-direction: column;
   order: 2;
   overflow: auto;
   position: relative;
-  -webkit-overflow-scrolling: touch;
 }
 
 .panel .body:not(.disabled) .message {
   align-items: center;
-  background: darkgrey;
+  background: lightgrey;
+  color: dimgrey;
   display: flex;
   justify-content: center;
-  color: white;
   padding: 0.5em;
 }
 
@@ -96,47 +96,51 @@
 }
 
 .panel .body.disabled .message {
-  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 2em;
+  background: whitesmoke;
   color: darkgrey;
+  display: flex;
+  font-size: 2em;
+  height: 100%;
+  justify-content: center;
+  padding: 1em;
+  position: absolute;
   text-align: center;
   width: 100%;
-  height: 100%;
-  position: absolute;
-  background: whitesmoke;
-  padding: 1em;
   z-index: 1;
 }
 
-.panel .bar .button.left,
-*[dir=rtl] .panel .bar .button.right {
+.panel .body:not(.outset) {
+  padding: 0 0 2em;
+}
+
+*[dir=rtl] .panel .bar .button.right,
+.panel .bar .button.left {
   margin: 0 auto 0 1em;
 }
 
-.panel .bar .button.icon.left,
-*[dir=rtl] .panel .bar .button.icon.right {
+*[dir=rtl] .panel .bar .button.icon.right,
+.panel .bar .button.icon.left {
   padding: 0 0 0 1.25em;
 }
 
-.panel .bar .button.icon.left:empty,
-*[dir=rtl] .panel .bar .button.icon.right:empty {
+*[dir=rtl] .panel .bar .button.icon.right:empty,
+.panel .bar .button.icon.left:empty {
   padding: 0 0 0 1em;
 }
 
-.panel .bar .button.right,
-*[dir=rtl] .panel .bar .button.left {
+*[dir=rtl] .panel .bar .button.left,
+.panel .bar .button.right {
   margin: 0 1em 0 auto;
 }
 
-.panel .bar .button.icon.right,
-*[dir=rtl] .panel .bar .button.icon.left {
+*[dir=rtl] .panel .bar .button.icon.left,
+.panel .bar .button.icon.right {
   padding: 0 1.25em 0 0;
 }
 
-.panel .bar .button.icon.right:empty,
-*[dir=rtl] .panel .bar .button.icon.left:empty {
+*[dir=rtl] .panel .bar .button.icon.left:empty,
+.panel .bar .button.icon.right:empty {
   padding: 0 1em 0 0;
 }
 
@@ -145,14 +149,14 @@
   position: absolute;
 }
 
-.panel .bar .button.icon.left:before,
-*[dir=rtl] .panel .bar .button.icon.right:before {
+*[dir=rtl] .panel .bar .button.icon.right:before,
+.panel .bar .button.icon.left:before {
   left: 0;
   right: auto;
 }
 
-.panel .bar .button.icon.right:before,
-*[dir=rtl] .panel .bar .button.icon.left:before {
+*[dir=rtl] .panel .bar .button.icon.left:before,
+.panel .bar .button.icon.right:before {
   left: auto;
   right: 0;
 }
