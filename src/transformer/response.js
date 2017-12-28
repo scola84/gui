@@ -9,7 +9,12 @@ export default class ResponseTransformer extends Worker {
       return;
     }
 
-    this.merge(route, data, response);
+    const merged = this.merge(route, data, response);
+
+    if (typeof merged !== 'undefined') {
+      data = merged;
+    }
+
     this.pass(route, data, callback);
   }
 }
