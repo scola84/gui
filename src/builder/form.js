@@ -7,8 +7,30 @@ export default class FormBuilder extends GraphicWorker {
   constructor(options = {}) {
     super(options);
 
+    this._finish = null;
+    this._id = null;
+    this._prepare = null;
     this._structure = null;
+
+    this.setFinish(options.finish);
+    this.setId(options.id);
+    this.setPrepare(options.prepare);
     this.setStructure(options.structure);
+  }
+
+  setFinish(value = true) {
+    this._finish = value;
+    return this;
+  }
+
+  setId(value = null) {
+    this._id = value;
+    return this;
+  }
+
+  setPrepare(value = true) {
+    this._prepare = value;
+    return this;
   }
 
   setStructure(value = null) {
@@ -17,18 +39,41 @@ export default class FormBuilder extends GraphicWorker {
   }
 
   act(route, data, callback) {
-    const forms = select(route.node)
-      .selectAll('.body>form');
+    if (this._prepare) {
+      this._prepareForm(route, data);
+    }
+
+    if (this._finish) {
+      data = this._finishForm(route, data);
+    }
+
+    this.pass(route, data, callback);
+  }
+
+  _prepareForm(route) {
+    const id = this._id || select(route.node)
+      .selectAll('.body>form')
+      .size();
+
+    select(route.node)
+      .select('.body')
+      .append('form')
+      .attr('id', 'form-' + id)
+      .attr('novalidate', 'novalidate');
+  }
+
+  _finishForm(route, data) {
+    const id = this._id || select(route.node)
+      .selectAll('.body>form')
+      .size() - 1;
 
     const body = select(route.node)
       .select('.body');
 
-    const form = body
-      .append('form');
+    const form = select(route.node)
+      .select('form#form-' + id);
 
     let list = form
-      .attr('id', 'form-' + forms.size())
-      .attr('novalidate', 'novalidate')
       .selectAll('ul')
       .data(this._structure.filter((section) => section.fields));
 
@@ -41,7 +86,7 @@ export default class FormBuilder extends GraphicWorker {
     list
       .filter((section) => typeof section.name !== 'undefined')
       .append('lt')
-      .text((d, i, n) => this.format(d, i, n, 'title'));
+      .text((d, i, n) => this.format(d, i, n, { name: 'form.title' }));
 
     let item = list
       .selectAll('li')
@@ -61,7 +106,7 @@ export default class FormBuilder extends GraphicWorker {
     item
       .append('label')
       .attr('for', (field) => field.name)
-      .text((d, i, n) => this.format(d, i, n, 'label'));
+      .text((d, i, n) => this.format(d, i, n, { name: 'form.label' }));
 
     const disabled = body.classed('disabled') ? 'disabled' : null;
 
@@ -84,6 +129,6 @@ export default class FormBuilder extends GraphicWorker {
       }
     });
 
-    this.pass(route, { form }, callback);
+    return { form };
   }
 }
