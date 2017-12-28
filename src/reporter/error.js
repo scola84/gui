@@ -16,6 +16,8 @@ export default class ErrorReporter extends GraphicWorker {
       .insert('div', ':first-child')
       .classed('message', true)
       .append('span')
-      .text(this.format(error));
+      .text(() => {
+        return this.format(error) || error.message;
+      });
   }
 }
