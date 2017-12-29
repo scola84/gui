@@ -23,7 +23,7 @@ export default class StateRouter extends Router {
 
   act(route, data, callback) {
     let hash = this._parseHash(window.location.hash);
-    [hash, route, data] = this._processHash(hash, route, data);
+    [hash, route] = this._processHash(hash, route);
     window.location.hash = this._formatHash(hash);
 
     this.pass(route.name, route, data, callback);
@@ -60,25 +60,25 @@ export default class StateRouter extends Router {
     return routes;
   }
 
-  _processHash(hash, route, data) {
+  _processHash(hash, route) {
     if (typeof route.name !== 'undefined') {
       if (route.name === null) {
         delete hash[this._name];
       } else {
-        hash[this._name] = this._processRoute(route.name, data);
+        hash[this._name] = this._processRoute(route.name, route.params);
       }
     } else if (typeof hash[this._name] === 'undefined') {
       if (this._default !== null) {
-        hash[this._name] = this._processRoute(this._default, data);
+        hash[this._name] = this._processRoute(this._default, route.params);
       }
     }
 
     if (typeof hash[this._name] !== 'undefined') {
       route.name = hash[this._name].path;
-      data = hash[this._name].params;
+      route.params = hash[this._name].params;
     }
 
-    return [hash, route, data];
+    return [hash, route];
   }
 
   _processRoute(path, params = {}) {
