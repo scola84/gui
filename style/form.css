@@ -98,24 +98,7 @@ form ul.block label:not(:empty) {
 }
 
 form ul.block .button {
-  align-items: center;
-  background: darkgrey;
-  border: 0;
-  border-radius: 50%;
-  color: #fff;
-  cursor: pointer;
-  display: flex;
-  font-size: 2em;
-  height: 1em;
-  justify-content: center;
-  margin: 0 0.5em 0 0;
-  padding: 0;
-  width: 1em;
-}
-
-form ul.block .button:before {
-  font-size: 75%;
-  width: 100%;
+  margin: 0 1em 0 0;
 }
 
 *[dir=rtl] form ul.block input {
@@ -145,11 +128,6 @@ form ul.block .button:before {
 }
 
 @media (min-width: 48em) {
-  form ul.block .button:focus {
-    border: 1px dotted black;
-    outline: 0;
-  }
-
   form ul.block input[type=checkbox] + label:focus:after {
     border: 1px dotted black;
   }

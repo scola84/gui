@@ -64,19 +64,16 @@ input:-webkit-autofill {
 }
 
 @media (min-width: 48em) {
-  a:focus,
-  button:focus,
-  input:focus,
-  label:focus {
-    outline: 1px dotted black;
+  button[tabindex="0"] {
+    border: 1px solid transparent !important;
+    cursor: pointer;
   }
-}
 
-@media only screen and (-webkit-min-device-pixel-ratio: 2) {
-  a:focus,
-  button:focus,
-  input:focus,
-  label:focus {
-    outline-width: 0.5px;
+  button[tabindex="0"]:focus {
+    border: 1px dotted black !important;
+  }
+
+  input[tabindex="0"]:focus {
+    outline: 1px dotted black;
   }
 }
