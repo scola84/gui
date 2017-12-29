@@ -61,11 +61,11 @@ ul.block li .icon {
   width: 1.25em;
 }
 
-.nav ul.block li {
+.nav ul.block li:not(.disabled) {
   cursor: pointer;
 }
 
-.nav ul.block li:active {
+.nav ul.block li:not(.disabled):not(.stopped):active {
   background: lightgrey;
 }
 
