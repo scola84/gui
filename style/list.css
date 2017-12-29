@@ -117,12 +117,12 @@ ul.block li div.secondary .icon {
   padding: 0 1em 0 0;
 }
 
-*[dir=rtl] ul.block li:after {
+*[dir=rtl] ul.block li:before {
   left: 0;
   right: 1em;
 }
 
-*[dir=rtl] ul.block li.icon:after {
+*[dir=rtl] ul.block li.icon:before {
   left: 0;
   right: 3.5em;
 }
@@ -165,9 +165,9 @@ ul.block li div.secondary .icon {
     border-bottom: 0.5px solid white;
   }
 
-  ul.block li:after {
+  ul.block li:before {
     border-bottom: 0.5px solid lightgrey;
-    bottom: -.5px;
+    top: -.5px;
   }
 
   ul.block li:first-of-type {
