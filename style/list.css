@@ -88,6 +88,12 @@ ul.block div.primary {
   white-space: nowrap;
 }
 
+ul.block div.primary span {
+  color: darkgrey;
+  display: block;
+  font-size: 0.85em;
+}
+
 ul.block div.secondary {
   align-items: center;
   color: darkgrey;
@@ -96,12 +102,6 @@ ul.block div.secondary {
   overflow: hidden;
   padding: 0 1em 0 0;
   white-space: nowrap;
-}
-
-ul.block div.primary span {
-  color: darkgrey;
-  display: block;
-  font-size: 0.85em;
 }
 
 ul.block div.secondary span:first-child:not(:empty) {
