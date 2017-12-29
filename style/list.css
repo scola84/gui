@@ -56,9 +56,11 @@ ul.block lt:not(:empty) {
 }
 
 ul.block li .icon {
+  width: 2.5em;
+}
+
+ul.block li .icon:before {
   font-size: 2em;
-  margin: 0.25em 0;
-  width: 1.25em;
 }
 
 .nav ul.block li:not(.disabled) {
@@ -114,6 +116,10 @@ ul.block div.secondary span:first-child:not(:empty) + * {
 ul.block div.secondary .icon {
   color: darkgrey;
   width: auto;
+}
+
+ul.block li.disabled div.secondary .icon {
+  display: none;
 }
 
 ul.block .button {
