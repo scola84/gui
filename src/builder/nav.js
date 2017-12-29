@@ -60,7 +60,7 @@ export default class NavBuilder extends GraphicWorker {
       .classed('nav', true);
   }
 
-  _finishNav(route, data) {
+  _finishNav(route, data = {}) {
     const id = this._id || select(route.node)
       .selectAll('.body>div.nav')
       .size() - 1;

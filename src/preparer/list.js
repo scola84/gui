@@ -15,7 +15,7 @@ export default class ListPreparer extends Worker {
     return this;
   }
 
-  act(route, data) {
+  act(route, data = {}) {
     const body = select(route.node).select('.body');
     const height = parseInt(body.style('height'), 10) || 768;
 

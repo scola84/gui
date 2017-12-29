@@ -62,7 +62,7 @@ export default class FormBuilder extends GraphicWorker {
       .attr('novalidate', 'novalidate');
   }
 
-  _finishForm(route, data) {
+  _finishForm(route, data = {}) {
     const id = this._id || select(route.node)
       .selectAll('.body>form')
       .size() - 1;
