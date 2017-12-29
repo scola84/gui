@@ -77,36 +77,38 @@ export default class NavBuilder extends GraphicWorker {
       .merge(list);
 
     list
-      .filter((section) => typeof section.name !== 'undefined')
+      .filter((datum) => typeof datum.name !== 'undefined')
       .append('lt')
       .text((d, i, n) => this.format(d, i, n, { name: 'nav.title' }));
 
     const enter = list
       .selectAll('li')
-      .data((section) => section.items)
+      .data((datum) => datum.items)
       .enter()
-      .filter((datum) => this.filter(route, data, datum))
-      .append('li');
+      .append('li')
+      .datum((datum) => {
+        return Object.assign({}, datum, data[datum.name]);
+      })
+      .attr('class', (datum) => datum.name);
 
     enter
-      .filter((item) => typeof item.icon !== 'undefined')
+      .filter((datum) => typeof datum.icon !== 'undefined')
       .classed('icon', true)
       .append('span')
-      .attr('class', (item) => 'icon ' + item.icon);
+      .attr('class', (datum) => 'icon ' + datum.icon);
 
     const primary = enter
       .append('div')
       .classed('primary', true);
 
     primary
-      .append('a')
-      .attr('href', '#')
+      .append('button')
       .attr('tabindex', 0)
-      .text((d, i, n) => this.format(d, i, n, { data, name: 'nav.label' }));
+      .text((d, i, n) => this.format(d, i, n, { name: 'nav.label' }));
 
     primary
       .append('span')
-      .text((d, i, n) => this.format(d, i, n, { data, name: 'nav.sub' }));
+      .text((d, i, n) => this.format(d, i, n, { name: 'nav.sub' }));
 
     const secondary = enter
       .append('div')
@@ -114,18 +116,18 @@ export default class NavBuilder extends GraphicWorker {
 
     secondary
       .append('span')
-      .text((d, i, n) => this.format(d, i, n, { data, name: 'nav.value' }));
+      .text((d, i, n) => this.format(d, i, n, { name: 'nav.value' }));
 
     secondary
-      .filter((item) => item.dir === 'rtl')
+      .filter((datum) => datum.dir === 'rtl')
       .append('span')
       .classed('icon ion-ios-arrow-forward', true);
 
-    list
-      .filter((section, index, nodes) => {
-        return select(nodes[index]).selectAll('li').size() === 0;
-      })
-      .remove();
+    secondary
+      .filter((datum) => typeof datum.button !== 'undefined')
+      .append('button')
+      .attr('tabindex', 0)
+      .attr('class', (datum) => 'button ' + datum.button);
 
     return { enter };
   }
