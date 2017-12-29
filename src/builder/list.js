@@ -36,8 +36,7 @@ export default class ListBuilder extends GraphicWorker {
     }
 
     enter
-      .append('a')
-      .attr('href', '#')
+      .append('button')
       .attr('tabindex', 0)
       .text((d, i, n) => this.format(d, i, n));
 
