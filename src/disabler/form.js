@@ -16,8 +16,8 @@ export default class FormDisabler extends PanelDisabler {
   }
 
   _disableElements(route, data, node) {
-    this._disable.forEach(({ names, selector }) => {
-      names.forEach((name) => {
+    this._disable.forEach(({ filter, selector }) => {
+      filter.forEach((name) => {
         const enabled = typeof name === 'function' ?
           name(route, data, node) :
           this.filter(route, data, name);

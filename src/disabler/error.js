@@ -6,14 +6,14 @@ export default class ErrorDisabler extends PanelDisabler {
     return false;
   }
 
-  disable(selector, ...names) {
-    names = names.length === 0 ? [() => false] : null;
-    super.disable(selector, ...names);
+  disable(value) {
+    value.filter = value.filter || [() => false];
+    return super.disable(value);
   }
 
-  hide(selector, ...names) {
-    names = names.length === 0 ? [() => false] : null;
-    super.hide(selector, ...names);
+  hide(value) {
+    value.filter = value.filter || [() => false];
+    return super.hide(value);
   }
 
   err(route, error, callback) {
