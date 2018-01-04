@@ -10,7 +10,8 @@ export default {
       label: {
         add: 'Toevoegen',
         back: 'Terug',
-        edit: 'Opslaan',
+        edit: 'Wijzigen',
+        save: 'Opslaan'
       }
     }
   },

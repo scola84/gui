@@ -5,6 +5,7 @@ export default class StateRouter extends Router {
     super(options);
 
     this._default = null;
+    this._history = [];
     this._name = null;
 
     this.setDefault(options.default);
@@ -60,7 +61,35 @@ export default class StateRouter extends Router {
     return routes;
   }
 
+  _processBackward(route) {
+    if (route.dir === 'ltr') {
+      if (this._history.length > 1) {
+        this._history.pop();
+        const history = this._history.pop();
+
+        if (typeof route.name === 'undefined') {
+          route.historic = history.historic;
+          route.name = history.name;
+          route.params = history.params;
+        }
+      }
+    }
+
+    return route;
+  }
+
+  _processForward(route) {
+    if (typeof route.dir === 'undefined') {
+      this._history = [];
+    }
+
+    this._history.push(route);
+    return route;
+  }
+
   _processHash(hash, route) {
+    route = this._processBackward(route);
+
     if (typeof route.name !== 'undefined') {
       if (route.name === null) {
         delete hash[this._name];
@@ -78,6 +107,7 @@ export default class StateRouter extends Router {
       route.params = hash[this._name].params;
     }
 
+    route = this._processForward(route);
     return [hash, route];
   }
 

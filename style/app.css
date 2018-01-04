@@ -26,7 +26,7 @@ body {
 
 button {
   background: none;
-  border: 0;
+  border: 1px solid transparent;
   margin: 0;
   padding: 0;
 }
@@ -65,15 +65,10 @@ input:-webkit-autofill {
 
 @media (min-width: 48em) {
   button[tabindex="0"] {
-    border: 1px solid transparent !important;
     cursor: pointer;
   }
 
   button[tabindex="0"]:focus {
     border: 1px dotted black !important;
-  }
-
-  input[tabindex="0"]:focus {
-    outline: 1px dotted black;
   }
 }

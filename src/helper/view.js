@@ -6,6 +6,7 @@ function getView(name) {
 
 function setView(name, view) {
   views[name] = view;
+  return view;
 }
 
 export {

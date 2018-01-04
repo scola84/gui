@@ -1,64 +1,98 @@
 import { select } from 'd3';
 import GraphicWorker from '../worker/graphic';
 
-const presets = {
-  body: '.panel > .body',
-  footer: '.panel > .footer',
-  header: '.panel > .header'
-};
-
 export default class PanelDisabler extends GraphicWorker {
   constructor(options = {}) {
     super(options);
 
-    this._disabled = null;
-    this._form = null;
+    this._disable = [];
+    this._hide = [];
+    this._id = null;
 
-    this.setDisabled(options.disabled);
-    this.setForm(options.form);
+    this.setId(options.id);
   }
 
-  setDisabled(value = 'all') {
-    if (value === 'all') {
-      value = Object.values(presets).join(',');
-    }
-
-    this._disabled = presets[value] ? presets[value] : value;
-    return this;
-  }
-
-  setForm(value = true) {
-    this._form = value;
+  setId(value = null) {
+    this._id = value;
     return this;
   }
 
   act(route, data, callback) {
-    this._disable(route);
+    const node = select(route.node);
+
+    this._disableElements(route, data, node);
+    this._hideElements(route, data, node);
+    this._removeHiddenElements(node);
+
     this.pass(route, data, callback);
   }
 
-  decide(route, data) {
-    if (this._decide) {
-      return this._decide(route, data);
+  disable(selector, ...names) {
+    this._disable.push({ names, selector });
+    return this;
+  }
+
+  filter(box, data, context) {
+    if (this._filter) {
+      return this._filter(box, data, context);
     }
 
     return false;
   }
 
-  err(route, data, callback) {
-    this._disable(route);
-    this.fail(route, data, callback);
+  hide(selector, ...names) {
+    this._hide.push({ names, selector });
+    return this;
   }
 
-  _disable(route) {
-    if (this._disabled) {
-      select(route.node && route.node.parentNode)
-        .selectAll(this._disabled)
-        .classed('disabled', true);
-    }
+  _disableElements(route, data, node) {
+    this._disable.forEach(({ names, selector }) => {
+      names.forEach((name) => {
+        const enabled = typeof name === 'function' ?
+          name(route, data, node) :
+          this.filter(route, data, name);
 
-    select(route.node)
-      .selectAll('form')
-      .attr('disabled', this._form ? 'disabled' : null);
+        if (enabled === false) {
+          node
+            .selectAll(selector)
+            .classed('disabled', true)
+            .attr('tabindex', (datum, index, nodes) => {
+              return select(nodes[index]).attr('tabindex') === '0' ?
+                -1 : null;
+            });
+        }
+      });
+    });
+  }
+
+  _hideElements(route, data, node) {
+    this._hide.forEach(({ names, selector }) => {
+      names.forEach((name) => {
+        const visible = typeof name === 'function' ?
+          name(route, data, node) :
+          this.filter(route, data, name);
+
+        if (visible === false) {
+          node
+            .selectAll(selector)
+            .classed('hidden', true);
+        }
+      });
+    });
+  }
+
+  _removeEmptyLists(node) {
+    node
+      .selectAll('ul')
+      .filter((d, index, nodes) => {
+        return select(nodes[index]).selectAll('li').size() === 0;
+      })
+      .remove();
+  }
+
+  _removeHiddenElements(node) {
+    node
+      .selectAll('.hidden')
+      .remove();
   }
 }

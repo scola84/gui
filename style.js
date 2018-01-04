@@ -5,3 +5,4 @@ import './style/main.css';
 import './style/menu.css';
 import './style/panel.css';
 import './style/pop.css';
+import './style/summary.css';

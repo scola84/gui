@@ -67,9 +67,6 @@ export default class FormBuilder extends GraphicWorker {
       .selectAll('.body>form')
       .size() - 1;
 
-    const body = select(route.node)
-      .select('.body');
-
     const form = select(route.node)
       .select('form#form-' + id);
 
@@ -84,13 +81,13 @@ export default class FormBuilder extends GraphicWorker {
       .merge(list);
 
     list
-      .filter((section) => typeof section.name !== 'undefined')
+      .filter((datum) => typeof datum.name !== 'undefined')
       .append('lt')
       .text((d, i, n) => this.format(d, i, n, { name: 'form.title' }));
 
     let item = list
       .selectAll('li')
-      .data((section) => section.fields);
+      .data((datum) => datum.fields);
 
     item = item
       .enter()
@@ -98,34 +95,31 @@ export default class FormBuilder extends GraphicWorker {
       .merge(item);
 
     item
-      .filter((field) => typeof field.icon !== 'undefined')
+      .filter((datum) => typeof datum.icon !== 'undefined')
       .classed('icon', true)
       .append('span')
-      .attr('class', (field) => 'icon ' + field.icon);
+      .attr('class', (datum) => 'icon ' + datum.icon);
 
     item
       .append('label')
-      .attr('for', (field) => field.name)
+      .attr('for', (datum) => datum.name)
       .text((d, i, n) => this.format(d, i, n, { name: 'form.label' }));
 
-    const disabled = body.classed('disabled') ? 'disabled' : null;
-
-    item.each((field, index, nodes) => {
+    item.each((datum, index, nodes) => {
       const node = select(nodes[index]);
 
-      if (field.type && input[field.type]) {
-        input[field.type]
-          .create(node, field, data, (d, i, n, c) => {
+      if (datum.type && input[datum.type]) {
+        input[datum.type]
+          .create(node, datum, data, (d, i, n, c) => {
             return this.format(d, i, n, c);
           })
-          .attr('disabled', disabled)
-          .attr('id', field.name)
-          .attr('name', field.name)
+          .attr('id', datum.name)
+          .attr('name', datum.name)
           .attr('tabindex', 0);
       }
 
-      if (field.button && button[field.button]) {
-        button[field.button].create(node, field, data);
+      if (datum.button && button[datum.button]) {
+        button[datum.button].create(node, datum, data);
       }
     });
 

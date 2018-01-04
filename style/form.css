@@ -131,6 +131,10 @@ form ul.block .button {
   form ul.block input[type=checkbox] + label:focus:after {
     border: 1px dotted black;
   }
+
+  form ul.block input[tabindex="0"]:focus {
+    outline: 1px dotted black;
+  }
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
