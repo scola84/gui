@@ -1,6 +1,9 @@
 export default {
   action: {
     form: {
+      placeholder: {
+        search: 'Zoeken'
+      },
       value: {
         delete: 'Verwijderen',
         undelete: 'Herstellen'
@@ -10,6 +13,8 @@ export default {
       label: {
         add: 'Toevoegen',
         back: 'Terug',
+        cancel: 'Annuleren',
+        delete: 'Verwijderen',
         edit: 'Wijzigen',
         save: 'Opslaan'
       }

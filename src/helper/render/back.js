@@ -1,12 +1,13 @@
-export default function renderBack(node, text, historic, handler) {
-  const button = node
+export default function renderBack(route, { icon, left, text }, handler) {
+  const button = left
     .append('button')
     .attr('tabindex', 0)
+    .attr('type', 'button')
     .classed('button left', true);
 
-  if (historic === true) {
+  if (route.remember === true) {
     button
-      .classed('icon ion-ios-arrow-back', true)
+      .classed('icon ion-ios-arrow-back', icon)
       .text(text)
       .on('click', handler);
   } else {

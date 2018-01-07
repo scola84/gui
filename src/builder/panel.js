@@ -1,7 +1,7 @@
-import { Worker } from '@scola/worker';
 import { select } from 'd3';
+import GraphicWorker from '../worker/graphic';
 
-export default class PanelBuilder extends Worker {
+export default class PanelBuilder extends GraphicWorker {
   constructor(options = {}) {
     super(options);
 
@@ -34,28 +34,48 @@ export default class PanelBuilder extends Worker {
       .style(property, oldEnd)
       .remove();
 
-    const node = this._base
+    const panel = this._base
       .append('div')
       .classed('panel', true)
       .style(property, newBegin);
 
-    node
+    const body = panel
       .append('div')
       .classed('body', true);
 
-    node
+    body
+      .append('form')
+      .classed('search', true)
       .append('div')
-      .classed('bar header', true);
+      .append('input')
+      .datum(() => ({ field: { name: 'search' } }))
+      .attr('autocomplete', 'on')
+      .attr('name', 'search')
+      .attr('placeholder', (d, i, n) => {
+        return this.format(d, i, n, { name: 'form.placeholder' });
+      })
+      .attr('type', 'search');
 
-    node
+    body
       .append('div')
-      .classed('bar footer', true);
+      .classed('message', true)
+      .append('span');
 
-    node
+    body
+      .append('div')
+      .classed('content', true);
+
+    this._createBar(panel)
+      .classed('header', true);
+
+    this._createBar(panel)
+      .classed('footer', true);
+
+    panel
       .transition()
       .style(property, newEnd);
 
-    route.node = node.node();
+    route.node = panel.node();
 
     this.pass(route, data);
   }
@@ -64,6 +84,16 @@ export default class PanelBuilder extends Worker {
     return moveDir ?
       this._calculateMove(moveDir, readDir, width) :
       this._calculateFade();
+  }
+
+  _calculateFade() {
+    return {
+      property: 'opacity',
+      oldBegin: 1,
+      oldEnd: 0,
+      newBegin: 0,
+      newEnd: 1
+    };
   }
 
   _calculateMove(moveDir, readDir, width) {
@@ -76,13 +106,23 @@ export default class PanelBuilder extends Worker {
     };
   }
 
-  _calculateFade() {
-    return {
-      property: 'opacity',
-      oldBegin: 1,
-      oldEnd: 0,
-      newBegin: 0,
-      newEnd: 1
-    };
+  _createBar(node) {
+    const bar = node
+      .append('div')
+      .classed('bar', true);
+
+    bar
+      .append('div')
+      .classed('left', true);
+
+    bar
+      .append('div')
+      .classed('center', true);
+
+    bar
+      .append('div')
+      .classed('right', true);
+
+    return bar;
   }
 }

@@ -1,6 +1,6 @@
 export default class SubmitButton {
-  create(item) {
-    item
+  create(datum, index, node) {
+    node
       .append('button')
       .attr('tabindex', 0)
       .attr('type', 'submit')

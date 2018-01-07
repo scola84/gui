@@ -1,58 +1,84 @@
 ul.block {
   list-style: none;
-  margin: 2em 0 0;
+  margin: 2em 1em 0;
   padding: 0;
+}
+
+.outset ul.block,
+.outset-x ul.block {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.outset ul.block,
+.outset-y ul.block {
+  margin-bottom: 0;
+  margin-top: 0;
 }
 
 ul.block li {
   align-items: center;
   background: white;
-  border-bottom: 1px solid white;
   display: flex;
   height: 3em;
   padding: 0 0 0 1em;
   position: relative;
 }
 
-ul.block li.icon + li:before {
-  left: 3.5em;
+ul.block li:first-of-type {
+  border-top: 1px solid transparent;
+  border-top-left-radius: 0.5em;
+  border-top-right-radius: 0.5em;
+}
+
+ul.block li:last-of-type {
+  border-bottom: 1px solid transparent;
+  border-bottom-left-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+}
+
+.outset ul.block li:first-of-type,
+.outset ul.block li:last-of-type,
+.outset-x ul.block li:first-of-type,
+.outset-x ul.block li:last-of-type,
+.outset-y ul.block li:first-of-type,
+.outset-y ul.block li:last-of-type {
+  border-radius: 0;
+}
+
+.outset-x ul.block li:first-of-type,
+.outset-x ul.block li:last-of-type {
+  border-color: lightgrey;
+}
+
+ul.block.click li:not(.disabled) {
+  cursor: pointer;
+}
+
+ul.block.click li:not(.disabled):active {
+  background: lightgrey;
 }
 
 ul.block li:before {
   border-bottom: 1px solid lightgrey;
-  top: -1px;
   content: '';
   left: 1em;
   position: absolute;
   right: 0;
-}
-
-ul.block li:not(.disabled):active + li:before,
-ul.block li:not(.disabled):active:before {
-  left: 0;
-}
-
-ul.block li:first-of-type {
-  border-top: 1px solid lightgrey;
-}
-
-ul.block li:last-of-type {
-  border-bottom: 1px solid lightgrey;
+  top: 0;
 }
 
 ul.block li:first-of-type:before {
   content: none;
 }
 
-ul.block lt {
-  color: darkgrey;
-  display: block;
-  font-size: 0.9em;
-  text-transform: uppercase;
+ul.block li.icon + li:before {
+  left: 3.5em;
 }
 
-ul.block lt:not(:empty) {
-  padding: 0 1em 0.5em;
+ul.block.click li:not(.disabled):active + li:before,
+ul.block.click li:not(.disabled):active:before {
+  left: 0;
 }
 
 ul.block li .button {
@@ -67,24 +93,15 @@ ul.block li .icon:before {
   font-size: 2em;
 }
 
-.nav ul.block li:not(.disabled) {
-  cursor: pointer;
+ul.block lt {
+  color: darkgrey;
+  display: block;
+  font-size: 0.9em;
+  text-transform: uppercase;
 }
 
-.nav ul.block li:not(.disabled):active {
-  background: lightgrey;
-}
-
-.outset ul.block:first-of-type {
-  margin: 0;
-}
-
-.outset ul.block li:first-of-type {
-  border-top: none;
-}
-
-.outset ul.block li:last-of-type {
-  border-bottom: none;
+ul.block lt:not(:empty) {
+  padding: 0 1em 0.5em;
 }
 
 ul.block div.primary {
@@ -155,40 +172,40 @@ ul.block li.disabled div.secondary .icon {
   margin-right: 1em;
 }
 
-@media (min-width: 48em) {
-  .inset ul.block {
-    margin-left: 1em;
-    margin-right: 1em;
+*[dir=rtl] ul.block.click li:not(.disabled):active + li:before,
+*[dir=rtl] ul.block.click li:not(.disabled):active:before {
+  right: 0;
+}
+
+@media not all and (min-width: 48em) {
+  ul.block {
+    margin-left: 0;
+    margin-right: 0;
   }
 
-  .inset ul.block li:first-of-type {
-    border-top-color: transparent;
-    border-top-left-radius: 0.5em;
-    border-top-right-radius: 0.5em;
+  ul.block li:first-of-type,
+  ul.block li:last-of-type {
+    border-radius: 0;
   }
 
-  .inset ul.block li:last-of-type {
-    border-bottom-color: transparent;
-    border-bottom-left-radius: 0.5em;
-    border-bottom-right-radius: 0.5em;
+  ul.block li:first-of-type,
+  ul.block li:last-of-type {
+    border-color: lightgrey;
+  }
+
+  .outset ul.block li:first-of-type,
+  .outset ul.block li:last-of-type,
+  .outset-y ul.block li:first-of-type,
+  .outset-y ul.block li:last-of-type {
+    border-color: transparent;
   }
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-  ul.block li {
-    border-bottom: 0.5px solid white;
-  }
-
-  ul.block li:before {
-    border-bottom: 0.5px solid lightgrey;
-    top: -.5px;
-  }
-
-  ul.block li:first-of-type {
-    border-top: 0.5px solid lightgrey;
-  }
-
+  ul.block li .button,
+  ul.block li:before,
+  ul.block li:first-of-type,
   ul.block li:last-of-type {
-    border-bottom: 0.5px solid lightgrey;
+    border-width: 0.5px;
   }
 }

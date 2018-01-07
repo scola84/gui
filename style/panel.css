@@ -7,24 +7,20 @@
   width: 100%;
 }
 
-.panel .bar:not(:empty) {
-  align-items: center;
-  background: rgba(255,255,255,0.5);
-  display: flex;
-  height: 3em;
-  justify-content: space-between;
-  line-height: 3em;
-  position: relative;
-}
-
-.panel .bar.footer:not(:empty) {
-  border-top: 1px solid lightgrey;
+.panel .bar.footer {
   order: 3;
 }
 
-.panel .bar.header:not(:empty) {
-  border-bottom: 1px solid lightgrey;
+.panel .bar.header {
   order: 1;
+}
+
+.panel.footer .bar.footer,
+.panel.header .bar.header {
+  align-items: center;
+  background: #FAFAFA;
+  display: flex;
+  height: 3em;
 }
 
 .panel .bar .button {
@@ -41,77 +37,76 @@
   opacity: 0.5;
 }
 
+.panel .bar .button:before {
+  font-size: 2em;
+  position: absolute;
+}
+
+.panel .bar .button.icon:empty:before {
+  width: 100%;
+}
+
+.panel .bar .disabled .button,
 .panel .bar.disabled .button {
   display: none;
 }
 
+.panel .bar .center {
+  flex: 1;
+  overflow: hidden;
+  margin: 0 1em;
+}
+
+.panel .bar .left {
+  display: flex;
+  min-width: 20%;
+}
+
+.panel .bar .right {
+  display: flex;
+  min-width: 20%;
+  justify-content: flex-end;
+}
+
 .panel .bar .title {
   font-weight: bold;
-  left: 20%;
-  line-height: inherit;
   overflow: hidden;
-  position: absolute;
   text-align: center;
   text-overflow: ellipsis;
-  top: 0;
   white-space: nowrap;
-  width: 60%;
 }
 
 .panel .body {
-  -webkit-overflow-scrolling: touch;
   display: flex;
   flex: 1;
   flex-direction: column;
   order: 2;
-  overflow: auto;
+  overflow: hidden;
   position: relative;
 }
 
-.panel .body:not(.disabled) .message {
-  align-items: center;
-  background: lightgrey;
-  color: dimgrey;
-  display: flex;
-  justify-content: center;
-  padding: 0.5em;
+.panel.outset .body {
+  background: white;
 }
 
-.panel .body.disabled .message span {
-  font-size: inherit;
+.panel .body .content {
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
+  overflow: auto;
 }
 
-.panel .body.disabled .message span:before {
-  display: none;
-}
-
-.panel .body:not(.disabled) .message span {
-  align-items: center;
-  display: flex;
-}
-
-.panel .body:not(.disabled) .message span:before {
-  font-size: 2em;
-  margin-right: 0.25em;
-}
-
-.panel .body.disabled .message {
-  align-items: center;
-  background: whitesmoke;
-  color: darkgrey;
-  display: flex;
-  font-size: 2em;
-  height: 100%;
-  justify-content: center;
-  padding: 1em;
-  position: absolute;
-  text-align: center;
-  width: 100%;
-  z-index: 1;
-}
-
-.panel .body:not(.outset) {
+.panel:not(.outset) .body .content {
   padding: 0 0 2em;
+}
+
+.panel.footer .body .content,
+.panel.footer .body.disabled .message {
+  border-bottom: 1px solid lightgrey;
+}
+
+.panel.header .body .content,
+.panel.header .body.disabled .message {
+  border-top: 1px solid lightgrey;
 }
 
 .panel .body .button {
@@ -135,56 +130,136 @@
   font-size: 1.75em;
 }
 
-*[dir=rtl] .panel .bar .button.right,
-.panel .bar .button.left {
-  margin: 0 auto 0 1em;
+.panel .body .message {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
-*[dir=rtl] .panel .bar .button.icon.right,
-.panel .bar .button.icon.left {
+.panel .body.disabled .message {
+  background: whitesmoke;
+  color: darkgrey;
+  font-size: 2em;
+  height: 100%;
+  padding: 1em;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+
+.panel .body:not(.disabled) .message {
+  background: lightgrey;
+  color: dimgrey;
+  height: 2.25em;
+  margin-bottom: -2.25em;
+  padding: 0.5em;
+  position: relative;
+  top: -2.25em;
+  transition: all 0.25s;
+  z-index: 0;
+}
+
+.panel.message .body:not(.disabled) .message {
+  top: 0;
+  margin-bottom: 0;
+}
+
+.panel .body.disabled .message span {
+  font-size: inherit;
+}
+
+.panel .body.disabled .message span:before {
+  display: none;
+}
+
+.panel .body:not(.disabled) .message span {
+  align-items: center;
+  display: flex;
+}
+
+.panel .body:not(.disabled) .message span:before {
+  font-size: 2em;
+  margin-right: 0.25em;
+}
+
+.panel .body .search {
+  background: #FAFAFA;
+  display: flex;
+  margin-bottom: -3em;
+  position: relative;
+  top: -3em;
+  transition: all 0.25s;
+  z-index: 1;
+}
+
+.panel.search .body:not(.disabled) .search {
+  margin-bottom: 0;
+  top: 0;
+}
+
+.panel .body .search div {
+  display: flex;
+  flex: 1;
+}
+
+.panel .body .search input {
+  background: lightgrey;
+  border: 0;
+  border-radius: 0.5em;
+  flex: 1;
+  margin: 0 1em 0.75em;
+  padding: 0.5em;
+}
+
+.panel .body .search input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px lightgrey inset;
+}
+
+*[dir=rtl] .panel .bar .right .button,
+.panel .bar .left .button {
+  margin: 0 0 0 1em;
+}
+
+*[dir=rtl] .panel .bar .right .button + .button,
+.panel .bar .left .button + .button {
+  margin: 0 -0.5em 0 1em;
+}
+
+*[dir=rtl] .panel .bar .right .button.icon,
+.panel .bar .left .button.icon {
   padding: 0 0 0 1.25em;
 }
 
-*[dir=rtl] .panel .bar .button.icon.right:empty,
-.panel .bar .button.icon.left:empty {
-  padding: 0 0 0 1em;
+*[dir=rtl] .panel .bar .left .button,
+.panel .bar .right .button {
+  margin: 0 1em 0 0;
 }
 
-*[dir=rtl] .panel .bar .button.left,
-.panel .bar .button.right {
-  margin: 0 1em 0 auto;
+*[dir=rtl] .panel .bar .left .button + .button,
+.panel .bar .right .button + .button {
+  margin: 0 1em 0 -0.5em;
 }
 
-*[dir=rtl] .panel .bar .button.icon.left,
-.panel .bar .button.icon.right {
+*[dir=rtl] .panel .bar .left .button.icon,
+.panel .bar .right .button.icon {
   padding: 0 1.25em 0 0;
 }
 
-*[dir=rtl] .panel .bar .button.icon.left:empty,
-.panel .bar .button.icon.right:empty {
-  padding: 0 1em 0 0;
-}
-
-.panel .bar .button:before {
-  font-size: 2em;
-  position: absolute;
-}
-
-*[dir=rtl] .panel .bar .button.icon.right:before,
-.panel .bar .button.icon.left:before {
+*[dir=rtl] .panel .bar .right .button.icon:before,
+.panel .bar .left .button.icon:before {
   left: 0;
   right: auto;
 }
 
-*[dir=rtl] .panel .bar .button.icon.left:before,
-.panel .bar .button.icon.right:before {
+*[dir=rtl] .panel .bar .left .button.icon:before,
+.panel .bar .right .button.icon:before {
   left: auto;
   right: 0;
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-  .panel .bar.footer:not(:empty),
-  .panel .bar.header:not(:empty) {
+  .panel.footer .body .content,
+  .panel.header .body .content {
     border-width: 0.5px;
   }
 }

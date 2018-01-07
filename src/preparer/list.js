@@ -15,23 +15,29 @@ export default class ListPreparer extends Worker {
     return this;
   }
 
-  act(route, data = {}) {
-    const body = select(route.node).select('.body');
-    const height = parseInt(body.style('height'), 10) || 768;
+  _prepareScroll(route, data) {
+    const panel = select(route.node);
+
+    const content = panel
+      .select('.body .content');
+
+    const height = parseInt(content.style('height'), 10) || 768;
 
     data.offset = data.offset || 0;
     data.count = Math.round(height / this._height) * 2;
 
-    body.classed('nav outset busy', true);
+    content.classed('busy', true);
 
-    body.on('scroll', throttle((datum, index, nodes) => {
-      if (body.classed('done') === true) {
+    content.on('scroll', throttle((datum, index, nodes) => {
+      if (content.classed('done') === true) {
         return;
       }
 
-      if (body.classed('busy') === true) {
+      if (content.classed('busy') === true) {
         return;
       }
+
+      delete route.clear;
 
       const top = height + nodes[index].scrollTop;
       const threshold = nodes[index].scrollHeight - (height / 4);
@@ -41,6 +47,58 @@ export default class ListPreparer extends Worker {
         this.act(route, data);
       }
     }, 250));
+  }
+
+  _prepareSearch(route, data) {
+    const panel = select(route.node);
+
+    const form = panel
+      .select('.body .search');
+
+    const input = form
+      .select('input');
+
+    form.on('submit', () => {
+      event.preventDefault();
+
+      const value = input
+        .property('value');
+
+      if (value.length === 0 || value.length > 2) {
+        if (value.length === 0) {
+          delete data.where;
+        } else {
+          data.where = value;
+        }
+
+        route.clear = true;
+        this.act(route, data);
+      }
+    });
+
+    input.on('input', () => {
+      const value = input
+        .property('value');
+
+      sessionStorage.setItem('search-' + this._id, value);
+
+      if (typeof event.data === 'undefined' && value.length === 0) {
+        form.dispatch('submit');
+      }
+    });
+
+    const value = sessionStorage.getItem('search-' + this._id);
+
+    if (value) {
+      panel.classed('search', true);
+      input.attr('value', value);
+      data.where = value;
+    }
+  }
+
+  act(route, data = {}) {
+    this._prepareScroll(route, data);
+    this._prepareSearch(route, data);
 
     this.pass(route, data);
   }

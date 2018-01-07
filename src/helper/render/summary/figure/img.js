@@ -1,12 +1,12 @@
 export default class ImgFigure {
-  create(figure, data, format) {
-    const src = format({ data, name: 'summary.img' });
+  render(datum, index, node, format) {
+    const src = format({ name: 'summary.img' });
 
     if (src === null) {
       return null;
     }
 
-    return figure
+    return node
       .append('img')
       .attr('src', src);
   }

@@ -13,11 +13,9 @@ import PopRouter from './src/router/pop';
 import ResultReporter from './src/reporter/result';
 import StateRouter from './src/router/state';
 import SummaryBuilder from './src/builder/summary';
-import getView from './src/helper/get-view';
-import renderBack from './src/helper/render-back';
-import setupApp from './src/helper/setup-app';
-import setupMenu from './src/helper/setup-menu';
-import setView from './src/helper/set-view';
+import render from './src/helper/render';
+import setup from './src/helper/setup';
+import view from './src/helper/view';
 import locale from './src/locale';
 
 export {
@@ -39,11 +37,9 @@ export {
 };
 
 export {
-  getView,
-  renderBack,
-  setupApp,
-  setupMenu,
-  setView
+  render,
+  setup,
+  view
 };
 
 export {

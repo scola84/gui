@@ -1,41 +1,10 @@
 import { select } from 'd3';
-import GraphicWorker from '../worker/graphic';
-import button from './form/button';
-import input from './form/input';
+import Builder from './builder';
+import renderForm from '../helper/render/form';
 
-export default class FormBuilder extends GraphicWorker {
-  constructor(options = {}) {
-    super(options);
-
-    this._finish = null;
-    this._id = null;
-    this._prepare = null;
-    this._structure = null;
-
-    this.setFinish(options.finish);
-    this.setId(options.id);
-    this.setPrepare(options.prepare);
-    this.setStructure(options.structure);
-  }
-
-  setFinish(value = true) {
-    this._finish = value;
-    return this;
-  }
-
-  setId(value = null) {
-    this._id = value;
-    return this;
-  }
-
-  setPrepare(value = true) {
-    this._prepare = value;
-    return this;
-  }
-
-  setStructure(value = null) {
-    this._structure = value;
-    return this;
+export default class FormBuilder extends Builder {
+  setRender(value = renderForm) {
+    return super.setRender(value);
   }
 
   act(route, data, callback) {
@@ -44,35 +13,37 @@ export default class FormBuilder extends GraphicWorker {
     }
 
     if (this._finish) {
-      data = this._finishForm(route, data);
+      route.form = this._finishForm(route, data);
     }
 
     this.pass(route, data, callback);
   }
 
-  _prepareForm(route) {
-    const id = this._id || select(route.node)
-      .selectAll('.body>form')
-      .size();
+  _createDatum(route, data, field) {
+    let value = field.value;
 
-    select(route.node)
-      .select('.body')
-      .append('form')
-      .attr('id', 'form-' + id)
-      .attr('novalidate', 'novalidate');
+    if (typeof data[field.name] !== 'undefined') {
+      value = data[field.name];
+    } else if (typeof route.params[field.name] !== 'undefined') {
+      value = route.params[field.name];
+    }
+
+    return { field, value };
   }
 
   _finishForm(route, data = {}) {
-    const id = this._id || select(route.node)
-      .selectAll('.body>form')
+    const panel = select(route.node);
+
+    const number = panel
+      .selectAll('form')
       .size() - 1;
 
-    const form = select(route.node)
-      .select('form#form-' + id);
+    const form = panel
+      .select('#' + this._createTarget('form', number));
 
     let list = form
       .selectAll('ul')
-      .data(this._structure.filter((section) => section.fields));
+      .data(this._structure);
 
     list = list
       .enter()
@@ -81,48 +52,35 @@ export default class FormBuilder extends GraphicWorker {
       .merge(list);
 
     list
-      .filter((datum) => typeof datum.name !== 'undefined')
+      .filter((section) => typeof section.name !== 'undefined')
       .append('lt')
       .text((d, i, n) => this.format(d, i, n, { name: 'form.title' }));
 
-    let item = list
+    const enter = list
       .selectAll('li')
-      .data((datum) => datum.fields);
-
-    item = item
+      .data((section) => section.fields)
       .enter()
       .append('li')
-      .merge(item);
+      .datum((field) => this._createDatum(route, data, field));
 
-    item
-      .filter((datum) => typeof datum.icon !== 'undefined')
-      .classed('icon', true)
-      .append('span')
-      .attr('class', (datum) => 'icon ' + datum.icon);
-
-    item
-      .append('label')
-      .attr('for', (datum) => datum.name)
-      .text((d, i, n) => this.format(d, i, n, { name: 'form.label' }));
-
-    item.each((datum, index, nodes) => {
-      const node = select(nodes[index]);
-
-      if (datum.type && input[datum.type]) {
-        input[datum.type]
-          .create(node, datum, data, (d, i, n, c) => {
-            return this.format(d, i, n, c);
-          })
-          .attr('id', datum.name)
-          .attr('name', datum.name)
-          .attr('tabindex', 0);
-      }
-
-      if (datum.button && button[datum.button]) {
-        button[datum.button].create(node, datum, data);
-      }
+    this._render(enter, (d, i, n, c) => {
+      return this.format(d, i, n, c);
     });
 
-    return { form };
+    return form;
+  }
+
+  _prepareForm(route) {
+    const panel = select(route.node);
+
+    const number = panel
+      .selectAll('form')
+      .size();
+
+    panel
+      .select('.body .content')
+      .append('form')
+      .attr('id', this._createTarget('form', number))
+      .attr('novalidate', 'novalidate');
   }
 }

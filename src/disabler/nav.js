@@ -4,7 +4,10 @@ import PanelDisabler from './panel';
 export default class NavDisabler extends PanelDisabler {
   act(route, data, callback) {
     let node = select(route.node);
-    node = this._id ? node.select('#nav-' + this._id) : node;
+
+    if (this._target) {
+      node = node.select('#' + this._target);
+    }
 
     this._disableElements(route, data, node);
     this._hideElements(route, data, node);

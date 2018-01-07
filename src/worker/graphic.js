@@ -1,9 +1,18 @@
 import { Worker } from '@scola/worker';
 
 export default class GraphicWorker extends Worker {
-  constructor(methods = {}) {
-    super(methods);
-    this._format = methods.format;
+  constructor(options = {}) {
+    super(options);
+
+    this._format = options.format;
+    this._target = null;
+
+    this.setTarget(options.target);
+  }
+
+  setTarget(value = null) {
+    this._target = value;
+    return this;
   }
 
   format(datum, index, node, context) {
@@ -12,5 +21,10 @@ export default class GraphicWorker extends Worker {
     }
 
     return datum.name;
+  }
+
+  _createTarget(base, number) {
+    return this._target ?
+      this._target : [base, this._id, number].join('-');
   }
 }

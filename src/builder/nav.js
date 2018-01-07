@@ -1,134 +1,85 @@
 import { select } from 'd3';
-import GraphicWorker from '../worker/graphic';
+import Builder from './builder';
+import renderNav from '../helper/render/nav';
 
-export default class NavBuilder extends GraphicWorker {
-  constructor(options = {}) {
-    super(options);
-
-    this._finish = null;
-    this._id = null;
-    this._prepare = null;
-    this._structure = null;
-
-    this.setFinish(options.finish);
-    this.setId(options.id);
-    this.setPrepare(options.prepare);
-    this.setStructure(options.structure);
+export default class NavBuilder extends Builder {
+  setRender(value = renderNav) {
+    return super.setRender(value);
   }
 
-  setFinish(value = true) {
-    this._finish = value;
-    return this;
-  }
-
-  setId(value = null) {
-    this._id = value;
-    return this;
-  }
-
-  setPrepare(value = true) {
-    this._prepare = value;
-    return this;
-  }
-
-  setStructure(value = null) {
-    this._structure = value;
-    return this;
-  }
-
-  act(route, data) {
+  act(route, data, callback) {
     if (this._prepare) {
       this._prepareNav(route, data);
     }
 
     if (this._finish) {
-      data = this._finishNav(route, data);
+      route.nav = this._finishNav(route, data);
     }
 
-    this.pass(route, data);
+    this.pass(route, data, callback);
   }
 
-  _prepareNav(route) {
-    const id = this._id || select(route.node)
-      .selectAll('.body>div.nav')
-      .size();
+  _createDatum(route, data, field) {
+    let value = field.value;
 
-    select(route.node)
-      .select('.body')
-      .append('div')
-      .attr('id', 'nav-' + id)
-      .classed('nav', true);
+    if (typeof data[field.name] !== 'undefined') {
+      value = data[field.name];
+    } else if (typeof route.params[field.name] !== 'undefined') {
+      value = route.params[field.name];
+    }
+
+    return { field, value };
   }
 
   _finishNav(route, data = {}) {
-    const id = this._id || select(route.node)
-      .selectAll('.body>div.nav')
+    const panel = select(route.node);
+
+    const number = panel
+      .selectAll('div.nav')
       .size() - 1;
 
-    let list = select(route.node)
-      .select('div.nav#nav-' + id)
+    let list = panel
+      .select('#' + this._createTarget('nav', number))
       .selectAll('ul')
       .data(this._structure);
 
     list = list
       .enter()
       .append('ul')
-      .classed('block', true)
+      .classed('block click', true)
       .merge(list);
 
     list
-      .filter((datum) => typeof datum.name !== 'undefined')
+      .filter((section) => typeof section.name !== 'undefined')
       .append('lt')
       .text((d, i, n) => this.format(d, i, n, { name: 'nav.title' }));
 
     const enter = list
       .selectAll('li')
-      .data((datum) => datum.items)
+      .data((section) => section.fields)
       .enter()
       .append('li')
-      .datum((datum) => {
-        return Object.assign({}, datum, data[datum.name]);
-      })
-      .attr('class', (datum) => datum.name);
+      .attr('class', (field) => field.name)
+      .datum((field) => this._createDatum(route, data, field));
 
-    enter
-      .filter((datum) => typeof datum.icon !== 'undefined')
-      .classed('icon', true)
-      .append('span')
-      .attr('class', (datum) => 'icon ' + datum.icon);
-
-    const primary = enter
-      .append('div')
-      .classed('primary', true);
-
-    primary
-      .append('button')
-      .attr('tabindex', 0)
-      .text((d, i, n) => this.format(d, i, n, { name: 'nav.label' }));
-
-    primary
-      .append('span')
-      .text((d, i, n) => this.format(d, i, n, { name: 'nav.sub' }));
-
-    const secondary = enter
-      .append('div')
-      .classed('secondary', true);
-
-    secondary
-      .append('span')
-      .text((d, i, n) => this.format(d, i, n, { name: 'nav.value' }));
-
-    secondary
-      .filter((datum) => datum.dir === 'rtl')
-      .append('span')
-      .classed('icon ion-ios-arrow-forward', true);
-
-    secondary
-      .filter((datum) => typeof datum.button !== 'undefined')
-      .append('button')
-      .attr('tabindex', 0)
-      .attr('class', (datum) => 'button ' + datum.button);
+    this._render(enter, (d, i, n, c) => {
+      return this.format(d, i, n, c);
+    });
 
     return { enter };
+  }
+
+  _prepareNav(route) {
+    const panel = select(route.node);
+
+    const number = panel
+      .selectAll('div.nav')
+      .size();
+
+    panel
+      .select('.body .content')
+      .append('div')
+      .attr('id', this._createTarget('nav', number))
+      .classed('nav', true);
   }
 }

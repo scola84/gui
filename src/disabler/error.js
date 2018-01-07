@@ -6,22 +6,12 @@ export default class ErrorDisabler extends PanelDisabler {
     return false;
   }
 
-  disable(value) {
-    value.filter = value.filter || [() => false];
-    return super.disable(value);
-  }
-
-  hide(value) {
-    value.filter = value.filter || [() => false];
-    return super.hide(value);
-  }
-
   err(route, error, callback) {
-    const node = select(route.node);
+    const panel = select(route.node);
 
-    this._disableElements(route, {}, node);
-    this._hideElements(route, {}, node);
-    this._removeHiddenElements(node);
+    this._disableElements(route, {}, panel);
+    this._hideElements(route, {}, panel);
+    this._removeHiddenElements(panel);
 
     this.fail(route, error, callback);
   }

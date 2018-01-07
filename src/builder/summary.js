@@ -1,40 +1,10 @@
 import { select } from 'd3';
-import GraphicWorker from '../worker/graphic';
-import figure from './summary/figure';
+import Builder from './builder';
+import renderSummary from '../helper/render/summary';
 
-export default class SummaryBuilder extends GraphicWorker {
-  constructor(options = {}) {
-    super(options);
-
-    this._finish = null;
-    this._id = null;
-    this._prepare = null;
-    this._structure = null;
-
-    this.setFinish(options.finish);
-    this.setId(options.id);
-    this.setPrepare(options.prepare);
-    this.setStructure(options.structure);
-  }
-
-  setFinish(value = true) {
-    this._finish = value;
-    return this;
-  }
-
-  setId(value = null) {
-    this._id = value;
-    return this;
-  }
-
-  setPrepare(value = true) {
-    this._prepare = value;
-    return this;
-  }
-
-  setStructure(value = null) {
-    this._structure = value;
-    return this;
+export default class SummaryBuilder extends Builder {
+  setRender(value = renderSummary) {
+    return super.setRender(value);
   }
 
   act(route, data, callback) {
@@ -43,56 +13,40 @@ export default class SummaryBuilder extends GraphicWorker {
     }
 
     if (this._finish) {
-      data = this._finishSummary(route, data);
+      route.summary = this._finishSummary(route, data);
     }
 
     this.pass(route, data, callback);
   }
 
-  _prepareSummary(route) {
-    const id = this._id || select(route.node)
-      .selectAll('.body>div.summary')
-      .size();
-
-    select(route.node)
-      .select('.body')
-      .append('div')
-      .attr('id', 'summary-' + id)
-      .classed('summary', true);
+  _createDatum(value, field) {
+    return { field, value };
   }
 
   _finishSummary(route, data = {}) {
-    const id = this._id || select(route.node)
-      .selectAll('.body>div.summary')
+    const panel = select(route.node);
+
+    const number = panel
+      .selectAll('div.summary')
       .size() - 1;
 
-    const summary = select(route.node)
-      .select('div#summary-' + id);
+    const summary = panel
+      .select('#' + this._createTarget('summary', number));
 
     const primary = summary
       .append('div')
       .classed('primary', true);
 
-    const figures = primary
+    const enter = primary
       .append('figure')
       .selectAll('div')
       .data(this._structure.figure || [])
       .enter()
-      .append('div');
+      .append('div')
+      .datum((field) => this._createDatum(data, field));
 
-    figures.each((datum, index, nodes) => {
-      const node = select(nodes[index]);
-
-      if (datum.type && figure[datum.type]) {
-        const child = figure[datum.type]
-          .create(node, data, (context) => {
-            return this.format(datum, index, nodes, context);
-          });
-
-        if (child === null) {
-          node.remove();
-        }
-      }
+    this._render(enter, (d, i, n, c) => {
+      return this.format(d, i, n, c);
     });
 
     const secondary = summary
@@ -107,21 +61,21 @@ export default class SummaryBuilder extends GraphicWorker {
       .append('span')
       .classed('label', true)
       .text((d, i, n) => {
-        return this.format(d, i, n, { data, name: 'summary.label' });
+        return this.format({ value: data }, i, n, { name: 'summary.label' });
       });
 
     title
       .append('span')
       .classed('sub', true)
       .text((d, i, n) => {
-        return this.format(d, i, n, { data, name: 'summary.sub' });
+        return this.format({ value: data }, i, n, { name: 'summary.sub' });
       });
 
     title
       .append('span')
       .classed('value', true)
       .text((d, i, n) => {
-        return this.format(d, i, n, { data, name: 'summary.value' });
+        return this.format({ value: data }, i, n, { name: 'summary.value' });
       });
 
     const actions = secondary
@@ -142,9 +96,23 @@ export default class SummaryBuilder extends GraphicWorker {
       .append('span')
       .classed('label', true)
       .text((d, i, n) => {
-        return this.format(d, i, n, { name: 'summary.action' });
+        return this.format({ field: d }, i, n, { name: 'summary.action' });
       });
 
-    return { summary };
+    return summary;
+  }
+
+  _prepareSummary(route) {
+    const panel = select(route.node);
+
+    const number = panel
+      .selectAll('div.summary')
+      .size();
+
+    panel
+      .select('.body .content')
+      .append('div')
+      .attr('id', this._createTarget('summary', number))
+      .classed('summary', true);
   }
 }

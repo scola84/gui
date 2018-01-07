@@ -15,20 +15,17 @@ export default class ResultReporter extends GraphicWorker {
   }
 
   act(route, data, callback) {
-    select(route.node)
+    const panel = select(route.node)
+      .classed('message', true)
+      .classed(this._class, true);
+
+    panel
       .selectAll('form')
       .attr('action', null);
 
-    select(route.node)
-      .select('.message')
-      .remove();
-
-    select(route.node)
-      .select('.body')
-      .insert('div', ':first-child')
-      .classed('message', true)
-      .classed(this._class, true)
-      .text(this.format(data));
+    panel
+      .select('.body .message span')
+      .text((d, i, n) => this.format(d, i, n, { route, data }));
 
     this.pass(route, data, callback);
   }

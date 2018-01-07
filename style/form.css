@@ -24,7 +24,25 @@ form ul.block input[type=checkbox] {
   display: none;
 }
 
-form ul.block input[type=checkbox] + label {
+form ul.block input[type=checkbox]:first-child + label:before {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  box-sizing: border-box;
+  content: '\f401';
+  display: flex;
+  font-family: 'Ionicons';
+  justify-content: center;
+  height: 1em;
+  margin: 0 0 0 -0.1em;
+  width: 1em;
+}
+
+form ul.block input[type=checkbox]:first-child:checked + label:before {
+  content: '\f3ff';
+}
+
+form ul.block label + input[type=checkbox] + label {
   align-items: center;
   cursor: pointer;
   display: flex;
@@ -38,7 +56,7 @@ form ul.block input[type=checkbox] + label {
   width: auto;
 }
 
-form ul.block input[type=checkbox] + label:after {
+form ul.block label + input[type=checkbox] + label:after {
   background: rgb(255,255,255);
   border: 1px solid white;
   border-radius: 1em;
@@ -55,7 +73,7 @@ form ul.block input[type=checkbox] + label:after {
   width: 1.85em;
 }
 
-form ul.block input[type=checkbox] + label:before {
+form ul.block label + input[type=checkbox] + label:before {
   background: rgb(255,255,255);
   border: 1px solid lightgrey;
   border-radius: 1em;
@@ -68,11 +86,11 @@ form ul.block input[type=checkbox] + label:before {
   width: 3.25em;
 }
 
-form ul.block input[type=checkbox]:checked + label:after {
+form ul.block label + input[type=checkbox]:checked + label:after {
   left: 1.3em;
 }
 
-form ul.block input[type=checkbox]:checked + label:before {
+form ul.block label + input[type=checkbox]:checked + label:before {
   background-color: green;
   border-color: green;
 }
@@ -91,10 +109,18 @@ form ul.block input[type=submit][disabled] {
   cursor: default;
 }
 
+form ul.block label {
+  cursor: inherit;
+}
+
 form ul.block label:not(:empty) {
   margin: 0 1em 0 0;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+form ul.block li {
+  cursor: default;
 }
 
 form ul.block .button {
@@ -105,17 +131,17 @@ form ul.block .button {
   margin: 0 0 0 1em;
 }
 
-*[dir=rtl] form ul.block input[type=checkbox] + label {
+*[dir=rtl] form ul.block label + input[type=checkbox] + label {
   margin-left: 0;
   margin-right: auto;
   right: -4.5em;
 }
 
-*[dir=rtl] form ul.block input[type=checkbox] + label:after {
+*[dir=rtl] form ul.block label + input[type=checkbox] + label:after {
   left: -2.1em;
 }
 
-*[dir=rtl] form ul.block input[type=checkbox]:checked + label:after {
+*[dir=rtl] form ul.block label + input[type=checkbox]:checked + label:after {
   left: -3.35em;
 }
 
@@ -124,11 +150,15 @@ form ul.block .button {
 }
 
 *[dir=rtl] form ul.block .button {
-  margin: 0 0 0 0.5em;
+  margin: 0 0 0 1em;
 }
 
 @media (min-width: 48em) {
-  form ul.block input[type=checkbox] + label:focus:after {
+  form ul.block input[type=checkbox]:first-child + label:focus:before {
+    border: 1px dotted black;
+  }
+
+  form ul.block label + input[type=checkbox] + label:focus:after {
     border: 1px dotted black;
   }
 
@@ -138,8 +168,8 @@ form ul.block .button {
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-  form ul.block input[type=checkbox] + label:after,
-  form ul.block input[type=checkbox] + label:before {
+  form ul.block label + input[type=checkbox] + label:after,
+  form ul.block label + input[type=checkbox] + label:before {
     border-width: 0.5px;
   }
 }

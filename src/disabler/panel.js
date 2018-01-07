@@ -7,29 +7,21 @@ export default class PanelDisabler extends GraphicWorker {
 
     this._disable = [];
     this._hide = [];
-    this._id = null;
-
-    this.setId(options.id);
-  }
-
-  setId(value = null) {
-    this._id = value;
-    return this;
   }
 
   act(route, data, callback) {
-    const node = select(route.node);
+    const panel = select(route.node);
 
-    this._disableElements(route, data, node);
-    this._hideElements(route, data, node);
-    this._removeHiddenElements(node);
+    this._disableElements(route, data, panel);
+    this._hideElements(route, data, panel);
+    this._removeHiddenElements(panel);
 
     this.pass(route, data, callback);
   }
 
   disable(value) {
     value.filter = Array.isArray(value.filter) ?
-      value.filter : [value.filter];
+      value.filter : [value.filter || (() => false)];
 
     this._disable.push(value);
     return this;
@@ -45,7 +37,7 @@ export default class PanelDisabler extends GraphicWorker {
 
   hide(value) {
     value.filter = Array.isArray(value.filter) ?
-      value.filter : [value.filter];
+      value.filter : [value.filter || (() => false)];
 
     this._hide.push(value);
     return this;

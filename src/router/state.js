@@ -62,24 +62,28 @@ export default class StateRouter extends Router {
   }
 
   _processBackward(route) {
-    if (route.dir === 'ltr') {
-      if (this._history.length > 1) {
-        this._history.pop();
-        const history = this._history.pop();
+    if (route.back !== true) {
+      return route;
+    }
 
-        if (typeof route.name === 'undefined') {
-          route.historic = history.historic;
-          route.name = history.name;
-          route.params = history.params;
-        }
-      }
+    if (this._history.length <= 1) {
+      return route;
+    }
+
+    const current = this._history.pop();
+    const previous = this._history.pop();
+
+    if (current.remember || previous.remember) {
+      route.remember = previous.remember;
+      route.name = previous.name;
+      route.params = previous.params;
     }
 
     return route;
   }
 
   _processForward(route) {
-    if (typeof route.dir === 'undefined') {
+    if (route.back === false) {
       this._history = [];
     }
 

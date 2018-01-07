@@ -10,6 +10,10 @@
   outline: none;
 }
 
+::placeholder {
+  color: dimgrey;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -31,6 +35,10 @@ button {
   padding: 0;
 }
 
+input {
+  -webkit-appearance: none !important;
+}
+
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px white inset;
 }
@@ -45,6 +53,14 @@ input:-webkit-autofill {
 
 .app > * {
   overflow: hidden;
+}
+
+.ion-edit:before {
+  font-size: 1em !important;
+}
+
+.ion-ios-search:before {
+  font-size: 1.5em !important;
 }
 
 *[dir=rtl] .ion-ios-arrow-back:before,

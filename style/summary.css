@@ -1,4 +1,4 @@
-.summary {
+.summary:not(:empty) {
   background: white;
   border-bottom: 1px solid lightgrey;
   border-top: 1px solid lightgrey;
@@ -50,7 +50,6 @@
 .summary .secondary {
   display: flex;
   flex-direction: column;
-  height: 8em;
   justify-content: space-between;
 }
 
@@ -73,7 +72,7 @@
 .summary .secondary ul.actions {
   display: flex;
   list-style: none;
-  margin: 0 auto;
+  margin: 1em auto 0;
   padding: 0;
 }
 
@@ -107,7 +106,7 @@
 }
 
 @media (min-width: 48em) {
-  .summary {
+  .summary:not(:empty) {
     border: 0;
     border-radius: 0.5em;
     flex-direction: row;
@@ -132,5 +131,11 @@
 
   *[dir=rtl] .summary .primary figure:not(:empty) {
     margin: 0 0 0 1em;
+  }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+  .summary:not(:empty) {
+    border-width: 0.5px;
   }
 }

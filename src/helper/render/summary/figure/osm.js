@@ -1,14 +1,14 @@
 import leaflet from 'leaflet';
 
 export default class OsmFigure {
-  create(figure, data, format) {
-    const view = format({ data, name: 'summary.osm' });
+  render(datum, index, node, format) {
+    const view = format({ name: 'summary.osm' });
 
     if (view === null) {
       return null;
     }
 
-    const div = figure.append('div');
+    const div = node.append('div');
     const map = leaflet.map(div.node(), {
       attributionControl: false,
       zoomControl: false
