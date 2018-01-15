@@ -13,7 +13,9 @@ export default class ErrorReporter extends GraphicWorker {
     panel
       .select('.body .message span')
       .text((d, i, n) => {
-        return this.format(d, i, n, { route, error }) || error.message;
+        return this.format(d, i, n, { error, route }) || error.message;
       });
+
+    console.log(error);
   }
 }

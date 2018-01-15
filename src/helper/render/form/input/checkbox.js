@@ -1,21 +1,22 @@
 import { event } from 'd3';
 
 export default class CheckboxInput {
-  render(datum, index, node) {
-    return datum.field.array === true ?
-      this._renderBefore(datum, index, node) :
-      this._renderAfter(datum, index, node);
+  render(datum, index, node, format) {
+    return datum.array === true ?
+      this._renderBefore(datum, index, node, format) :
+      this._renderAfter(datum, index, node, format);
   }
 
-  _renderAfter(datum, index, node) {
+  _renderAfter(datum, index, node, format) {
     const input = node
       .append('input')
       .attr('type', 'checkbox')
-      .attr('value', datum.value);
+      .attr('value', format('value'))
+      .property('checked', format('checked'));
 
     node
       .append('label')
-      .attr('for', datum.field.name + '-' + index)
+      .attr('for', datum.name + '-' + index)
       .attr('tabindex', 0)
       .on('keydown', () => {
         if (event.keyCode === 32) {
@@ -26,16 +27,17 @@ export default class CheckboxInput {
     return input;
   }
 
-  _renderBefore(datum, index, node) {
+  _renderBefore(datum, index, node, format) {
     const input = node
       .classed('icon', true)
       .insert('input', 'label')
       .attr('type', 'checkbox')
-      .attr('value', datum.value);
+      .attr('value', format('value'))
+      .property('checked', format('checked'));
 
     node
       .insert('label', 'label')
-      .attr('for', datum.field.name + '-' + index)
+      .attr('for', datum.name + '-' + index)
       .attr('tabindex', 0)
       .classed('icon', true)
       .on('keydown', () => {

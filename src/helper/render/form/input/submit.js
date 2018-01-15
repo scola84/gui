@@ -3,8 +3,6 @@ export default class SubmitInput {
     return node
       .append('input')
       .attr('type', 'submit')
-      .attr('value', () => {
-        return format({ name: 'form.value' });
-      });
+      .attr('value', format('value'));
   }
 }

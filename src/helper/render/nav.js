@@ -1,12 +1,12 @@
 export default function renderNav(item, format) {
   item
-    .classed('disabled', (datum) => datum.field.disabled);
+    .classed('disabled', (datum) => datum.disabled);
 
   item
-    .filter((datum) => typeof datum.field.icon !== 'undefined')
+    .filter((datum) => typeof datum.icon !== 'undefined')
     .classed('icon', true)
     .append('span')
-    .attr('class', (datum) => 'icon ' + datum.field.icon);
+    .attr('class', (datum) => 'icon ' + datum.icon);
 
   const primary = item
     .append('div')
@@ -14,13 +14,13 @@ export default function renderNav(item, format) {
 
   primary
     .append('button')
-    .attr('tabindex', (datum) => datum.field.disabled ? -1 : 0)
+    .attr('tabindex', (datum) => datum.disabled ? -1 : 0)
     .attr('type', 'button')
-    .text((d, i, n) => format(d, i, n, { name: 'nav.label' }));
+    .text((d, i, n) => format(d, i, n, 'l1'));
 
   primary
     .append('span')
-    .text((d, i, n) => format(d, i, n, { name: 'nav.sub' }));
+    .text((d, i, n) => format(d, i, n, 'l2'));
 
   const secondary = item
     .append('div')
@@ -28,17 +28,17 @@ export default function renderNav(item, format) {
 
   secondary
     .append('span')
-    .text((d, i, n) => format(d, i, n, { name: 'nav.value' }));
+    .text((d, i, n) => format(d, i, n, 'l3'));
 
   secondary
-    .filter((datum) => datum.field.dir === 'rtl')
+    .filter((datum) => datum.dir === 'rtl')
     .append('span')
     .classed('icon ion-ios-arrow-forward', true);
 
   secondary
-    .filter((datum) => typeof datum.field.button !== 'undefined')
+    .filter((datum) => typeof datum.button !== 'undefined')
     .append('button')
-    .attr('class', (datum) => 'button ' + datum.field.button)
-    .attr('tabindex', (datum) => datum.field.disabled ? -1 : 0)
+    .attr('class', (datum) => 'button ' + datum.button)
+    .attr('tabindex', (datum) => datum.disabled ? -1 : 0)
     .attr('type', 'button');
 }

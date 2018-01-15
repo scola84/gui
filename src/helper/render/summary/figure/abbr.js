@@ -1,6 +1,6 @@
 export default class AbbrFigure {
   render(datum, index, node, format) {
-    const text = format({ name: 'summary.abbr' });
+    const text = format('abbr');
 
     if (text === null) {
       return null;

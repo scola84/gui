@@ -4,13 +4,20 @@ export default function renderSearch(route, { panel, right }) {
     .attr('tabindex', 0)
     .classed('button icon ion-ios-search', true)
     .on('click', () => {
-      panel.classed('search', () => {
-        return !panel.classed('search');
-      });
+      const show = !panel.classed('search');
+
+      const input = panel
+        .select('.search input')
+        .node();
 
       panel
-        .select('.search input')
-        .node()
-        .focus();
+        .classed('immediate', false)
+        .classed('search', show);
+
+      if (show) {
+        input.focus();
+      } else {
+        input.blur();
+      }
     });
 }

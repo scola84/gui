@@ -10,6 +10,8 @@ export default class StateRouter extends Router {
 
     this.setDefault(options.default);
     this.setName(options.name);
+
+    this._loadHistory();
   }
 
   setDefault(value = null) {
@@ -25,9 +27,35 @@ export default class StateRouter extends Router {
   act(route, data, callback) {
     let hash = this._parseHash(window.location.hash);
     [hash, route] = this._processHash(hash, route);
-    window.location.hash = this._formatHash(hash);
 
+    history.replaceState({}, '', this._formatHash(hash));
     this.pass(route.name, route, data, callback);
+  }
+
+  _formatHash(hash) {
+    return '#/' + Object
+      .keys(hash)
+      .map((name) => {
+        return this._formatRoute(hash, name);
+      })
+      .join('/');
+  }
+
+  _formatRoute(hash, name) {
+    const params = Object
+      .keys(hash[name].params)
+      .map((paramName, index) => {
+        return (index === 0 ? ':' : '') +
+          paramName + '=' + hash[name].params[paramName];
+      })
+      .join(';');
+
+    return hash[name].path + params + '@' + name;
+  }
+
+  _loadHistory() {
+    const history = sessionStorage.getItem('history-' + this._id);
+    this._history = history === null ? [] : JSON.parse(history);
   }
 
   _parseHash(hash) {
@@ -87,11 +115,17 @@ export default class StateRouter extends Router {
       this._history = [];
     }
 
-    this._history.push(route);
+    if (route.name) {
+      this._history.push(route);
+    }
+
+    this._saveHistory();
+
     return route;
   }
 
   _processHash(hash, route) {
+    route = this._processHistory(route);
     route = this._processBackward(route);
 
     if (typeof route.name !== 'undefined') {
@@ -112,7 +146,25 @@ export default class StateRouter extends Router {
     }
 
     route = this._processForward(route);
+
     return [hash, route];
+  }
+
+  _processHistory(route) {
+    if (route.history !== true) {
+      return route;
+    }
+
+    if (this._history.length === 0) {
+      return route;
+    }
+
+    const previous = this._history.pop();
+
+    previous.node = route.node;
+    previous.user = route.user;
+
+    return previous;
   }
 
   _processRoute(path, params = {}) {
@@ -122,24 +174,16 @@ export default class StateRouter extends Router {
     };
   }
 
-  _formatHash(hash) {
-    return '/' + Object
-      .keys(hash)
-      .map((name) => {
-        return this._formatRoute(hash, name);
-      })
-      .join('/');
-  }
+  _saveHistory() {
+    const history = this._history.map((route) => {
+      return {
+        back: route.back,
+        name: route.name,
+        params: route.params,
+        remember: route.remember
+      };
+    });
 
-  _formatRoute(hash, name) {
-    const params = Object
-      .keys(hash[name].params)
-      .map((paramName, index) => {
-        return (index === 0 ? ':' : '') +
-          paramName + '=' + hash[name].params[paramName];
-      })
-      .join(';');
-
-    return hash[name].path + params + '@' + name;
+    sessionStorage.setItem('history-' + this._id, JSON.stringify(history));
   }
 }

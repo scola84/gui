@@ -46,17 +46,12 @@ export default class ListBuilder extends Builder {
       .selectAll('li');
   }
 
-  _createDatum(datum) {
-    const field = this._structure && this._structure[0] &&
-      this._structure[0].fields[0] || {};
-    const value = field.name ? datum[field.name] : datum;
+  _finishData(route, item, data) {
+    const datum = this._structure && this._structure.fields &&
+      this._structure.fields[0] || {};
 
-    return { datum, field, value };
-  }
-
-  _finishData(item, data) {
     const update = item
-      .data(data, (datum) => JSON.stringify(datum));
+      .data(data, (d) => JSON.stringify(d));
 
     const exit = update
       .exit();
@@ -64,26 +59,26 @@ export default class ListBuilder extends Builder {
     const enter = update
       .enter()
       .append('li')
-      .datum((datum) => this._createDatum(datum));
+      .datum(datum);
 
     const empty = select();
 
-    this._render(enter, (d, i, n, c) => {
-      return this.format(d, i, n, c);
+    this._render(enter, (d, i, n, name) => {
+      return this.format(d, i, n, { data: data[i] || {}, name, route });
     });
 
     return { empty, enter, exit, update };
   }
 
-  _finishEmpty(item) {
+  _finishEmpty(route, item) {
     const data = [];
 
     if (this._empty) {
-      data.push({ field: { disabled: true, name: 'empty' } });
+      data.push({ disabled: true, name: 'empty' });
     }
 
     if (this._add) {
-      data.push({ field: { dir: 'rtl', name: 'add' } });
+      data.push({ dir: 'rtl', name: 'add' });
     }
 
     const enter = select();
@@ -93,8 +88,8 @@ export default class ListBuilder extends Builder {
       .enter()
       .append('li');
 
-    renderNav(empty, (d, i, n, c) => {
-      return this.format(d, i, n, c);
+    renderNav(empty, (d, i, n, name) => {
+      return this.format(d, i, n, { data: {}, name, route });
     });
 
     return { empty, enter };
@@ -131,10 +126,10 @@ export default class ListBuilder extends Builder {
     }
 
     if (item.size() === 0 && data.length === 0) {
-      return this._finishEmpty(item);
+      return this._finishEmpty(route, item);
     }
 
-    return this._finishData(item, data);
+    return this._finishData(route, item, data);
   }
 
   _prepareList(route) {

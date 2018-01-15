@@ -15,6 +15,13 @@ export default class ListPreparer extends Worker {
     return this;
   }
 
+  act(route, data = {}) {
+    this._prepareScroll(route, data);
+    this._prepareSearch(route, data);
+
+    this.pass(route, data);
+  }
+
   _prepareScroll(route, data) {
     const panel = select(route.node);
 
@@ -90,16 +97,9 @@ export default class ListPreparer extends Worker {
     const value = sessionStorage.getItem('search-' + this._id);
 
     if (value) {
-      panel.classed('search', true);
+      panel.classed('search immediate', true);
       input.attr('value', value);
       data.where = value;
     }
-  }
-
-  act(route, data = {}) {
-    this._prepareScroll(route, data);
-    this._prepareSearch(route, data);
-
-    this.pass(route, data);
   }
 }

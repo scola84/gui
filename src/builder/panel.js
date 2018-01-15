@@ -6,11 +6,18 @@ export default class PanelBuilder extends GraphicWorker {
     super(options);
 
     this._base = null;
+    this._user = null;
+
     this.setBase(options.base);
   }
 
   setBase(value = null) {
     this._base = value;
+    return this;
+  }
+
+  setUser(value = null) {
+    this._user = value;
     return this;
   }
 
@@ -48,11 +55,11 @@ export default class PanelBuilder extends GraphicWorker {
       .classed('search', true)
       .append('div')
       .append('input')
-      .datum(() => ({ field: { name: 'search' } }))
+      .datum(() => ({ name: 'search' }))
       .attr('autocomplete', 'on')
       .attr('name', 'search')
       .attr('placeholder', (d, i, n) => {
-        return this.format(d, i, n, { name: 'form.placeholder' });
+        return this.format(d, i, n, { name: 'placeholder' });
       })
       .attr('type', 'search');
 
@@ -76,6 +83,7 @@ export default class PanelBuilder extends GraphicWorker {
       .style(property, newEnd);
 
     route.node = panel.node();
+    route.user = this._user;
 
     this.pass(route, data);
   }

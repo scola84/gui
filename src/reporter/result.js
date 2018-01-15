@@ -25,7 +25,9 @@ export default class ResultReporter extends GraphicWorker {
 
     panel
       .select('.body .message span')
-      .text((d, i, n) => this.format(d, i, n, { route, data }));
+      .text((d, i, n) => {
+        return this.format(d, i, n, { data, route });
+      });
 
     this.pass(route, data, callback);
   }

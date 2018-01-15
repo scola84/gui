@@ -19,10 +19,6 @@ export default class SummaryBuilder extends Builder {
     this.pass(route, data, callback);
   }
 
-  _createDatum(value, field) {
-    return { field, value };
-  }
-
   _finishSummary(route, data = {}) {
     const panel = select(route.node);
 
@@ -42,11 +38,10 @@ export default class SummaryBuilder extends Builder {
       .selectAll('div')
       .data(this._structure.figure || [])
       .enter()
-      .append('div')
-      .datum((field) => this._createDatum(data, field));
+      .append('div');
 
-    this._render(enter, (d, i, n, c) => {
-      return this.format(d, i, n, c);
+    this._render(enter, (d, i, n, name) => {
+      return this.format(d, i, n, { data, name, route });
     });
 
     const secondary = summary
@@ -61,21 +56,21 @@ export default class SummaryBuilder extends Builder {
       .append('span')
       .classed('label', true)
       .text((d, i, n) => {
-        return this.format({ value: data }, i, n, { name: 'summary.label' });
+        return this.format(d, i, n, { data, name: 'l1', route });
       });
 
     title
       .append('span')
       .classed('sub', true)
       .text((d, i, n) => {
-        return this.format({ value: data }, i, n, { name: 'summary.sub' });
+        return this.format(d, i, n, { data, name: 'l2', route });
       });
 
     title
       .append('span')
       .classed('value', true)
       .text((d, i, n) => {
-        return this.format({ value: data }, i, n, { name: 'summary.value' });
+        return this.format(d, i, n, { data, name: 'l3', route });
       });
 
     const actions = secondary
@@ -96,7 +91,7 @@ export default class SummaryBuilder extends Builder {
       .append('span')
       .classed('label', true)
       .text((d, i, n) => {
-        return this.format({ field: d }, i, n, { name: 'summary.action' });
+        return this.format(d, i, n, { data, name: 'action', route });
       });
 
     return summary;

@@ -7,6 +7,7 @@ form ul.hidden {
 }
 
 form ul.block input {
+  background: none;
   border: 0;
   flex: 1;
   margin: 0 1em 0 0;
@@ -95,6 +96,21 @@ form ul.block label + input[type=checkbox]:checked + label:before {
   border-color: green;
 }
 
+form ul.block input[type=radio] {
+  display: none;
+}
+
+form ul.block input[type=radio]:checked + label {
+  margin-left: auto;
+  margin-right: 1em;
+}
+
+form ul.block input[type=radio]:checked + label:after {
+  content: '\f3fd';
+  font-family: 'Ionicons';
+  font-size: 2em;
+}
+
 form ul.block input[type=submit] {
   background: none;
   cursor: pointer;
@@ -143,6 +159,11 @@ form ul.block .button {
 
 *[dir=rtl] form ul.block label + input[type=checkbox]:checked + label:after {
   left: -3.35em;
+}
+
+*[dir=rtl] form ul.block input[type=radio]:checked + label {
+  margin-left: 1em;
+  margin-right: auto;
 }
 
 *[dir=rtl] form ul.block label:not(:empty) {

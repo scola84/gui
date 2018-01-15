@@ -2,7 +2,7 @@ import leaflet from 'leaflet';
 
 export default class OsmFigure {
   render(datum, index, node, format) {
-    const view = format({ name: 'summary.osm' });
+    const view = format('osm');
 
     if (view === null) {
       return null;

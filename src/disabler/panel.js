@@ -20,8 +20,8 @@ export default class PanelDisabler extends GraphicWorker {
   }
 
   disable(value) {
-    value.filter = Array.isArray(value.filter) ?
-      value.filter : [value.filter || (() => false)];
+    value.permission = Array.isArray(value.permission) ?
+      value.permission : [value.permission || (() => false)];
 
     this._disable.push(value);
     return this;
@@ -36,19 +36,19 @@ export default class PanelDisabler extends GraphicWorker {
   }
 
   hide(value) {
-    value.filter = Array.isArray(value.filter) ?
-      value.filter : [value.filter || (() => false)];
+    value.permission = Array.isArray(value.perimssion) ?
+      value.permission : [value.permission || (() => false)];
 
     this._hide.push(value);
     return this;
   }
 
   _disableElements(route, data, node) {
-    this._disable.forEach(({ filter, selector }) => {
-      filter.forEach((name) => {
-        const enabled = typeof name === 'function' ?
-          name(route, data, node) :
-          this.filter(route, data, name);
+    this._disable.forEach(({ permission, selector }) => {
+      permission.forEach((item) => {
+        const enabled = typeof item === 'function' ?
+          item(route, data, node) :
+          this.filter(route, data, item);
 
         if (enabled === false) {
           node
@@ -64,11 +64,11 @@ export default class PanelDisabler extends GraphicWorker {
   }
 
   _hideElements(route, data, node) {
-    this._hide.forEach(({ filter, selector }) => {
-      filter.forEach((name) => {
-        const visible = typeof name === 'function' ?
-          name(route, data, node) :
-          this.filter(route, data, name);
+    this._hide.forEach(({ permission, selector }) => {
+      permission.forEach((item) => {
+        const visible = typeof item === 'function' ?
+          item(route, data, node) :
+          this.filter(route, data, item);
 
         if (visible === false) {
           node

@@ -1,6 +1,6 @@
 export default class ImgFigure {
   render(datum, index, node, format) {
-    const src = format({ name: 'summary.img' });
+    const src = format('img');
 
     if (src === null) {
       return null;

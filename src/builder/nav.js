@@ -19,18 +19,6 @@ export default class NavBuilder extends Builder {
     this.pass(route, data, callback);
   }
 
-  _createDatum(route, data, field) {
-    let value = field.value;
-
-    if (typeof data[field.name] !== 'undefined') {
-      value = data[field.name];
-    } else if (typeof route.params[field.name] !== 'undefined') {
-      value = route.params[field.name];
-    }
-
-    return { field, value };
-  }
-
   _finishNav(route, data = {}) {
     const panel = select(route.node);
 
@@ -50,20 +38,21 @@ export default class NavBuilder extends Builder {
       .merge(list);
 
     list
-      .filter((section) => typeof section.name !== 'undefined')
+      .filter((datum) => typeof datum.name !== 'undefined')
       .append('lt')
-      .text((d, i, n) => this.format(d, i, n, { name: 'nav.title' }));
+      .text((d, i, n) => {
+        return this.format(d, i, n, { data, name: 'title', route });
+      });
 
     const enter = list
       .selectAll('li')
-      .data((section) => section.fields)
+      .data((datum) => datum.fields)
       .enter()
       .append('li')
-      .attr('class', (field) => field.name)
-      .datum((field) => this._createDatum(route, data, field));
+      .attr('class', (datum) => datum.name);
 
-    this._render(enter, (d, i, n, c) => {
-      return this.format(d, i, n, c);
+    this._render(enter, (d, i, n, name) => {
+      return this.format(d, i, n, { data, name, route });
     });
 
     return { enter };
