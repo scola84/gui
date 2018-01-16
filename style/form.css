@@ -108,7 +108,7 @@ form ul.block input[type=radio]:checked + label {
 form ul.block input[type=radio]:checked + label:after {
   content: '\f3fd';
   font-family: 'Ionicons';
-  font-size: 2em;
+  font-size: 1.9em;
 }
 
 form ul.block input[type=submit] {
@@ -130,6 +130,7 @@ form ul.block label {
 }
 
 form ul.block label:not(:empty) {
+  border: 1px solid transparent;
   margin: 0 1em 0 0;
   overflow: hidden;
   text-overflow: ellipsis;

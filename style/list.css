@@ -90,7 +90,7 @@ ul.block li .icon {
 }
 
 ul.block li .icon:before {
-  font-size: 2em;
+  font-size: 1.9em;
 }
 
 ul.block lt {
@@ -112,7 +112,7 @@ ul.block div.primary {
 ul.block div.primary span {
   color: darkgrey;
   display: block;
-  font-size: 0.85em;
+  font-size: 0.9em;
 }
 
 ul.block div.secondary {

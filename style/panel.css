@@ -38,7 +38,7 @@
 }
 
 .panel .bar .button:before {
-  font-size: 2em;
+  font-size: 1.9em;
   position: absolute;
 }
 
@@ -127,19 +127,19 @@
 }
 
 .panel .body .button:before {
-  font-size: 1.75em;
+  font-size: 1.9em;
 }
 
 .panel .body .message {
   align-items: center;
   display: flex;
   justify-content: center;
+  text-align: center;
 }
 
 .panel .body.disabled .message {
   background: whitesmoke;
   color: darkgrey;
-  font-size: 2em;
   height: 100%;
   padding: 1em;
   position: absolute;
@@ -165,21 +165,7 @@
 }
 
 .panel .body.disabled .message span {
-  font-size: inherit;
-}
-
-.panel .body.disabled .message span:before {
-  display: none;
-}
-
-.panel .body:not(.disabled) .message span {
-  align-items: center;
-  display: flex;
-}
-
-.panel .body:not(.disabled) .message span:before {
-  font-size: 2em;
-  margin-right: 0.25em;
+  font-size: 1.9em;
 }
 
 .panel .body .search {
