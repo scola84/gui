@@ -12,6 +12,7 @@ export default function renderForm(item, format) {
   item
     .append('label')
     .attr('for', (datum, index) => (datum.name || datum.type) + '-' + index)
+    .style('width', (datum) => datum.width)
     .text((d, i, n) => format(d, i, n, 'l1'));
 
   item.each((datum, index, nodes) => {

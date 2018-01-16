@@ -8,6 +8,6 @@ export default class AbbrFigure {
 
     return node
       .append('abbr')
-      .text(text);
+      .text(text.slice(0, datum.length));
   }
 }
