@@ -1,6 +1,9 @@
 export default {
   action: {
     form: {
+      l1: {
+        add: '%s toevoegen'
+      },
       placeholder: {
         search: 'Zoeken'
       },
@@ -22,10 +25,10 @@ export default {
   },
   error: {
     long: {
-      empty: 'Geen gegevens gevonden.'
+      empty: 'Geen %s gevonden.'
     },
     short: {
-      empty: 'Geen gegevens gevonden'
+      empty: 'Geen %s gevonden'
     }
   },
   result: {
