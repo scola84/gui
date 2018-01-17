@@ -32,10 +32,20 @@ export default class FormReader extends GraphicWorker {
       return;
     }
 
-    form = form
+    const node = form
       .attr('action', '/')
       .node();
 
-    this.pass(route, serializeForm(form, this._serialize));
+    const data = serializeForm(node, this._serialize);
+
+    form
+      .selectAll('input[type=date]')
+      .each((datum, index, nodes) => {
+        if (nodes[index].value) {
+          data[nodes[index].name] = nodes[index].valueAsNumber;
+        }
+      });
+
+    this.pass(route, data);
   }
 }
