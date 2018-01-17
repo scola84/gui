@@ -44,11 +44,13 @@ export default class PanelDisabler extends GraphicWorker {
   }
 
   _disableElements(route, data, node) {
-    this._disable.forEach(({ permission, selector }) => {
-      permission.forEach((item) => {
-        const enabled = typeof item === 'function' ?
-          item(route, data, node) :
-          this.filter(route, data, item);
+    for (let i = 0; i < this._disable.length; i += 1) {
+      const { permission, selector } = this._disable[i];
+
+      for (let j = 0; j < permission.length; j += 1) {
+        const enabled = typeof permission[j] === 'function' ?
+          permission[j](route, data, node) :
+          this.filter(route, data, permission[j]);
 
         if (enabled === false) {
           node
@@ -59,24 +61,26 @@ export default class PanelDisabler extends GraphicWorker {
                 -1 : null;
             });
         }
-      });
-    });
+      }
+    }
   }
 
   _hideElements(route, data, node) {
-    this._hide.forEach(({ permission, selector }) => {
-      permission.forEach((item) => {
-        const visible = typeof item === 'function' ?
-          item(route, data, node) :
-          this.filter(route, data, item);
+    for (let i = 0; i < this._hide.length; i += 1) {
+      const { permission, selector } = this._hide[i];
+
+      for (let j = 0; j < permission.length; j += 1) {
+        const visible = typeof permission[j] === 'function' ?
+          permission[j](route, data, node) :
+          this.filter(route, data, permission[j]);
 
         if (visible === false) {
           node
             .selectAll(selector)
             .classed('hidden', true);
         }
-      });
-    });
+      }
+    }
   }
 
   _removeEmptyLists(node) {

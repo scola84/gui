@@ -19,11 +19,13 @@ export default class FormDisabler extends PanelDisabler {
   }
 
   _disableElements(route, data, node) {
-    this._disable.forEach(({ permission, selector }) => {
-      permission.forEach((item) => {
-        const enabled = typeof item === 'function' ?
-          item(route, data, node) :
-          this.filter(route, data, item);
+    for (let i = 0; i < this._disable.length; i += 1) {
+      const { permission, selector } = this._disable[i];
+
+      for (let j = 0; j < permission.length; j += 1) {
+        const enabled = typeof permission[j] === 'function' ?
+          permission[j](route, data, node) :
+          this.filter(route, data, permission[j]);
 
         if (enabled === false) {
           node
@@ -31,7 +33,7 @@ export default class FormDisabler extends PanelDisabler {
             .attr('disabled', 'disabled')
             .attr('tabindex', -1);
         }
-      });
-    });
+      }
+    }
   }
 }
