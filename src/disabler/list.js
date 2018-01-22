@@ -1,7 +1,7 @@
 import { select } from 'd3';
 import PanelDisabler from './panel';
 
-export default class NavDisabler extends PanelDisabler {
+export default class ListDisabler extends PanelDisabler {
   act(route, data, callback) {
     let node = select(route.node);
 

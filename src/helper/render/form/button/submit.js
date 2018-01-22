@@ -1,6 +1,7 @@
 export default class SubmitButton {
-  create(datum, index, node) {
+  render(datum, index, node) {
     node
+      .select('.input')
       .append('button')
       .attr('tabindex', 0)
       .attr('type', 'submit')

@@ -2,8 +2,11 @@ form {
   margin: 0;
 }
 
-form ul.hidden {
-  display: none;
+form ul.block.order.ungrouped:not(:empty) {
+  background: lightgrey;
+  bottom: 0;
+  max-height: 9em;
+  position: sticky;
 }
 
 form ul.block input {
@@ -21,94 +24,9 @@ form ul.block input[disabled] {
   cursor: default;
 }
 
-form ul.block input[type=checkbox] {
-  display: none;
-}
-
-form ul.block input[type=checkbox]:first-child + label:before {
-  align-items: center;
-  border: 1px solid transparent;
-  border-radius: 50%;
-  box-sizing: border-box;
-  content: '\f401';
-  display: flex;
-  font-family: 'Ionicons';
-  justify-content: center;
-  height: 1em;
-  margin: 0 0 0 -0.1em;
-  width: 1em;
-}
-
-form ul.block input[type=checkbox]:first-child:checked + label:before {
-  content: '\f3ff';
-}
-
-form ul.block label + input[type=checkbox] + label {
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  height: 2em;
-  margin: 0 0 0 auto;
-  outline: 0;
-  overflow: visible;
-  padding: 0;
-  position: relative;
-  right: 4.5em;
-  width: auto;
-}
-
-form ul.block label + input[type=checkbox] + label:after {
-  background: rgb(255,255,255);
-  border: 1px solid white;
-  border-radius: 1em;
-  box-shadow: rgb(170,170,170) 0 1px 5px;
-  content: '';
-  cursor: inherit;
-  height: 1.85em;
-  left: 0;
-  margin: 1px;
-  padding: 0;
-  position: absolute;
-  top: 0;
-  transition: left 0.25s;
-  width: 1.85em;
-}
-
-form ul.block label + input[type=checkbox] + label:before {
-  background: rgb(255,255,255);
-  border: 1px solid lightgrey;
-  border-radius: 1em;
-  content: '';
-  cursor: pointer;
-  height: 2em;
-  position: absolute;
-  top: 0;
-  transition: background-color 0.25s;
-  width: 3.25em;
-}
-
-form ul.block label + input[type=checkbox]:checked + label:after {
-  left: 1.3em;
-}
-
-form ul.block label + input[type=checkbox]:checked + label:before {
-  background-color: green;
-  border-color: green;
-}
-
+form ul.block input[type=checkbox],
 form ul.block input[type=radio] {
   display: none;
-}
-
-form ul.block input[type=radio]:checked + label {
-  margin-left: auto;
-  margin-right: 1em;
-}
-
-form ul.block input[type=radio]:checked + label:after {
-  content: '\f3fd';
-  font-family: 'Ionicons';
-  font-size: 1.9em;
 }
 
 form ul.block input[type=submit] {
@@ -131,7 +49,6 @@ form ul.block label {
 
 form ul.block label:not(:empty) {
   border: 1px solid transparent;
-  margin: 0 1em 0 0;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -140,34 +57,125 @@ form ul.block li {
   cursor: default;
 }
 
+form ul.block.order.ungrouped li {
+  background: lightgrey;
+  border-radius: 0 !important;
+}
+
 form ul.block .button {
   margin: 0 1em 0 0;
 }
 
+form ul.block .checkbox {
+  display: flex;
+}
+
+form ul.block .checkbox:first-child input + label:before {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  box-sizing: border-box;
+  content: '\f401';
+  display: flex;
+  font-family: 'Ionicons';
+  font-size: 2em;
+  justify-content: center;
+  height: 1em;
+  width: 1em;
+}
+
+form ul.block .checkbox:first-child input:checked + label:before {
+  content: '\f3ff';
+}
+
+form ul.block .input {
+  align-items: center;
+  display: flex;
+  flex: 1;
+}
+
+form ul.block .primary + .checkbox {
+  margin: 0 0 0 auto;
+}
+
+form ul.block .primary + .checkbox input + label {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  height: 2em;
+  outline: 0;
+  overflow: visible;
+  padding: 0;
+  position: relative;
+  right: 4.5em;
+  width: auto;
+}
+
+form ul.block .primary + .checkbox input + label:after {
+  background: rgb(255,255,255);
+  border: 1px solid white;
+  border-radius: 1em;
+  box-shadow: rgb(170,170,170) 0 1px 5px;
+  content: '';
+  cursor: inherit;
+  height: 1.85em;
+  left: 0;
+  margin: 1px;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  transition: left 0.25s;
+  width: 1.85em;
+}
+
+form ul.block .primary + .checkbox input + label:before {
+  background: rgb(255,255,255);
+  border: 1px solid lightgrey;
+  border-radius: 1em;
+  content: '';
+  cursor: pointer;
+  height: 2em;
+  position: absolute;
+  top: 0;
+  transition: background-color 0.25s;
+  width: 3.25em;
+}
+
+form ul.block .primary + .checkbox input:checked + label:after {
+  left: 1.3em;
+}
+
+form ul.block .primary + .checkbox input:checked + label:before {
+  background-color: green;
+  border-color: green;
+}
+
+form ul.block .radio {
+  margin-left: auto;
+  margin-right: 1em;
+}
+
+form ul.block .radio input:checked + label:after {
+  content: '\f3fd';
+  font-family: 'Ionicons';
+  font-size: 1.9em;
+}
+
+form ul.block.order [draggable] span.drag {
+  margin-left: auto;
+  margin-right: 1em;
+}
+
+form ul.block.order [draggable] span.drag span {
+  color: darkgrey;
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+  font-size: 1.9em;
+}
+
 *[dir=rtl] form ul.block input {
-  margin: 0 0 0 1em;
-}
-
-*[dir=rtl] form ul.block label + input[type=checkbox] + label {
-  margin-left: 0;
-  margin-right: auto;
-  right: -4.5em;
-}
-
-*[dir=rtl] form ul.block label + input[type=checkbox] + label:after {
-  left: -2.1em;
-}
-
-*[dir=rtl] form ul.block label + input[type=checkbox]:checked + label:after {
-  left: -3.35em;
-}
-
-*[dir=rtl] form ul.block input[type=radio]:checked + label {
-  margin-left: 1em;
-  margin-right: auto;
-}
-
-*[dir=rtl] form ul.block label:not(:empty) {
   margin: 0 0 0 1em;
 }
 
@@ -175,12 +183,46 @@ form ul.block .button {
   margin: 0 0 0 1em;
 }
 
+*[dir=rtl] form ul.block .primary + .checkbox {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+*[dir=rtl] form ul.block .primary + .checkbox input + label {
+  right: -4.5em;
+}
+
+*[dir=rtl] form ul.block .primary + .checkbox input + label:after {
+  left: -2.1em;
+}
+
+*[dir=rtl] form ul.block .primary + .checkbox input:checked + label:after {
+  left: -3.35em;
+}
+
+*[dir=rtl] form ul.block .radio {
+  margin-left: 1em;
+  margin-right: auto;
+}
+
+*[dir=rtl] form ul.block.order [draggable] span.drag {
+  margin-left: 1em;
+  margin-right: auto;
+}
+
 @media (min-width: 48em) {
-  form ul.block input[type=checkbox]:first-child + label:focus:before {
+  form ul.block.order.ungrouped:not(:empty) {
+    bottom: -2em;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0 1em;
+  }
+
+  form ul.block .checkbox:first-child input + label:focus:before {
     border: 1px dotted black;
   }
 
-  form ul.block label + input[type=checkbox] + label:focus:after {
+  form ul.block .primary + .checkbox input + label:focus:after {
     border: 1px dotted black;
   }
 
@@ -190,8 +232,8 @@ form ul.block .button {
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-  form ul.block label + input[type=checkbox] + label:after,
-  form ul.block label + input[type=checkbox] + label:before {
+  form ul.block .primary + .checkbox input + label:after,
+  form ul.block .primary + .checkbox input + label:before {
     border-width: 0.5px;
   }
 }

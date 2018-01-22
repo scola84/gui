@@ -20,6 +20,7 @@ export default class SummaryBuilder extends Builder {
   }
 
   _finishSummary(route, data = {}) {
+    data = this.filter(route, data);
     const panel = select(route.node);
 
     const number = panel
@@ -54,21 +55,18 @@ export default class SummaryBuilder extends Builder {
 
     title
       .append('span')
-      .classed('label', true)
       .text((d, i, n) => {
         return this.format(d, i, n, { data, name: 'l1', route });
       });
 
     title
       .append('span')
-      .classed('sub', true)
       .text((d, i, n) => {
         return this.format(d, i, n, { data, name: 'l2', route });
       });
 
     title
       .append('span')
-      .classed('value', true)
       .text((d, i, n) => {
         return this.format(d, i, n, { data, name: 'l3', route });
       });

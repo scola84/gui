@@ -15,5 +15,9 @@ export default class ErrorReporter extends GraphicWorker {
       .text((d, i, n) => {
         return this.format(d, i, n, { error, route }) || error.message;
       });
+
+    if (localStorage.getItem('scola.gui.error')) {
+      console.log(error);
+    }
   }
 }

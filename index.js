@@ -1,7 +1,6 @@
 import {
   FormBuilder,
   ListBuilder,
-  NavBuilder,
   PanelBuilder,
   SummaryBuilder
 } from './src/builder';
@@ -9,12 +8,13 @@ import {
 import {
   ErrorDisabler,
   FormDisabler,
-  NavDisabler,
+  ListDisabler,
   PanelDisabler,
 } from './src/disabler';
 
 import {
-  ListPreparer
+  ListPreparer,
+  OrderPreparer
 } from './src/preparer';
 
 import {
@@ -39,7 +39,7 @@ import {
   getView,
   renderBack,
   renderForm,
-  renderNav,
+  renderList,
   renderSearch,
   renderSummary,
   setView,
@@ -52,7 +52,6 @@ import locale from './src/locale';
 export {
   FormBuilder,
   ListBuilder,
-  NavBuilder,
   PanelBuilder,
   SummaryBuilder
 };
@@ -60,12 +59,13 @@ export {
 export {
   ErrorDisabler,
   FormDisabler,
-  NavDisabler,
-  PanelDisabler,
+  ListDisabler,
+  PanelDisabler
 };
 
 export {
-  ListPreparer
+  ListPreparer,
+  OrderPreparer
 };
 
 export {
@@ -90,7 +90,7 @@ export {
   getView,
   renderBack,
   renderForm,
-  renderNav,
+  renderList,
   renderSearch,
   renderSummary,
   setView,

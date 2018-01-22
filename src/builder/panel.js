@@ -21,7 +21,7 @@ export default class PanelBuilder extends GraphicWorker {
     return this;
   }
 
-  act(route, data) {
+  act(route, data, callback) {
     const moveDir = route.dir;
     const readDir = select('html').attr('dir') || 'ltr';
     const width = this._base.style('width');
@@ -86,7 +86,7 @@ export default class PanelBuilder extends GraphicWorker {
     route.node = panel.node();
     route.user = this._user;
 
-    this.pass(route, data);
+    this.pass(route, data, callback);
   }
 
   _calculate(moveDir, readDir, width) {

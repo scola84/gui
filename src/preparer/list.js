@@ -1,8 +1,8 @@
-import { Worker } from '@scola/worker';
 import { select } from 'd3';
 import throttle from 'lodash-es/throttle';
+import GraphicWorker from '../worker/graphic';
 
-export default class ListPreparer extends Worker {
+export default class ListPreparer extends GraphicWorker {
   constructor(options = {}) {
     super(options);
 
@@ -15,11 +15,11 @@ export default class ListPreparer extends Worker {
     return this;
   }
 
-  act(route, data = {}) {
+  act(route, data = {}, callback) {
     this._prepareScroll(route, data);
     this._prepareSearch(route, data);
 
-    this.pass(route, data);
+    this.pass(route, data, callback);
   }
 
   _prepareScroll(route, data) {

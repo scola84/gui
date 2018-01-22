@@ -20,6 +20,7 @@ export default class FormBuilder extends Builder {
   }
 
   _finishForm(route, data = {}) {
+    data = this.filter(route, data);
     const panel = select(route.node);
 
     const number = panel
@@ -43,7 +44,7 @@ export default class FormBuilder extends Builder {
       .filter((datum) => typeof datum.name !== 'undefined')
       .append('lt')
       .text((d, i, n) => {
-        return this.format(d, i, n, { data, name: 'form.title', route });
+        return this.format(d, i, n, { data, name: 'title', route });
       });
 
     const enter = list

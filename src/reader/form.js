@@ -23,21 +23,31 @@ export default class FormReader extends GraphicWorker {
 
     form.on('submit', () => {
       event.preventDefault();
-      this._submit(route, form);
+
+      if (form.attr('action') === '/') {
+        return;
+      }
+
+      form.attr('action', '/');
+      this.pass(route, this._read(form));
     });
   }
 
-  _submit(route, form) {
-    if (form.attr('action') === '/') {
-      return;
-    }
+  _read(form) {
+    let data = {};
 
-    const node = form
-      .attr('action', '/')
-      .node();
+    data = this._readForm(form, data);
+    data = this._readDate(form, data);
+    data = this._readOrder(form, data);
 
-    const data = serializeForm(node, this._serialize);
+    return data;
+  }
 
+  _readForm(form) {
+    return serializeForm(form.node(), this._serialize);
+  }
+
+  _readDate(form, data) {
     form
       .selectAll('input[type=date]')
       .each((datum, index, nodes) => {
@@ -46,6 +56,27 @@ export default class FormReader extends GraphicWorker {
         }
       });
 
-    this.pass(route, data);
+    return data;
+  }
+
+  _readOrder(form, data) {
+    form
+      .selectAll('ul.order')
+      .each((d, group, nodes) => {
+        select(nodes[group])
+          .selectAll('li')
+          .each((datum, index) => {
+            if (datum.empty !== true) {
+              data[datum.name] = data[datum.name] || [];
+              data[datum.name].push({
+                [datum.name]: datum[datum.name],
+                group,
+                index
+              });
+            }
+          });
+      });
+
+    return data;
   }
 }

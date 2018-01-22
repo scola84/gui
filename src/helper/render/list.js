@@ -1,5 +1,7 @@
-export default function renderNav(item, format) {
+export default function renderList(item, format) {
   item
+    .attr('class', (datum) => datum.name)
+    .classed('click', true)
     .classed('disabled', (datum) => datum.disabled);
 
   item
@@ -31,7 +33,9 @@ export default function renderNav(item, format) {
     .text((d, i, n) => format(d, i, n, 'l3'));
 
   secondary
-    .filter((datum) => datum.dir === 'rtl')
+    .filter((datum) => {
+      return datum.dir === 'rtl' && typeof datum.button === 'undefined';
+    })
     .append('span')
     .classed('icon ion-ios-arrow-forward', true);
 

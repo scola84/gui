@@ -23,7 +23,7 @@ export default class OrderPreparer extends GraphicWorker {
     });
 
     this._content.on('dragstart', () => {
-      if (select(drag).classed('ion-ios-drag') === false) {
+      if (select(drag).classed('handle') === false) {
         event.preventDefault();
       }
     });

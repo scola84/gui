@@ -4,6 +4,7 @@ export default class DateInput {
     const number = Number.isInteger(value) ? value : null;
 
     const input = node
+      .select('.input')
       .append('input')
       .attr('placeholder', format('placeholder'))
       .attr('type', 'date')

@@ -1,19 +1,11 @@
 ul.block {
   list-style: none;
-  margin: 2em 1em 0;
+  margin: 0;
   padding: 0;
 }
 
-.outset ul.block,
-.outset-x ul.block {
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.outset ul.block,
-.outset-y ul.block {
-  margin-bottom: 0;
-  margin-top: 0;
+ul.block:not(:empty) {
+  margin: 2em 1em 0;
 }
 
 ul.block li {
@@ -37,25 +29,11 @@ ul.block li:last-of-type {
   border-bottom-right-radius: 0.5em;
 }
 
-.outset ul.block li:first-of-type,
-.outset ul.block li:last-of-type,
-.outset-x ul.block li:first-of-type,
-.outset-x ul.block li:last-of-type,
-.outset-y ul.block li:first-of-type,
-.outset-y ul.block li:last-of-type {
-  border-radius: 0;
-}
-
-.outset-x ul.block li:first-of-type,
-.outset-x ul.block li:last-of-type {
-  border-color: lightgrey;
-}
-
-ul.block.click li:not(.disabled) {
+ul.block li.click:not(.disabled) {
   cursor: pointer;
 }
 
-ul.block.click li:not(.disabled):active {
+ul.block li.click:not(.disabled):active {
   background: lightgrey;
 }
 
@@ -76,8 +54,8 @@ ul.block li.icon + li:before {
   left: 3.5em;
 }
 
-ul.block.click li:not(.disabled):active + li:before,
-ul.block.click li:not(.disabled):active:before {
+ul.block li.click:not(.disabled):active + li:before,
+ul.block li.click:not(.disabled):active:before {
   left: 0;
 }
 
@@ -93,6 +71,11 @@ ul.block li .icon:before {
   font-size: 1.9em;
 }
 
+ul.block li .number:not(:empty) {
+  color: darkgrey;
+  width: 1.9em;
+}
+
 ul.block lt {
   color: darkgrey;
   display: block;
@@ -104,7 +87,7 @@ ul.block lt:not(:empty) {
   padding: 0 1em 0.5em;
 }
 
-ul.block div.primary {
+ul.block div.primary:not(:empty) {
   padding: 0 1em 0 0;
   white-space: nowrap;
 }
@@ -115,7 +98,7 @@ ul.block div.primary span {
   font-size: 0.9em;
 }
 
-ul.block div.secondary {
+ul.block div.secondary:not(:empty) {
   align-items: center;
   color: darkgrey;
   display: flex;
@@ -143,6 +126,32 @@ ul.block li.disabled div.secondary .icon {
   display: none;
 }
 
+.outset ul.block:not(:empty),
+.outset-x ul.block:not(:empty) {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.outset ul.block:not(:empty),
+.outset-y ul.block:not(:empty) {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.outset ul.block li:first-of-type,
+.outset ul.block li:last-of-type,
+.outset-x ul.block li:first-of-type,
+.outset-x ul.block li:last-of-type,
+.outset-y ul.block li:first-of-type,
+.outset-y ul.block li:last-of-type {
+  border-radius: 0;
+}
+
+.outset-x ul.block li:first-of-type,
+.outset-x ul.block li:last-of-type {
+  border-color: lightgrey;
+}
+
 *[dir=rtl] ul.block li {
   padding: 0 1em 0 0;
 }
@@ -157,11 +166,11 @@ ul.block li.disabled div.secondary .icon {
   right: 3.5em;
 }
 
-*[dir=rtl] ul.block div.primary {
+*[dir=rtl] ul.block div.primary:not(:empty) {
   padding: 0 0 0 1em;
 }
 
-*[dir=rtl] ul.block div.secondary {
+*[dir=rtl] ul.block div.secondary:not(:empty) {
   margin-left: initial;
   margin-right: auto;
   padding: 0 0 0 1em;
@@ -172,13 +181,13 @@ ul.block li.disabled div.secondary .icon {
   margin-right: 1em;
 }
 
-*[dir=rtl] ul.block.click li:not(.disabled):active + li:before,
-*[dir=rtl] ul.block.click li:not(.disabled):active:before {
+*[dir=rtl] ul.block li.click:not(.disabled):active + li:before,
+*[dir=rtl] ul.block li.click:not(.disabled):active:before {
   right: 0;
 }
 
 @media not all and (min-width: 48em) {
-  ul.block {
+  ul.block:not(:empty) {
     margin-left: 0;
     margin-right: 0;
   }

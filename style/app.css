@@ -31,6 +31,7 @@ body {
 button {
   background: none;
   border: 1px solid transparent;
+  height: 1.25em;
   margin: 0;
   padding: 0;
 }
@@ -80,11 +81,13 @@ input:-webkit-autofill {
 }
 
 @media (min-width: 48em) {
-  button[tabindex="0"] {
+  button[tabindex="0"],
+  .primary label[tabindex="0"] {
     cursor: pointer;
   }
 
-  button[tabindex="0"]:focus {
+  button[tabindex="0"]:focus,
+  .primary label[tabindex="0"]:focus {
     border: 1px dotted black !important;
   }
 }
