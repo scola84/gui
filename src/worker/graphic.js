@@ -5,9 +5,24 @@ export default class GraphicWorker extends Worker {
     super(options);
 
     this._format = options.format;
+
+    this._route = null;
+    this._structure = null;
     this._target = null;
 
+    this.setRoute(options.route);
+    this.setStructure(options.structure);
     this.setTarget(options.target);
+  }
+
+  setRoute(value = null) {
+    this._route = value;
+    return this;
+  }
+
+  setStructure(value = null) {
+    this._structure = value;
+    return this;
   }
 
   setTarget(value = null) {
@@ -15,12 +30,20 @@ export default class GraphicWorker extends Worker {
     return this;
   }
 
-  format(datum, index, node, context) {
+  format(datum, index, nodes, context) {
     if (this._format) {
-      return this._format(datum, index, node, context);
+      return this._format(datum, index, nodes, context);
     }
 
     return datum.name;
+  }
+
+  route(datum, index, nodes, context) {
+    if (this._route) {
+      return this._route(datum, index, nodes, context);
+    }
+
+    return {};
   }
 
   _createTarget(base, number) {
