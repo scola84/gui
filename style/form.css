@@ -94,6 +94,11 @@ form ul.block .input {
   flex: 1;
 }
 
+form ul.block .plain {
+  color: darkgrey;
+  padding: 0.5em;
+}
+
 form ul.block .primary + .checkbox {
   margin: 0 0 0 auto;
 }
