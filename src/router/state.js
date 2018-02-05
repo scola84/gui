@@ -1,6 +1,38 @@
 import { Router } from '@scola/worker';
 
 export default class StateRouter extends Router {
+  static parseRoute(string, extra = {}) {
+    const [splitPath, splitName] = string.split('@');
+    const [path, rawParams = ''] = splitPath.split(':');
+    const [name, rawOptions = ''] = splitName.split(':');
+
+    const base = {
+      name,
+      path
+    };
+
+    const options = rawOptions
+      .split(';')
+      .filter((option) => option)
+      .reduce((result, option) => {
+        result[option] = true;
+        return result;
+      }, {});
+
+    const params = rawParams
+      .split(';')
+      .filter((param) => param)
+      .reduce((result, param) => {
+        const [paramName, paramValue] = param.split('=');
+        result[paramName] = paramValue;
+        return result;
+      }, {});
+
+    return Object.assign(base, options, {
+      params: Object.assign(params, extra)
+    });
+  }
+
   constructor(options = {}) {
     super(options);
 
@@ -29,7 +61,7 @@ export default class StateRouter extends Router {
     [hash, route] = this._processHash(hash, route);
 
     history.replaceState({}, '', this._formatHash(hash));
-    this.pass(route.name, route, data, callback);
+    this.pass(route.path, route, data, callback);
   }
 
   _formatHash(hash) {
@@ -69,21 +101,11 @@ export default class StateRouter extends Router {
   }
 
   _parseRoute(routes, route) {
-    const [path, name] = route.split('@');
-    const [realPath, params = ''] = path.split(':');
+    route = StateRouter.parseRoute(route);
 
-    const realParams = params
-      .split(';')
-      .filter((param) => param)
-      .reduce((result, param) => {
-        const [paramName, paramValue] = param.split('=');
-        result[paramName] = paramValue;
-        return result;
-      }, {});
-
-    routes[name] = {
-      params: realParams,
-      path: realPath
+    routes[route.name] = {
+      params: route.params,
+      path: route.path
     };
 
     return routes;
@@ -102,20 +124,20 @@ export default class StateRouter extends Router {
     const previous = this._history.pop();
 
     if (current.remember || previous.remember) {
-      route.remember = previous.remember;
-      route.name = previous.name;
+      route.path = previous.path;
       route.params = previous.params;
+      route.remember = previous.remember;
     }
 
     return route;
   }
 
   _processForward(route) {
-    if (route.back === false) {
+    if (route.clear === true) {
       this._history = [];
     }
 
-    if (route.name) {
+    if (route.path) {
       this._history.push(route);
     }
 
@@ -128,11 +150,11 @@ export default class StateRouter extends Router {
     route = this._processHistory(route);
     route = this._processBackward(route);
 
-    if (typeof route.name !== 'undefined') {
-      if (route.name === null) {
+    if (typeof route.path !== 'undefined') {
+      if (route.path === null) {
         delete hash[this._name];
       } else {
-        hash[this._name] = this._processRoute(route.name, route.params);
+        hash[this._name] = this._processRoute(route.path, route.params);
       }
     } else if (typeof hash[this._name] === 'undefined') {
       if (this._default !== null) {
@@ -141,7 +163,7 @@ export default class StateRouter extends Router {
     }
 
     if (typeof hash[this._name] !== 'undefined') {
-      route.name = hash[this._name].path;
+      route.path = hash[this._name].path;
       route.params = hash[this._name].params;
     }
 
@@ -178,7 +200,7 @@ export default class StateRouter extends Router {
     const history = this._history.map((route) => {
       return {
         back: route.back,
-        name: route.name,
+        path: route.path,
         params: route.params,
         remember: route.remember
       };

@@ -2,6 +2,10 @@ form {
   margin: 0;
 }
 
+form ul.hidden {
+  display: none;
+}
+
 form ul.block.order.ungrouped:not(:empty) {
   background: lightgrey;
   bottom: 0;
@@ -14,7 +18,7 @@ form ul.block input {
   border: 0;
   flex: 1;
   margin: 0 1em 0 0;
-  padding: 0.5em;
+  padding: 0.25em;
   width: 0;
 }
 
@@ -96,7 +100,7 @@ form ul.block .input {
 
 form ul.block .plain {
   color: darkgrey;
-  padding: 0.5em;
+  padding: 0.25em;
 }
 
 form ul.block .primary + .checkbox {

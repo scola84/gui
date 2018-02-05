@@ -36,7 +36,7 @@ export default class PanelDisabler extends GraphicWorker {
   }
 
   hide(value) {
-    value.permission = Array.isArray(value.perimssion) ?
+    value.permission = Array.isArray(value.permission) ?
       value.permission : [value.permission || (() => false)];
 
     this._hide.push(value);
@@ -55,7 +55,7 @@ export default class PanelDisabler extends GraphicWorker {
         if (enabled === false) {
           node
             .selectAll(selector)
-            .classed('disabled', true)
+            .classed('disabled permission', true)
             .attr('tabindex', (datum, index, nodes) => {
               return select(nodes[index]).attr('tabindex') === '0' ?
                 -1 : null;
@@ -77,7 +77,7 @@ export default class PanelDisabler extends GraphicWorker {
         if (visible === false) {
           node
             .selectAll(selector)
-            .classed('hidden', true);
+            .classed('hidden permission', true);
         }
       }
     }
@@ -94,7 +94,7 @@ export default class PanelDisabler extends GraphicWorker {
 
   _removeHiddenElements(node) {
     node
-      .selectAll('.hidden')
+      .selectAll('.hidden.permission')
       .remove();
   }
 }

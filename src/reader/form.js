@@ -15,7 +15,7 @@ export default class FormReader extends GraphicWorker {
     return this;
   }
 
-  act(route) {
+  act(route, data, callback) {
     const panel = select(route.node);
 
     const form = this._target ?
@@ -28,8 +28,14 @@ export default class FormReader extends GraphicWorker {
         return;
       }
 
+      data = this._read(form);
+
+      if (callback) {
+        callback(data);
+      }
+
       form.attr('action', '/');
-      this.pass(route, this._read(form));
+      this.pass(route, data);
     });
   }
 

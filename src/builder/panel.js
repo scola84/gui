@@ -22,7 +22,7 @@ export default class PanelBuilder extends GraphicWorker {
   }
 
   act(route, data, callback) {
-    const moveDir = route.dir;
+    const moveDir = route.rtl ? 'rtl' : route.ltr ? 'ltr' : null;
     const readDir = select('html').attr('dir') || 'ltr';
     const width = this._base.style('width');
 

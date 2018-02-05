@@ -12,8 +12,8 @@ export default {
         undelete: 'Herstellen'
       }
     },
-    nav: {
-      label: {
+    panel: {
+      button: {
         add: 'Toevoegen',
         back: 'Terug',
         cancel: 'Annuleren',

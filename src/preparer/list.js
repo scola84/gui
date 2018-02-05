@@ -1,4 +1,4 @@
-import { select } from 'd3';
+import { event, select } from 'd3';
 import throttle from 'lodash-es/throttle';
 import GraphicWorker from '../worker/graphic';
 
@@ -15,14 +15,16 @@ export default class ListPreparer extends GraphicWorker {
     return this;
   }
 
-  act(route, data = {}, callback) {
-    this._prepareScroll(route, data);
-    this._prepareSearch(route, data);
+  act(route, data, callback) {
+    data = data || {};
+
+    this._prepareScroll(route, data, callback);
+    this._prepareSearch(route, data, callback);
 
     this.pass(route, data, callback);
   }
 
-  _prepareScroll(route, data) {
+  _prepareScroll(route, data, callback) {
     const panel = select(route.node);
 
     const content = panel
@@ -51,12 +53,12 @@ export default class ListPreparer extends GraphicWorker {
 
       if (top > threshold) {
         data.offset += data.count;
-        this.act(route, data);
+        this.act(route, data, callback);
       }
     }, 250));
   }
 
-  _prepareSearch(route, data) {
+  _prepareSearch(route, data, callback) {
     const panel = select(route.node);
 
     const form = panel
@@ -67,30 +69,15 @@ export default class ListPreparer extends GraphicWorker {
 
     form.on('submit', () => {
       event.preventDefault();
-
-      const value = input
-        .property('value');
-
-      if (value.length === 0 || value.length > 2) {
-        if (value.length === 0) {
-          delete data.where;
-        } else {
-          data.where = value;
-        }
-
-        route.clear = true;
-        this.act(route, data);
-      }
+      this._submitSearch(route, data, callback, input.property('value'));
     });
 
     input.on('input', () => {
-      const value = input
-        .property('value');
-
+      const value = input.property('value');
       sessionStorage.setItem('search-' + this._id, value);
 
       if (typeof event.data === 'undefined' && value.length === 0) {
-        form.dispatch('submit');
+        this._submitSearch(route, data, callback, value);
       }
     });
 
@@ -100,6 +87,19 @@ export default class ListPreparer extends GraphicWorker {
       panel.classed('search immediate', true);
       input.attr('value', value);
       data.where = value;
+    }
+  }
+
+  _submitSearch(route, data, callback, value) {
+    if (value.length === 0 || value.length > 2) {
+      if (value.length === 0) {
+        delete data.where;
+      } else {
+        data.where = value;
+      }
+
+      route.clear = true;
+      this.act(route, data, callback);
     }
   }
 }

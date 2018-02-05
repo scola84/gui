@@ -34,7 +34,9 @@ export default function renderList(item, format) {
 
   secondary
     .filter((datum) => {
-      return datum.dir === 'rtl' && typeof datum.button === 'undefined';
+      return datum.route &&
+        datum.route.match(/:.*rtl/) &&
+        typeof datum.button === 'undefined';
     })
     .append('span')
     .classed('icon ion-ios-arrow-forward', true);

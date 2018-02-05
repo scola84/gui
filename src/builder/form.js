@@ -46,6 +46,7 @@ export default class FormBuilder extends Builder {
       .enter()
       .append('ul')
       .classed('block', true)
+      .classed('hidden', (datum) => datum.hidden)
       .merge(list);
 
     list
