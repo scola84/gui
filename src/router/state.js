@@ -1,36 +1,32 @@
 import { Router } from '@scola/worker';
 
 export default class StateRouter extends Router {
-  static parseRoute(string, extra = {}) {
+  static parseRoute(string) {
     const [splitPath, splitName] = string.split('@');
     const [path, rawParams = ''] = splitPath.split(':');
     const [name, rawOptions = ''] = splitName.split(':');
 
-    const base = {
+    const route = {
       name,
+      params: {},
       path
     };
 
-    const options = rawOptions
-      .split(';')
-      .filter((option) => option)
-      .reduce((result, option) => {
-        result[option] = true;
-        return result;
-      }, {});
+    const options = rawOptions.split(';');
+    const params = rawParams.split(';');
 
-    const params = rawParams
-      .split(';')
-      .filter((param) => param)
-      .reduce((result, param) => {
-        const [paramName, paramValue] = param.split('=');
-        result[paramName] = paramValue;
-        return result;
-      }, {});
+    for (let i = 0; i < options.length; i += 1) {
+      route[options[i]] = true;
+    }
 
-    return Object.assign(base, options, {
-      params: Object.assign(params, extra)
-    });
+    for (let i = 0; i < params.length; i += 1) {
+      if (params[i].length > 0) {
+        const [paramName, paramValue] = params[i].split('=');
+        route.params[paramName] = paramValue;
+      }
+    }
+
+    return route;
   }
 
   constructor(options = {}) {
@@ -39,6 +35,7 @@ export default class StateRouter extends Router {
     this._default = null;
     this._history = [];
     this._name = null;
+    this._stash = null;
 
     this.setDefault(options.default);
     this.setName(options.name);
@@ -62,6 +59,22 @@ export default class StateRouter extends Router {
 
     history.replaceState({}, '', this._formatHash(hash));
     this.pass(route.path, route, data, callback);
+  }
+
+  stash() {
+    const hash = this._parseHash(window.location.hash);
+
+    if (hash[this._name]) {
+      this._stash = hash[this._name];
+    }
+
+    return this;
+  }
+
+  unstash() {
+    const hash = this._stash;
+    this._stash = null;
+    return hash;
   }
 
   _formatHash(hash) {
@@ -153,6 +166,8 @@ export default class StateRouter extends Router {
     if (typeof route.path !== 'undefined') {
       if (route.path === null) {
         delete hash[this._name];
+      } else if (!this._workers[route.path]) {
+        hash[this._name] = this._processRoute(this._default, route.params);
       } else {
         hash[this._name] = this._processRoute(route.path, route.params);
       }

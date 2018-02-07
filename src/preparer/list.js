@@ -98,6 +98,9 @@ export default class ListPreparer extends GraphicWorker {
         data.where = value;
       }
 
+      delete data.offset;
+      delete data.count;
+
       route.clear = true;
       this.act(route, data, callback);
     }
