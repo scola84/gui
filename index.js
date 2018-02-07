@@ -47,8 +47,6 @@ import {
   setupMenu
 } from './src/helper';
 
-import locale from './src/locale';
-
 export {
   FormBuilder,
   ListBuilder,
@@ -96,8 +94,4 @@ export {
   setView,
   setupApp,
   setupMenu
-};
-
-export {
-  locale
 };
