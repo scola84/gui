@@ -6,6 +6,7 @@ import OrderInput from './order';
 import PasswordInput from './password';
 import Plain from './plain';
 import RadioInput from './radio';
+import SelectInput from './select';
 import SubmitInput from './submit';
 import TextInput from './text';
 
@@ -18,6 +19,7 @@ export default {
   password: new PasswordInput(),
   plain: new Plain(),
   radio: new RadioInput(),
+  select: new SelectInput(),
   submit: new SubmitInput(),
   text: new TextInput()
 };

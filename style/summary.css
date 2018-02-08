@@ -125,6 +125,10 @@
     font-size: 4em;
   }
 
+  .summary .secondary {
+    height: 8em;
+  }
+
   .summary .secondary ul.actions {
     margin: 0;
   }
