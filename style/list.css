@@ -126,29 +126,29 @@ ul.block li.disabled div.secondary .icon {
   display: none;
 }
 
-.outset ul.block:not(:empty),
-.outset-x ul.block:not(:empty) {
+.menu .outset ul.block:not(:empty),
+.menu .outset-x ul.block:not(:empty) {
   margin-left: 0;
   margin-right: 0;
 }
 
-.outset ul.block:not(:empty),
-.outset-y ul.block:not(:empty) {
+.menu .outset ul.block:not(:empty),
+.menu .outset-y ul.block:not(:empty) {
   margin-bottom: 0;
   margin-top: 0;
 }
 
-.outset ul.block li:first-of-type,
-.outset ul.block li:last-of-type,
-.outset-x ul.block li:first-of-type,
-.outset-x ul.block li:last-of-type,
-.outset-y ul.block li:first-of-type,
-.outset-y ul.block li:last-of-type {
+.menu .outset ul.block li:first-of-type,
+.menu .outset ul.block li:last-of-type,
+.menu .outset-x ul.block li:first-of-type,
+.menu .outset-x ul.block li:last-of-type,
+.menu .outset-y ul.block li:first-of-type,
+.menu .outset-y ul.block li:last-of-type {
   border-radius: 0;
 }
 
-.outset-x ul.block li:first-of-type,
-.outset-x ul.block li:last-of-type {
+.menu .outset-x ul.block li:first-of-type,
+.menu .outset-x ul.block li:last-of-type {
   border-color: lightgrey;
 }
 
@@ -202,10 +202,10 @@ ul.block li.disabled div.secondary .icon {
     border-color: lightgrey;
   }
 
-  .outset ul.block li:first-of-type,
-  .outset ul.block li:last-of-type,
-  .outset-y ul.block li:first-of-type,
-  .outset-y ul.block li:last-of-type {
+  .menu .outset ul.block li:first-of-type,
+  .menu .outset ul.block li:last-of-type,
+  .menu .outset-y ul.block li:first-of-type,
+  .menu .outset-y ul.block li:last-of-type {
     border-color: transparent;
   }
 }

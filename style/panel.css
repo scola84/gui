@@ -85,18 +85,16 @@
   position: relative;
 }
 
-.panel.outset .body {
-  background: white;
-}
-
 .panel .body .content {
   -webkit-overflow-scrolling: touch;
   flex: 1;
   overflow: auto;
 }
 
-.panel:not(.outset) .body .content {
-  padding: 0 0 2em;
+.panel .body .content:after {
+  content: '';
+  display: block;
+  height: 2em;
 }
 
 .panel.footer .body .content,
@@ -212,6 +210,14 @@
 
 .panel .body .search input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px lightgrey inset;
+}
+
+.menu .panel.outset .body {
+  background: white;
+}
+
+.menu .panel.outset .body .content:after {
+  height: 0;
 }
 
 *[dir=rtl] .panel .bar .right .button,
