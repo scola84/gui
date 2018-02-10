@@ -100,7 +100,7 @@ export default class ListBuilder extends Builder {
     }
 
     if (this._add) {
-      data.push({ name: 'add' });
+      data.push({ name: 'add', route: ':rtl' });
     }
 
     const enter = select();

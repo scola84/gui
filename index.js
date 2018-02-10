@@ -38,6 +38,7 @@ import {
 import {
   getView,
   renderBack,
+  renderCancel,
   renderForm,
   renderList,
   renderSearch,
@@ -87,6 +88,7 @@ export {
 export {
   getView,
   renderBack,
+  renderCancel,
   renderForm,
   renderList,
   renderSearch,

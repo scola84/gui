@@ -74,14 +74,14 @@ export default class ListPreparer extends GraphicWorker {
 
     input.on('input', () => {
       const value = input.property('value');
-      sessionStorage.setItem('search-' + this._id, value);
+      sessionStorage.setItem('search-' + route.path, value);
 
       if (typeof event.data === 'undefined' && value.length === 0) {
         this._submitSearch(route, data, callback, value);
       }
     });
 
-    const value = sessionStorage.getItem('search-' + this._id);
+    const value = sessionStorage.getItem('search-' + route.path);
 
     if (value) {
       panel.classed('search immediate', true);
