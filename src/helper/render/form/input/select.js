@@ -1,7 +1,11 @@
 export default class SelectInput {
   render(datum, index, node, format) {
-    const select = node
+    const wrap = node
       .select('.input')
+      .append('div')
+      .classed('wrap', true);
+
+    const select = wrap
       .append('select');
 
     for (let i = 0; i < datum.value.length; i += 1) {

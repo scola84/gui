@@ -51,6 +51,11 @@ input::-moz-focus-inner {
   border: 0;
 }
 
+button[tabindex="0"],
+.primary label[tabindex="0"] {
+  cursor: pointer;
+}
+
 .app {
   display: flex;
   height: 100%;
@@ -88,11 +93,6 @@ input::-moz-focus-inner {
 }
 
 @media (min-width: 48em) {
-  button[tabindex="0"],
-  .primary label[tabindex="0"] {
-    cursor: pointer;
-  }
-
   button[tabindex="0"]:focus,
   .primary label[tabindex="0"]:focus {
     border: 1px dotted black !important;

@@ -3,8 +3,12 @@ export default class DateInput {
     const value = format('value');
     const number = Number.isInteger(value) ? value : null;
 
-    const input = node
+    const wrap = node
       .select('.input')
+      .append('div')
+      .classed('wrap', true);
+
+    const input = wrap
       .append('input')
       .attr('placeholder', format('placeholder'))
       .attr('type', 'date')
