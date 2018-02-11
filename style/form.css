@@ -16,6 +16,7 @@ form ul.block.order.ungrouped:not(:empty) {
 form ul.block input {
   background: none;
   border: 0;
+  color: black;
   flex: 1;
   margin: 0 1em 0 0;
   padding: 0.25em;
@@ -99,7 +100,6 @@ form ul.block .input {
 }
 
 form ul.block .plain {
-  color: darkgrey;
   padding: 0.25em;
 }
 

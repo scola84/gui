@@ -20,7 +20,7 @@ export default class DateInput {
 
   _setColor(input) {
     input.style('color', (d, i, n) => {
-      return Number.isNaN(n[i].valueAsNumber) ? 'dimgrey' : null;
+      return Number.isNaN(n[i].valueAsNumber) ? 'darkgrey' : null;
     });
   }
 }

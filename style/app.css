@@ -11,7 +11,8 @@
 }
 
 ::placeholder {
-  color: dimgrey;
+  color: darkgrey;
+  opacity: 1;
 }
 
 a {
