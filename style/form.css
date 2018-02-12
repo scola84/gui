@@ -17,7 +17,12 @@ form ul.block input {
   background: none;
   border: 0;
   color: black;
+  padding: 0.25em;
   width: 100%;
+}
+
+form ul.block input[type=date] {
+  padding: 0.25em 0;
 }
 
 form ul.block input[disabled] {
@@ -99,7 +104,6 @@ form ul.block .input {
 form ul.block .input .wrap {
   flex: 1;
   margin: 0 1em 0 0;
-  padding: 0.25em;
 }
 
 form ul.block .plain {

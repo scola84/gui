@@ -98,12 +98,12 @@
 }
 
 .panel.footer .body .content,
-.panel.footer .body.disabled .message {
+.panel.footer .body.disabled > .message {
   border-bottom: 1px solid lightgrey;
 }
 
 .panel.header .body .content,
-.panel.header .body.disabled .message {
+.panel.header .body.disabled > .message {
   border-top: 1px solid lightgrey;
 }
 
@@ -128,14 +128,14 @@
   font-size: 1.9em;
 }
 
-.panel .body .message {
+.panel .body > .message {
   align-items: center;
   display: flex;
   justify-content: center;
   text-align: center;
 }
 
-.panel .body.disabled .message {
+.panel .body.disabled > .message {
   background: whitesmoke;
   color: darkgrey;
   height: 100%;
@@ -145,7 +145,7 @@
   z-index: 1;
 }
 
-.panel .body:not(.disabled) .message {
+.panel .body:not(.disabled) > .message {
   background: lightgrey;
   color: dimgrey;
   height: 2.25em;
@@ -157,12 +157,12 @@
   z-index: 0;
 }
 
-.panel.message .body:not(.disabled) .message {
+.panel.message .body:not(.disabled) > .message {
   top: 0;
   margin-bottom: 0;
 }
 
-.panel .body.disabled .message span {
+.panel .body.disabled > .message span {
   font-size: 1.9em;
 }
 
