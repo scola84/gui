@@ -36,24 +36,35 @@ export default class SummaryBuilder extends Builder {
       .size() - 1;
 
     const summary = panel
-      .select('#' + this._createTarget('summary', number));
+      .select('#' + this._createTarget('summary', number))
+      .datum(this._structure);
 
-    const primary = summary
+    const details = summary
+      .append('div')
+      .classed('details', true);
+
+    const primary = details
       .append('div')
       .classed('primary', true);
 
-    const enter = primary
-      .append('figure')
+    const figure = primary
+      .append('figure');
+
+    const enter = figure
       .selectAll('div')
-      .data(this._structure.figure || [])
+      .data((datum) => datum.figure || [])
       .enter()
       .append('div');
+
+    if (enter.size() === 0) {
+      figure.remove();
+    }
 
     this._render(enter, (d, i, n, name) => {
       return this.format(d, i, n, { data, name, route });
     });
 
-    const secondary = summary
+    const secondary = details
       .append('div')
       .classed('secondary', true);
 
@@ -63,19 +74,22 @@ export default class SummaryBuilder extends Builder {
 
     title
       .append('span')
+      .classed('l1', true)
       .text((d, i, n) => {
         return this.format(d, i, n, { data, name: 'l1', route });
       });
 
     title
       .append('span')
+      .classed('l2', true)
       .text((d, i, n) => {
         return this.format(d, i, n, { data, name: 'l2', route });
       });
 
     title
       .append('span')
-      .text((d, i, n) => {
+      .classed('l3', true)
+      .html((d, i, n) => {
         return this.format(d, i, n, { data, name: 'l3', route });
       });
 
@@ -83,12 +97,13 @@ export default class SummaryBuilder extends Builder {
       .append('ul')
       .classed('actions', true)
       .selectAll('li')
-      .data(this._structure.actions)
+      .data((datum) => datum.actions)
       .enter()
       .append('li')
       .attr('class', (datum) => datum.name);
 
     actions
+      .filter((datum) => datum.button)
       .append('button')
       .attr('tabindex', 0)
       .attr('class', (datum) => 'button ' + datum.button);
@@ -99,6 +114,20 @@ export default class SummaryBuilder extends Builder {
       .text((d, i, n) => {
         return this.format(d, i, n, { data, name: 'action', route });
       });
+
+    const state = summary
+      .filter((datum) => {
+        return datum && typeof datum.state !== 'undefined';
+      })
+      .append('div')
+      .attr('class', (d, i, n) => {
+        return 'state ' +
+          (this.format(d, i, n, { data, name: 'state' }) || '');
+      });
+
+    state.append('span');
+    state.append('span');
+    state.append('span');
 
     return summary;
   }

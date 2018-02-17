@@ -145,7 +145,6 @@ export default class ListBuilder extends Builder {
     list = list
       .enter()
       .append('ul')
-      .attr('class', (datum) => datum.class)
       .classed('block list', true)
       .merge(list);
 

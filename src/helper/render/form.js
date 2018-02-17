@@ -25,12 +25,24 @@ export default function renderForm(item, format) {
     .style('width', (datum) => datum.width);
 
   primary
+    .append('span')
+    .classed('l0', true)
+    .text((d, i, n) => format(d, i, n, 'l0'));
+
+  primary
     .append('label')
+    .classed('l1', true)
     .text((d, i, n) => format(d, i, n, 'l1'));
 
   primary
     .append('span')
+    .classed('l2', true)
     .text((d, i, n) => format(d, i, n, 'l2'));
+
+  primary
+    .append('span')
+    .classed('l3', true)
+    .text((d, i, n) => format(d, i, n, 'l3'));
 
   primary
     .selectAll(':empty')

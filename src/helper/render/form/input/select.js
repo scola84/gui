@@ -8,19 +8,19 @@ export default class SelectInput {
     const select = wrap
       .append('select');
 
-    for (let i = 0; i < datum.value.length; i += 1) {
+    for (let i = 0; i < datum.values.length; i += 1) {
       select
         .append('option')
-        .attr('value', datum.value[i])
+        .attr('value', datum.values[i])
         .attr('selected', () => {
-          return format({
+          return datum.values[i] === datum.selected || format({
             name: 'selected',
-            value: datum.value[i]
+            value: datum.values[i]
           }) ? 'selected' : null;
         })
         .text(format({
           name: 'text',
-          value: datum.value[i]
+          value: datum.values[i]
         }));
     }
 
