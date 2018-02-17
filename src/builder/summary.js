@@ -73,21 +73,21 @@ export default class SummaryBuilder extends Builder {
       .classed('title', true);
 
     title
-      .append('span')
+      .append('div')
       .classed('l1', true)
       .text((d, i, n) => {
         return this.format(d, i, n, { data, name: 'l1', route });
       });
 
     title
-      .append('span')
+      .append('div')
       .classed('l2', true)
       .text((d, i, n) => {
         return this.format(d, i, n, { data, name: 'l2', route });
       });
 
     title
-      .append('span')
+      .append('div')
       .classed('l3', true)
       .html((d, i, n) => {
         return this.format(d, i, n, { data, name: 'l3', route });

@@ -49,8 +49,8 @@
 
 .summary .secondary {
   display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
+  flex: 1;
+  flex-direction: column;
 }
 
 .summary .primary:not(:empty) + .secondary {
@@ -85,14 +85,17 @@
   margin-top: 1em;
 }
 
-.summary .primary:empty + .secondary .title .l3 p {
+.summary .primary:empty + .secondary .title .l3 > * {
   line-height: 1.5em;
+  margin: 1em 0 0;
+}
+
+.summary .primary:empty + .secondary .title .l3 li {
+  line-height: inherit;
 }
 
 .summary .secondary .actions {
-  align-self: flex-end;
   display: flex;
-  flex: 1 1 100%;
   list-style: none;
   margin: 0.5em 0 0;
   padding: 0;
@@ -100,7 +103,7 @@
 
 .summary .primary:empty + .secondary .actions {
   border-top: 1px solid lightgrey;
-  margin: 0;
+  margin: 1em 0 0;
   padding-top: 1em;
 }
 
