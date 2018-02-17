@@ -33,8 +33,7 @@ button {
   background: none;
   border: 1px solid transparent;
   color: inherit;
-  height: 1.25em;
-  margin: 0;
+  margin: -1px;
   padding: 0;
 }
 
@@ -74,6 +73,32 @@ button[tabindex="0"],
 
 .ion-ios-search:before {
   font-size: 1.5em !important;
+}
+
+.state {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  margin: 0.3em 0 0;
+  width: 0.75em;
+}
+
+.state span {
+  border-radius: 50%;
+  display: none;
+  height: 0.75em;
+  margin: 0 0 0.35em;
+  width: 0.75em;
+}
+
+*[dir=rtl] * + .state,
+.state:first-child {
+  margin-right: 0.5em;
+}
+
+* + .state,
+*[dir=rtl] .state:first-child {
+  margin-left: 0.5em;
 }
 
 *[dir=rtl] .ion-ios-arrow-back:before,

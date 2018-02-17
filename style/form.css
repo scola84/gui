@@ -13,12 +13,18 @@ form ul.block.order.ungrouped:not(:empty) {
   position: sticky;
 }
 
-form ul.block input {
+form ul.block input,
+form ul.block textarea {
   background: none;
   border: 0;
   color: black;
   padding: 0.25em;
   width: 100%;
+}
+
+form ul.block textarea {
+  line-height: 1.5em;
+  resize: none;
 }
 
 form ul.block input[type=date] {
@@ -52,12 +58,18 @@ form ul.block input[type=submit][disabled] {
 
 form ul.block label {
   cursor: inherit;
+  display: block;
 }
 
 form ul.block label:not(:empty) {
   border: 1px solid transparent;
   overflow: hidden;
+  margin: -1px;
   text-overflow: ellipsis;
+}
+
+form ul.block .input.textarea label {
+  padding: 0.25em 0;
 }
 
 form ul.block li {
@@ -99,6 +111,10 @@ form ul.block .input {
   align-items: center;
   display: flex;
   flex: 1;
+}
+
+form ul.block .input.textarea {
+  align-items: flex-start;
 }
 
 form ul.block .input .wrap {
@@ -191,7 +207,7 @@ form ul.block.order [draggable] span.drag span {
   font-size: 1.9em;
 }
 
-*[dir=rtl] form ul.block input {
+*[dir=rtl] form ul.block .input .wrap {
   margin: 0 0 0 1em;
 }
 
@@ -242,7 +258,8 @@ form ul.block.order [draggable] span.drag span {
     border: 1px dotted black;
   }
 
-  form ul.block input[tabindex="0"]:focus {
+  form ul.block input[tabindex="0"]:focus,
+  form ul.block textarea[tabindex="0"]:focus {
     outline: 1px dotted black;
   }
 }

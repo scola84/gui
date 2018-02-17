@@ -18,13 +18,11 @@ ul.block li {
 }
 
 ul.block li:first-of-type {
-  border-top: 1px solid transparent;
   border-top-left-radius: 0.5em;
   border-top-right-radius: 0.5em;
 }
 
 ul.block li:last-of-type {
-  border-bottom: 1px solid transparent;
   border-bottom-left-radius: 0.5em;
   border-bottom-right-radius: 0.5em;
 }
@@ -37,12 +35,26 @@ ul.block li.click:not(.disabled):active {
   background: lightgrey;
 }
 
-ul.block li:before {
+ul.block li:before,
+ul.block li:first-of-type:after,
+ul.block li:last-of-type:after {
   border-bottom: 1px solid lightgrey;
-  content: '';
-  left: 1em;
+  left: 0;
   position: absolute;
   right: 0;
+}
+
+ul.block li:last-of-type:after {
+  bottom: -1px;
+}
+
+ul.block li:first-of-type:after {
+  top: -1px;
+}
+
+ul.block li:before {
+  content: '';
+  left: 1em;
   top: 0;
 }
 
@@ -88,14 +100,57 @@ ul.block lt:not(:empty) {
 }
 
 ul.block div.primary:not(:empty) {
-  padding: 0 1em 0 0;
+  align-items: center;
+  display: flex;
+  flex-flow: row wrap;
+  margin: 0 1em 0 0;
   white-space: nowrap;
 }
 
+ul.block.list div.primary:not(:empty) {
+  flex: 1 1 0;
+}
+
 ul.block div.primary span {
-  color: darkgrey;
-  display: block;
   font-size: 0.9em;
+}
+
+ul.block div.primary > * {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+ul.block div.primary .l0:not(:empty),
+ul.block div.primary .l2:not(:empty),
+ul.block div.primary .l3:not(:empty) {
+  flex: 1 1 100%;
+}
+
+ul.block div.primary .l2:not(:empty),
+ul.block div.primary .l3:not(:empty) {
+  margin: 0.15em 0 0;
+}
+
+ul.block div.primary .l3:not(:empty),
+ul.block div.primary .l4:not(:empty) {
+  color: darkgrey;
+}
+
+ul.block li.multiline div.primary .l1 {
+  flex: 1 1 0;
+  margin: 0 1em 0 0;
+  text-align: start;
+  width: 0;
+}
+
+ul.block li.multiline div.primary .l3:not(:empty) {
+  height: 2.5em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  white-space: normal;
 }
 
 ul.block div.secondary:not(:empty) {
@@ -104,17 +159,15 @@ ul.block div.secondary:not(:empty) {
   display: flex;
   margin-left: auto;
   overflow: hidden;
-  padding: 0 1em 0 0;
   white-space: nowrap;
 }
 
-ul.block div.secondary span:first-child:not(:empty) {
+ul.block div.secondary .button,
+ul.block div.secondary .icon,
+ul.block div.secondary .l5:not(:empty) {
+  margin: 0 1em 0 0;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-ul.block div.secondary span:first-child:not(:empty) + * {
-  margin-left: 1em;
 }
 
 ul.block div.secondary .icon {
@@ -147,13 +200,13 @@ ul.block li.disabled div.secondary .icon {
   border-radius: 0;
 }
 
-.menu .outset-x ul.block li:first-of-type,
-.menu .outset-x ul.block li:last-of-type {
-  border-color: lightgrey;
+.menu .outset-x ul.block li:first-of-type:after,
+.menu .outset-x ul.block li:last-of-type:after {
+  content: '';
 }
 
 *[dir=rtl] ul.block li {
-  padding: 0 1em 0 0;
+  padding: 0.5em 1em 0.5em 0;
 }
 
 *[dir=rtl] ul.block li:before {
@@ -167,18 +220,22 @@ ul.block li.disabled div.secondary .icon {
 }
 
 *[dir=rtl] ul.block div.primary:not(:empty) {
-  padding: 0 0 0 1em;
+  margin: 0 0 0 1em;
+}
+
+*[dir=rtl] ul.block li.multiline div.primary .l1 {
+  margin: 0 0 0 1em;
 }
 
 *[dir=rtl] ul.block div.secondary:not(:empty) {
   margin-left: initial;
   margin-right: auto;
-  padding: 0 0 0 1em;
 }
 
-*[dir=rtl] ul.block div.secondary span:first-child:not(:empty) + * {
-  margin-left: 0;
-  margin-right: 1em;
+*[dir=rtl] ul.block div.secondary .button,
+*[dir=rtl] ul.block div.secondary .icon,
+*[dir=rtl] ul.block div.secondary .l5:not(:empty) {
+  margin: 0 0 0 1em;
 }
 
 *[dir=rtl] ul.block li.click:not(.disabled):active + li:before,
@@ -197,24 +254,31 @@ ul.block li.disabled div.secondary .icon {
     border-radius: 0;
   }
 
-  ul.block li:first-of-type,
-  ul.block li:last-of-type {
-    border-color: lightgrey;
+  ul.block li:first-of-type:after,
+  ul.block li:last-of-type:after {
+    content: '';
   }
 
-  .menu .outset ul.block li:first-of-type,
-  .menu .outset ul.block li:last-of-type,
-  .menu .outset-y ul.block li:first-of-type,
-  .menu .outset-y ul.block li:last-of-type {
-    border-color: transparent;
+  .menu .outset ul.block li:first-of-type:after,
+  .menu .outset ul.block li:last-of-type:after,
+  .menu .outset-y ul.block li:first-of-type:after,
+  .menu .outset-y ul.block li:last-of-type:after {
+    content: none;
   }
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
   ul.block li .button,
-  ul.block li:before,
-  ul.block li:first-of-type,
-  ul.block li:last-of-type {
+  ul.block li:after,
+  ul.block li:before {
     border-width: 0.5px;
+  }
+
+  ul.block li:last-of-type:after {
+    bottom: -0.5px;
+  }
+
+  ul.block li:first-of-type:after {
+    top: -0.5px;
   }
 }

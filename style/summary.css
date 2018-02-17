@@ -3,10 +3,14 @@
   border-bottom: 1px solid lightgrey;
   border-top: 1px solid lightgrey;
   display: flex;
-  flex-direction: column;
   margin: 2em 0 0;
   padding: 1em;
-  text-align: center;
+}
+
+.summary .details {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 .summary .primary {
@@ -15,10 +19,6 @@
 }
 
 .summary .primary figure {
-  margin: 0;
-}
-
-.summary .primary figure:not(:empty) {
   background: darkgrey;
   border-radius: 0.5em;
   height: 6em;
@@ -49,58 +49,107 @@
 
 .summary .secondary {
   display: flex;
-  flex-direction: column;
+  flex-flow: row wrap;
   justify-content: space-between;
 }
 
-.summary .secondary div.title span {
+.summary .primary:not(:empty) + .secondary {
+  text-align: center;
+}
+
+.summary .secondary .title {
+  flex: 1;
+}
+
+.summary .secondary .title span {
   display: block;
 }
 
-.summary .secondary div.title span + span {
+.summary .secondary .title .l1 {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.summary .secondary .title .l2:not(:empty),
+.summary .secondary .title .l3:not(:empty) {
   margin: 0.15em 0 0;
 }
 
-.summary .secondary div.title span:first-child {
-  font-weight: bold;
-}
-
-.summary .secondary div.title span:last-child {
+.summary .primary:empty + .secondary .title .l2,
+.summary .primary:not(:empty) + .secondary .title .l3 {
   color: darkgrey;
 }
 
-.summary .secondary ul.actions {
+.summary .primary:empty + .secondary .title .l3:not(:empty) {
+  border-top: 1px solid lightgrey;
+  margin-top: 1em;
+}
+
+.summary .primary:empty + .secondary .title .l3 p {
+  line-height: 1.5em;
+}
+
+.summary .secondary .actions {
+  align-self: flex-end;
   display: flex;
+  flex: 1 1 100%;
   list-style: none;
-  margin: 1em auto 0;
+  margin: 0.5em 0 0;
   padding: 0;
 }
 
-.summary .secondary ul.actions li {
+.summary .primary:empty + .secondary .actions {
+  border-top: 1px solid lightgrey;
+  margin: 0;
+  padding-top: 1em;
+}
+
+.summary .primary:not(:empty) + .secondary .actions {
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.summary .secondary .actions li {
   align-items: center;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
 }
 
-.summary .secondary ul.actions li .label {
-  font-size: 0.75em;
-}
-
-.summary .secondary ul.actions li + li {
+.summary .secondary .actions li + li {
   margin-left: 1em;
 }
 
-.summary .secondary ul.actions .button {
+.summary .secondary .actions li .button {
   background: darkgrey;
   color: white;
   margin: 0 0 0.25em;
 }
 
-.summary .secondary ul.actions .button:before {
+.summary .secondary .actions li .button:before {
   font-size: 1.5em;
 }
 
-*[dir=rtl] .summary .secondary ul.actions li + li {
+.summary .secondary .actions li .button + .label {
+  font-size: 0.75em;
+}
+
+.summary .secondary .actions li .label:first-child:last-child {
+  border: 1px solid darkgrey;
+  border-radius: 0.25em;
+  color: grey;
+  font-size: 0.9em;
+  padding: 0.25em;
+  text-transform: uppercase;
+}
+
+.summary .secondary .actions li .label:first-child:last-child:active {
+  background: darkgrey;
+  color: white;
+}
+
+*[dir=rtl] .summary .secondary .actions li + li {
   margin-left: 0;
   margin-right: 1em;
 }
@@ -109,10 +158,12 @@
   .summary:not(:empty) {
     border: 0;
     border-radius: 0.5em;
-    flex-direction: row;
     margin-left: 1em;
     margin-right: 1em;
-    text-align: inherit;
+  }
+
+  .summary .details {
+    flex-direction: row;
   }
 
   .summary .primary figure:not(:empty) {
@@ -125,20 +176,26 @@
     font-size: 4em;
   }
 
-  .summary .secondary {
+  .summary .primary:not(:empty) + .secondary {
     height: 8em;
+    text-align: inherit;
   }
 
-  .summary .secondary ul.actions {
-    margin: 0;
+  .summary .primary:not(:empty) + .secondary .actions {
+    justify-content: flex-start;
+    margin-left: 0;
+    margin-right: 0;
   }
 
-  *[dir=rtl] .summary .primary figure:not(:empty) {
+  *[dir=rtl] .summary .primary figure {
     margin: 0 0 0 1em;
   }
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+  .summary .primary:empty + .secondary .actions,
+  .summary .primary:empty + .secondary .title .l3,
+  .summary .secondary .actions li .label:first-child:last-child,
   .summary:not(:empty) {
     border-width: 0.5px;
   }
