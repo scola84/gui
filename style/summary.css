@@ -97,11 +97,15 @@
 .summary .secondary .actions {
   display: flex;
   list-style: none;
-  margin: 0.5em 0 0;
+  margin: 0;
   padding: 0;
 }
 
-.summary .primary:empty + .secondary .actions {
+.summary .secondary .actions:not(:empty) {
+  margin: 0.5em 0 0;
+}
+
+.summary .primary:empty + .secondary .actions:not(:empty) {
   border-top: 1px solid lightgrey;
   margin: 1em 0 0;
   padding-top: 1em;
