@@ -125,6 +125,7 @@ ul.block div.primary .l0:not(:empty),
 ul.block div.primary .l2:not(:empty),
 ul.block div.primary .l3:not(:empty) {
   flex: 1 1 100%;
+  width: 0;
 }
 
 ul.block div.primary .l2:not(:empty),
@@ -255,8 +256,11 @@ ul.block li.disabled div.secondary .icon {
   }
 
   ul.block li:first-of-type:after,
+  ul.block li:first-of-type:last-of-type:before,
   ul.block li:last-of-type:after {
     content: '';
+    left: 0;
+    right: 0;
   }
 
   .menu .outset ul.block li:first-of-type:after,
