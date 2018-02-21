@@ -76,7 +76,9 @@ ul.block li .button {
 }
 
 ul.block li .icon {
-  width: 2.5em;
+  margin: 0 1em 0 0;
+  text-align: center;
+  width: 1.5em;
 }
 
 ul.block li .icon:before {
@@ -218,6 +220,10 @@ ul.block li.disabled div.secondary .icon {
 *[dir=rtl] ul.block li.icon:before {
   left: 0;
   right: 3.5em;
+}
+
+*[dir=rtl] ul.block li .icon {
+  margin: 0 0 0 1em;
 }
 
 *[dir=rtl] ul.block div.primary:not(:empty) {
