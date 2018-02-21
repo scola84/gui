@@ -111,6 +111,7 @@ form ul.block .input {
   align-items: center;
   display: flex;
   flex: 1;
+  min-width: 0;
 }
 
 form ul.block .input.textarea {

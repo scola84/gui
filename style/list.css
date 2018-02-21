@@ -102,32 +102,27 @@ ul.block lt:not(:empty) {
 }
 
 ul.block div.primary:not(:empty) {
-  align-items: center;
   display: flex;
-  flex-flow: row wrap;
+  flex-direction: column;
   margin: 0 1em 0 0;
-  white-space: nowrap;
+  min-width: 0;
 }
 
 ul.block.list div.primary:not(:empty) {
-  flex: 1 1 0;
+  flex: 1 0 auto;
 }
 
 ul.block div.primary span {
   font-size: 0.9em;
 }
 
-ul.block div.primary > * {
+ul.block div.primary .l0,
+ul.block div.primary .l1,
+ul.block div.primary .l2,
+ul.block div.primary .l3 {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-ul.block div.primary .l0:not(:empty),
-ul.block div.primary .l2:not(:empty),
-ul.block div.primary .l3:not(:empty) {
-  flex: 1 1 100%;
-  width: 0;
 }
 
 ul.block div.primary .l2:not(:empty),
@@ -140,11 +135,15 @@ ul.block div.primary .l4:not(:empty) {
   color: darkgrey;
 }
 
-ul.block li.multiline div.primary .l1 {
-  flex: 1 1 0;
-  margin: 0 1em 0 0;
-  text-align: start;
-  width: 0;
+ul.block div.primary .l4:not(:empty) {
+  margin: 0 0 0 1em;
+  flex: 1 0 auto;
+  text-align: end;
+}
+
+ul.block div.primary .line {
+  align-items: center;
+  display: flex;
 }
 
 ul.block li.multiline div.primary .l3:not(:empty) {
@@ -173,6 +172,10 @@ ul.block div.secondary .l5:not(:empty) {
   text-overflow: ellipsis;
 }
 
+ul.block div.secondary .l5 {
+  flex: 1;
+}
+
 ul.block div.secondary .icon {
   color: darkgrey;
   width: auto;
@@ -180,6 +183,10 @@ ul.block div.secondary .icon {
 
 ul.block li.disabled div.secondary .icon {
   display: none;
+}
+
+.outset ul.block.list div.primary:not(:empty) {
+  flex: 1;
 }
 
 .menu .outset ul.block:not(:empty),
@@ -230,8 +237,8 @@ ul.block li.disabled div.secondary .icon {
   margin: 0 0 0 1em;
 }
 
-*[dir=rtl] ul.block li.multiline div.primary .l1 {
-  margin: 0 0 0 1em;
+*[dir=rtl] ul.block div.primary .l4:not(:empty) {
+  margin: 0 1em 0 0;
 }
 
 *[dir=rtl] ul.block div.secondary:not(:empty) {

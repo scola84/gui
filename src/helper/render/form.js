@@ -29,10 +29,23 @@ export default function renderForm(item, format) {
     .classed('l0', true)
     .text((d, i, n) => format(d, i, n, 'l0'));
 
-  primary
+  const line = primary
+    .append('span')
+    .classed('line', true);
+
+  line
     .append('label')
     .classed('l1', true)
     .text((d, i, n) => format(d, i, n, 'l1'));
+
+  line
+    .append('span')
+    .classed('l4', true)
+    .text((d, i, n) => format(d, i, n, 'l4'));
+
+  line
+    .selectAll(':empty')
+    .remove();
 
   primary
     .append('span')

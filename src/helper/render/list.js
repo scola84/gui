@@ -28,14 +28,18 @@ export default function renderList(item, format) {
     .classed('l0', true)
     .text((d, i, n) => format(d, i, n, 'l0'));
 
-  primary
+  const line = primary
+    .append('span')
+    .classed('line', true);
+
+  line
     .append('button')
     .attr('tabindex', (datum) => datum.disabled ? -1 : 0)
     .attr('type', 'button')
     .classed('l1', true)
     .text((d, i, n) => format(d, i, n, 'l1'));
 
-  primary
+  line
     .append('span')
     .classed('l4', true)
     .text((d, i, n) => format(d, i, n, 'l4'));
