@@ -124,7 +124,11 @@ form ul.block .input .wrap {
 }
 
 form ul.block .plain {
+  flex: 1;
+  overflow: hidden;
   padding: 0.25em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 form ul.block .primary + .checkbox {
