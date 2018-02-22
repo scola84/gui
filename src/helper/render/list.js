@@ -54,7 +54,7 @@ export default function renderList(item, format) {
   primary
     .append('span')
     .classed('l3', true)
-    .text((d, i, n) => format(d, i, n, 'l3'));
+    .html((d, i, n) => format(d, i, n, 'l3'));
 
   const secondary = item
     .append('div')

@@ -16,7 +16,7 @@ ul.block:not(:empty) {
   margin: 2em 1em 0;
 }
 
-ul.block li {
+ul.block > li {
   align-items: center;
   background: white;
   display: flex;
@@ -25,70 +25,70 @@ ul.block li {
   position: relative;
 }
 
-ul.block li:first-of-type {
+ul.block > li:first-of-type {
   border-top-left-radius: 0.5em;
   border-top-right-radius: 0.5em;
 }
 
-ul.block li:last-of-type {
+ul.block > li:last-of-type {
   border-bottom-left-radius: 0.5em;
   border-bottom-right-radius: 0.5em;
 }
 
-ul.block li.click:not(.disabled) {
+ul.block > li.click:not(.disabled) {
   cursor: pointer;
 }
 
-ul.block li.click:not(.disabled):active {
+ul.block > li.click:not(.disabled):active {
   background: lightgrey;
 }
 
-ul.block li:before {
+ul.block > li:before {
   border-bottom: 1px solid lightgrey;
   left: 0;
   position: absolute;
   right: 0;
 }
 
-ul.block li:before {
+ul.block > li:before {
   content: '';
   left: 1em;
   top: 0;
 }
 
-ul.block li:first-of-type:before {
+ul.block > li:first-of-type:before {
   content: none;
 }
 
-ul.block li.icon + li:before {
+ul.block > li.icon + li:before {
   left: 3.5em;
 }
 
-ul.block li.click:not(.disabled):active + li:before,
-ul.block li.click:not(.disabled):active:before {
+ul.block > li.click:not(.disabled):active + li:before,
+ul.block > li.click:not(.disabled):active:before {
   left: 0;
 }
 
-ul.block li .button {
+ul.block > li .button {
   border: 1px solid darkgrey;
 }
 
-ul.block li .icon {
+ul.block > li .icon {
   margin: 0 1em 0 0;
   text-align: center;
   width: 1.5em;
 }
 
-ul.block li .icon:before {
+ul.block > li .icon:before {
   font-size: 1.9em;
 }
 
-ul.block li .number:not(:empty) {
+ul.block > li .number:not(:empty) {
   color: darkgrey;
   width: 1.9em;
 }
 
-ul.block lt {
+ul.block > lt {
   border-bottom: 1px solid transparent;
   color: darkgrey;
   display: block;
@@ -96,17 +96,17 @@ ul.block lt {
   text-transform: uppercase;
 }
 
-ul.block lt:not(:empty) {
+ul.block > lt:not(:empty) {
   padding: 0 1em 0.5em;
 }
 
-ul.block lt.fold {
+ul.block > lt.fold {
   display: flex;
   cursor: pointer;
   justify-content: space-between;
 }
 
-ul.block lt.fold:active {
+ul.block > lt.fold:active {
   opacity: 0.5;
 }
 
@@ -114,7 +114,7 @@ ul.block.folded lt.fold:after {
   transform: rotate(0);
 }
 
-ul.block lt.fold:after {
+ul.block > lt.fold:after {
   content: '\f3d3';
   font-family: Ionicons;
   font-size: 1.25em;
@@ -150,11 +150,16 @@ ul.block div.primary .l3 {
   white-space: nowrap;
 }
 
+ul.block div.primary .l0:not(:empty) {
+  margin: 0 0 0.15em;
+}
+
 ul.block div.primary .l2:not(:empty),
 ul.block div.primary .l3:not(:empty) {
   margin: 0.15em 0 0;
 }
 
+ul.block div.primary .l0:not(:empty),
 ul.block div.primary .l3:not(:empty),
 ul.block div.primary .l4:not(:empty) {
   color: darkgrey;
@@ -171,7 +176,26 @@ ul.block div.primary .line {
   display: flex;
 }
 
-ul.block li.multiline div.primary .l3:not(:empty) {
+ul.block > li.full div.primary .l3 {
+  overflow: auto;
+  text-overflow: none;
+  white-space: normal;
+}
+
+ul.block > li.full div.primary .l3 > * {
+  line-height: 1.5em;
+  margin: 0;
+}
+
+ul.block > li.full div.primary .l3 > * + p {
+  margin: 1em 0 0;
+}
+
+ul.block > li.full div.primary .l3 li {
+  line-height: inherit;
+}
+
+ul.block > li.multiline div.primary .l3:not(:empty) {
   height: 2.5em;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -206,7 +230,7 @@ ul.block div.secondary .icon {
   width: auto;
 }
 
-ul.block li.disabled div.secondary .icon {
+ul.block > li.disabled div.secondary .icon {
   display: none;
 }
 
@@ -222,35 +246,35 @@ ul.block li.disabled div.secondary .icon {
   margin-top: 0;
 }
 
-.menu .outset ul.block li:first-of-type,
-.menu .outset ul.block li:last-of-type,
-.menu .outset-x ul.block li:first-of-type,
-.menu .outset-x ul.block li:last-of-type,
-.menu .outset-y ul.block li:first-of-type,
-.menu .outset-y ul.block li:last-of-type {
+.menu .outset ul.block > li:first-of-type,
+.menu .outset ul.block > li:last-of-type,
+.menu .outset-x ul.block > li:first-of-type,
+.menu .outset-x ul.block > li:last-of-type,
+.menu .outset-y ul.block > li:first-of-type,
+.menu .outset-y ul.block > li:last-of-type {
   border-radius: 0;
 }
 
 .menu .outset-x ul.block,
-.menu .outset-x ul.block lt {
+.menu .outset-x ul.block > lt {
   border-color: lightgrey;
 }
 
-*[dir=rtl] ul.block li {
+*[dir=rtl] ul.block > li {
   padding: 0.5em 1em 0.5em 0;
 }
 
-*[dir=rtl] ul.block li:before {
+*[dir=rtl] ul.block > li:before {
   left: 0;
   right: 1em;
 }
 
-*[dir=rtl] ul.block li.icon:before {
+*[dir=rtl] ul.block > li.icon:before {
   left: 0;
   right: 3.5em;
 }
 
-*[dir=rtl] ul.block li .icon {
+*[dir=rtl] ul.block > li .icon {
   margin: 0 0 0 1em;
 }
 
@@ -273,8 +297,8 @@ ul.block li.disabled div.secondary .icon {
   margin: 0 0 0 1em;
 }
 
-*[dir=rtl] ul.block li.click:not(.disabled):active + li:before,
-*[dir=rtl] ul.block li.click:not(.disabled):active:before {
+*[dir=rtl] ul.block > li.click:not(.disabled):active + li:before,
+*[dir=rtl] ul.block > li.click:not(.disabled):active:before {
   right: 0;
 }
 
@@ -284,33 +308,33 @@ ul.block li.disabled div.secondary .icon {
     margin-right: 0;
   }
 
-  ul.block li:first-of-type,
-  ul.block li:last-of-type {
+  ul.block > li:first-of-type,
+  ul.block > li:last-of-type {
     border-radius: 0;
   }
 
-  ul.block li:first-of-type:last-of-type:before {
+  ul.block > li:first-of-type:last-of-type:before {
     content: '';
     left: 0;
     right: 0;
   }
 
   ul.block,
-  ul.block lt {
+  ul.block > lt {
     border-color: lightgrey;
   }
 
   .menu .outset ul.block,
-  .menu .outset ul.block lt {
+  .menu .outset ul.block > lt {
     border: none;
   }
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
   ul.block,
-  ul.block li .button,
-  ul.block li:before,
-  ul.block lt {
+  ul.block > li .button,
+  ul.block > li:before,
+  ul.block > lt {
     border-width: 0.5px;
   }
 }
