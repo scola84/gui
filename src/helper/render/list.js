@@ -1,3 +1,5 @@
+import { select } from 'd3';
+
 export default function renderList(item, format) {
   item
     .attr('class', (datum) => datum.name)
@@ -78,4 +80,12 @@ export default function renderList(item, format) {
     .attr('class', (datum) => 'button ' + datum.button)
     .attr('tabindex', (datum) => datum.disabled ? -1 : 0)
     .attr('type', 'button');
+
+  item
+    .filter((datum, index, nodes) => {
+      return select(nodes[index])
+        .select('.l5:not(:empty)')
+        .size() > 0;
+    })
+    .classed('secondary', true);
 }

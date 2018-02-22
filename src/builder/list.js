@@ -145,14 +145,23 @@ export default class ListBuilder extends Builder {
     list = list
       .enter()
       .append('ul')
+      .attr('class', (datum, index) => {
+        const name = 'fold-' + this._id + '-' + index;
+        return Number(localStorage.getItem(name)) === 1 ? 'folded' : null;
+      })
       .classed('block list', true)
       .merge(list);
 
     list
-      .filter((datum) => typeof datum.name !== 'undefined')
       .append('lt')
+      .attr('class', (datum) => datum.fold ? 'fold' : null)
       .text((d, i, n) => {
         return this.format(d, i, n, { data, name: 'title', route });
+      })
+      .on('click', (datum, index, nodes) => {
+        if (datum.fold) {
+          this._foldList(datum, index, nodes);
+        }
       });
 
     const item = list
@@ -182,7 +191,32 @@ export default class ListBuilder extends Builder {
       return this.format(d, i, n, { data, name, route });
     });
 
+    setTimeout(() => {
+      list.style('height', (datum, index, nodes) => {
+        return datum.fold ? select(nodes[index]).style('height') : null;
+      });
+    });
+
     return { empty, enter, exit, update };
+  }
+
+  _foldList(datum, index, nodes) {
+    const list = select(nodes[index].closest('ul'));
+    const name = 'fold-' + this._id + '-' + index;
+    const value = Number(localStorage.getItem(name));
+
+    localStorage.setItem(name, Number(!value));
+
+    let height = 0;
+    const selector = value === 1 ? 'li,lt' : 'lt';
+
+    list.selectAll(selector).each((d, i, n) => {
+      height += parseFloat(select(n[i]).style('height'));
+    });
+
+    list
+      .style('height', height ? height + 'px' : null)
+      .classed('folded', !value);
   }
 
   _prepareList(route) {
