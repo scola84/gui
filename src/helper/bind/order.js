@@ -191,7 +191,7 @@ export default function bindOrder(route) {
 
   function _reset(list, node, datum) {
     list
-      .selectAll('.number:not(:empty)')
+      .selectAll('span.number:not(:empty)')
       .text((d, i) => i + 1);
 
     select(node)
