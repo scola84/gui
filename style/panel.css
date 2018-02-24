@@ -1,4 +1,4 @@
-.panel {
+div.panel {
   background: whitesmoke;
   display: flex;
   flex-direction: column;

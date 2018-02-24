@@ -7,6 +7,19 @@ export default function renderList(item, format) {
     .classed('disabled', (datum) => datum.disabled);
 
   item
+    .append('span')
+    .attr('class', 'number')
+    .text((d, i, n) => format(d, i, n, 'number'));
+
+  item
+    .filter((datum, index, nodes) => {
+      return select(nodes[index])
+        .select('.number:not(:empty)')
+        .size() > 0;
+    })
+    .classed('number', true);
+
+  item
     .filter((datum) => typeof datum.icon !== 'undefined')
     .classed('icon', true)
     .append('span')

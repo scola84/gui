@@ -1,6 +1,11 @@
 import { event, select } from 'd3';
-import serializeForm from 'form-serialize';
 import GraphicWorker from '../worker/graphic';
+
+import {
+  readDate,
+  readForm,
+  readOrder
+} from '../helper';
 
 export default class FormReader extends GraphicWorker {
   constructor(options = {}) {
@@ -28,7 +33,9 @@ export default class FormReader extends GraphicWorker {
         return;
       }
 
-      data = this._read(form);
+      data = readForm(form, data, this._serialize);
+      data = readDate(form, data);
+      data = readOrder(form, data);
 
       if (callback) {
         callback(data);
@@ -37,52 +44,5 @@ export default class FormReader extends GraphicWorker {
       form.attr('action', '/');
       this.pass(route, data);
     });
-  }
-
-  _read(form) {
-    let data = {};
-
-    data = this._readForm(form, data);
-    data = this._readDate(form, data);
-    data = this._readOrder(form, data);
-
-    return data;
-  }
-
-  _readForm(form) {
-    return serializeForm(form.node(), this._serialize);
-  }
-
-  _readDate(form, data) {
-    form
-      .selectAll('input[type=date]')
-      .each((datum, index, nodes) => {
-        if (nodes[index].value) {
-          data[nodes[index].name] = nodes[index].valueAsNumber;
-        }
-      });
-
-    return data;
-  }
-
-  _readOrder(form, data) {
-    form
-      .selectAll('ul.order')
-      .each((d, group, nodes) => {
-        select(nodes[group])
-          .selectAll('li')
-          .each((datum, index) => {
-            if (datum.empty !== true) {
-              data[datum.name] = data[datum.name] || [];
-              data[datum.name].push({
-                [datum.name]: datum[datum.name],
-                group,
-                index
-              });
-            }
-          });
-      });
-
-    return data;
   }
 }

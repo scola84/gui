@@ -146,8 +146,10 @@ export default class ListBuilder extends Builder {
       .enter()
       .append('ul')
       .attr('class', (datum, index) => {
+        const base = datum.class;
         const name = 'fold-' + this._id + '-' + index;
-        return Number(localStorage.getItem(name)) === 1 ? 'folded' : null;
+        return base +
+          (Number(localStorage.getItem(name)) === 1 ? ' folded' : '');
       })
       .classed('block list', true)
       .merge(list);

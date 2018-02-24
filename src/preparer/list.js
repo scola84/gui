@@ -6,8 +6,16 @@ export default class ListPreparer extends GraphicWorker {
   constructor(options = {}) {
     super(options);
 
+    this._dynamic = null;
     this._height = null;
+
+    this.setDynamic(options.dynamic);
     this.setHeight(options.height);
+  }
+
+  setDynamic(value = true) {
+    this._dynamic = value;
+    return this;
   }
 
   setHeight(value = 48) {
@@ -18,7 +26,10 @@ export default class ListPreparer extends GraphicWorker {
   act(route, data, callback) {
     data = data || {};
 
-    this._prepareScroll(route, data, callback);
+    if (this._dynamic === true) {
+      this._prepareScroll(route, data, callback);
+    }
+
     this._prepareSearch(route, data, callback);
 
     this.pass(route, data, callback);

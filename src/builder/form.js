@@ -29,6 +29,11 @@ export default class FormBuilder extends Builder {
 
   _finishForm(route, data = {}) {
     data = this.filter(route, data);
+
+    const structure = typeof this._structure === 'function' ?
+      this._structure(route, data) :
+      this._structure;
+
     const panel = select(route.node);
 
     const number = panel
@@ -40,11 +45,12 @@ export default class FormBuilder extends Builder {
 
     let list = form
       .selectAll('ul')
-      .data(this._structure);
+      .data(structure);
 
     list = list
       .enter()
       .append('ul')
+      .attr('class', (datum) => datum.class)
       .classed('block form', true)
       .classed('hidden', (datum) => datum.hidden)
       .merge(list);

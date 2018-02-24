@@ -10,6 +10,7 @@ form ul.block.order.ungrouped:not(:empty) {
   background: lightgrey;
   bottom: 0;
   max-height: 9em;
+  overflow-y: auto;
   position: sticky;
 }
 
@@ -249,7 +250,6 @@ form ul.block.order [draggable] span.drag span {
 
 @media (min-width: 48em) {
   form ul.block.order.ungrouped:not(:empty) {
-    bottom: -2em;
     margin-left: 0;
     margin-right: 0;
     padding: 0 1em;

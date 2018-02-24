@@ -81,7 +81,7 @@ export default class CheckboxInput {
         }
       });
 
-    item.on('click', () => {
+    node.on('click', () => {
       this._changeChecked(datum, input);
     });
 

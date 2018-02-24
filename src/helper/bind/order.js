@@ -1,54 +1,62 @@
 import { event, select } from 'd3';
-import GraphicWorker from '../worker/graphic';
 
-export default class OrderPreparer extends GraphicWorker {
-  constructor(options) {
-    super(options);
-    this._content = null;
-  }
+export default function bindOrder(route) {
+  const content = select(route.node)
+    .select('.content');
 
-  act(route, data, callback) {
-    this._bindContent(route);
-    this.pass(route, data, callback);
-  }
+  let drag = null;
 
-  _bindContent(route) {
-    this._content = select(route.node)
-      .select('.content');
+  content.on('mousedown', () => {
+    drag = event.target;
+  });
 
-    let drag = null;
-
-    this._content.on('mousedown', () => {
-      drag = event.target;
-    });
-
-    this._content.on('dragstart', () => {
-      if (select(drag).classed('handle') === false) {
-        event.preventDefault();
-      }
-    });
-
-    this._content.on('dragover', () => {
+  content.on('dragstart', () => {
+    if (select(drag).classed('handle') === false) {
       event.preventDefault();
-    });
+    } else {
+      event.dataTransfer.setData('text', '');
+    }
+  });
 
-    this._content.on('drop', () => {
-      const from = drag.closest('li');
-      const to = event.target.closest('li');
+  content.on('dragover', () => {
+    event.preventDefault();
+  });
 
-      if (to === null) {
-        this._export(from);
-      } else if (to.parentNode !== from.parentNode) {
-        this._import(from, to);
-      } else {
-        this._move(from, to);
+  content.on('drop', () => {
+    const from = drag.closest('li');
+    const to = event.target.closest('li');
+
+    if (to === null) {
+      _export(from);
+    } else if (to.parentNode !== from.parentNode) {
+      _import(from, to);
+    } else {
+      _move(from, to);
+    }
+  });
+
+  function _clone(from, to) {
+    const fromDatum = select(from).datum();
+    const fromDrag = from.querySelector('[draggable]');
+
+    const toDrag = to.querySelector('[draggable]');
+    const toList = select(to.closest('ul'));
+
+    if (toList.classed('no-duplicate')) {
+      if (_hasDuplicate(fromDatum, toList)) {
+        return;
       }
-    });
+    }
+
+    if (!toDrag) {
+      to.appendChild(fromDrag.cloneNode(true));
+      _reset(toList, to, fromDatum);
+    }
   }
 
-  _export(from) {
+  function _export(from) {
     const container = select(from.closest('ul').parentNode);
-    const ungrouped = this._content.select('.ungrouped');
+    const ungrouped = content.select('.ungrouped');
 
     const fromDatum = select(from).datum();
     const fromDrag = from.querySelector('[draggable]');
@@ -58,8 +66,13 @@ export default class OrderPreparer extends GraphicWorker {
       return;
     }
 
-    this._removeFrom(fromList, from);
     from.removeChild(fromDrag);
+    _removeFrom(fromList, from);
+    _reset(fromList, from, { name: fromDatum.name, empty: true });
+
+    if (fromList.classed('to-ungrouped') === false) {
+      return;
+    }
 
     const to = from.cloneNode(true);
     to.appendChild(fromDrag);
@@ -72,11 +85,10 @@ export default class OrderPreparer extends GraphicWorker {
       .node()
       .appendChild(to);
 
-    this._reset(fromList, from, { empty: true });
-    this._reset(toList, to, fromDatum);
+    _reset(toList, to, fromDatum);
   }
 
-  _import(from, to) {
+  function _import(from, to) {
     const fromDatum = select(from).datum();
     const fromDrag = from.querySelector('[draggable]');
     const fromList = select(from.closest('ul'));
@@ -89,23 +101,35 @@ export default class OrderPreparer extends GraphicWorker {
       return;
     }
 
+    if (toList.classed('no-duplicate')) {
+      if (_hasDuplicate(fromDatum, toList)) {
+        return;
+      }
+    }
+
+    if (fromList.classed('clone')) {
+      _clone(from, to);
+      return;
+    }
+
     if (!toDrag) {
       to.appendChild(fromDrag);
-      this._removeFrom(fromList, from);
+      _removeFrom(fromList, from);
+      _reset(fromList, from, toDatum);
+      _reset(toList, to, fromDatum);
     } else if (toList.classed('static')) {
       to.appendChild(fromDrag);
       from.appendChild(toDrag);
+      _reset(fromList, from, toDatum);
+      _reset(toList, to, fromDatum);
     } else {
       toList
         .node()
         .insertBefore(from, to);
     }
-
-    this._reset(fromList, from, toDatum);
-    this._reset(toList, to, fromDatum);
   }
 
-  _move(from, to) {
+  function _move(from, to) {
     const toDatum = select(to).datum();
     const toDrag = to.querySelector('[draggable]');
     const toList = select(to.closest('ul'));
@@ -116,6 +140,8 @@ export default class OrderPreparer extends GraphicWorker {
 
     if (toDrag === null) {
       to.appendChild(fromDrag);
+      _reset(fromList, from, toDatum);
+      _reset(toList, to, fromDatum);
     } else {
       const children = Array.from(from.parentNode.childNodes);
       const fromIndex = children.indexOf(from);
@@ -135,12 +161,21 @@ export default class OrderPreparer extends GraphicWorker {
           .appendChild(from);
       }
     }
-
-    this._reset(fromList, from, toDatum);
-    this._reset(toList, to, fromDatum);
   }
 
-  _removeFrom(fromList, from) {
+  function _hasDuplicate(fromDatum, toList) {
+    let found = false;
+
+    toList.selectAll('li').each((datum) => {
+      found = found ||
+        typeof datum[datum.name] !== 'undefined' &&
+        datum[datum.name] === fromDatum[datum.name];
+    });
+
+    return found;
+  }
+
+  function _removeFrom(fromList, from) {
     if (fromList.classed('static') === false) {
       from.parentNode.removeChild(from);
     }
@@ -154,7 +189,7 @@ export default class OrderPreparer extends GraphicWorker {
     }
   }
 
-  _reset(list, node, datum) {
+  function _reset(list, node, datum) {
     list
       .selectAll('.number:not(:empty)')
       .text((d, i) => i + 1);

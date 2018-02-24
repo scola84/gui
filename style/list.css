@@ -64,6 +64,14 @@ ul.block > li.icon + li:before {
   left: 3.5em;
 }
 
+ul.block > li.number + li:before {
+  left: 2.9em;
+}
+
+ul.block > li.icon.number + li:before {
+  left: 5.4em;
+}
+
 ul.block > li.click:not(.disabled):active + li:before,
 ul.block > li.click:not(.disabled):active:before {
   left: 0;
@@ -272,6 +280,16 @@ ul.block > li.disabled div.secondary .icon {
 *[dir=rtl] ul.block > li.icon:before {
   left: 0;
   right: 3.5em;
+}
+
+*[dir=rtl] ul.block > li.number + li:before {
+  left: 0;
+  right: 2.9em;
+}
+
+*[dir=rtl] ul.block > li.icon.number + li:before {
+  left: 0;
+  right: 5.4em;
 }
 
 *[dir=rtl] ul.block > li .icon {
