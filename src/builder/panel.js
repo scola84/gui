@@ -22,6 +22,12 @@ export default class PanelBuilder extends GraphicWorker {
   }
 
   act(route, data, callback) {
+    if (this._base.classed('busy') === true) {
+      return;
+    }
+
+    this._base.classed('busy', true);
+
     const moveDir = route.rtl ? 'rtl' : route.ltr ? 'ltr' : null;
     const readDir = select('html').attr('dir') || 'ltr';
     const width = this._base.style('width');
@@ -81,7 +87,10 @@ export default class PanelBuilder extends GraphicWorker {
 
     panel
       .transition()
-      .style(property, newEnd);
+      .style(property, newEnd)
+      .on('end', () => {
+        this._base.classed('busy', false);
+      });
 
     route.node = panel.node();
     route.user = this._user;
