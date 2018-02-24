@@ -1,11 +1,12 @@
 ul.block {
+  border: 0;
+  border-bottom: 1px none lightgrey;
   height: auto;
   list-style: none;
   margin: 0;
   overflow: hidden;
   padding: 0;
   transition: height 0.25s;
-  border-bottom: 1px solid transparent;
 }
 
 ul.block.folded:not(:empty) {
@@ -97,7 +98,8 @@ ul.block > li .number:not(:empty) {
 }
 
 ul.block > lt {
-  border-bottom: 1px solid transparent;
+  border: 0;
+  border-bottom: 1px none lightgrey;
   color: darkgrey;
   display: block;
   font-size: 0.9em;
@@ -115,7 +117,7 @@ ul.block > lt.fold {
 }
 
 ul.block > lt.fold:active {
-  opacity: 0.5;
+  color: rgba(169,169,169,0.5);
 }
 
 ul.block.folded lt.fold:after {
@@ -265,7 +267,7 @@ ul.block > li.disabled div.secondary .icon {
 
 .menu .outset-x ul.block,
 .menu .outset-x ul.block > lt {
-  border-color: lightgrey;
+  border-style: solid;
 }
 
 *[dir=rtl] ul.block > li {
@@ -332,14 +334,12 @@ ul.block > li.disabled div.secondary .icon {
   }
 
   ul.block > li:first-of-type:last-of-type:before {
-    content: '';
-    left: 0;
-    right: 0;
+    content: none;
   }
 
   ul.block,
   ul.block > lt {
-    border-color: lightgrey;
+    border-style: solid;
   }
 
   .menu .outset ul.block,
