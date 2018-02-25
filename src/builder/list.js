@@ -146,7 +146,7 @@ export default class ListBuilder extends Builder {
       .enter()
       .append('ul')
       .attr('class', (datum, index) => {
-        const base = datum.class;
+        const base = datum.class || '';
         const name = 'fold-' + this._id + '-' + index;
         return base +
           (Number(localStorage.getItem(name)) === 1 ? ' folded' : '');

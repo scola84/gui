@@ -14,6 +14,10 @@ form ul.block.order.ungrouped:not(:empty) {
   position: sticky;
 }
 
+form ul.block.order.ungrouped.l3:not(:empty) {
+  max-height: 10.5em;
+}
+
 form ul.block input,
 form ul.block textarea {
   background: none;
