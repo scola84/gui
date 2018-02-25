@@ -8,8 +8,11 @@ export default function readOrder(form, data) {
         .selectAll('li')
         .each((datum, index) => {
           const id = datum.empty ? 0 : datum[datum.name];
-          data[datum.name] = data[datum.name] || [];
-          data[datum.name].push(id + '-' + (group + 1) + '-' + (index + 1));
+
+          if (typeof id !== 'undefined') {
+            data[datum.name] = data[datum.name] || [];
+            data[datum.name].push(id + '-' + (group + 1) + '-' + (index + 1));
+          }
         });
     });
 
