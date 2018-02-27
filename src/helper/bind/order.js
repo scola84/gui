@@ -27,15 +27,15 @@ export default function bindOrder(route) {
     const to = event.target.closest('li');
 
     if (to === null) {
-      _export(from);
+      moveFrom(from);
     } else if (to.parentNode !== from.parentNode) {
-      _import(from, to);
+      moveFromTo(from, to);
     } else {
-      _move(from, to);
+      move(from, to);
     }
   });
 
-  function _clone(from, to) {
+  function clone(from, to) {
     const fromDatum = select(from).datum();
     const fromDrag = from.querySelector('[draggable]');
 
@@ -43,18 +43,18 @@ export default function bindOrder(route) {
     const toList = select(to.closest('ul'));
 
     if (toList.classed('no-duplicate')) {
-      if (_hasDuplicate(fromDatum, toList)) {
+      if (hasDuplicate(fromDatum, toList)) {
         return;
       }
     }
 
     if (!toDrag) {
       to.appendChild(fromDrag.cloneNode(true));
-      _reset(toList, to, fromDatum);
+      reset(toList, to, fromDatum);
     }
   }
 
-  function _export(from) {
+  function moveFrom(from) {
     const container = select(from.closest('ul').parentNode);
     const ungrouped = content.select('.ungrouped');
 
@@ -67,8 +67,8 @@ export default function bindOrder(route) {
     }
 
     from.removeChild(fromDrag);
-    _removeFrom(fromList, from);
-    _reset(fromList, from, { name: fromDatum.name, empty: true });
+    removeFrom(fromList, from);
+    reset(fromList, from, { name: fromDatum.name, empty: true });
 
     if (fromList.classed('to-ungrouped') === false) {
       return;
@@ -85,10 +85,10 @@ export default function bindOrder(route) {
       .node()
       .appendChild(to);
 
-    _reset(toList, to, fromDatum);
+    reset(toList, to, fromDatum);
   }
 
-  function _import(from, to) {
+  function moveFromTo(from, to) {
     const fromDatum = select(from).datum();
     const fromDrag = from.querySelector('[draggable]');
     const fromList = select(from.closest('ul'));
@@ -102,26 +102,30 @@ export default function bindOrder(route) {
     }
 
     if (toList.classed('no-duplicate')) {
-      if (_hasDuplicate(fromDatum, toList)) {
+      if (hasDuplicate(fromDatum, toList)) {
+        return;
+      }
+
+      if (hasDuplicate(toDatum, fromList)) {
         return;
       }
     }
 
     if (fromList.classed('clone')) {
-      _clone(from, to);
+      clone(from, to);
       return;
     }
 
     if (!toDrag) {
       to.appendChild(fromDrag);
-      _removeFrom(fromList, from);
-      _reset(fromList, from, toDatum);
-      _reset(toList, to, fromDatum);
+      removeFrom(fromList, from);
+      reset(fromList, from, toDatum);
+      reset(toList, to, fromDatum);
     } else if (toList.classed('static')) {
       to.appendChild(fromDrag);
       from.appendChild(toDrag);
-      _reset(fromList, from, toDatum);
-      _reset(toList, to, fromDatum);
+      reset(fromList, from, toDatum);
+      reset(toList, to, fromDatum);
     } else {
       toList
         .node()
@@ -129,7 +133,7 @@ export default function bindOrder(route) {
     }
   }
 
-  function _move(from, to) {
+  function move(from, to) {
     const toDatum = select(to).datum();
     const toDrag = to.querySelector('[draggable]');
     const toList = select(to.closest('ul'));
@@ -140,8 +144,8 @@ export default function bindOrder(route) {
 
     if (toDrag === null) {
       to.appendChild(fromDrag);
-      _reset(fromList, from, toDatum);
-      _reset(toList, to, fromDatum);
+      reset(fromList, from, toDatum);
+      reset(toList, to, fromDatum);
     } else {
       const children = Array.from(from.parentNode.childNodes);
       const fromIndex = children.indexOf(from);
@@ -163,7 +167,7 @@ export default function bindOrder(route) {
     }
   }
 
-  function _hasDuplicate(fromDatum, toList) {
+  function hasDuplicate(fromDatum, toList) {
     let found = false;
 
     toList.selectAll('li').each((datum) => {
@@ -175,7 +179,7 @@ export default function bindOrder(route) {
     return found;
   }
 
-  function _removeFrom(fromList, from) {
+  function removeFrom(fromList, from) {
     if (fromList.classed('static') === false) {
       from.parentNode.removeChild(from);
     }
@@ -189,7 +193,7 @@ export default function bindOrder(route) {
     }
   }
 
-  function _reset(list, node, datum) {
+  function reset(list, node, datum) {
     list
       .selectAll('span.number:not(:empty)')
       .text((d, i) => i + 1);
