@@ -1,5 +1,6 @@
-div.panel {
+.section > .panel {
   background: whitesmoke;
+  box-shadow: 0 0 15px darkgrey;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -7,23 +8,23 @@ div.panel {
   width: 100%;
 }
 
-.panel .bar.footer {
+.section > .panel .bar.footer {
   order: 3;
 }
 
-.panel .bar.header {
+.section > .panel .bar.header {
   order: 1;
 }
 
-.panel.footer .bar.footer,
-.panel.header .bar.header {
+.section > .panel.footer .bar.footer,
+.section > .panel.header .bar.header {
   align-items: center;
   background: #FAFAFA;
   display: flex;
   height: 3em;
 }
 
-.panel .bar .button {
+.section > .panel .bar .button {
   align-items: center;
   color: inherit;
   cursor: pointer;
@@ -33,42 +34,42 @@ div.panel {
   text-decoration: inherit;
 }
 
-.panel .bar .button:active {
+.section > .panel .bar .button:active {
   opacity: 0.5;
 }
 
-.panel .bar .button:before {
+.section > .panel .bar .button:before {
   font-size: 1.9em;
   position: absolute;
 }
 
-.panel .bar .button.icon:empty:before {
+.section > .panel .bar .button.icon:empty:before {
   width: 100%;
 }
 
-.panel .bar .disabled .button,
-.panel .bar.disabled .button {
+.section > .panel .bar .disabled .button,
+.section > .panel .bar.disabled .button {
   display: none;
 }
 
-.panel .bar .center {
+.section > .panel .bar .center {
   flex: 1;
   overflow: hidden;
   margin: 0 1em;
 }
 
-.panel .bar .left {
+.section > .panel .bar .left {
   display: flex;
   min-width: 20%;
 }
 
-.panel .bar .right {
+.section > .panel .bar .right {
   display: flex;
   min-width: 20%;
   justify-content: flex-end;
 }
 
-.panel .bar .title {
+.section > .panel .bar .title {
   font-weight: bold;
   overflow: hidden;
   text-align: center;
@@ -76,7 +77,7 @@ div.panel {
   white-space: nowrap;
 }
 
-.panel .body {
+.section > .panel .body {
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -85,29 +86,33 @@ div.panel {
   position: relative;
 }
 
-.panel .body .content {
+.section > .panel .body .content {
   -webkit-overflow-scrolling: touch;
   flex: 1;
   overflow: auto;
 }
 
-.panel .body .content:after {
+.section > .panel .body .content:after {
   content: '';
   display: block;
   height: 2em;
 }
 
-.panel.footer .body .content,
-.panel.footer .body.disabled > .message {
+.section > .panel .body .content > .progress {
+  background: none;
+}
+
+.section > .panel.footer .body .content,
+.section > .panel.footer .body.disabled > .message {
   border-bottom: 1px solid lightgrey;
 }
 
-.panel.header .body .content,
-.panel.header .body.disabled > .message {
+.section > .panel.header .body .content,
+.section > .panel.header .body.disabled > .message {
   border-top: 1px solid lightgrey;
 }
 
-.panel .body .button {
+.section > .panel .body .button {
   align-items: center;
   background: none;
   border-radius: 50%;
@@ -119,23 +124,23 @@ div.panel {
   width: 2em;
 }
 
-.panel .body .button[tabindex="-1"],
-.panel .body .button[tabindex="0"]:active {
+.section > .panel .body .button[tabindex="-1"],
+.section > .panel .body .button[tabindex="0"]:active {
   opacity: 0.5;
 }
 
-.panel .body .button:before {
+.section > .panel .body .button:before {
   font-size: 1.9em;
 }
 
-.panel .body > .message {
+.section > .panel .body > .message {
   align-items: center;
   display: flex;
   justify-content: center;
   text-align: center;
 }
 
-.panel .body.disabled > .message {
+.section > .panel .body.disabled > .message {
   background: whitesmoke;
   color: darkgrey;
   height: 100%;
@@ -145,10 +150,10 @@ div.panel {
   z-index: 1;
 }
 
-.panel .body:not(.disabled) > .message {
+.section > .panel .body:not(.disabled) > .message {
   background: lightgrey;
   color: dimgrey;
-  height: 2.25em;
+  min-height: 2.25em;
   margin-bottom: -2.25em;
   padding: 0.5em;
   position: relative;
@@ -157,16 +162,16 @@ div.panel {
   z-index: 0;
 }
 
-.panel.message .body:not(.disabled) > .message {
+.section > .panel.message .body:not(.disabled) > .message {
   top: 0;
   margin-bottom: 0;
 }
 
-.panel .body.disabled > .message span {
+.section > .panel .body.disabled > .message span {
   font-size: 1.9em;
 }
 
-.panel .body .search {
+.section > .panel .body .search {
   background: #FAFAFA;
   display: flex;
   margin-bottom: -3em;
@@ -176,21 +181,21 @@ div.panel {
   z-index: 1;
 }
 
-.panel.immediate .body .search {
+.section > .panel.immediate .body .search {
   transition: none !important;
 }
 
-.panel.search .body:not(.disabled) .search {
+.section > .panel.search .body:not(.disabled) .search {
   margin-bottom: 0;
   top: 0;
 }
 
-.panel .body .search div {
+.section > .panel .body .search div {
   display: flex;
   flex: 1;
 }
 
-.panel .body .search div::before {
+.section > .panel .body .search div::before {
   color: dimgray;
   font-size: 1.25em !important;
   justify-content: center;
@@ -199,7 +204,7 @@ div.panel {
   top: 0.35em;
 }
 
-.panel .body .search input {
+.section > .panel .body .search input {
   background: lightgrey;
   border: 0;
   border-radius: 0.5em;
@@ -208,63 +213,63 @@ div.panel {
   padding: 0.5em 0.5em 0.5em 2em;
 }
 
-.panel .body .search input:-webkit-autofill {
+.section > .panel .body .search input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px lightgrey inset;
 }
 
-.menu .panel.outset .body {
+.section.menu > .panel.outset .body {
   background: white;
 }
 
-.menu .panel.outset .body .content:after {
+.section.menu > .panel.outset .body .content:after {
   height: 0;
 }
 
-*[dir=rtl] .panel .bar .right .button,
-.panel .bar .left .button {
+*[dir=rtl] .section > .panel .bar .right .button,
+.section > .panel .bar .left .button {
   margin: 0 0 0 1em;
 }
 
-*[dir=rtl] .panel .bar .right .button + .button,
-.panel .bar .left .button + .button {
+*[dir=rtl] .section > .panel .bar .right .button + .button,
+.section > .panel .bar .left .button + .button {
   margin: 0 -0.5em 0 1em;
 }
 
-*[dir=rtl] .panel .bar .right .button.icon,
-.panel .bar .left .button.icon {
+*[dir=rtl] .section > .panel .bar .right .button.icon,
+.section > .panel .bar .left .button.icon {
   padding: 0 0 0 1.25em;
 }
 
-*[dir=rtl] .panel .bar .left .button,
-.panel .bar .right .button {
+*[dir=rtl] .section > .panel .bar .left .button,
+.section > .panel .bar .right .button {
   margin: 0 1em 0 0;
 }
 
-*[dir=rtl] .panel .bar .left .button + .button,
-.panel .bar .right .button + .button {
+*[dir=rtl] .section > .panel .bar .left .button + .button,
+.section > .panel .bar .right .button + .button {
   margin: 0 1em 0 -0.5em;
 }
 
-*[dir=rtl] .panel .bar .left .button.icon,
-.panel .bar .right .button.icon {
+*[dir=rtl] .section > .panel .bar .left .button.icon,
+.section > .panel .bar .right .button.icon {
   padding: 0 1.25em 0 0;
 }
 
-*[dir=rtl] .panel .bar .right .button.icon:before,
-.panel .bar .left .button.icon:before {
+*[dir=rtl] .section > .panel .bar .right .button.icon:before,
+.section > .panel .bar .left .button.icon:before {
   left: 0;
   right: auto;
 }
 
-*[dir=rtl] .panel .bar .left .button.icon:before,
-.panel .bar .right .button.icon:before {
+*[dir=rtl] .section > .panel .bar .left .button.icon:before,
+.section > .panel .bar .right .button.icon:before {
   left: auto;
   right: 0;
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-  .panel.footer .body .content,
-  .panel.header .body .content {
+  .section > .panel.footer .body .content,
+  .section > .panel.header .body .content {
     border-width: 0.5px;
   }
 }

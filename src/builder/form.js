@@ -44,31 +44,50 @@ export default class FormBuilder extends Builder {
       .select('#' + this._createTarget('form', number));
 
     let list = form
-      .selectAll('ul')
+      .selectAll('div.block.form')
       .data(structure);
 
-    list = list
+    const enter = list
       .enter()
-      .append('ul')
+      .append('div')
       .attr('class', (datum) => datum.class)
       .classed('block form', true)
-      .classed('hidden', (datum) => datum.hidden)
-      .merge(list);
+      .classed('hidden', (datum) => datum.hidden);
 
-    list
-      .filter((datum) => typeof datum.name !== 'undefined')
-      .append('lt')
+    enter
+      .append('ul');
+
+    enter
+      .append('span')
+      .attr('class', (datum) => datum.fold ? 'fold' : null)
+      .classed('title', true)
       .text((d, i, n) => {
         return this.format(d, i, n, { data, name: 'title', route });
+      })
+      .on('click', (datum, index, nodes) => {
+        if (datum.fold) {
+          this._foldList(datum, index, nodes);
+        }
       });
 
-    const enter = list
+    enter
+      .append('span')
+      .classed('comment', true)
+      .text((d, i, n) => {
+        return this.format(d, i, n, { data, name: 'comment', route });
+      });
+
+    list = list
+      .merge(enter);
+
+    const item = list
+      .select('ul')
       .selectAll('li')
       .data((datum) => datum.fields)
       .enter()
       .append('li');
 
-    this._render(enter, (d, i, n, name) => {
+    this._render(item, (d, i, n, name) => {
       return this.format(d, i, n, { data, name, route });
     });
 

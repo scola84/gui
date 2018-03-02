@@ -50,7 +50,6 @@
 
 .summary .secondary {
   display: flex;
-  flex: 1;
   flex-direction: column;
 }
 
@@ -146,7 +145,7 @@
 .summary .secondary .actions li .label:first-child:last-child {
   border: 1px solid darkgrey;
   border-radius: 0.25em;
-  color: grey;
+  color: darkgrey;
   font-size: 0.9em;
   padding: 0.25em;
   text-transform: uppercase;

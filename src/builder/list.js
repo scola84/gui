@@ -56,7 +56,10 @@ export default class ListBuilder extends Builder {
 
   _clearList(list, item) {
     item.remove();
-    return list.selectAll('li');
+
+    return list
+      .select('ul')
+      .selectAll('li');
   }
 
   _finishData(route, list, item, data) {
@@ -139,24 +142,27 @@ export default class ListBuilder extends Builder {
 
     let list = panel
       .select('#' + this._createTarget('list', number))
-      .selectAll('ul.list')
+      .selectAll('div.block.list')
       .data(structure);
 
-    list = list
+    const enter = list
       .enter()
-      .append('ul')
+      .append('div')
       .attr('class', (datum, index) => {
         const base = datum.class || '';
         const name = 'fold-' + this._id + '-' + index;
         return base +
           (Number(localStorage.getItem(name)) === 1 ? ' folded' : '');
       })
-      .classed('block list', true)
-      .merge(list);
+      .classed('block list', true);
 
-    list
-      .append('lt')
+    enter
+      .append('ul');
+
+    enter
+      .append('span')
       .attr('class', (datum) => datum.fold ? 'fold' : null)
+      .classed('title', true)
       .text((d, i, n) => {
         return this.format(d, i, n, { data, name: 'title', route });
       })
@@ -166,7 +172,18 @@ export default class ListBuilder extends Builder {
         }
       });
 
+    enter
+      .append('span')
+      .classed('comment', true)
+      .text((d, i, n) => {
+        return this.format(d, i, n, { data, name: 'comment', route });
+      });
+
+    list = list
+      .merge(enter);
+
     const item = list
+      .select('ul')
       .selectAll('li');
 
     if (this._dynamic === true) {
@@ -203,17 +220,21 @@ export default class ListBuilder extends Builder {
   }
 
   _foldList(datum, index, nodes) {
-    const list = select(nodes[index].closest('ul'));
+    const list = select(nodes[index].closest('.block'));
     const name = 'fold-' + this._id + '-' + index;
     const value = Number(localStorage.getItem(name));
 
     localStorage.setItem(name, Number(!value));
 
     let height = 0;
-    const selector = value === 1 ? 'li,lt' : 'lt';
+    let node = null;
+    const selector = value === 1 ? 'ul,.comment,.title' : '.title';
 
     list.selectAll(selector).each((d, i, n) => {
-      height += parseFloat(select(n[i]).style('height'));
+      node = select(n[i]);
+      height += parseFloat(node.style('height')) +
+        parseFloat(node.style('margin-top')) +
+        parseFloat(node.style('margin-bottom'));
     });
 
     list

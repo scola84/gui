@@ -1,4 +1,4 @@
-export default function readDate(form, data) {
+export default function readDate(route, data, form) {
   form
     .selectAll('input[type=date]')
     .each((datum, index, nodes) => {

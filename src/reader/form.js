@@ -3,6 +3,7 @@ import GraphicWorker from '../worker/graphic';
 
 import {
   readDate,
+  readFile,
   readForm,
   readOrder
 } from '../helper';
@@ -33,9 +34,11 @@ export default class FormReader extends GraphicWorker {
         return;
       }
 
-      data = readForm(form, data, this._serialize);
-      data = readDate(form, data);
-      data = readOrder(form, data);
+      data = {};
+      data = readForm(route, data, form, this._serialize);
+      data = readDate(route, data, form);
+      data = readOrder(route, data, form);
+      data = readFile(route, data, form);
 
       if (callback) {
         callback(data);

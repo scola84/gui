@@ -70,21 +70,21 @@ export default function renderForm(item, format) {
     .remove();
 
   item.each((datum, index, nodes) => {
-    const inputId = 'input-' + (++id);
+    let result = null;
+    let inputId = 'input-' + (++id);
+
     const inputName = datum.name ?
       datum.array ? datum.name + '[]' : datum.name :
       null;
+
+    const types = Array.isArray(datum.type) ?
+      datum.type : [datum.type];
 
     const node = select(nodes[index]);
 
     node
       .select('label')
       .attr('for', inputId);
-
-    const types = Array.isArray(datum.type) ?
-      datum.type : [datum.type];
-
-    let result = null;
 
     for (let i = 0; i < types.length; i += 1) {
       if (!input[types[i]]) {
@@ -98,6 +98,8 @@ export default function renderForm(item, format) {
       if (!result) {
         continue;
       }
+
+      inputId = result.attr('id') || inputId;
 
       result
         .attr('id', inputId)

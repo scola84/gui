@@ -39,6 +39,7 @@ import {
   bindOrder,
   getView,
   readDate,
+  readFile,
   readForm,
   readOrder,
   renderBack,
@@ -47,6 +48,7 @@ import {
   renderList,
   renderSearch,
   renderSummary,
+  requestFile,
   setView,
   setupApp,
   setupMenu
@@ -93,6 +95,7 @@ export {
   bindOrder,
   getView,
   readDate,
+  readFile,
   readForm,
   readOrder,
   renderBack,
@@ -101,6 +104,7 @@ export {
   renderList,
   renderSearch,
   renderSummary,
+  requestFile,
   setView,
   setupApp,
   setupMenu

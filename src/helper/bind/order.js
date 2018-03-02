@@ -40,7 +40,7 @@ export default function bindOrder(route) {
     const fromDrag = from.querySelector('[draggable]');
 
     const toDrag = to.querySelector('[draggable]');
-    const toList = select(to.closest('ul'));
+    const toList = select(to.closest('.block.order'));
 
     if (toList.classed('no-duplicate')) {
       if (hasDuplicate(fromDatum, toList)) {
@@ -60,7 +60,7 @@ export default function bindOrder(route) {
 
     const fromDatum = select(from).datum();
     const fromDrag = from.querySelector('[draggable]');
-    const fromList = select(from.closest('ul'));
+    const fromList = select(from.closest('.block.order'));
 
     if (fromList.classed('export') === false) {
       return;
@@ -77,11 +77,18 @@ export default function bindOrder(route) {
     const to = from.cloneNode(true);
     to.appendChild(fromDrag);
 
-    const toList = ungrouped.size() > 0 ? ungrouped : container
-      .append('ul')
-      .classed('block list', true);
+    let toList = ungrouped.size() > 0 ? ungrouped : null;
+
+    if (toList === null) {
+      toList = container
+        .append('div')
+        .classed('block order ungrouped', true);
+
+      toList.append('ul');
+    }
 
     toList
+      .select('ul')
       .node()
       .appendChild(to);
 
@@ -91,11 +98,11 @@ export default function bindOrder(route) {
   function moveFromTo(from, to) {
     const fromDatum = select(from).datum();
     const fromDrag = from.querySelector('[draggable]');
-    const fromList = select(from.closest('ul'));
+    const fromList = select(from.closest('.block.order'));
 
     const toDatum = select(to).datum();
     const toDrag = to.querySelector('[draggable]');
-    const toList = select(to.closest('ul'));
+    const toList = select(to.closest('.block.order'));
 
     if (toList.classed('import') === false) {
       return;
@@ -128,6 +135,7 @@ export default function bindOrder(route) {
       reset(toList, to, fromDatum);
     } else {
       toList
+        .select('ul')
         .node()
         .insertBefore(from, to);
     }
@@ -136,11 +144,11 @@ export default function bindOrder(route) {
   function move(from, to) {
     const toDatum = select(to).datum();
     const toDrag = to.querySelector('[draggable]');
-    const toList = select(to.closest('ul'));
+    const toList = select(to.closest('.block.order'));
 
     const fromDatum = select(from).datum();
     const fromDrag = from.querySelector('[draggable]');
-    const fromList = select(from.closest('ul'));
+    const fromList = select(from.closest('.block.order'));
 
     if (toDrag === null) {
       to.appendChild(fromDrag);
@@ -150,19 +158,14 @@ export default function bindOrder(route) {
       const children = Array.from(from.parentNode.childNodes);
       const fromIndex = children.indexOf(from);
       const toIndex = children.indexOf(to);
+      const node = toList.select('ul').node();
 
       if (fromIndex > toIndex) {
-        toList
-          .node()
-          .insertBefore(from, to);
+        node.insertBefore(from, to);
       } else if (to.nextSibling) {
-        toList
-          .node()
-          .insertBefore(from, to.nextSibling);
+        node.insertBefore(from, to.nextSibling);
       } else {
-        toList
-          .node()
-          .appendChild(from);
+        node.appendChild(from);
       }
     }
   }

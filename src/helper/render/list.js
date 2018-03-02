@@ -88,6 +88,15 @@ export default function renderList(item, format) {
     .classed('icon ion-ios-arrow-forward', true);
 
   secondary
+    .selectAll('button')
+    .data((datum) => Array.isArray(datum.actions) ? datum.actions : [])
+    .enter()
+    .append('button')
+    .attr('class', (datum) => 'button ' + datum.button)
+    .attr('tabindex', (datum) => datum.disabled ? -1 : 0)
+    .attr('type', 'button');
+
+  secondary
     .filter((datum) => typeof datum.button !== 'undefined')
     .append('button')
     .attr('class', (datum) => 'button ' + datum.button)

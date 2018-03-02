@@ -6,13 +6,20 @@ export default class PanelBuilder extends GraphicWorker {
     super(options);
 
     this._base = null;
+    this._duration = null;
     this._user = null;
 
     this.setBase(options.base);
+    this.setDuration(options.duration);
   }
 
   setBase(value = null) {
     this._base = value;
+    return this;
+  }
+
+  setDuration(value = 250) {
+    this._duration = value;
     return this;
   }
 
@@ -30,7 +37,7 @@ export default class PanelBuilder extends GraphicWorker {
 
     const moveDir = route.rtl ? 'rtl' : route.ltr ? 'ltr' : null;
     const readDir = select('html').attr('dir') || 'ltr';
-    const width = this._base.style('width');
+    const width = parseFloat(this._base.style('width'));
 
     const {
       property,
@@ -44,6 +51,7 @@ export default class PanelBuilder extends GraphicWorker {
       .select('.panel')
       .style(property, oldBegin)
       .transition()
+      .duration(this._duration)
       .style(property, oldEnd)
       .remove();
 
@@ -87,6 +95,7 @@ export default class PanelBuilder extends GraphicWorker {
 
     panel
       .transition()
+      .duration(this._duration)
       .style(property, newEnd)
       .on('end', () => {
         this._base.classed('busy', false);
@@ -115,12 +124,15 @@ export default class PanelBuilder extends GraphicWorker {
   }
 
   _calculateMove(moveDir, readDir, width) {
+    const move = moveDir === 'rtl' ? -1 : 1;
+    const read = readDir === 'rtl' ? -1 : 1;
+
     return {
-      property: readDir === 'ltr' ? 'left' : 'right',
-      oldBegin: 0,
-      oldEnd: (moveDir === 'rtl' ? '-' : '') + width,
-      newBegin: (moveDir === 'rtl' ? '' : '-') + width,
-      newEnd: 0
+      property: 'transform',
+      oldBegin: 'translate3d(0, 0, 0)',
+      oldEnd: `translate3d(${move * read * 0.25 * width}px,0,0)`,
+      newBegin: `translate3d(${-move * read * width}px,0,0)`,
+      newEnd: 'translate3d(0, 0, 0)'
     };
   }
 

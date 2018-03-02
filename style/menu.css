@@ -36,7 +36,7 @@
 }
 
 @media not all and (max-width: 48em) {
-  .panel .bar .button.show-menu {
+  .section > .panel .bar .button.show-menu {
     display: none;
   }
 }
