@@ -137,7 +137,7 @@ export default class ListBuilder extends Builder {
       .classed('done', data && data.length === 0);
 
     const number = panel
-      .selectAll('div.list')
+      .selectAll('div.list-group')
       .size() - 1;
 
     let list = panel
@@ -244,7 +244,7 @@ export default class ListBuilder extends Builder {
 
   _prepareList(route) {
     const number = select(route.node)
-      .selectAll('div.list')
+      .selectAll('div.list-group')
       .size();
 
     if (number > 0) {
@@ -255,6 +255,6 @@ export default class ListBuilder extends Builder {
       .select('.body .content')
       .append('div')
       .attr('id', this._createTarget('list', number))
-      .classed('list', true);
+      .classed('list-group', true);
   }
 }

@@ -271,12 +271,12 @@
   width: 100%;
 }
 
-.list .block > ul li.secondary div.primary:not(:empty) {
-  flex: 1 0 auto;
+.block.list > ul div.primary:not(:empty) {
+  flex: 1;
 }
 
-.list .block > ul div.primary:not(:empty) {
-  flex: 1;
+.block.list > ul li.secondary div.primary:not(:empty) {
+  flex: 1 0 auto;
 }
 
 .menu .outset .block > ul,
