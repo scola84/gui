@@ -249,6 +249,10 @@ export default class ListBuilder extends Builder {
       .selectAll('div.list-group')
       .size();
 
+    if (this._dynamic === true && number === 1) {
+      return;
+    }
+
     select(route.node)
       .select('.body .content')
       .append('div')
