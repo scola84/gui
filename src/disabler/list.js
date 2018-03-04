@@ -11,9 +11,7 @@ export default class ListDisabler extends PanelDisabler {
 
     this._disableElements(route, data, node);
     this._hideElements(route, data, node);
-
     this._removeHiddenElements(node);
-    this._removeEmptyLists(node);
 
     this.pass(route, data, callback);
   }

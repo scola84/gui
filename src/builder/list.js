@@ -243,13 +243,11 @@ export default class ListBuilder extends Builder {
   }
 
   _prepareList(route) {
-    const number = select(route.node)
+    const panel = select(route.node);
+
+    const number = panel
       .selectAll('div.list-group')
       .size();
-
-    if (number > 0) {
-      return;
-    }
 
     select(route.node)
       .select('.body .content')

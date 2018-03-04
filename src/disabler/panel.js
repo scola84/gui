@@ -83,15 +83,6 @@ export default class PanelDisabler extends GraphicWorker {
     }
   }
 
-  _removeEmptyLists(node) {
-    node
-      .selectAll('ul')
-      .filter((d, index, nodes) => {
-        return select(nodes[index]).selectAll('li').size() === 0;
-      })
-      .remove();
-  }
-
   _removeHiddenElements(node) {
     node
       .selectAll('.hidden.permission')

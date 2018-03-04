@@ -10,15 +10,11 @@
   height: 3.4375em;
 }
 
-.block > ul:not(:empty) + .title {
-  margin: 2em 0 0;
-}
-
 .block > ul {
   border: 0;
   border-bottom: 1px none lightgrey;
   list-style: none;
-  margin: 0 1em;
+  margin: 0;
   order: 2;
   padding: 0;
 }
@@ -110,7 +106,7 @@
 
 .block > .comment {
   color: darkgrey;
-  display: block;
+  display: none;
   font-size: 0.9em;
   order: 3;
 }
@@ -119,11 +115,15 @@
   padding: 0.5em 1em 0;
 }
 
+.block > ul:not(:empty) ~ .comment {
+  display: flex;
+}
+
 .block > .title {
   border: 0;
   border-bottom: 1px none lightgrey;
   color: darkgrey;
-  display: block;
+  display: none;
   order: 1;
   font-size: 0.9em;
   text-transform: uppercase;
@@ -133,8 +133,12 @@
   padding: 0 1em 0.5em;
 }
 
-.block > .title.fold {
+.block > ul:not(:empty) + .title {
   display: flex;
+  margin: 2em 0 0;
+}
+
+.block > .title.fold {
   cursor: pointer;
   justify-content: space-between;
 }
@@ -279,8 +283,12 @@
   flex: 1 0 auto;
 }
 
-.menu .outset .block > ul,
-.menu .outset-x .block > ul {
+.block {
+  margin: 0 1em;
+}
+
+.menu .outset .block,
+.menu .outset-x .block {
   margin-left: 0;
   margin-right: 0;
 }
@@ -362,7 +370,7 @@
 }
 
 @media not all and (min-width: 48em) {
-  .block > ul {
+  .block {
     margin-left: 0;
     margin-right: 0;
   }
