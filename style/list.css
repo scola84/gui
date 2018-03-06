@@ -147,7 +147,7 @@
   color: rgba(169,169,169,0.5);
 }
 
-.block > ul.folded lt.fold:after {
+.block.folded > .title.fold:after {
   transform: rotate(0);
 }
 

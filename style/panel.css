@@ -93,9 +93,21 @@
 }
 
 .section > .panel .body .content:after {
+  align-items: center;
   content: '';
-  display: block;
-  height: 2em;
+  display: flex;
+  font-family: 'Ionicons';
+  font-size: 2em;
+  justify-content: center;
+  height: 1em;
+  width: 1em;
+}
+
+.section > .panel .body .content.busy:after {
+  color: grey;
+  content: '\f29d' !important;
+  margin: 0.25em auto;
+  animation: spin 1s infinite linear;
 }
 
 .section > .panel .body .content > .progress {
@@ -221,7 +233,7 @@
   background: white;
 }
 
-.section.menu > .panel.outset .body .content:after {
+.section.menu > .panel.outset .body .content:not(.busy):after {
   height: 0;
 }
 

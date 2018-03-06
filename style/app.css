@@ -132,6 +132,16 @@ button[tabindex="0"],
   transform: rotate(180deg);
 }
 
+@keyframes spin {
+  from {
+    transform: scale(1) rotate(0deg);
+  }
+
+  to {
+    transform: scale(1) rotate(360deg);
+  }
+}
+
 @media not all and (max-width: 64em) {
   .app {
     background: rgba(255,255,255,0.5);
