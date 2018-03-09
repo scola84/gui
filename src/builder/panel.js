@@ -45,7 +45,7 @@ export default class PanelBuilder extends GraphicWorker {
       oldEnd,
       newBegin,
       newEnd
-    } = this._calculate(moveDir, readDir, width);
+    } = this._calculate(moveDir, readDir, width, route.factor);
 
     this._base
       .select('.panel')
@@ -107,9 +107,9 @@ export default class PanelBuilder extends GraphicWorker {
     this.pass(route, data, callback);
   }
 
-  _calculate(moveDir, readDir, width) {
+  _calculate(moveDir, readDir, width, factor) {
     return moveDir ?
-      this._calculateMove(moveDir, readDir, width) :
+      this._calculateMove(moveDir, readDir, width, factor) :
       this._calculateFade();
   }
 
@@ -123,14 +123,14 @@ export default class PanelBuilder extends GraphicWorker {
     };
   }
 
-  _calculateMove(moveDir, readDir, width) {
+  _calculateMove(moveDir, readDir, width, factor = 0.25) {
     const move = moveDir === 'rtl' ? -1 : 1;
     const read = readDir === 'rtl' ? -1 : 1;
 
     return {
       property: 'transform',
       oldBegin: 'translate3d(0, 0, 0)',
-      oldEnd: `translate3d(${move * read * 0.25 * width}px,0,0)`,
+      oldEnd: `translate3d(${move * read * factor * width}px,0,0)`,
       newBegin: `translate3d(${-move * read * width}px,0,0)`,
       newEnd: 'translate3d(0, 0, 0)'
     };

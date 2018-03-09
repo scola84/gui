@@ -167,13 +167,19 @@ export default class StateRouter extends Router {
       if (route.path === null) {
         delete hash[this._name];
       } else if (!this._workers[route.path]) {
-        hash[this._name] = this._processRoute(this._default, route.params);
+        if (this._default) {
+          hash[this._name] = this._processRoute(this._default, route.params);
+        } else if (route.default) {
+          hash[this._name] = this._processRoute(route.default, route.params);
+        }
       } else {
         hash[this._name] = this._processRoute(route.path, route.params);
       }
     } else if (typeof hash[this._name] === 'undefined') {
       if (this._default !== null) {
         hash[this._name] = this._processRoute(this._default, route.params);
+      } else if (route.default) {
+        hash[this._name] = this._processRoute(route.default, route.params);
       }
     }
 

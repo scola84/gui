@@ -5,6 +5,7 @@
   flex-direction: column;
   height: 100%;
   position: absolute;
+  transform: translate(0,0);
   width: 100%;
 }
 
@@ -22,6 +23,7 @@
   background: #FAFAFA;
   display: flex;
   height: 3em;
+  justify-content: center;
 }
 
 .section > .panel .bar .button {
@@ -94,6 +96,7 @@
 
 .section > .panel .body .content:after {
   align-items: center;
+  color: grey;
   content: '';
   display: flex;
   font-family: 'Ionicons';
@@ -104,7 +107,6 @@
 }
 
 .section > .panel .body .content.busy:after {
-  color: grey;
   content: '\f29d' !important;
   margin: 0.25em auto;
   animation: spin 1s infinite linear;

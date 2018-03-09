@@ -15,10 +15,10 @@ export default class PopRouter extends StateRouter {
   }
 
   act(route, data, callback) {
-    if (route.path) {
-      this._open(route, data, callback);
-    } else {
+    if (route.path === null) {
       this._close(route, data, callback);
+    } else {
+      this._open(route, data, callback);
     }
 
     super.act(route, data, callback);
