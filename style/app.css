@@ -57,10 +57,13 @@ button[tabindex="0"],
 
 .app {
   display: flex;
-  height: 100%;
-  opacity: 0;
   overflow: hidden;
-  width: 100%;
+  background: rgba(255,255,255,0.5);
+  border-radius: 1em;
+  height: 48em;
+  opacity: 0;
+  padding: 1em;
+  width: 64em;
 }
 
 .app > * {
@@ -142,13 +145,12 @@ button[tabindex="0"],
   }
 }
 
-@media not all and (max-width: 64em) {
+@media (max-width: 64em), (max-height: 48em) {
   .app {
-    background: rgba(255,255,255,0.5);
-    border-radius: 1em;
-    height: 48em;
-    padding: 1em;
-    width: 64em;
+    border-radius: 0;
+    height: 100%;
+    padding: 0;
+    width: 100%;
   }
 }
 
