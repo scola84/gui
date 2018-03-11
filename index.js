@@ -48,7 +48,7 @@ import {
   renderList,
   renderSearch,
   renderSummary,
-  requestFile,
+  requestResource,
   setView,
   setupApp,
   setupMenu
@@ -104,7 +104,7 @@ export {
   renderList,
   renderSearch,
   renderSummary,
-  requestFile,
+  requestResource,
   setView,
   setupApp,
   setupMenu

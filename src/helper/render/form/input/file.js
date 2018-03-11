@@ -1,6 +1,6 @@
 import { select } from 'd3';
 import bytes from 'bytes';
-import requestFile from '../../../request/file';
+import requestResource from '../../../request/resource';
 
 export default class FileInput {
   render(datum, index, node, format) {
@@ -48,12 +48,12 @@ export default class FileInput {
     ] = datum.version || [];
 
     if (file.type.match(/^image\//)) {
-      file.file = file.version === thumbnail ? null : file.file;
+      file.data = file.version === thumbnail ? null : file.data;
       file.save = true;
       file.version = original;
       this._showImage(node, blob);
     } else {
-      requestFile(datum, index, node.node(), file, format);
+      requestResource(datum, index, node.node(), file, format);
     }
   }
 
@@ -205,14 +205,14 @@ export default class FileInput {
       .classed('button', true)
       .classed(datum.button, true)
       .on('click', () => {
-        requestFile(datum, index, node.node(), file, (error, blob) => {
+        requestResource(datum, index, node.node(), file, (error, blob) => {
           this._handleRequest(datum, index, node, file, format, error, blob);
         });
       });
 
     if (file.type.match(/^image\//)) {
       file.version = thumbnail;
-      requestFile(datum, index, node.node(), file, (error, blob) => {
+      requestResource(datum, index, node.node(), file, (error, blob) => {
         this._handleRequest(datum, index, node, file, format, error, blob);
       });
     } else {

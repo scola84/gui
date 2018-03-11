@@ -10,7 +10,7 @@ import renderForm from './render/form';
 import renderList from './render/list';
 import renderSearch from './render/search';
 import renderSummary from './render/summary';
-import requestFile from './request/file';
+import requestResource from './request/resource';
 import setView from './view/set';
 import setupApp from './setup/app';
 import setupMenu from './setup/menu';
@@ -28,7 +28,7 @@ export {
   renderList,
   renderSearch,
   renderSummary,
-  requestFile,
+  requestResource,
   setView,
   setupApp,
   setupMenu

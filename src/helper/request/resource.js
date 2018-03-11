@@ -3,27 +3,29 @@ import FileSaver from 'file-saver';
 import sprintf from 'sprintf-js';
 import { select } from 'd3';
 
-function clearRequest(node, datum, data = null) {
+function clearRequest(datum, node, data = null) {
   const result = node.request.socket.status === 200;
 
   if (data === null) {
     node.request.socket.abort();
   } else if (result === true) {
-    data.file = node.request.socket.response;
+    data.data = node.request.socket.response;
   }
 
-  node.request.progress.remove();
+  if (node.request.progress) {
+    node.request.progress.remove();
 
-  const button = select(node)
-    .select('.ion-stop');
+    const button = select(node)
+      .select('.ion-stop');
 
-  if (result === false) {
-    button.remove();
-  } else {
-    button
-      .classed(datum.button, true)
-      .classed('ion-stop', false)
-      .datum(datum);
+    if (result === false) {
+      button.remove();
+    } else {
+      button
+        .classed(datum.button, true)
+        .classed('ion-stop', false)
+        .datum(datum);
+    }
   }
 
   delete node.request;
@@ -31,7 +33,7 @@ function clearRequest(node, datum, data = null) {
   return result;
 }
 
-function sendRequest(datum, index, node, data, callback = () => {}) {
+function prepareProgress(datum, node) {
   select(node)
     .select('.' + datum.button)
     .classed(datum.button, false)
@@ -44,10 +46,25 @@ function sendRequest(datum, index, node, data, callback = () => {}) {
 
   progress.append('span');
 
+  return progress;
+}
+
+function sendRequest(datum, index, node, data, callback = () => {}) {
+  const progress = datum.button ? prepareProgress(datum, node) : null;
   const socket = new XMLHttpRequest();
 
   socket.open(datum.method || 'GET', sprintf.sprintf(datum.path, data));
   socket.responseType = datum.responseType || 'blob';
+
+  socket.onerror = (error) => {
+    clearRequest(datum, node, data, socket.response);
+
+    if (datum.callback) {
+      datum.callback(error);
+    }
+
+    callback(error);
+  };
 
   socket.onload = () => {
     socket.onerror = null;
@@ -55,7 +72,7 @@ function sendRequest(datum, index, node, data, callback = () => {}) {
     socket.onprogress = null;
     socket.upload.onprogress = null;
 
-    const result = clearRequest(node, datum, data);
+    const result = clearRequest(datum, node, data);
 
     if (result === false) {
       callback(new Error(String(socket.status)));
@@ -73,30 +90,22 @@ function sendRequest(datum, index, node, data, callback = () => {}) {
     callback(null, socket.response);
   };
 
-  socket.onprogress = (event) => {
-    const fraction = event.lengthComputable ?
-      event.loaded / event.total : 1;
+  if (progress) {
+    socket.onprogress = (event) => {
+      const fraction = event.lengthComputable ?
+        event.loaded / event.total : 1;
 
-    if (fraction === 1) {
-      progress.remove();
-    } else {
-      progress
-        .select('span')
-        .style('width', (fraction * 100) + '%');
-    }
-  };
+      if (fraction === 1) {
+        progress.remove();
+      } else {
+        progress
+          .select('span')
+          .style('width', (fraction * 100) + '%');
+      }
+    };
 
-  socket.upload.onprogress = socket.onprogress;
-
-  socket.onerror = (error) => {
-    clearRequest(node, datum, data, socket.response);
-
-    if (datum.callback) {
-      datum.callback(error);
-    }
-
-    callback(error);
-  };
+    socket.upload.onprogress = socket.onprogress;
+  }
 
   const headers = Request.getHeaders() || {};
   const names = Object.keys(headers);
@@ -110,14 +119,14 @@ function sendRequest(datum, index, node, data, callback = () => {}) {
   socket.send();
 }
 
-export default function requestFile(datum, index, node, data, callback) {
+export default function requestResource(datum, index, node, data, callback) {
   if (node.request) {
-    clearRequest(node, datum);
+    clearRequest(datum, node);
     return;
   }
 
-  if (data.file) {
-    FileSaver.saveAs(data.file, data.name);
+  if (data.data) {
+    FileSaver.saveAs(data.data, data.name);
     return;
   }
 

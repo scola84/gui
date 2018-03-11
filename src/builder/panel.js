@@ -30,7 +30,9 @@ export default class PanelBuilder extends GraphicWorker {
 
   act(route, data, callback) {
     if (this._base.classed('busy') === true) {
-      return;
+      if (route.force !== true) {
+        return;
+      }
     }
 
     this._base.classed('busy', true);
