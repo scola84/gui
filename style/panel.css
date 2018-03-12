@@ -209,8 +209,8 @@
   flex: 1;
 }
 
-.section > .panel .body .search div::before {
-  color: dimgray;
+.section > .panel .body .search div:before {
+  color: dimgrey;
   font-size: 1.25em !important;
   justify-content: center;
   left: 1.25em;

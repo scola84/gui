@@ -7,7 +7,7 @@
 }
 
 .block.folded {
-  height: 3.4375em;
+  height: 3.6823em;
 }
 
 .block > ul {
@@ -130,12 +130,12 @@
 }
 
 .block > .title:not(:empty) {
-  padding: 0 1em 0.5em;
+  padding: 0 1.111em 0.555em;
 }
 
 .block > ul:not(:empty) + .title {
   display: flex;
-  margin: 2em 0 0;
+  margin: 2.222em 0 0;
 }
 
 .block > .title.fold {
