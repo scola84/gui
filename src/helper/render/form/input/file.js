@@ -15,6 +15,12 @@ export default class FileInput {
       .append('div')
       .classed('wrap', true);
 
+    wrap
+      .append('label')
+      .attr('for', id)
+      .classed('placeholder', true)
+      .text(format('placeholder'));
+
     const input = wrap
       .append('input')
       .attr('id', id)
@@ -26,12 +32,6 @@ export default class FileInput {
           this._previewFiles(input, format);
         }
       });
-
-    wrap
-      .append('label')
-      .attr('for', id)
-      .classed('placeholder', true)
-      .text(format('placeholder'));
 
     return input;
   }

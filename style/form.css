@@ -45,7 +45,7 @@ form .block > ul input[type=date] {
   padding: 0.25em 0;
 }
 
-form .block > ul input[type=file] {
+form .block > ul label.placeholder:not(:empty) + input[type=file] {
   display: none;
 }
 
