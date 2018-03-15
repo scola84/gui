@@ -19,14 +19,6 @@ export default class SummaryBuilder extends Builder {
     this.pass(route, data, callback);
   }
 
-  filter(box, data, context) {
-    if (this._filter) {
-      return this._filter(box, data, context);
-    }
-
-    return data.data || {};
-  }
-
   _finishSummary(route, data = {}) {
     data = this.filter(route, data);
     const panel = select(route.node);

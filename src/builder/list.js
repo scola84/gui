@@ -46,14 +46,6 @@ export default class ListBuilder extends Builder {
     this.pass(route, data, callback);
   }
 
-  filter(box, data, context) {
-    if (this._filter) {
-      return this._filter(box, data, context);
-    }
-
-    return data.data || [];
-  }
-
   _clearList(list, item) {
     item.remove();
 
