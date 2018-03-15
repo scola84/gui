@@ -2,6 +2,7 @@ import CheckboxInput from './checkbox';
 import DateInput from './date';
 import EmailInput from './email';
 import FileInput from './file';
+import FloatInput from './float';
 import IntegerInput from './integer';
 import OrderInput from './order';
 import PasswordInput from './password';
@@ -17,6 +18,7 @@ export default {
   date: new DateInput(),
   email: new EmailInput(),
   file: new FileInput(),
+  float: new FloatInput(),
   integer: new IntegerInput(),
   order: new OrderInput(),
   password: new PasswordInput(),

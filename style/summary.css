@@ -19,6 +19,10 @@
 }
 
 .summary .primary figure {
+  margin: 0;
+}
+
+.summary .primary figure:not(:empty) {
   background: darkgrey;
   border-radius: 0.5em;
   height: 6em;
