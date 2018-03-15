@@ -39,6 +39,7 @@ export default class FormReader extends GraphicWorker {
       data = readDate(route, data, form);
       data = readOrder(route, data, form);
       data = readFile(route, data, form);
+      data = this.merge(route, data, form);
 
       if (callback) {
         callback(data);
