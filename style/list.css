@@ -148,14 +148,13 @@
 }
 
 .block.folded > .title.fold:after {
-  transform: rotate(0);
+  transform: rotate(-90deg);
 }
 
 .block > .title.fold:after {
-  content: '\f3d3';
+  content: '\f3d0';
   font-family: Ionicons;
   font-size: 1.25em;
-  transform: rotate(90deg);
   transition: transform 0.25s;
 }
 
@@ -369,6 +368,10 @@
   right: 0;
 }
 
+*[dir=rtl] .block.folded > .title.fold:after {
+  transform: rotate(90deg);
+}
+
 @media not all and (min-width: 48em) {
   .block {
     margin-left: 0;
@@ -401,5 +404,21 @@
   .block > ul > li .button,
   .block > ul > li:before {
     border-width: 0.5px;
+  }
+
+  .block.folded {
+    height: 3.655em;
+  }
+
+  .block > ul:not(:empty) + .title {
+    display: block;
+  }
+
+  .block > .title.fold:after {
+    float: right;
+  }
+
+  *[dir=rtl] .block > .title.fold:after {
+    float: left;
   }
 }

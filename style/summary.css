@@ -188,6 +188,10 @@
     font-size: 4em;
   }
 
+  .summary .secondary {
+    flex: 1;
+  }
+
   .summary .primary:not(:empty) + .secondary {
     height: 8em;
     text-align: inherit;
@@ -205,8 +209,8 @@
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-  .summary .primary:empty + .secondary .actions,
-  .summary .primary:empty + .secondary .title .l3,
+  .summary .primary:empty + .secondary .actions:not(:empty),
+  .summary .primary:empty + .secondary .title .l3:not(:empty),
   .summary .secondary .actions li .label:first-child:last-child,
   .summary:not(:empty) {
     border-width: 0.5px;
