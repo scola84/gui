@@ -12,6 +12,7 @@ export default class FormDisabler extends PanelDisabler {
     this._disableElements(route, data, node);
     this._hideElements(route, data, node);
     this._removeHiddenElements(node);
+    this._removeEmptyBlocks(node);
 
     this.pass(route, data, callback);
   }

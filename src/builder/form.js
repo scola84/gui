@@ -47,10 +47,7 @@ export default class FormBuilder extends Builder {
       .classed('hidden', (datum) => datum.hidden);
 
     enter
-      .append('ul');
-
-    enter
-      .append('span')
+      .append('div')
       .attr('class', (datum) => datum.fold ? 'fold' : null)
       .classed('title', true)
       .text((d, i, n) => {
@@ -63,7 +60,10 @@ export default class FormBuilder extends Builder {
       });
 
     enter
-      .append('span')
+      .append('ul');
+
+    enter
+      .append('div')
       .classed('comment', true)
       .text((d, i, n) => {
         return this.format(d, i, n, { data, name: 'comment', route });

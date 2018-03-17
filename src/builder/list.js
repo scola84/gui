@@ -149,10 +149,7 @@ export default class ListBuilder extends Builder {
       .classed('block list', true);
 
     enter
-      .append('ul');
-
-    enter
-      .append('span')
+      .append('div')
       .attr('class', (datum) => datum.fold ? 'fold' : null)
       .classed('title', true)
       .text((d, i, n) => {
@@ -165,7 +162,10 @@ export default class ListBuilder extends Builder {
       });
 
     enter
-      .append('span')
+      .append('ul');
+
+    enter
+      .append('div')
       .classed('comment', true)
       .text((d, i, n) => {
         return this.format(d, i, n, { data, name: 'comment', route });

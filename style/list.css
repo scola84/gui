@@ -1,13 +1,11 @@
 .block {
-  display: flex;
-  flex-direction: column;
   height: auto;
   overflow: hidden;
   transition: height 0.25s;
 }
 
 .block.folded {
-  height: 3.6823em;
+  height: 3.6875em;
 }
 
 .block > ul {
@@ -15,7 +13,6 @@
   border-bottom: 1px none lightgrey;
   list-style: none;
   margin: 0;
-  order: 2;
   padding: 0;
 }
 
@@ -108,14 +105,13 @@
   color: darkgrey;
   display: none;
   font-size: 0.9em;
-  order: 3;
 }
 
 .block > .comment:not(:empty) {
   padding: 0.75em 1em 0;
 }
 
-.block > ul:not(:empty) ~ .comment {
+.block > .comment {
   display: flex;
 }
 
@@ -123,19 +119,15 @@
   border: 0;
   border-bottom: 1px none lightgrey;
   color: darkgrey;
-  display: none;
-  order: 1;
   font-size: 0.9em;
+  height: 0;
+  margin: 2.222em 0 0;
   text-transform: uppercase;
 }
 
 .block > .title:not(:empty) {
+  height: auto;
   padding: 0 1.111em 0.555em;
-}
-
-.block > ul:not(:empty) + .title {
-  display: flex;
-  margin: 2.222em 0 0;
 }
 
 .block > .title.fold {
@@ -147,15 +139,16 @@
   color: rgba(169,169,169,0.5);
 }
 
-.block.folded > .title.fold:after {
-  transform: rotate(-90deg);
-}
-
 .block > .title.fold:after {
   content: '\f3d0';
+  float: right;
   font-family: Ionicons;
   font-size: 1.25em;
   transition: transform 0.25s;
+}
+
+.block.folded > .title.fold:after {
+  transform: rotate(-90deg);
 }
 
 .block > ul div.primary:not(:empty) {
@@ -292,8 +285,8 @@
   margin-right: 0;
 }
 
-.menu .outset .block > ul:not(:empty) + .title,
-.menu .outset-y .block > ul:not(:empty) + .title {
+.menu .outset .block > .title,
+.menu .outset-y .block > .title {
   margin-bottom: 0;
   margin-top: 0;
 }
@@ -307,8 +300,8 @@
   border-radius: 0;
 }
 
-.menu .outset-x .block > ul:not(:empty),
-.menu .outset-x .block > ul:not(:empty) + .title {
+.menu .outset-x .block > .title,
+.menu .outset-x .block > ul {
   border-bottom-style: solid;
 }
 
@@ -368,6 +361,10 @@
   right: 0;
 }
 
+*[dir=rtl] .block > .title.fold:after {
+  float: left;
+}
+
 *[dir=rtl] .block.folded > .title.fold:after {
   transform: rotate(90deg);
 }
@@ -387,8 +384,8 @@
     content: none;
   }
 
-  .block > ul:not(:empty),
-  .block > ul:not(:empty) + .title {
+  .block > .title,
+  .block > ul {
     border-bottom-style: solid;
   }
 
@@ -407,18 +404,6 @@
   }
 
   .block.folded {
-    height: 3.655em;
-  }
-
-  .block > ul:not(:empty) + .title {
-    display: block;
-  }
-
-  .block > .title.fold:after {
-    float: right;
-  }
-
-  *[dir=rtl] .block > .title.fold:after {
-    float: left;
+    height: 3.65625em;
   }
 }
