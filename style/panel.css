@@ -43,6 +43,8 @@
 .section > .panel > .bar .button:before {
   font-size: 1.9em;
   position: absolute;
+  top: 50%;
+  transform: translate(0,-50%);
 }
 
 .section > .panel > .bar .button.icon:empty:before {
@@ -144,7 +146,9 @@
 }
 
 .section > .panel > .body .button:before {
+  display: block;
   font-size: 1.9em;
+  width: 100%;
 }
 
 .section > .panel > .body > .message {
