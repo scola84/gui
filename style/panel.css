@@ -9,16 +9,16 @@
   width: 100%;
 }
 
-.section > .panel .bar.footer {
+.section > .panel > .bar.footer {
   order: 3;
 }
 
-.section > .panel .bar.header {
+.section > .panel > .bar.header {
   order: 1;
 }
 
-.section > .panel.footer .bar.footer,
-.section > .panel.header .bar.header {
+.section > .panel.footer > .bar.footer,
+.section > .panel.header > .bar.header {
   align-items: center;
   background: #FAFAFA;
   display: flex;
@@ -26,7 +26,7 @@
   justify-content: center;
 }
 
-.section > .panel .bar .button {
+.section > .panel > .bar .button {
   align-items: center;
   color: inherit;
   cursor: pointer;
@@ -36,42 +36,42 @@
   text-decoration: inherit;
 }
 
-.section > .panel .bar .button:active {
+.section > .panel > .bar .button:active {
   opacity: 0.5;
 }
 
-.section > .panel .bar .button:before {
+.section > .panel > .bar .button:before {
   font-size: 1.9em;
   position: absolute;
 }
 
-.section > .panel .bar .button.icon:empty:before {
+.section > .panel > .bar .button.icon:empty:before {
   width: 100%;
 }
 
-.section > .panel .bar .disabled .button,
-.section > .panel .bar.disabled .button {
+.section > .panel > .bar .disabled .button,
+.section > .panel > .bar.disabled .button {
   display: none;
 }
 
-.section > .panel .bar .center {
+.section > .panel > .bar > .center {
   flex: 1;
   overflow: hidden;
   margin: 0 1em;
 }
 
-.section > .panel .bar .left {
+.section > .panel > .bar > .left {
   display: flex;
   min-width: 20%;
 }
 
-.section > .panel .bar .right {
+.section > .panel > .bar > .right {
   display: flex;
   min-width: 20%;
   justify-content: flex-end;
 }
 
-.section > .panel .bar .title {
+.section > .panel > .bar .title {
   font-weight: bold;
   overflow: hidden;
   text-align: center;
@@ -79,7 +79,7 @@
   white-space: nowrap;
 }
 
-.section > .panel .body {
+.section > .panel > .body {
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -88,13 +88,13 @@
   position: relative;
 }
 
-.section > .panel .body .content {
+.section > .panel > .body > .content {
   -webkit-overflow-scrolling: touch;
   flex: 1;
   overflow: auto;
 }
 
-.section > .panel .body .content:after {
+.section > .panel > .body > .content:after {
   align-items: center;
   color: grey;
   content: '';
@@ -106,27 +106,27 @@
   width: 1em;
 }
 
-.section > .panel .body .content.busy:after {
+.section > .panel > .body > .content.busy:after {
   content: '\f29d' !important;
   margin: 0.25em auto;
   animation: spin 1s infinite linear;
 }
 
-.section > .panel .body .content > .progress {
+.section > .panel > .body > .content > .progress {
   background: none;
 }
 
-.section > .panel.footer .body .content,
-.section > .panel.footer .body.disabled > .message {
+.section > .panel.footer > .body > .content,
+.section > .panel.footer > .body.disabled > .message {
   border-bottom: 1px solid lightgrey;
 }
 
-.section > .panel.header .body .content,
-.section > .panel.header .body.disabled > .message {
+.section > .panel.header > .body > .content,
+.section > .panel.header > .body.disabled > .message {
   border-top: 1px solid lightgrey;
 }
 
-.section > .panel .body .button {
+.section > .panel > .body .button {
   align-items: center;
   background: none;
   border-radius: 50%;
@@ -138,23 +138,23 @@
   width: 2em;
 }
 
-.section > .panel .body .button[tabindex="-1"],
-.section > .panel .body .button[tabindex="0"]:active {
+.section > .panel > .body .button[tabindex="-1"],
+.section > .panel > .body .button[tabindex="0"]:active {
   opacity: 0.5;
 }
 
-.section > .panel .body .button:before {
+.section > .panel > .body .button:before {
   font-size: 1.9em;
 }
 
-.section > .panel .body > .message {
+.section > .panel > .body > .message {
   align-items: center;
   display: flex;
   justify-content: center;
   text-align: center;
 }
 
-.section > .panel .body.disabled > .message {
+.section > .panel > .body.disabled > .message {
   background: whitesmoke;
   color: darkgrey;
   height: 100%;
@@ -164,7 +164,7 @@
   z-index: 1;
 }
 
-.section > .panel .body:not(.disabled) > .message {
+.section > .panel > .body:not(.disabled) > .message {
   background: lightgrey;
   color: dimgrey;
   min-height: 2.25em;
@@ -176,16 +176,16 @@
   z-index: 0;
 }
 
-.section > .panel.message .body:not(.disabled) > .message {
+.section > .panel.message > .body:not(.disabled) > .message {
   top: 0;
   margin-bottom: 0;
 }
 
-.section > .panel .body.disabled > .message span {
+.section > .panel > .body.disabled > .message span {
   font-size: 1.9em;
 }
 
-.section > .panel .body .search {
+.section > .panel > .body > .search {
   background: #FAFAFA;
   display: flex;
   margin-bottom: -3em;
@@ -195,21 +195,21 @@
   z-index: 1;
 }
 
-.section > .panel.immediate .body .search {
+.section > .panel.immediate > .body > .search {
   transition: none !important;
 }
 
-.section > .panel.search .body:not(.disabled) .search {
+.section > .panel.search > .body:not(.disabled) > .search {
   margin-bottom: 0;
   top: 0;
 }
 
-.section > .panel .body .search div {
+.section > .panel > .body > .search div {
   display: flex;
   flex: 1;
 }
 
-.section > .panel .body .search div:before {
+.section > .panel > .body > .search div:before {
   color: dimgrey;
   font-size: 1.25em !important;
   justify-content: center;
@@ -218,7 +218,7 @@
   top: 0.35em;
 }
 
-.section > .panel .body .search input {
+.section > .panel > .body > .search input {
   background: lightgrey;
   border: 0;
   border-radius: 0.5em;
@@ -227,7 +227,7 @@
   padding: 0.5em 0.5em 0.5em 2em;
 }
 
-.section > .panel .body .search input:-webkit-autofill {
+.section > .panel > .body > .search input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px lightgrey inset;
 }
 
@@ -235,55 +235,55 @@
   background: white;
 }
 
-.section.menu > .panel.outset .body .content:not(.busy):after {
+.section.menu > .panel.outset .body > .content:not(.busy):after {
   height: 0;
 }
 
-*[dir=rtl] .section > .panel .bar .right .button,
-.section > .panel .bar .left .button {
+*[dir=rtl] .section > .panel > .bar > .right .button,
+.section > .panel > .bar > .left .button {
   margin: 0 0 0 1em;
 }
 
-*[dir=rtl] .section > .panel .bar .right .button + .button,
-.section > .panel .bar .left .button + .button {
+*[dir=rtl] .section > .panel > .bar > .right .button + .button,
+.section > .panel > .bar > .left .button + .button {
   margin: 0 -0.5em 0 1em;
 }
 
-*[dir=rtl] .section > .panel .bar .right .button.icon,
-.section > .panel .bar .left .button.icon {
+*[dir=rtl] .section > .panel > .bar > .right .button.icon,
+.section > .panel > .bar > .left .button.icon {
   padding: 0 0 0 1.25em;
 }
 
-*[dir=rtl] .section > .panel .bar .left .button,
-.section > .panel .bar .right .button {
+*[dir=rtl] .section > .panel > .bar > .left .button,
+.section > .panel > .bar > .right .button {
   margin: 0 1em 0 0;
 }
 
-*[dir=rtl] .section > .panel .bar .left .button + .button,
-.section > .panel .bar .right .button + .button {
+*[dir=rtl] .section > .panel > .bar > .left .button + .button,
+.section > .panel > .bar > .right .button + .button {
   margin: 0 1em 0 -0.5em;
 }
 
-*[dir=rtl] .section > .panel .bar .left .button.icon,
-.section > .panel .bar .right .button.icon {
+*[dir=rtl] .section > .panel > .bar > .left .button.icon,
+.section > .panel > .bar > .right .button.icon {
   padding: 0 1.25em 0 0;
 }
 
-*[dir=rtl] .section > .panel .bar .right .button.icon:before,
-.section > .panel .bar .left .button.icon:before {
+*[dir=rtl] .section > .panel > .bar > .right .button.icon:before,
+.section > .panel > .bar > .left .button.icon:before {
   left: 0;
   right: auto;
 }
 
-*[dir=rtl] .section > .panel .bar .left .button.icon:before,
-.section > .panel .bar .right .button.icon:before {
+*[dir=rtl] .section > .panel > .bar > .left .button.icon:before,
+.section > .panel > .bar > .right .button.icon:before {
   left: auto;
   right: 0;
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-  .section > .panel.footer .body .content,
-  .section > .panel.header .body .content {
+  .section > .panel.footer > .body > .content,
+  .section > .panel.header > .body > .content {
     border-width: 0.5px;
   }
 }

@@ -3,7 +3,7 @@ export default function renderCancel(route, { left, text }, handler) {
     .append('button')
     .attr('tabindex', 0)
     .attr('type', 'button')
-    .classed('button left', true);
+    .classed('button icon left', true);
 
   if (route.remember === true) {
     button
