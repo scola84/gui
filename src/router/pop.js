@@ -37,6 +37,7 @@ export default class PopRouter extends StateRouter {
 
     this._base
       .style('display', 'flex')
+      .style('opacity', 1)
       .on('click.pop', () => {
         if (route.lock === true) {
           return;
