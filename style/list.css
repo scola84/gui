@@ -189,7 +189,7 @@
 .block > ul div.primary .l4:not(:empty) {
   margin: 0 0 0 1em;
   flex: 1 0 auto;
-  text-align: end;
+  text-align: right;
 }
 
 .block > ul div.primary .line {
@@ -342,6 +342,7 @@
 }
 
 *[dir=rtl] .block > ul div.primary .l4:not(:empty) {
+  text-align: left;
   margin: 0 1em 0 0;
 }
 
