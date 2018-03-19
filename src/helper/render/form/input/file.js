@@ -15,11 +15,15 @@ export default class FileInput {
       .append('div')
       .classed('wrap', true);
 
-    wrap
+    const label = wrap
       .append('label')
       .attr('for', id)
       .classed('placeholder', true)
       .text(format('placeholder'));
+
+    label
+      .append('span')
+      .classed('value');
 
     const input = wrap
       .append('input')
@@ -28,12 +32,31 @@ export default class FileInput {
       .attr('multiple', datum.array ? 'multiple' : null)
       .attr('type', 'file')
       .on('change', () => {
+        this._setPlaceholder(datum, label, input, format);
+
         if (datum.preview) {
           this._previewFiles(input, format);
         }
       });
 
     return input;
+  }
+
+  _setPlaceholder(datum, label, input, format) {
+    const files = input.node().files;
+
+    datum.value = () => {
+      return {
+        count: files.length,
+        name: files[0] && files[0].name
+      };
+    };
+
+    label
+      .select('span')
+      .text(format('value'));
+
+    delete datum.value;
   }
 
   _handleRequest(datum, index, node, file, format, error, blob) {
@@ -67,12 +90,12 @@ export default class FileInput {
       .classed('block file', true)
       .datum(file);
 
+    block
+      .append('div')
+      .classed('title', true);
+
     const list = block
       .append('ul');
-
-    block
-      .append('span')
-      .classed('title', true);
 
     const item = list
       .append('li');
@@ -174,7 +197,7 @@ export default class FileInput {
   }
 
   _viewFile(datum, index, node, format) {
-    const file = format('value');
+    const file = format('data');
 
     const [
       thumbnail = 'thumbnail',

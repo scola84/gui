@@ -62,12 +62,8 @@
   text-align: center;
 }
 
-.summary .secondary .title {
+.summary .primary:not(:empty) + .secondary .title {
   flex: 1;
-}
-
-.summary .secondary .title span {
-  display: block;
 }
 
 .summary .secondary .title .l1 {

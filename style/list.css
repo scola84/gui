@@ -26,6 +26,11 @@
   position: relative;
 }
 
+.block > ul > li:after {
+  content: '';
+  min-height: 2em;
+}
+
 .block > ul > li:first-of-type {
   border-top-left-radius: 0.5em;
   border-top-right-radius: 0.5em;
@@ -70,6 +75,11 @@
 .block > ul > li.number + li .progress,
 .block > ul > li.number + li:before {
   left: 2.9em;
+}
+
+.block > ul > li.state + li .progress,
+.block > ul > li.state + li:before {
+  left: 2.25em;
 }
 
 .block > ul > li.icon.number + li .progress,
@@ -325,6 +335,12 @@
 *[dir=rtl] .block > ul > li.number + li:before {
   left: 0;
   right: 2.9em;
+}
+
+*[dir=rtl] .block > ul > li.state + li .progress,
+*[dir=rtl] .block > ul > li.state + li:before {
+  left: 0;
+  right: 2.25em;
 }
 
 *[dir=rtl] .block > ul > li.icon.number + li .progress,

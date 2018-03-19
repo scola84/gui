@@ -26,6 +26,7 @@ body {
   height: 100%;
   justify-content: center;
   margin: 0;
+  position: absolute;
   width: 100%;
 }
 
@@ -103,7 +104,7 @@ button[tabindex="0"],
   width: 0;
 }
 
-.state {
+div.state {
   align-self: flex-start;
   display: flex;
   flex-direction: column;
@@ -111,7 +112,7 @@ button[tabindex="0"],
   width: 0.75em;
 }
 
-.state span {
+div.state span {
   border-radius: 50%;
   display: none;
   height: 0.75em;
@@ -119,19 +120,19 @@ button[tabindex="0"],
   width: 0.75em;
 }
 
-*[dir=rtl] .state:first-of-type,
-.state:last-of-type {
+*[dir=rtl] div.state:first-of-type,
+div.state:last-of-type {
   margin-left: 0.5em;
+  margin-right: 0;
 }
 
-*[dir=rtl] .state:last-of-type,
-.state:first-of-type {
+*[dir=rtl] div.state:last-of-type,
+div.state:first-of-type {
+  margin-left: 0;
   margin-right: 0.5em;
 }
 
-*[dir=rtl] .ion-ios-arrow-back:before,
-*[dir=rtl] .ion-ios-arrow-forward:before,
-*[dir=rtl] .ion-ios-arrow-thin-right {
+*[dir=rtl] .flip:before {
   transform: rotate(180deg);
 }
 
@@ -154,7 +155,7 @@ button[tabindex="0"],
   }
 }
 
-@media (min-width: 48em) {
+@media not all and (max-width: 64em) {
   button[tabindex="0"]:focus,
   .primary label[tabindex="0"]:focus {
     border: 1px dotted black !important;

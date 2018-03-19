@@ -131,10 +131,10 @@ export default class PanelBuilder extends GraphicWorker {
 
     return {
       property: 'transform',
-      oldBegin: 'translate3d(0, 0, 0)',
-      oldEnd: `translate3d(${move * read * factor * width}px,0,0)`,
-      newBegin: `translate3d(${-move * read * width}px,0,0)`,
-      newEnd: 'translate3d(0, 0, 0)'
+      oldBegin: 'translate(0, 0)',
+      oldEnd: `translate(${move * read * factor * width}px, 0)`,
+      newBegin: `translate(${-move * read * width}px, 0)`,
+      newEnd: 'translate(0, 0)'
     };
   }
 

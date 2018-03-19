@@ -85,7 +85,7 @@ export default function renderList(item, format) {
         typeof datum.button === 'undefined';
     })
     .append('span')
-    .classed('icon ion-ios-arrow-forward', true);
+    .classed('icon flip ion-ios-arrow-forward', true);
 
   secondary
     .selectAll('button')

@@ -3,7 +3,7 @@ export default function renderCancel(route, { left, text }, handler) {
     .append('button')
     .attr('tabindex', 0)
     .attr('type', 'button')
-    .classed('button icon left', true);
+    .classed('button left', true);
 
   if (route.remember === true) {
     button
@@ -11,6 +11,6 @@ export default function renderCancel(route, { left, text }, handler) {
       .on('click', handler);
   } else {
     button
-      .classed('show-menu ion-navicon', true);
+      .classed('icon show-menu ion-navicon', true);
   }
 }

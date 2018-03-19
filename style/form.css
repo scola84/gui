@@ -49,6 +49,10 @@ form .block > ul label.placeholder:not(:empty) + input[type=file] {
   display: none;
 }
 
+form .block > ul label.placeholder:not(:empty) span {
+  margin-left: 0.5em;
+}
+
 form .block > ul input[disabled] {
   background: inherit;
   color: inherit;
@@ -76,7 +80,7 @@ form .block > ul input[type=submit][disabled] {
 
 form .block > ul label {
   cursor: inherit;
-  display: block;
+  display: flex;
 }
 
 form .block > ul label:not(:empty) {
@@ -261,6 +265,11 @@ form .block.order > ul [draggable] span.drag span {
   left: -3.35em;
 }
 
+*[dir=rtl] form .block > ul label.placeholder:not(:empty) span {
+  margin-left: 0;
+  margin-right: 0.5em;
+}
+
 *[dir=rtl] form .block > ul .plain {
   margin-left: 1em;
   margin-right: 0;
@@ -276,7 +285,7 @@ form .block.order > ul [draggable] span.drag span {
   margin-right: auto;
 }
 
-@media (min-width: 48em) {
+@media not all and (max-width: 64em) {
   form .block.order.ungrouped {
     margin-left: 0;
     margin-right: 0;

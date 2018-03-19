@@ -7,7 +7,7 @@ export default function renderBack(route, { icon, left, text }, handler) {
 
   if (route.remember === true) {
     button
-      .classed('icon ion-ios-arrow-back', icon)
+      .classed('icon flip ion-ios-arrow-back', icon)
       .text(text)
       .on('click', handler);
   } else {
