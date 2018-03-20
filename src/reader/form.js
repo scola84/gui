@@ -2,6 +2,7 @@ import { event, select } from 'd3';
 import GraphicWorker from '../worker/graphic';
 
 import {
+  fixSubmit,
   readDate,
   readFile,
   readForm,
@@ -26,6 +27,8 @@ export default class FormReader extends GraphicWorker {
 
     const form = this._target ?
       panel.select('#' + this._target) : route.form;
+
+    fixSubmit(panel, form);
 
     form.on('submit', () => {
       event.preventDefault();

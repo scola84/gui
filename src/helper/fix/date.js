@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-export default function date() {
+export default function fixDate() {
   const tmp = document.createElement('input');
   tmp.setAttribute('type', 'date');
   tmp.setAttribute('value', '1970-01-01');
