@@ -1,0 +1,39 @@
+_:-ms-fullscreen,
+:root .section > .panel.header > .body {
+  padding-top: 2px;
+}
+
+_:-ms-fullscreen,
+:root .section > .panel.footer > .body {
+  padding-bottom: 2px;
+}
+
+_:-ms-fullscreen,
+:root .button.ion-log-out:before,
+_:-ms-fullscreen,
+:root .button.ion-ios-search:before,
+_:-ms-fullscreen,
+:root .button.ion-edit:before {
+  font-size: 50%;
+}
+
+_:-ms-fullscreen,
+:root .summary .button.ion-edit:before {
+  font-size: 75%;
+}
+
+_:-ms-fullscreen,
+:root .search .ion-ios-search:before {
+  font-size: 65%;
+}
+
+_:-ms-fullscreen,
+:root form .block > ul .checkbox:first-child input + label:before {
+  font-size: 50%;
+}
+
+:-ms-input-placeholder {
+  color: darkgrey !important;
+  font-weight: 400 !important;
+}
+

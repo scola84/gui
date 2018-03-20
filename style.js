@@ -1,4 +1,5 @@
 import './style/app.css';
+import './style/fix.css';
 import './style/form.css';
 import './style/list.css';
 import './style/main.css';

@@ -10,8 +10,14 @@ export default class DateInput {
 
     const input = wrap
       .append('input')
-      .attr('placeholder', format('placeholder'))
-      .attr('type', 'date')
+      .attr('placeholder', format('placeholder') || 'mm/dd/yyyy')
+      .attr('type', 'date');
+
+    input
+      .node()
+      .format = format('format') || 'LL/dd/yyyy';
+
+    input
       .property('valueAsNumber', number)
       .on('input', () => {
         this._setColor(input);

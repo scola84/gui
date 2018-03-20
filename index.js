@@ -37,6 +37,7 @@ import {
 
 import {
   bindOrder,
+  fixBrowser,
   getView,
   readDate,
   readFile,
@@ -93,6 +94,7 @@ export {
 
 export {
   bindOrder,
+  fixBrowser,
   getView,
   readDate,
   readFile,

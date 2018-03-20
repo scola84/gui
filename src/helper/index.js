@@ -1,4 +1,5 @@
 import bindOrder from './bind/order';
+import fixBrowser from './fix';
 import getView from './view/get';
 import readDate from './read/date';
 import readFile from './read/file';
@@ -17,6 +18,7 @@ import setupMenu from './setup/menu';
 
 export {
   bindOrder,
+  fixBrowser,
   getView,
   readDate,
   readFile,
