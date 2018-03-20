@@ -224,7 +224,8 @@ export default class ListBuilder extends Builder {
 
     list.selectAll(selector).each((d, i, n) => {
       node = select(n[i]);
-      height += parseFloat(node.style('height')) +
+
+      height += n[i].getBoundingClientRect().height +
         parseFloat(node.style('margin-top')) +
         parseFloat(node.style('margin-bottom'));
     });
