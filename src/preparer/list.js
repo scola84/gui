@@ -48,6 +48,10 @@ export default class ListPreparer extends GraphicWorker {
 
     content.classed('busy', true);
 
+    if (data.offset === 0) {
+      content.node().scrollTop = 0;
+    }
+
     content.on('scroll', throttle((datum, index, nodes) => {
       if (content.classed('done') === true) {
         return;
@@ -60,7 +64,7 @@ export default class ListPreparer extends GraphicWorker {
       delete route.clear;
 
       const top = height + nodes[index].scrollTop;
-      const threshold = nodes[index].scrollHeight - (height / 4);
+      const threshold = nodes[index].scrollHeight - (height / 4 * 3);
 
       if (top > threshold) {
         data.offset += data.count;
