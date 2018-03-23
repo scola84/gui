@@ -117,6 +117,10 @@
   background: none;
 }
 
+.section > .panel.list > .body > .content > .progress {
+  display: none;
+}
+
 .section > .panel.footer > .body > .content,
 .section > .panel.footer > .body.disabled > .message {
   border-bottom: 1px solid lightgrey;

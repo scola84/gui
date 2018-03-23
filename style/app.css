@@ -94,13 +94,13 @@ button[tabindex="0"],
   position: absolute;
   right: 0;
   top: 0;
+  z-index: 1;
 }
 
 .progress span {
   display: block;
   background: darkblue;
   height: 3px;
-  transition: width 0.25s;
   width: 0;
 }
 
