@@ -64,7 +64,7 @@ export default class ListPreparer extends GraphicWorker {
       delete route.clear;
 
       const top = height + nodes[index].scrollTop;
-      const threshold = nodes[index].scrollHeight - (height / 4 * 3);
+      const threshold = nodes[index].scrollHeight - (height / 4 * 2);
 
       if (top > threshold) {
         data.offset += data.count;

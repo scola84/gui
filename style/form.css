@@ -237,7 +237,7 @@ form .block.order > ul [draggable] span.drag span {
   cursor: grab;
   cursor: -moz-grab;
   cursor: -webkit-grab;
-  font-size: 1.9em;
+  font-size: 1.6em;
 }
 
 *[dir=rtl] form .block > ul .input .wrap {
