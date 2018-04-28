@@ -1,5 +1,6 @@
 import {
   FormBuilder,
+  GraphBuilder,
   ListBuilder,
   PanelBuilder,
   SummaryBuilder
@@ -58,6 +59,7 @@ import {
 
 export {
   FormBuilder,
+  GraphBuilder,
   ListBuilder,
   PanelBuilder,
   SummaryBuilder
