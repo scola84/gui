@@ -122,6 +122,30 @@
   padding: 0;
 }
 
+.graph-tip {
+  background: #000;
+  color: #FFF;
+  padding: 0.5em;
+  margin: -0.5em 0 0;
+  position: absolute;
+  white-space: nowrap;
+  border-radius: 0.3em;
+}
+
+.graph-tip .key {
+  font-size: 0.9em;
+  padding-bottom: 0.5em;
+}
+
+.graph-tip .title {
+  font-size: 0.9em;
+  padding-bottom: 0.5em;
+}
+
+.graph-tip .value {
+  font-weight: bold;
+}
+
 @media (min-width: 48em) {
   .graph:not(:empty) {
     border: 0;

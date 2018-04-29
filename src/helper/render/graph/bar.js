@@ -1,4 +1,6 @@
-export default function renderBar(route, values, keys, structure) {
+import renderTip from './tip';
+
+export default function renderBar(route, values, keys, structure, plot) {
   const groupScale = structure.axis.bottom.group();
 
   const xScale = route.graph.axis.bottom.axis.scale();
@@ -17,7 +19,7 @@ export default function renderBar(route, values, keys, structure) {
     grouped(values, keys, root, xValue, xScale, groupScale) :
     ungrouped(values, root);
 
-  groups
+  const rect = groups
     .selectAll('rect')
     .data((datum) => {
       return datum;
@@ -39,6 +41,16 @@ export default function renderBar(route, values, keys, structure) {
     .attr('height', (datum) => {
       return attrHeight(datum, yValue, route.graph.size.height);
     });
+
+  if (plot.tip) {
+    rect.on('mouseover', (datum) => {
+      renderTip(route, datum, plot);
+    });
+
+    rect.on('mouseout', () => {
+      renderTip(route, null, plot);
+    });
+  }
 }
 
 function grouped(data, keys, root, xValue, xScale, groupScale) {

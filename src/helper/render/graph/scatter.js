@@ -1,4 +1,6 @@
-export default function renderScatter(route, values, keys, structure) {
+import renderTip from './tip';
+
+export default function renderScatter(route, values, keys, structure, plot) {
   values = keys === null ? [values] : values;
 
   const xScale = route.graph.axis.bottom.axis.scale();
@@ -17,7 +19,7 @@ export default function renderScatter(route, values, keys, structure) {
     .append('g')
     .merge(groups);
 
-  groups
+  const circle = groups
     .selectAll('circle')
     .data((datum) => {
       return Object.values(datum);
@@ -31,4 +33,14 @@ export default function renderScatter(route, values, keys, structure) {
       return structure.axis.left.value(datum, yScale);
     })
     .attr('r', 3);
+
+  if (plot.tip) {
+    circle.on('mouseover', (datum) => {
+      renderTip(route, datum, plot);
+    });
+
+    circle.on('mouseout', () => {
+      renderTip(route, null, plot);
+    });
+  }
 }
