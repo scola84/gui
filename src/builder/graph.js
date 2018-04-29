@@ -61,34 +61,6 @@ export default class GraphBuilder extends Builder {
     }
   }
 
-  _equalizeSize(route, changed = true) {
-    const width = this._getComputedStyle(route.graph.svg, 'width');
-    const oldHeight = this._getComputedStyle(route.graph.svg, 'height');
-    const height = width * this._ratio;
-
-    const set =
-      changed === true &&
-      oldHeight !== height;
-
-    if (set === true) {
-      route.graph.svg
-        .style('height', height + 'px')
-        .style('position', null);
-    }
-
-    route.graph.margin = {
-      bottom: 0,
-      left: 0,
-      right: 0,
-      top: 0
-    };
-
-    route.graph.size = {
-      height,
-      width
-    };
-  }
-
   _finishAxis(route, values, keys, structure) {
     if (structure.axis.left) {
       this._prepareAxisLeft(route, values, keys,
@@ -180,7 +152,7 @@ export default class GraphBuilder extends Builder {
 
     route.graph.structure = structure;
 
-    this._equalizeSize(route);
+    this._resize(route);
     this._finishAxis(route, values, keys, structure);
     this._clearPlot(route);
     this._setPosition(route, route.graph.margin);
@@ -194,10 +166,10 @@ export default class GraphBuilder extends Builder {
       .selectAll('div.graph')
       .size() - 1;
 
-    const graph = panel
+    route.graph.node = panel
       .select('#' + this._createTarget('graph', number));
 
-    const block = graph
+    const block = route.graph.node
       .append('div')
       .classed('body', true);
 
@@ -316,6 +288,79 @@ export default class GraphBuilder extends Builder {
       .append('div')
       .attr('id', this._createTarget('graph', number))
       .classed('graph', true);
+  }
+
+  _resize(route) {
+    this._resizeGraph(route);
+
+    route.graph.size = route.graph.meta.maximize === true ?
+      this._resizeMax(route) :
+      this._resizeEqual(route);
+
+    route.graph.margin = {
+      bottom: 0,
+      left: 0,
+      right: 0,
+      top: 0
+    };
+  }
+
+  _resizeGraph(route) {
+    route.graph.node.classed('maximized',
+      route.graph.meta.maximize === true);
+
+    const transform = route.graph.node.style('transform');
+    const height = select('body').style('height');
+    const width = select('body').style('width');
+
+    if (transform === 'none') {
+      route.graph.node
+        .style('height', null)
+        .style('margin-top', null)
+        .style('width', null);
+    } else {
+      route.graph.node
+        .style('height', width)
+        .style('margin-top', height)
+        .style('width', height);
+    }
+  }
+
+  _resizeMax(route) {
+    route.graph.svg.style('height', null);
+
+    const rect = route.graph.node
+      .select('.body')
+      .node()
+      .getBoundingClientRect();
+
+    const transform = route.graph.node.style('transform');
+    const height = rect.height;
+    const width = rect.width;
+
+    route.graph.svg.style('height', height + 'px');
+
+    return transform === 'none' ? {
+      height,
+      width
+    } : {
+      height: width,
+      width: height
+    };
+  }
+
+  _resizeEqual(route) {
+    const width = this._getComputedStyle(route.graph.svg, 'width');
+    const height = width * this._ratio;
+
+    route.graph.svg
+      .style('height', height + 'px')
+      .style('position', null);
+
+    return {
+      height,
+      width
+    };
   }
 
   _setPosition(route, position) {

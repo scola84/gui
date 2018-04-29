@@ -1,4 +1,4 @@
-.graph:not(:empty) {
+.graph {
   background: white;
   border-bottom: 1px solid lightgrey;
   border-top: 1px solid lightgrey;
@@ -6,6 +6,20 @@
   flex-direction: column;
   margin: 2em 0 0;
   padding: 1em 0;
+}
+
+.graph.maximized {
+  height: 100%;
+  left: 0;
+  margin: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+.graph.maximized svg {
+  position: absolute;
 }
 
 .graph .body {
@@ -130,6 +144,7 @@
   position: absolute;
   white-space: nowrap;
   border-radius: 0.3em;
+  z-index: 2;
 }
 
 .graph-tip .key {
@@ -147,12 +162,17 @@
 }
 
 @media (min-width: 48em) {
-  .graph:not(:empty) {
+  .graph {
     border: 0;
     border-radius: 0.5em;
     margin-left: 1em;
     margin-right: 1em;
     padding: 1em;
+  }
+
+  .graph.maximized {
+    border-radius: 0;
+    margin: 0;
   }
 
   .graph .head {
@@ -167,7 +187,14 @@
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-  .graph:not(:empty) {
+  .graph {
     border-width: 0.5px;
+  }
+}
+
+@media only screen and (orientation:portrait) {
+  .graph.maximized {
+    transform: rotate(-90deg);
+    transform-origin: top left;
   }
 }
