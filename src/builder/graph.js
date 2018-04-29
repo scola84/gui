@@ -32,32 +32,93 @@ export default class GraphBuilder extends Builder {
     }
 
     if (this._finish) {
-      route.graph = this._finishGraph(route, data);
+      this._finishGraph(route, data);
     }
 
     this.pass(route, data, callback);
   }
 
+  _clearAxis(route) {
+    if (route.graph.root) {
+      route.graph.root
+        .selectAll('.axis')
+        .remove();
+
+      route.graph.axis = {
+        bottom: {},
+        left: {},
+        right: {},
+        top: {}
+      };
+    }
+  }
+
+  _clearPlot(route) {
+    if (route.graph.root) {
+      route.graph.root
+        .selectAll('.plot')
+        .remove();
+    }
+  }
+
   _equalizeSize(route, changed = true) {
     const width = this._getComputedStyle(route.graph.svg, 'width');
     const oldHeight = this._getComputedStyle(route.graph.svg, 'height');
-    const newHeight = width * this._ratio;
+    const height = width * this._ratio;
 
     const set =
       changed === true &&
-      oldHeight !== newHeight;
+      oldHeight !== height;
 
     if (set === true) {
       route.graph.svg
-        .style('height', newHeight + 'px')
+        .style('height', height + 'px')
         .style('position', null);
     }
 
-    route.graph.size.height = newHeight;
-    route.graph.size.width = width;
+    route.graph.margin = {
+      bottom: 0,
+      left: 0,
+      right: 0,
+      top: 0
+    };
+
+    route.graph.size = {
+      height,
+      width
+    };
   }
 
-  _finishAxisBottom(route, axis, structure) {
+  _finishAxis(route, values, keys, structure) {
+    if (structure.axis.left) {
+      this._prepareAxisLeft(route, values, keys,
+        structure.axis.left);
+    }
+
+    if (structure.axis.bottom) {
+      this._prepareAxisBottom(route, values, keys,
+        structure.axis.bottom);
+    }
+
+    if (route.graph.axis.left) {
+      this._finishAxisLeft(route, structure.axis.left);
+    }
+
+    if (route.graph.axis.bottom) {
+      this._finishAxisBottom(route, structure.axis.bottom);
+    }
+  }
+
+  _finishAxisBottom(route, structure) {
+    if (!route.graph.axis.bottom.node) {
+      route.graph.axis.bottom.node = route.graph.root
+        .append('g')
+        .classed('axis bottom', true);
+    }
+
+    const axis = route.graph.axis.bottom.axis;
+    const node = route.graph.axis.bottom.node;
+
     if (structure.grid) {
       axis.tickSizeInner(-route.graph.size.height);
     }
@@ -66,16 +127,24 @@ export default class GraphBuilder extends Builder {
       .scale()
       .range([0, route.graph.size.width]);
 
-    const node = route.graph.g
-      .append('g')
-      .classed('axis bottom', true)
+    node
+      .transition()
       .call(axis);
 
     this._styleAxisHorizontal(route, axis, node);
     this._styleAxisBottom(route, axis, node);
   }
 
-  _finishAxisLeft(route, axis, structure) {
+  _finishAxisLeft(route, structure) {
+    if (!route.graph.axis.left.node) {
+      route.graph.axis.left.node = route.graph.root
+        .append('g')
+        .classed('axis left', true);
+    }
+
+    const axis = route.graph.axis.left.axis;
+    const node = route.graph.axis.left.node;
+
     if (structure.grid) {
       axis.tickSizeInner(-route.graph.size.width);
     }
@@ -84,9 +153,8 @@ export default class GraphBuilder extends Builder {
       .scale()
       .range([route.graph.size.height, 0]);
 
-    const node = route.graph.g
-      .append('g')
-      .classed('axis left', true)
+    node
+      .transition()
       .call(axis);
 
     this._styleAxisVertical(route, axis, node);
@@ -102,19 +170,25 @@ export default class GraphBuilder extends Builder {
     const structure = typeof this._structure === 'function' ?
       this._structure(route, values, keys) : this._structure;
 
+    if (typeof route.graph.svg === 'undefined') {
+      this._finishNodes(route, values, keys, structure);
+    }
+
+    if (route.graph.structure !== structure) {
+      this._clearAxis(route);
+    }
+
+    route.graph.structure = structure;
+
+    this._equalizeSize(route);
+    this._finishAxis(route, values, keys, structure);
+    this._clearPlot(route);
+    this._setPosition(route, route.graph.margin);
+    this._render(route, values, keys, structure);
+  }
+
+  _finishNodes(route) {
     const panel = select(route.node);
-
-    route.graph.margin = {
-      bottom: 0,
-      left: 0,
-      right: 0,
-      top: 0
-    };
-
-    route.graph.size = {
-      height: 0,
-      width: 0
-    };
 
     const number = panel
       .selectAll('div.graph')
@@ -136,39 +210,8 @@ export default class GraphBuilder extends Builder {
       .attr('height', '100%')
       .attr('width', '100%');
 
-    route.graph.g = route.graph.svg
+    route.graph.root = route.graph.svg
       .append('g');
-
-    this._equalizeSize(route);
-
-    let left = null;
-    let bottom = null;
-
-    if (structure.axis.left) {
-      left = this._prepareAxisLeft(route, values, keys,
-        structure.axis.left);
-    }
-
-    if (structure.axis.bottom) {
-      bottom = this._prepareAxisBottom(route, values, keys,
-        structure.axis.bottom);
-    }
-
-    if (left) {
-      this._finishAxisLeft(route, left, structure.axis.left);
-    }
-
-    if (bottom) {
-      this._finishAxisBottom(route, bottom, structure.axis.bottom);
-    }
-
-    route.graph.left = left;
-    route.graph.bottom = bottom;
-
-    this._setPosition(route, route.graph.margin);
-    this._render(route, values, keys, structure);
-
-    return graph;
   }
 
   _getAxisSize(route, axis, attr) {
@@ -220,13 +263,16 @@ export default class GraphBuilder extends Builder {
   }
 
   _prepareAxisBottom(route, values, keys, structure) {
-    const axis = axisBottom()
-      .tickFormat((datum, index, ticks) => {
-        return structure.tick(route, datum, index, ticks);
-      })
-      .tickPadding(10)
-      .tickSize(0);
+    if (!route.graph.axis.bottom.axis) {
+      route.graph.axis.bottom.axis = axisBottom()
+        .tickFormat((datum, index, ticks) => {
+          return structure.tick(route, datum, index, ticks);
+        })
+        .tickPadding(10)
+        .tickSize(0);
+    }
 
+    const axis = route.graph.axis.bottom.axis;
     const scale = structure
       .scale()
       .domain(structure.domain(values, keys, axis));
@@ -235,18 +281,19 @@ export default class GraphBuilder extends Builder {
 
     route.graph.margin.bottom += this._getAxisSize(route, axis, 'height');
     route.graph.size.height -= route.graph.margin.bottom;
-
-    return axis;
   }
 
   _prepareAxisLeft(route, values, keys, structure) {
-    const axis = axisLeft()
-      .tickFormat((datum, index, ticks) => {
-        return structure.tick(route, datum, index, ticks);
-      })
-      .tickPadding(10)
-      .tickSize(0);
+    if (!route.graph.axis.left.axis) {
+      route.graph.axis.left.axis = axisLeft()
+        .tickFormat((datum, index, ticks) => {
+          return structure.tick(route, datum, index, ticks);
+        })
+        .tickPadding(10)
+        .tickSize(0);
+    }
 
+    const axis = route.graph.axis.left.axis;
     const scale = structure
       .scale()
       .domain(structure.domain(values, keys, axis));
@@ -255,8 +302,6 @@ export default class GraphBuilder extends Builder {
 
     route.graph.margin.left += this._getAxisSize(route, axis, 'width');
     route.graph.size.width -= route.graph.margin.left;
-
-    return axis;
   }
 
   _prepareGraph(route) {
@@ -274,7 +319,7 @@ export default class GraphBuilder extends Builder {
   }
 
   _setPosition(route, position) {
-    route.graph.g
+    route.graph.root
       .attr('transform', `translate(${position.left},${position.top})`);
   }
 

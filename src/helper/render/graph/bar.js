@@ -1,44 +1,29 @@
 export default function renderBar(route, values, keys, structure) {
   const groupScale = structure.axis.bottom.group();
 
-  const xScale = route.graph.bottom.scale();
+  const xScale = route.graph.axis.bottom.axis.scale();
   const xValue = (datum) => structure.axis.bottom.value(datum, xScale);
 
-  const yScale = route.graph.left.scale();
+  const yScale = route.graph.axis.left.axis.scale();
   const yValue = (datum) => structure.axis.left.value(datum, yScale);
 
-  const g = route.graph.g
+  const root = route.graph.root
     .append('g')
-    .classed('bar', true);
+    .classed('plot bar', true);
 
   const isGrouped = keys !== null;
 
   const groups = isGrouped === true ?
-    grouped(values, keys, g, xValue, xScale, groupScale) :
-    ungrouped(values, g);
+    grouped(values, keys, root, xValue, xScale, groupScale) :
+    ungrouped(values, root);
 
-  const bar = groups
+  groups
     .selectAll('rect')
     .data((datum) => {
       return datum;
-    });
-
-  const exit = bar
-    .exit()
-    .transition();
-
-  exit.remove();
-
-  const enter = bar
+    })
     .enter()
     .append('rect')
-    .merge(bar);
-
-  const minimize = enter.transition();
-
-  const move = minimize
-    .transition()
-    .duration(0)
     .attr('class', (datum) => {
       return attrClass(datum, yValue, route.graph.size.height);
     })
@@ -54,11 +39,9 @@ export default function renderBar(route, values, keys, structure) {
     .attr('height', (datum) => {
       return attrHeight(datum, yValue, route.graph.size.height);
     });
-
-  move.transition();
 }
 
-function grouped(data, keys, g, xValue, xScale, groupScale) {
+function grouped(data, keys, root, xValue, xScale, groupScale) {
   const all = [];
 
   data.forEach((datum, datumIndex) => {
@@ -74,7 +57,7 @@ function grouped(data, keys, g, xValue, xScale, groupScale) {
     }))
     .range([0, attrWidth(xScale, groupScale)]);
 
-  let groups = g
+  let groups = root
     .selectAll('g')
     .data(all);
 
@@ -89,8 +72,8 @@ function grouped(data, keys, g, xValue, xScale, groupScale) {
   return groups;
 }
 
-function ungrouped(data, g) {
-  let groups = g
+function ungrouped(data, root) {
+  let groups = root
     .selectAll('g')
     .data([data]);
 

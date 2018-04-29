@@ -1,14 +1,14 @@
 export default function renderScatter(route, values, keys, structure) {
   values = keys === null ? [values] : values;
 
-  const xScale = route.graph.bottom.scale();
-  const yScale = route.graph.left.scale();
+  const xScale = route.graph.axis.bottom.axis.scale();
+  const yScale = route.graph.axis.left.axis.scale();
 
-  const g = route.graph.g
+  const root = route.graph.root
     .append('g')
-    .classed('scatter', true);
+    .classed('plot scatter', true);
 
-  let groups = g
+  let groups = root
     .selectAll('g')
     .data(values);
 
@@ -17,34 +17,18 @@ export default function renderScatter(route, values, keys, structure) {
     .append('g')
     .merge(groups);
 
-  const circle = groups
+  groups
     .selectAll('circle')
     .data((datum) => {
       return Object.values(datum);
-    });
-
-  const exit = circle
-    .exit()
-    .transition();
-
-  exit.remove();
-
-  const enter = circle
+    })
     .enter()
     .append('circle')
-    .merge(circle);
-
-  const minimize = enter.transition();
-
-  const move = minimize
-    .transition()
-    .duration(0)
     .attr('cx', (datum) => {
       return structure.axis.bottom.value(datum, xScale);
     })
     .attr('cy', (datum) => {
       return structure.axis.left.value(datum, yScale);
-    });
-
-  move.transition().attr('r', 3);
+    })
+    .attr('r', 3);
 }

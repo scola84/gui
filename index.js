@@ -1,4 +1,5 @@
 import {
+  Builder,
   FormBuilder,
   GraphBuilder,
   ListBuilder,
@@ -58,6 +59,7 @@ import {
 } from './src/helper';
 
 export {
+  Builder,
   FormBuilder,
   GraphBuilder,
   ListBuilder,

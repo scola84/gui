@@ -87,6 +87,10 @@
   padding: 0 1.3em 0 0;
 }
 
+.graph .head .control .action button:active {
+  opacity: 0.5;
+}
+
 .graph .head .control .action button:before {
   font-size: 1.5em;
   position: absolute;
