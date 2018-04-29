@@ -57,8 +57,8 @@ export default class GraphBuilder extends Builder {
     route.graph.size.width = width;
   }
 
-  _finishAxisBottom(route, axis) {
-    if (this._structure.axis.bottom.grid) {
+  _finishAxisBottom(route, axis, structure) {
+    if (structure.grid) {
       axis.tickSizeInner(-route.graph.size.height);
     }
 
@@ -75,8 +75,8 @@ export default class GraphBuilder extends Builder {
     this._styleAxisBottom(route, axis, node);
   }
 
-  _finishAxisLeft(route, axis) {
-    if (this._structure.axis.left.grid) {
+  _finishAxisLeft(route, axis, structure) {
+    if (structure.grid) {
       axis.tickSizeInner(-route.graph.size.width);
     }
 
@@ -99,20 +99,21 @@ export default class GraphBuilder extends Builder {
       keys = null
     ] = this.filter(route, data);
 
+    const structure = typeof this._structure === 'function' ?
+      this._structure(route, values, keys) : this._structure;
+
     const panel = select(route.node);
 
-    route.graph = {
-      margin: {
-        bottom: 0,
-        left: 0,
-        right: 0,
-        top: 0
-      },
-      size: {
-        height: 0,
-        width: 0
-      },
-      timezone: 'Europe/Amsterdam'
+    route.graph.margin = {
+      bottom: 0,
+      left: 0,
+      right: 0,
+      top: 0
+    };
+
+    route.graph.size = {
+      height: 0,
+      width: 0
     };
 
     const number = panel
@@ -143,27 +144,29 @@ export default class GraphBuilder extends Builder {
     let left = null;
     let bottom = null;
 
-    if (this._structure.axis.left) {
-      left = this._prepareAxisLeft(route, values, keys);
+    if (structure.axis.left) {
+      left = this._prepareAxisLeft(route, values, keys,
+        structure.axis.left);
     }
 
-    if (this._structure.axis.bottom) {
-      bottom = this._prepareAxisBottom(route, values, keys);
+    if (structure.axis.bottom) {
+      bottom = this._prepareAxisBottom(route, values, keys,
+        structure.axis.bottom);
     }
 
     if (left) {
-      this._finishAxisLeft(route, left);
+      this._finishAxisLeft(route, left, structure.axis.left);
     }
 
     if (bottom) {
-      this._finishAxisBottom(route, bottom);
+      this._finishAxisBottom(route, bottom, structure.axis.bottom);
     }
 
     route.graph.left = left;
     route.graph.bottom = bottom;
 
     this._setPosition(route, route.graph.margin);
-    this._render(route, values, keys, this._structure);
+    this._render(route, values, keys, structure);
 
     return graph;
   }
@@ -216,17 +219,17 @@ export default class GraphBuilder extends Builder {
     return parseFloat(value);
   }
 
-  _prepareAxisBottom(route, values, keys) {
+  _prepareAxisBottom(route, values, keys, structure) {
     const axis = axisBottom()
-      .tickFormat((date) => {
-        return this._structure.axis.bottom.tick(route.level, date,
-          route.graph.timezone);
+      .tickFormat((datum, index, ticks) => {
+        return structure.tick(route, datum, index, ticks);
       })
       .tickPadding(10)
       .tickSize(0);
 
-    const scale = this._structure.axis.bottom.scale()
-      .domain(this._structure.axis.bottom.domain(values, keys, axis));
+    const scale = structure
+      .scale()
+      .domain(structure.domain(values, keys, axis));
 
     axis.scale(scale);
 
@@ -236,14 +239,17 @@ export default class GraphBuilder extends Builder {
     return axis;
   }
 
-  _prepareAxisLeft(route, values, keys) {
+  _prepareAxisLeft(route, values, keys, structure) {
     const axis = axisLeft()
-      .tickFormat(this._structure.axis.left.tick)
+      .tickFormat((datum, index, ticks) => {
+        return structure.tick(route, datum, index, ticks);
+      })
       .tickPadding(10)
       .tickSize(0);
 
-    const scale = this._structure.axis.left.scale()
-      .domain(this._structure.axis.left.domain(values, keys, axis));
+    const scale = structure
+      .scale()
+      .domain(structure.domain(values, keys, axis));
 
     axis.scale(scale);
 
