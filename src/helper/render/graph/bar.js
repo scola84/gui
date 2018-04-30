@@ -1,13 +1,13 @@
 import renderTip from './tip';
 
 export default function renderBar(route, values, keys, structure, plot) {
-  const groupScale = structure.axis.bottom.group();
+  const groupScale = structure.axis[plot.x].group();
 
-  const xScale = route.graph.axis.bottom.axis.scale();
-  const xValue = (datum) => structure.axis.bottom.value(datum, xScale);
+  const xScale = route.graph.axis[plot.x].axis.scale();
+  const xValue = (datum) => structure.axis[plot.x].value(datum, xScale);
 
-  const yScale = route.graph.axis.left.axis.scale();
-  const yValue = (datum) => structure.axis.left.value(datum, yScale);
+  const yScale = route.graph.axis[plot.y].axis.scale();
+  const yValue = (datum) => structure.axis[plot.y].value(datum, yScale);
 
   const root = route.graph.root
     .append('g')
@@ -33,7 +33,8 @@ export default function renderBar(route, values, keys, structure, plot) {
       return attrX(datum, xValue, groupScale, index, isGrouped);
     })
     .attr('y', (datum) => {
-      return attrY(datum, yValue, route.graph.size.height);
+      return plot.x === 'top' ?
+        0 : attrY(datum, yValue, route.graph.size.height);
     })
     .attr('width', () => {
       return attrWidth(xScale, groupScale, isGrouped);
@@ -98,11 +99,7 @@ function ungrouped(data, root) {
 }
 
 function attrX(datum, xValue, groupScale, index, isGrouped = false) {
-  if (isGrouped === false) {
-    return xValue(datum);
-  }
-
-  return groupScale(index);
+  return isGrouped === false ? xValue(datum) : groupScale(index);
 }
 
 function attrY(datum, yValue, height) {
@@ -111,11 +108,7 @@ function attrY(datum, yValue, height) {
 }
 
 function attrWidth(xScale, groupScale, isGrouped = false) {
-  if (isGrouped === false) {
-    return xScale.bandwidth();
-  }
-
-  return groupScale.bandwidth();
+  return isGrouped === false ? xScale.bandwidth() : groupScale.bandwidth();
 }
 
 function attrHeight(datum, yValue, height) {

@@ -3,8 +3,8 @@ import renderTip from './tip';
 export default function renderScatter(route, values, keys, structure, plot) {
   values = keys === null ? [values] : values;
 
-  const xScale = route.graph.axis.bottom.axis.scale();
-  const yScale = route.graph.axis.left.axis.scale();
+  const xScale = route.graph.axis[plot.x].axis.scale();
+  const yScale = route.graph.axis[plot.y].axis.scale();
 
   const root = route.graph.root
     .append('g')
@@ -27,10 +27,10 @@ export default function renderScatter(route, values, keys, structure, plot) {
     .enter()
     .append('circle')
     .attr('cx', (datum) => {
-      return structure.axis.bottom.value(datum, xScale);
+      return structure.axis[plot.x].value(datum, xScale);
     })
     .attr('cy', (datum) => {
-      return structure.axis.left.value(datum, yScale);
+      return structure.axis[plot.y].value(datum, yScale);
     })
     .attr('r', 3);
 

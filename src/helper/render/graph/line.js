@@ -1,14 +1,14 @@
 import { line } from 'd3';
 
-export default function renderLine(route, values, keys, structure) {
+export default function renderLine(route, values, keys, structure, plot) {
   values = keys === null ? [values] : values;
 
-  const xScale = route.graph.axis.bottom.axis.scale();
-  const yScale = route.graph.axis.left.axis.scale();
+  const xScale = route.graph.axis[plot.x].axis.scale();
+  const yScale = route.graph.axis[plot.y].axis.scale();
 
   const factory = line()
-    .x((datum) => structure.axis.bottom.value(datum, xScale))
-    .y((datum) => structure.axis.left.value(datum, yScale));
+    .x((datum) => structure.axis[plot.x].value(datum, xScale))
+    .y((datum) => structure.axis[plot.y].value(datum, yScale));
 
   const root = route.graph.root
     .append('g')
