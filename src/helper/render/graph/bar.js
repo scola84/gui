@@ -85,7 +85,7 @@ function grouped(data, keys, root, xValue, xScale, groupScale) {
   return groups;
 }
 
-function ungrouped(data, root) {
+function ungrouped([data], root) {
   let groups = root
     .selectAll('g')
     .data([data]);

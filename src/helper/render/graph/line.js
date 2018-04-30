@@ -1,8 +1,6 @@
 import { line } from 'd3';
 
 export default function renderLine(route, values, keys, structure, plot) {
-  values = keys === null ? [values] : values;
-
   const xScale = route.graph.axis[plot.x].axis.scale();
   const yScale = route.graph.axis[plot.y].axis.scale();
 
