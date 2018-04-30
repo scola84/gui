@@ -1,6 +1,7 @@
 /* eslint prefer-reflect: 0 */
 
 import {
+  event,
   select,
   axisLeft,
   axisBottom
@@ -152,7 +153,7 @@ export default class GraphBuilder extends Builder {
 
     route.graph.structure = structure;
 
-    this._resize(route);
+    this._resize(route, data);
     this._finishAxis(route, values, keys, structure);
     this._clearPlot(route);
     this._setPosition(route, route.graph.margin);
@@ -290,7 +291,7 @@ export default class GraphBuilder extends Builder {
       .classed('graph', true);
   }
 
-  _resize(route) {
+  _resize(route, data) {
     this._resizeGraph(route);
 
     route.graph.size = route.graph.meta.maximize === true ?
@@ -303,6 +304,17 @@ export default class GraphBuilder extends Builder {
       right: 0,
       top: 0
     };
+
+    select(route.node).on('resize.graph', () => {
+      const resize =
+        typeof route.node.size.graph === 'undefined' ||
+        event.detail === true;
+
+      if (resize) {
+        route.node.size.graph = true;
+        this.act(route, data);
+      }
+    });
   }
 
   _resizeGraph(route) {

@@ -1,4 +1,6 @@
 import { select } from 'd3';
+import Resizer from 'element-resize-detector';
+import debounce from 'lodash-es/debounce';
 import GraphicWorker from '../worker/graphic';
 
 export default class PanelBuilder extends GraphicWorker {
@@ -49,13 +51,18 @@ export default class PanelBuilder extends GraphicWorker {
       newEnd
     } = this._calculate(moveDir, readDir, width, route.factor);
 
-    this._base
+    const old = this._base
       .select('.panel')
       .style(property, oldBegin)
       .transition()
       .duration(this._duration)
       .style(property, oldEnd)
       .remove();
+
+    if (old.size() > 0) {
+      old.node().resizer
+        .uninstall(old.select('.content').node());
+    }
 
     const panel = this._base
       .append('div')
@@ -85,7 +92,7 @@ export default class PanelBuilder extends GraphicWorker {
       .classed('message', true)
       .append('span');
 
-    body
+    const content = body
       .append('div')
       .classed('content', true);
 
@@ -105,6 +112,16 @@ export default class PanelBuilder extends GraphicWorker {
 
     route.node = panel.node();
     route.user = this._user;
+
+    route.node.size = {};
+
+    route.node.resizer = Resizer({
+      callOnAdd: false
+    });
+
+    route.node.resizer.listenTo(content.node(), debounce(() => {
+      this._resize(route);
+    }, 100));
 
     this.pass(route, data, callback);
   }
@@ -156,5 +173,24 @@ export default class PanelBuilder extends GraphicWorker {
       .classed('right', true);
 
     return bar;
+  }
+
+  _resize(route) {
+    const node = select(route.node);
+    const body = node.select('.body').node();
+
+    const height = body.getBoundingClientRect().height;
+    const width = body.getBoundingClientRect().width;
+
+    const changed =
+      route.node.size.height !== height ||
+      route.node.size.width !== width;
+
+    route.node.size.height = height;
+    route.node.size.width = width;
+
+    select(route.node).dispatch('resize', {
+      detail: changed
+    });
   }
 }
