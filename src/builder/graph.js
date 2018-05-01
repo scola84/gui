@@ -224,7 +224,7 @@ export default class GraphBuilder extends Builder {
     this._finishAxis(route, values, keys, structure);
     this._clearPlot(route);
     this._setPosition(route, route.graph.margin);
-    this._render(route, values, keys, structure);
+    this._render(route, values, keys, structure, this._format);
   }
 
   _finishNodes(route) {

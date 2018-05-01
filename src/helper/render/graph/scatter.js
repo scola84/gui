@@ -1,6 +1,6 @@
 import renderTip from './tip';
 
-export default function renderScatter(route, values, keys, structure, plot) {
+export default function renderScatter(route, values, keys, structure, plot, format) {
   const xScale = route.graph.axis[plot.x].axis.scale();
   const yScale = route.graph.axis[plot.y].axis.scale();
 
@@ -34,11 +34,11 @@ export default function renderScatter(route, values, keys, structure, plot) {
 
   if (plot.tip) {
     circle.on('mouseover', (datum) => {
-      renderTip(route, datum, plot);
+      renderTip(route, datum, plot, format);
     });
 
     circle.on('mouseout', () => {
-      renderTip(route, null, plot);
+      renderTip(route, null, plot, format);
     });
   }
 }

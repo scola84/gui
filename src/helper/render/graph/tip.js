@@ -1,6 +1,6 @@
 import { event, select } from 'd3';
 
-export default function renderTip(route, datum, plot) {
+export default function renderTip(route, datum, plot, format) {
   if (datum === null) {
     select('.graph-tip').remove();
     return;
@@ -10,7 +10,7 @@ export default function renderTip(route, datum, plot) {
     .append('div')
     .attr('class', 'graph-tip');
 
-  plot.tip(route, tip, datum);
+  plot.tip(route, tip, datum, format);
 
   const targetRect = event.target.getBoundingClientRect();
   const tipRect = tip.node().getBoundingClientRect();

@@ -1,6 +1,6 @@
 import renderTip from './tip';
 
-export default function renderBar(route, values, keys, structure, plot) {
+export default function renderBar(route, values, keys, structure, plot, format) {
   const groupScale = structure.axis[plot.x].group();
 
   const xScale = route.graph.axis[plot.x].axis.scale();
@@ -45,11 +45,11 @@ export default function renderBar(route, values, keys, structure, plot) {
 
   if (plot.tip) {
     rect.on('mouseover', (datum) => {
-      renderTip(route, datum, plot);
+      renderTip(route, datum, plot, format);
     });
 
     rect.on('mouseout', () => {
-      renderTip(route, null, plot);
+      renderTip(route, null, plot, format);
     });
   }
 }
