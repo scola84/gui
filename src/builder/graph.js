@@ -277,7 +277,6 @@ export default class GraphBuilder extends Builder {
 
     const node = route.graph.svg
       .append('text')
-      .style('font-size', '0.9em')
       .text(longest);
 
     let size = axis.tickPadding();
