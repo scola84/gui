@@ -41,4 +41,11 @@ export default function renderScatter(route, values, keys, structure, plot, form
       renderTip(route, null, plot, format);
     });
   }
+
+  if (plot.click) {
+    circle.on('click', (datum) => {
+      renderTip(route, null, plot, format);
+      plot.click(route, datum);
+    });
+  }
 }
