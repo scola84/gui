@@ -1,9 +1,6 @@
 import renderTip from './tip';
 
 export default function renderScatter(route, values, keys, structure, plot, format) {
-  const xScale = route.graph.axis[plot.x].axis.scale();
-  const yScale = route.graph.axis[plot.y].axis.scale();
-
   const root = route.graph.root
     .append('g')
     .classed('plot scatter', true);
@@ -25,9 +22,11 @@ export default function renderScatter(route, values, keys, structure, plot, form
     .enter()
     .append('circle')
     .attr('cx', (datum) => {
+      const xScale = route.graph.axis[plot.x].axis.scale();
       return structure.axis[plot.x].value(datum, xScale);
     })
     .attr('cy', (datum) => {
+      const yScale = route.graph.axis[plot.y].axis.scale();
       return structure.axis[plot.y].value(datum, yScale);
     })
     .attr('r', 3);

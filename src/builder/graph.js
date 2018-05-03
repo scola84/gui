@@ -6,7 +6,8 @@ import {
   axisRight,
   axisTop,
   event,
-  select
+  select,
+  zoom
 } from 'd3';
 
 import Builder from './builder';
@@ -68,6 +69,11 @@ export default class GraphBuilder extends Builder {
         .selectAll('.plot')
         .remove();
     }
+  }
+
+  _clearZoom(route) {
+    route.graph.svg
+      .on('.zoom', null);
   }
 
   _finishAxisBottom(route, structure) {
@@ -200,9 +206,17 @@ export default class GraphBuilder extends Builder {
     }
 
     this._renderAxis(route, values, keys, structure);
+
     this._clearMessage(route);
     this._clearPlot(route);
+    this._clearZoom(route);
+
     this._setPosition(route, route.graph.margin);
+
+    if (structure.zoom) {
+      this._prepareZoom(route, values, keys, structure, this._format);
+    }
+
     this._render(route, values, keys, structure, this._format);
   }
 
@@ -253,6 +267,102 @@ export default class GraphBuilder extends Builder {
     return parseFloat(value);
   }
 
+  _handleZoom(route, values, keys, structure) {
+    if (structure.axis.bottom) {
+      if (structure.axis.bottom.zoom === true) {
+        this._handleZoomBottom(route);
+      }
+    }
+
+    if (structure.axis.left) {
+      if (structure.axis.left.zoom === true) {
+        this._handleZoomLeft(route);
+      }
+    }
+
+    if (structure.axis.right) {
+      if (structure.axis.right.zoom === true) {
+        this._handleZoomRight(route);
+      }
+    }
+
+    if (structure.axis.top) {
+      if (structure.axis.top.zoom === true) {
+        this._handleZoomTop(route);
+      }
+    }
+
+    this._clearPlot(route);
+    this._render(route, values, keys, structure, this._format);
+  }
+
+  _handleZoomBottom(route) {
+    const axis = route.graph.axis.bottom.axis;
+    const node = route.graph.axis.bottom.node;
+    const scale = route.graph.axis.bottom.scale;
+
+    if (scale.bandwidth) {
+      scale.range([
+        event.transform.applyX(0),
+        event.transform.applyX(route.graph.size.width)
+      ]);
+    } else {
+      axis.scale(event.transform.rescaleX(scale));
+    }
+
+    node.call(axis);
+
+    this._styleAxisHorizontal(route, axis, node);
+    this._styleAxisBottom(route, axis, node);
+  }
+
+  _handleZoomLeft(route) {
+    const axis = route.graph.axis.left.axis;
+    const node = route.graph.axis.left.node;
+
+    const scale = event.transform
+      .rescaleY(route.graph.axis.left.scale);
+
+    axis.scale(scale);
+    node.call(axis);
+
+    this._styleAxisVertical(route, axis, node);
+    this._styleAxisLeft(route, axis, node);
+  }
+
+  _handleZoomRight(route) {
+    const axis = route.graph.axis.right.axis;
+    const node = route.graph.axis.right.node;
+
+    const scale = event.transform
+      .rescaleY(route.graph.axis.right.scale);
+
+    axis.scale(scale);
+    node.call(axis);
+
+    this._styleAxisVertical(route, axis, node);
+    this._styleAxisRight(route, axis, node);
+  }
+
+  _handleZoomTop(route) {
+    const axis = route.graph.axis.top.axis;
+    const node = route.graph.axis.top.node;
+    const scale = route.graph.axis.top.scale;
+
+    if (scale.bandwidth) {
+      scale.range([
+        event.transform.applyX(0),
+        event.transform.applyX(route.graph.size.width)
+      ]);
+    } else {
+      axis.scale(event.transform.rescaleX(scale));
+    }
+
+    node.call(axis);
+
+    this._styleAxisHorizontal(route, axis, node);
+  }
+
   _prepareAxisBottom(route, values, keys, structure) {
     if (!route.graph.axis.bottom.axis) {
       route.graph.axis.bottom.axis = axisBottom()
@@ -264,12 +374,14 @@ export default class GraphBuilder extends Builder {
     }
 
     const axis = route.graph.axis.bottom.axis;
+
     const scale = structure
       .scale()
       .domain(structure.domain(values, keys, axis));
 
     axis.scale(scale);
 
+    route.graph.axis.bottom.scale = scale;
     route.graph.margin.bottom += this._getAxisSize(route, axis, 'height');
     route.graph.size.height -= route.graph.margin.bottom;
   }
@@ -285,12 +397,14 @@ export default class GraphBuilder extends Builder {
     }
 
     const axis = route.graph.axis.left.axis;
+
     const scale = structure
       .scale()
       .domain(structure.domain(values, keys, axis));
 
     axis.scale(scale);
 
+    route.graph.axis.left.scale = scale;
     route.graph.margin.left += this._getAxisSize(route, axis, 'width');
     route.graph.size.width -= route.graph.margin.left;
   }
@@ -306,12 +420,14 @@ export default class GraphBuilder extends Builder {
     }
 
     const axis = route.graph.axis.right.axis;
+
     const scale = structure
       .scale()
       .domain(structure.domain(values, keys, axis));
 
     axis.scale(scale);
 
+    route.graph.axis.right.scale = scale;
     route.graph.margin.right += this._getAxisSize(route, axis, 'width');
     route.graph.size.width -= route.graph.margin.right;
   }
@@ -327,12 +443,14 @@ export default class GraphBuilder extends Builder {
     }
 
     const axis = route.graph.axis.top.axis;
+
     const scale = structure
       .scale()
       .domain(structure.domain(values, keys, axis));
 
     axis.scale(scale);
 
+    route.graph.axis.top.scale = scale;
     route.graph.margin.top += this._getAxisSize(route, axis, 'height');
     route.graph.size.height -= route.graph.margin.top;
   }
@@ -349,6 +467,31 @@ export default class GraphBuilder extends Builder {
       .append('div')
       .attr('id', this._createTarget('graph', number))
       .classed('graph', true);
+  }
+
+  _prepareZoom(route, values, keys, structure) {
+    const height = route.graph.size.height;
+    const width = route.graph.size.width;
+
+    route.graph.zoom = zoom()
+      .scaleExtent(structure.zoom)
+      .translateExtent([
+        [0, 0],
+        [width, height]
+      ])
+      .extent([
+        [0, 0],
+        [width, height]
+      ])
+      .on('zoom', () => {
+        this._handleZoom(route, values, keys, structure);
+      });
+
+    route.graph.svg
+      .call(route.graph.zoom)
+      .on('wheel', () => {
+        event.preventDefault();
+      });
   }
 
   _renderAxis(route, values, keys, structure) {

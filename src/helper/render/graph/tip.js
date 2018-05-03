@@ -1,8 +1,9 @@
 import { event, select } from 'd3';
 
 export default function renderTip(route, datum, plot, format) {
+  select('.graph-tip').remove();
+
   if (datum === null) {
-    select('.graph-tip').remove();
     return;
   }
 
