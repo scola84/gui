@@ -56,45 +56,17 @@ export default class GraphBuilder extends Builder {
     }
   }
 
+  _clearMessage(route) {
+    route.graph.node
+      .select('.message')
+      .remove();
+  }
+
   _clearPlot(route) {
     if (route.graph.root) {
       route.graph.root
         .selectAll('.plot')
         .remove();
-    }
-  }
-
-  _finishAxis(route, values, keys, structure) {
-    if (structure.axis.bottom) {
-      this._prepareAxisBottom(route, values, keys, structure.axis.bottom);
-    }
-
-    if (structure.axis.left) {
-      this._prepareAxisLeft(route, values, keys, structure.axis.left);
-    }
-
-    if (structure.axis.right) {
-      this._prepareAxisRight(route, values, keys, structure.axis.right);
-    }
-
-    if (structure.axis.top) {
-      this._prepareAxisTop(route, values, keys, structure.axis.top);
-    }
-
-    if (route.graph.axis.bottom.axis) {
-      this._finishAxisBottom(route, structure.axis.bottom);
-    }
-
-    if (route.graph.axis.left.axis) {
-      this._finishAxisLeft(route, structure.axis.left);
-    }
-
-    if (route.graph.axis.right.axis) {
-      this._finishAxisRight(route, structure.axis.right);
-    }
-
-    if (route.graph.axis.top.axis) {
-      this._finishAxisTop(route, structure.axis.top);
     }
   }
 
@@ -201,7 +173,7 @@ export default class GraphBuilder extends Builder {
     this._styleAxisHorizontal(route, axis, node);
   }
 
-  _finishGraph(route, data = {}) {
+  _finishGraph(route, data) {
     const [
       values = [],
       keys = null
@@ -211,7 +183,7 @@ export default class GraphBuilder extends Builder {
       this._structure(route, values, keys) : this._structure;
 
     if (typeof route.graph.svg === 'undefined') {
-      this._finishNodes(route, values, keys, structure);
+      this._renderNodes(route, values, keys, structure);
     }
 
     if (route.graph.structure !== structure) {
@@ -221,37 +193,17 @@ export default class GraphBuilder extends Builder {
     route.graph.structure = structure;
 
     this._resize(route, data);
-    this._finishAxis(route, values, keys, structure);
+
+    if (data.length === 0) {
+      this._renderMessage(route);
+      return;
+    }
+
+    this._renderAxis(route, values, keys, structure);
+    this._clearMessage(route);
     this._clearPlot(route);
     this._setPosition(route, route.graph.margin);
     this._render(route, values, keys, structure, this._format);
-  }
-
-  _finishNodes(route) {
-    const panel = select(route.node);
-
-    const number = panel
-      .selectAll('div.graph')
-      .size() - 1;
-
-    route.graph.node = panel
-      .select('#' + this._createTarget('graph', number));
-
-    const block = route.graph.node
-      .append('div')
-      .classed('body', true);
-
-    const inner = block
-      .append('div')
-      .classed('inner', true);
-
-    route.graph.svg = inner
-      .append('svg')
-      .attr('height', '100%')
-      .attr('width', '100%');
-
-    route.graph.root = route.graph.svg
-      .append('g');
   }
 
   _getAxisSize(route, axis, attr) {
@@ -397,6 +349,78 @@ export default class GraphBuilder extends Builder {
       .append('div')
       .attr('id', this._createTarget('graph', number))
       .classed('graph', true);
+  }
+
+  _renderAxis(route, values, keys, structure) {
+    if (structure.axis.bottom) {
+      this._prepareAxisBottom(route, values, keys, structure.axis.bottom);
+    }
+
+    if (structure.axis.left) {
+      this._prepareAxisLeft(route, values, keys, structure.axis.left);
+    }
+
+    if (structure.axis.right) {
+      this._prepareAxisRight(route, values, keys, structure.axis.right);
+    }
+
+    if (structure.axis.top) {
+      this._prepareAxisTop(route, values, keys, structure.axis.top);
+    }
+
+    if (route.graph.axis.bottom.axis) {
+      this._finishAxisBottom(route, structure.axis.bottom);
+    }
+
+    if (route.graph.axis.left.axis) {
+      this._finishAxisLeft(route, structure.axis.left);
+    }
+
+    if (route.graph.axis.right.axis) {
+      this._finishAxisRight(route, structure.axis.right);
+    }
+
+    if (route.graph.axis.top.axis) {
+      this._finishAxisTop(route, structure.axis.top);
+    }
+  }
+
+  _renderMessage(route) {
+    route.graph.node
+      .select('.body .inner')
+      .selectAll('.message')
+      .data([0])
+      .enter()
+      .append('div')
+      .classed('message', true)
+      .text(this.format('empty'));
+  }
+
+  _renderNodes(route) {
+    const panel = select(route.node);
+
+    const number = panel
+      .selectAll('div.graph')
+      .size() - 1;
+
+    route.graph.node = panel
+      .select('#' + this._createTarget('graph', number));
+
+    const body = route.graph.node
+      .append('div')
+      .classed('body', true);
+
+    const inner = body
+      .append('div')
+      .classed('inner', true);
+
+    route.graph.svg = inner
+      .append('svg')
+      .attr('height', '100%')
+      .attr('width', '100%');
+
+    route.graph.root = route.graph.svg
+      .append('g');
   }
 
   _resize(route, data) {
