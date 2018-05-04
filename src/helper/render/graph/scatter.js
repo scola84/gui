@@ -47,4 +47,6 @@ export default function renderScatter(route, values, keys, structure, plot, form
       plot.click(route, datum);
     });
   }
+
+  renderTip(route, null, plot, format);
 }

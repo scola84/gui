@@ -59,6 +59,8 @@ export default function renderBar(route, values, keys, structure, plot, format) 
       plot.click(route, datum);
     });
   }
+
+  renderTip(route, null, plot, format);
 }
 
 function grouped(data, keys, root, xValue, xScale, groupScale) {
