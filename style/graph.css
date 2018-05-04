@@ -30,7 +30,9 @@
 
 .graph .body .inner {
   flex: 1 1 auto;
+  height: 100%;
   position: relative;
+  width: 100%;
 }
 
 .graph .body svg {

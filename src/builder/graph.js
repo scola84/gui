@@ -199,18 +199,17 @@ export default class GraphBuilder extends Builder {
     route.graph.structure = structure;
 
     this._resize(route, data);
+    this._clearMessage(route);
+    this._clearPlot(route);
+    this._clearZoom(route);
 
     if (data.length === 0) {
+      this._clearAxis(route);
       this._renderMessage(route);
       return;
     }
 
     this._renderAxis(route, values, keys, structure);
-
-    this._clearMessage(route);
-    this._clearPlot(route);
-    this._clearZoom(route);
-
     this._setPosition(route, route.graph.margin);
 
     if (structure.zoom) {
