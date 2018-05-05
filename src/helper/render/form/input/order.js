@@ -15,7 +15,7 @@ export default class OrderInput {
       .append('span')
       .classed('drag', true)
       .append('span')
-      .classed('handle ion-ios-drag', true)
+      .classed('handle ion-ios-reorder', true)
       .on('click', () => {
         event.stopPropagation();
       });

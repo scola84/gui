@@ -9,21 +9,21 @@ _:-ms-fullscreen,
 }
 
 _:-ms-fullscreen,
-:root .button.ion-log-out:before,
+:root .button.ion-ios-log-out-outline:before,
 _:-ms-fullscreen,
-:root .button.ion-ios-search:before,
+:root .button.ion-ios-search-outline:before,
 _:-ms-fullscreen,
-:root .button.ion-edit:before {
+:root .button.ion-ios-brush:before {
   font-size: 50%;
 }
 
 _:-ms-fullscreen,
-:root .summary .button.ion-edit:before {
+:root .summary .button.ion-ios-brush:before {
   font-size: 75%;
 }
 
 _:-ms-fullscreen,
-:root .search .ion-ios-search:before {
+:root .search .ion-ios-search-outline:before {
   font-size: 65%;
 }
 
@@ -36,4 +36,3 @@ _:-ms-fullscreen,
   color: darkgrey !important;
   font-weight: 400 !important;
 }
-

@@ -11,6 +11,6 @@ export default function renderCancel(route, { left, text }, handler) {
       .on('click', handler);
   } else {
     button
-      .classed('icon show-menu ion-navicon', true);
+      .classed('icon show-menu ion-ios-menu-outline', true);
   }
 }

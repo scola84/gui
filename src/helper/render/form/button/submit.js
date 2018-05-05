@@ -5,6 +5,6 @@ export default class SubmitButton {
       .append('button')
       .attr('tabindex', 0)
       .attr('type', 'submit')
-      .classed('button flip ion-ios-arrow-thin-right', true);
+      .classed('button flip ion-ios-arrow-round-forward', true);
   }
 }

@@ -71,19 +71,19 @@ button[tabindex="0"],
   overflow: hidden;
 }
 
-.ion-edit:before {
+.ion-ios-brush:before {
   font-size: 1em !important;
-}
-
-.ion-ios-search:before {
-  font-size: 1.5em !important;
 }
 
 .ion-ios-cloud-download-outline {
   border-color: transparent !important;
 }
 
-.ion-stop:before {
+.ion-ios-search-outline:before {
+  font-size: 1.5em !important;
+}
+
+.ion-ios-square:before {
   font-size: 1em !important;
 }
 

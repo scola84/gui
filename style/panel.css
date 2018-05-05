@@ -97,21 +97,18 @@
 }
 
 .section > .panel > .body > .content:after {
-  align-items: center;
-  color: grey;
-  content: '';
+  animation: spin 1s infinite linear;
+  border: 1px solid grey;
+  border-radius: 50%;
+  border-right: none;
   display: flex;
-  font-family: 'Ionicons';
-  font-size: 2em;
-  justify-content: center;
-  height: 1em;
-  width: 1em;
+  height: 1.25em;
+  margin: 0.5em auto;
+  width: 1.25em;
 }
 
 .section > .panel > .body > .content.busy:after {
-  content: '\f29d' !important;
-  margin: 0.25em auto;
-  animation: spin 1s infinite linear;
+  content: '';
 }
 
 .section > .panel > .body > .content > .progress {

@@ -12,6 +12,6 @@ export default function renderBack(route, { icon, left, text }, handler) {
       .on('click', handler);
   } else {
     button
-      .classed('show-menu icon ion-navicon', true);
+      .classed('show-menu icon ion-ios-menu-outline', true);
   }
 }

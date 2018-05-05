@@ -16,14 +16,14 @@ function clearRequest(datum, node, data = null) {
     node.request.progress.remove();
 
     const button = select(node)
-      .select('.ion-stop');
+      .select('.ion-ios-square');
 
     if (result === false) {
       button.remove();
     } else {
       button
         .classed(datum.button, true)
-        .classed('ion-stop', false)
+        .classed('ion-ios-square', false)
         .datum(datum);
     }
   }
@@ -37,7 +37,7 @@ function prepareProgress(datum, node) {
   select(node)
     .select('.' + datum.button)
     .classed(datum.button, false)
-    .classed('ion-stop', true)
+    .classed('ion-ios-square', true)
     .datum(datum);
 
   const progress = select(node.closest('li'))

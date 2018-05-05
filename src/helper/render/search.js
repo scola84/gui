@@ -2,7 +2,7 @@ export default function renderSearch(route, { panel, right }) {
   right
     .append('button')
     .attr('tabindex', 0)
-    .classed('button icon search ion-ios-search', true)
+    .classed('button icon search ion-ios-search-outline', true)
     .on('click', () => {
       const show = !panel.classed('search');
 
