@@ -120,7 +120,7 @@ form .block > ul .checkbox:first-child input + label:before {
   border: 1px solid transparent;
   border-radius: 50%;
   box-sizing: border-box;
-  content: '\f401';
+  content: '\f1f6';
   display: flex;
   font-family: 'Ionicons';
   font-size: 2em;
@@ -130,7 +130,7 @@ form .block > ul .checkbox:first-child input + label:before {
 }
 
 form .block > ul .checkbox:first-child input:checked + label:before {
-  content: '\f3ff';
+  content: '\f14a';
 }
 
 form .block > ul .input {
@@ -221,7 +221,7 @@ form .block > ul .radio {
 }
 
 form .block > ul .radio input:checked + label:after {
-  content: '\f3fd';
+  content: '\f3ff';
   font-family: 'Ionicons';
   font-size: 1.9em;
 }

@@ -77,7 +77,7 @@ export default class PanelBuilder extends GraphicWorker {
       .append('form')
       .classed('search', true)
       .append('div')
-      .classed('ion-ios-search', true)
+      .classed('ion-ios-search-outline', true)
       .append('input')
       .datum(() => ({ name: 'search' }))
       .attr('autocomplete', 'on')

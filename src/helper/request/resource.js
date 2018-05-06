@@ -3,44 +3,45 @@ import FileSaver from 'file-saver';
 import sprintf from 'sprintf-js';
 import { select } from 'd3';
 
-function clearRequest(datum, node, data = null) {
-  const result = node.request.socket.status === 200;
+function clearRequest(box, data = null) {
+  const request = box.node.request;
+  const result = request.socket.status === 200;
 
   if (data === null) {
-    node.request.socket.abort();
+    request.socket.abort();
   } else if (result === true) {
-    data.data = node.request.socket.response;
+    data.data = request.socket.response;
   }
 
-  if (node.request.progress) {
-    node.request.progress.remove();
+  if (request.progress) {
+    request.progress.remove();
 
-    const button = select(node)
+    const button = select(box.node)
       .select('.ion-ios-square');
 
     if (result === false) {
       button.remove();
     } else {
       button
-        .classed(datum.button, true)
+        .classed(request.button, true)
         .classed('ion-ios-square', false)
-        .datum(datum);
+        .datum(request);
     }
   }
 
-  delete node.request;
+  delete box.node.request;
 
   return result;
 }
 
-function prepareProgress(datum, node) {
-  select(node)
-    .select('.' + datum.button)
-    .classed(datum.button, false)
+function prepareProgress(box) {
+  select(box.node)
+    .select('.' + box.button)
+    .classed(box.button, false)
     .classed('ion-ios-square', true)
-    .datum(datum);
+    .datum(box);
 
-  const progress = select(node.closest('li'))
+  const progress = select(box.node.closest('li'))
     .append('div')
     .classed('progress', true);
 
@@ -49,18 +50,18 @@ function prepareProgress(datum, node) {
   return progress;
 }
 
-function sendRequest(datum, index, node, data, callback = () => {}) {
-  const progress = datum.button ? prepareProgress(datum, node) : null;
+function sendRequest(box, data, callback) {
+  const progress = box.button ? prepareProgress(box) : null;
   const socket = new XMLHttpRequest();
 
-  socket.open(datum.method || 'GET', sprintf.sprintf(datum.path, data));
-  socket.responseType = datum.responseType || 'blob';
+  socket.open(box.method || 'GET', sprintf.sprintf(box.path, data));
+  socket.responseType = box.responseType || 'blob';
 
   socket.onerror = (error) => {
-    clearRequest(datum, node, data, socket.response);
+    clearRequest(box, data);
 
-    if (datum.callback) {
-      datum.callback(error);
+    if (box.callback) {
+      box.callback(error);
     }
 
     callback(error);
@@ -72,19 +73,19 @@ function sendRequest(datum, index, node, data, callback = () => {}) {
     socket.onprogress = null;
     socket.upload.onprogress = null;
 
-    const result = clearRequest(datum, node, data);
+    const result = clearRequest(box, data);
 
     if (result === false) {
       callback(new Error(String(socket.status)));
       return;
     }
 
-    if (datum.save === true || data.save === true) {
+    if (box.save === true || data.save === true) {
       FileSaver.saveAs(socket.response, data.name);
     }
 
-    if (datum.callback) {
-      datum.callback(null, socket.response);
+    if (box.callback) {
+      box.callback(null, socket.response);
     }
 
     callback(null, socket.response);
@@ -114,21 +115,30 @@ function sendRequest(datum, index, node, data, callback = () => {}) {
     socket.setRequestHeader(names[i], headers[names[i]]);
   }
 
-  node.request = { socket, progress };
+  if (box.method === 'POST' || box.method === 'PUT') {
+    if (data) {
+      socket.setRequestHeader('Content-Type', 'application/json');
+    }
+  }
 
-  socket.send();
+  box.node.request = { socket, progress };
+  const jsonData = data ? JSON.stringify(data) : data;
+
+  socket.send(jsonData);
 }
 
-export default function requestResource(datum, index, node, data, callback) {
-  if (node.request) {
-    clearRequest(datum, node);
+export default function requestResource(box, data = {}, callback = () => {}) {
+  box.node = box.node || {};
+
+  if (typeof box.node.request !== 'undefined') {
+    clearRequest(box);
     return;
   }
 
-  if (data.data) {
+  if (typeof data.data !== 'undefined' && typeof data.name !== 'undefined') {
     FileSaver.saveAs(data.data, data.name);
     return;
   }
 
-  sendRequest(datum, index, node, data, callback);
+  sendRequest(box, data, callback);
 }
