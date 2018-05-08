@@ -57,6 +57,21 @@ function sendRequest(box, data, callback) {
   socket.open(box.method || 'GET', sprintf.sprintf(box.path, data));
   socket.responseType = box.responseType || 'blob';
 
+  const panel = box.node.closest ?
+    box.node.closest('.panel') : null;
+
+  select(panel).on('remove.request', () => {
+    clearRequest(box);
+  });
+
+  socket.onabort = () => {
+    socket.onabort = null;
+    socket.onerror = null;
+    socket.onload = null;
+    socket.onprogress = null;
+    socket.upload.onprogress = null;
+  };
+
   socket.onerror = (error) => {
     clearRequest(box, data);
 
@@ -68,6 +83,7 @@ function sendRequest(box, data, callback) {
   };
 
   socket.onload = () => {
+    socket.onabort = null;
     socket.onerror = null;
     socket.onload = null;
     socket.onprogress = null;
