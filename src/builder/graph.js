@@ -67,7 +67,7 @@ export default class GraphBuilder extends Builder {
     if (route.graph.root) {
       route.graph.root
         .selectAll('.plot')
-        .remove();
+        .dispatch('remove');
     }
   }
 
@@ -187,10 +187,6 @@ export default class GraphBuilder extends Builder {
 
     const structure = typeof this._structure === 'function' ?
       this._structure(route, values, keys) : this._structure;
-
-    if (typeof route.graph.svg === 'undefined') {
-      this._renderNodes(route, values, keys, structure);
-    }
 
     if (route.graph.structure !== structure) {
       this._clearAxis(route);
@@ -466,6 +462,11 @@ export default class GraphBuilder extends Builder {
       .append('div')
       .attr('id', this._createTarget('graph', number))
       .classed('graph', true);
+
+    route.graph = route.graph || {};
+
+    this._renderNodes(route);
+    this._resize(route);
   }
 
   _prepareZoom(route, values, keys, structure) {
@@ -483,7 +484,15 @@ export default class GraphBuilder extends Builder {
         [width, height]
       ])
       .on('zoom', () => {
+        if (event.transform.k !== 1) {
+          route.graph.zoomed = true;
+        }
+
         this._handleZoom(route, values, keys, structure);
+
+        if (event.transform.k === 1) {
+          route.graph.zoomed = false;
+        }
       });
 
     route.graph.svg
@@ -568,7 +577,7 @@ export default class GraphBuilder extends Builder {
   _resize(route, data) {
     this._resizeGraph(route);
 
-    route.graph.size = route.graph.meta.maximize === true ?
+    route.graph.size = route.graph.maximize === true ?
       this._resizeMax(route) :
       this._resizeEqual(route);
 
@@ -578,6 +587,10 @@ export default class GraphBuilder extends Builder {
       right: 0,
       top: 0
     };
+
+    if (typeof data === 'undefined') {
+      return;
+    }
 
     select(route.node).on('resize.graph', () => {
       const resize =
@@ -592,8 +605,8 @@ export default class GraphBuilder extends Builder {
   }
 
   _resizeGraph(route) {
-    route.graph.node.classed('maximized',
-      route.graph.meta.maximize === true);
+    route.graph.node
+      .classed('maximized', route.graph.maximize === true);
 
     const transform = route.graph.node.style('transform');
     const height = select('body').style('height');

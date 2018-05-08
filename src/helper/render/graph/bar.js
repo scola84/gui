@@ -1,6 +1,19 @@
+import after from 'lodash-es/after';
 import renderTip from './tip';
 
 export default function renderBar(route, values, keys, structure, plot, format) {
+  const plotEnter = plot.enter || ((selection, zoomed) => {
+    return selection
+      .duration(zoomed ? 0 : 250)
+      .style('opacity', 1);
+  });
+
+  const plotExit = plot.exit || ((selection, zoomed) => {
+    return selection
+      .duration(zoomed ? 0 : 250)
+      .style('opacity', 0);
+  });
+
   const groupScale = structure.axis[plot.x].group();
 
   const xScale = route.graph.axis[plot.x].axis.scale();
@@ -11,7 +24,22 @@ export default function renderBar(route, values, keys, structure, plot, format) 
 
   const root = route.graph.root
     .append('g')
-    .classed('plot bar', true);
+    .classed('plot bar', true)
+    .on('remove', () => {
+      const rect = root
+        .selectAll('rect');
+
+      const exit = plotExit(rect
+        .transition());
+
+      const end = after(rect.size(), () => {
+        root.remove();
+      });
+
+      exit
+        .remove()
+        .on('end', end);
+    });
 
   const isGrouped = keys !== null;
 
@@ -23,9 +51,25 @@ export default function renderBar(route, values, keys, structure, plot, format) 
     .selectAll('rect')
     .data((datum) => {
       return datum;
-    })
+    });
+
+  const exit = plotExit(rect
+    .exit()
+    .transition());
+
+  exit.remove();
+
+  const enter = rect
     .enter()
     .append('rect')
+    .merge(rect);
+
+  const minimize = plotExit(enter
+    .transition());
+
+  const move = minimize
+    .transition()
+    .duration(0)
     .attr('class', (datum) => {
       return attrClass(datum, yValue, route.graph.size.height);
     })
@@ -43,24 +87,27 @@ export default function renderBar(route, values, keys, structure, plot, format) 
       return attrHeight(datum, yValue, route.graph.size.height);
     });
 
+  plotEnter(move
+    .transition());
+
   if (plot.tip) {
-    rect.on('mouseover', (datum) => {
+    enter.on('mouseover', (datum) => {
       renderTip(route, datum, plot, format);
     });
 
-    rect.on('mouseout', () => {
+    enter.on('mouseout', () => {
       renderTip(route, null, plot, format);
     });
+
+    renderTip(route, null, plot, format);
   }
 
   if (plot.click) {
-    rect.on('click', (datum) => {
+    enter.on('click', (datum) => {
       renderTip(route, null, plot, format);
       plot.click(route, datum);
     });
   }
-
-  renderTip(route, null, plot, format);
 }
 
 function grouped(data, keys, root, xValue, xScale, groupScale) {
