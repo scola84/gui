@@ -124,7 +124,7 @@ export default class FileInput {
       .append('button')
       .attr('tabindex', 0)
       .attr('type', 'button')
-      .classed('button ion-ios-close-outline', true)
+      .classed('button ion-ios-close-circle-outline', true)
       .on('click', () => {
         block.remove();
       });

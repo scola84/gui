@@ -23,7 +23,7 @@ function clearRequest(box, data = null) {
       button.remove();
     } else {
       button
-        .classed(request.button, true)
+        .classed(box.button, true)
         .classed('ion-ios-square', false)
         .datum(request);
     }
@@ -135,7 +135,11 @@ export default function requestResource(box, data = {}, callback = () => {}) {
     return;
   }
 
-  if (typeof data.data !== 'undefined' && typeof data.name !== 'undefined') {
+  const save = typeof data.data !== 'undefined' &&
+    data.data !== null &&
+    typeof data.name !== 'undefined';
+
+  if (save) {
     FileSaver.saveAs(data.data, data.name);
     return;
   }
