@@ -29,6 +29,11 @@ function clearRequest(box, data = null) {
     }
   }
 
+  const panel = box.node.closest ?
+    box.node.closest('.panel') : null;
+
+  select(panel).on('remove.request', null);
+
   delete box.node.request;
 
   return result;
