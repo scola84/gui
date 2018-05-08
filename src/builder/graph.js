@@ -484,6 +484,10 @@ export default class GraphBuilder extends Builder {
         [width, height]
       ])
       .on('zoom', () => {
+        if (event.transform.k === 1 && route.graph.zoomed === false) {
+          return;
+        }
+
         if (event.transform.k !== 1) {
           route.graph.zoomed = true;
         }

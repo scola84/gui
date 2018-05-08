@@ -22,7 +22,7 @@ export default function renderScatter(route, values, keys, structure, plot, form
         .selectAll('circle');
 
       const exit = plotExit(circle
-        .transition());
+        .transition(), route.graph.zoomed);
 
       const end = after(circle.size(), () => {
         root.remove();
@@ -50,7 +50,7 @@ export default function renderScatter(route, values, keys, structure, plot, form
 
   const exit = plotExit(circle
     .exit()
-    .transition());
+    .transition(), route.graph.zoomed);
 
   exit.remove();
 
@@ -60,7 +60,7 @@ export default function renderScatter(route, values, keys, structure, plot, form
     .merge(circle);
 
   const minimize = plotExit(enter
-    .transition());
+    .transition(), route.graph.zoomed);
 
   const move = minimize
     .transition()
@@ -75,7 +75,7 @@ export default function renderScatter(route, values, keys, structure, plot, form
     });
 
   plotEnter(move
-    .transition());
+    .transition(), route.graph.zoomed);
 
   if (plot.tip) {
     enter.on('mouseover', (datum) => {

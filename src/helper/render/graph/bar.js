@@ -30,7 +30,7 @@ export default function renderBar(route, values, keys, structure, plot, format) 
         .selectAll('rect');
 
       const exit = plotExit(rect
-        .transition());
+        .transition(), route.graph.zoomed);
 
       const end = after(rect.size(), () => {
         root.remove();
@@ -55,7 +55,7 @@ export default function renderBar(route, values, keys, structure, plot, format) 
 
   const exit = plotExit(rect
     .exit()
-    .transition());
+    .transition(), route.graph.zoomed);
 
   exit.remove();
 
@@ -65,7 +65,7 @@ export default function renderBar(route, values, keys, structure, plot, format) 
     .merge(rect);
 
   const minimize = plotExit(enter
-    .transition());
+    .transition(), route.graph.zoomed);
 
   const move = minimize
     .transition()
@@ -88,7 +88,7 @@ export default function renderBar(route, values, keys, structure, plot, format) 
     });
 
   plotEnter(move
-    .transition());
+    .transition(), route.graph.zoomed);
 
   if (plot.tip) {
     enter.on('mouseover', (datum) => {

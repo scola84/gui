@@ -31,7 +31,8 @@ export default function renderLine(route, values, keys, structure, plot) {
       const path = root
         .selectAll('path');
 
-      const exit = plotExit(path.transition(), route.graph.zoomed);
+      const exit = plotExit(path
+        .transition(), route.graph.zoomed);
 
       const end = after(path.size(), () => {
         root.remove();
