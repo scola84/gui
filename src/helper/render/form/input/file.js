@@ -4,8 +4,20 @@ import requestResource from '../../../request/resource';
 
 export default class FileInput {
   render(datum, index, node, format) {
+    const urls = [];
+
+    const panel = node
+      .node()
+      .closest('.panel');
+
+    select(panel).on('remove.scola-file', () => {
+      for (let i = 0; i < urls.length; i += 1) {
+        URL.revokeObjectURL(urls[i]);
+      }
+    });
+
     if (datum.view) {
-      return this._viewFile(datum, index, node, format);
+      return this._viewFile(datum, index, node, format, urls);
     }
 
     const id = 'input-' + datum.name + '-' + index;
@@ -35,7 +47,7 @@ export default class FileInput {
         this._setPlaceholder(datum, label, input, format);
 
         if (datum.preview) {
-          this._previewFiles(input, format);
+          this._previewFiles(input, format, urls);
         }
       });
 
@@ -59,7 +71,7 @@ export default class FileInput {
     delete datum.value;
   }
 
-  _handleRequest(datum, index, node, file, format, error, blob) {
+  _handleRequest(datum, index, node, file, format, error, blob, urls) {
     if (error) {
       this._showMessage(node, format);
       return;
@@ -74,14 +86,14 @@ export default class FileInput {
       file.data = file.version === thumbnail ? null : file.data;
       file.save = true;
       file.version = original;
-      this._showImage(node, blob);
+      this._showImage(node, blob, urls);
     } else {
       const box = Object.assign({ node: node.node() }, datum);
       requestResource(box, file, format);
     }
   }
 
-  _previewFile(file, input, format) {
+  _previewFile(file, input, format, urls) {
     const form = input
       .node()
       .closest('form');
@@ -111,7 +123,7 @@ export default class FileInput {
       .text(`${file.name} (${bytes(file.size)})`);
 
     if (file.type.match(/^image\//)) {
-      this._previewImage(primary, file);
+      this._previewImage(primary, file, urls);
     } else {
       this._previewNone(primary, format);
     }
@@ -130,16 +142,17 @@ export default class FileInput {
       });
   }
 
-  _previewFiles(input, format) {
+  _previewFiles(input, format, urls) {
     const files = input.node().files;
 
     for (let i = 0; i < files.length; i += 1) {
-      this._previewFile(files[i], input, format);
+      this._previewFile(files[i], input, format, urls);
     }
   }
 
-  _previewImage(primary, file) {
+  _previewImage(primary, file, urls) {
     const url = URL.createObjectURL(file);
+    urls[urls.length] = url;
 
     primary
       .append('span')
@@ -155,8 +168,9 @@ export default class FileInput {
       .text(format('nopreview'));
   }
 
-  _showImage(node, blob) {
+  _showImage(node, blob, urls) {
     const url = URL.createObjectURL(blob);
+    urls[urls.length] = url;
 
     const primary = node
       .select('.primary');
@@ -197,7 +211,7 @@ export default class FileInput {
       .text(format('nopreview'));
   }
 
-  _viewFile(datum, index, node, format) {
+  _viewFile(datum, index, node, format, urls) {
     const file = format('data');
 
     const [
@@ -231,7 +245,8 @@ export default class FileInput {
       .on('click', () => {
         const box = Object.assign({ node: node.node() }, datum);
         requestResource(box, file, (error, blob) => {
-          this._handleRequest(datum, index, node, file, format, error, blob);
+          this._handleRequest(datum, index, node, file,
+            format, error, blob, urls);
         });
       });
 
@@ -239,7 +254,8 @@ export default class FileInput {
       file.version = thumbnail;
       const box = Object.assign({ node: node.node() }, datum);
       requestResource(box, file, (error, blob) => {
-        this._handleRequest(datum, index, node, file, format, error, blob);
+        this._handleRequest(datum, index, node, file,
+          format, error, blob, urls);
       });
     } else {
       file.version = original;

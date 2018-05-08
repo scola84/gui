@@ -25,7 +25,7 @@ export default function renderBar(route, values, keys, structure, plot, format) 
   const root = route.graph.root
     .append('g')
     .classed('plot bar', true)
-    .on('remove', () => {
+    .on('remove.scola-graph', () => {
       const rect = root
         .selectAll('rect');
 

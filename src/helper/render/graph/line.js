@@ -27,7 +27,7 @@ export default function renderLine(route, values, keys, structure, plot) {
   const root = route.graph.root
     .append('g')
     .classed('plot line', true)
-    .on('remove', () => {
+    .on('remove.scola-graph', () => {
       const path = root
         .selectAll('path');
 

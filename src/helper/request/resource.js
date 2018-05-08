@@ -32,7 +32,7 @@ function clearRequest(box, data = null) {
   const panel = box.node.closest ?
     box.node.closest('.panel') : null;
 
-  select(panel).on('remove.request', null);
+  select(panel).on('remove.scola-request', null);
 
   delete box.node.request;
 
@@ -65,7 +65,7 @@ function sendRequest(box, data, callback) {
   const panel = box.node.closest ?
     box.node.closest('.panel') : null;
 
-  select(panel).on('remove.request', () => {
+  select(panel).on('remove.scola-request', () => {
     clearRequest(box);
   });
 

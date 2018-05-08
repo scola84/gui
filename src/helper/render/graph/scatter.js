@@ -17,7 +17,7 @@ export default function renderScatter(route, values, keys, structure, plot, form
   const root = route.graph.root
     .append('g')
     .classed('plot scatter', true)
-    .on('remove', () => {
+    .on('remove.scola-graph', () => {
       const circle = root
         .selectAll('circle');
 
