@@ -54,6 +54,7 @@ export default class PanelBuilder extends GraphicWorker {
     const old = this._base
       .select('.panel')
       .style(property, oldBegin)
+      .dispatch('remove')
       .transition()
       .duration(this._duration)
       .style(property, oldEnd)
