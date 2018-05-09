@@ -42,6 +42,11 @@ export default class GraphBuilder extends Builder {
     this.pass(route, data, callback);
   }
 
+  err(route, error, callback) {
+    this._renderMessage(route);
+    this.fail(route, error, callback);
+  }
+
   _clearAxis(route) {
     if (route.graph.root) {
       route.graph.root
