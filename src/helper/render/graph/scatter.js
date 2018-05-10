@@ -91,8 +91,10 @@ export default function renderScatter(route, values, keys, structure, plot, form
 
   if (plot.click) {
     enter.on('click', (datum) => {
-      renderTip(route, null, plot, format);
-      plot.click(route, datum);
+      if (enter.style('cursor') === 'pointer') {
+        renderTip(route, null, plot, format);
+        plot.click(route, datum, structure);
+      }
     });
   }
 }

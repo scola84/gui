@@ -104,8 +104,10 @@ export default function renderBar(route, values, keys, structure, plot, format) 
 
   if (plot.click) {
     enter.on('click', (datum) => {
-      renderTip(route, null, plot, format);
-      plot.click(route, datum);
+      if (enter.style('cursor') === 'pointer') {
+        renderTip(route, null, plot, format);
+        plot.click(route, datum, structure);
+      }
     });
   }
 }
