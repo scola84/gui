@@ -297,7 +297,9 @@
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
   .section > .panel.footer > .body > .content,
-  .section > .panel.header > .body > .content {
+  .section > .panel.footer > .body.disabled > .message,
+  .section > .panel.header > .body > .content,
+  .section > .panel.header > .body.disabled > .message {
     border-width: 0.5px;
   }
 }
