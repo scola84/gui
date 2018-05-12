@@ -8,9 +8,11 @@ export default class ListPreparer extends GraphicWorker {
 
     this._dynamic = null;
     this._height = null;
+    this._search = null;
 
     this.setDynamic(options.dynamic);
     this.setHeight(options.height);
+    this.setSearch(options.search);
   }
 
   setDynamic(value = true) {
@@ -20,6 +22,11 @@ export default class ListPreparer extends GraphicWorker {
 
   setHeight(value = 48) {
     this._height = value;
+    return this;
+  }
+
+  setSearch(value = null) {
+    this._search = value;
     return this;
   }
 
@@ -33,6 +40,23 @@ export default class ListPreparer extends GraphicWorker {
     this._prepareSearch(route, data, callback);
 
     this.pass(route, data, callback);
+  }
+
+  _formatSearch(value) {
+    const parts = value.split(' ');
+    let match = null;
+
+    for (let i = 0; i < parts.length; i += 1) {
+      match = parts[i].match(/"(.+)"/);
+
+      if (match !== null) {
+        parts[i] = match[1];
+      } else if (this._search) {
+        parts[i] = this._search(parts[i]);
+      }
+    }
+
+    return parts.join(' ');
   }
 
   _prepareScroll(route, data, callback) {
@@ -101,7 +125,7 @@ export default class ListPreparer extends GraphicWorker {
     if (value) {
       panel.classed('search immediate', true);
       input.attr('value', value);
-      data.where = value;
+      data.where = this._formatSearch(value);
     }
   }
 
@@ -110,7 +134,7 @@ export default class ListPreparer extends GraphicWorker {
       if (value.length === 0) {
         delete data.where;
       } else {
-        data.where = value;
+        data.where = this._formatSearch(value);
       }
 
       delete data.offset;
