@@ -115,6 +115,10 @@ form .block > ul .checkbox {
   display: flex;
 }
 
+form .block > ul .checkbox:first-child input + label {
+  width: auto;
+}
+
 form .block > ul .checkbox:first-child input + label:before {
   align-items: center;
   border: 1px solid transparent;
@@ -123,7 +127,6 @@ form .block > ul .checkbox:first-child input + label:before {
   content: '\f1f6';
   display: flex;
   font-family: 'Ionicons';
-  font-size: 2em;
   justify-content: center;
   height: 1em;
   width: 1em;
