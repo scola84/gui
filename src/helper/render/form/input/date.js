@@ -1,7 +1,13 @@
+import { event } from 'd3';
+import flatpickr from 'flatpickr';
+import { DateTime } from 'luxon';
+
 export default class DateInput {
   render(datum, index, node, format) {
     const value = format('value');
     const number = Number.isInteger(value) ? value : null;
+    const id = 'input-' + datum.name + '-' + index;
+    let picker = null;
 
     const wrap = node
       .select('.input')
@@ -10,27 +16,47 @@ export default class DateInput {
 
     const input = wrap
       .append('input')
-      .attr('placeholder', format('placeholder') || 'mm/dd/yyyy')
-      .attr('type', 'date');
+      .attr('id', id)
+      .attr('type', 'text')
+      .attr('value', number)
+      .classed('date', true);
 
-    input
-      .node()
-      .format = format('format') || 'LL/dd/yyyy';
-
-    input
-      .property('valueAsNumber', number)
-      .on('input', () => {
-        this._setColor(input);
+    const text = wrap
+      .append('span')
+      .classed('date value', true)
+      .attr('for', id)
+      .on('mousedown', () => {
+        event.stopPropagation();
+      })
+      .on('click', () => {
+        picker.toggle();
       });
 
-    this._setColor(input);
+    picker = flatpickr(input.node(), {
+      defaultDate: number ? new Date(number) : null,
+      enableTime: datum.time,
+      time_24hr: true,
+      formatDate: (date) => {
+        return date.valueOf();
+      },
+      onChange: ([date]) => {
+        this._setText(text, format, date.valueOf());
+      }
+    });
+
+    this._setText(text, format, number);
 
     return input;
   }
 
-  _setColor(input) {
-    input.style('color', (d, i, n) => {
-      return Number.isNaN(n[i].valueAsNumber) ? 'darkgrey' : null;
-    });
+  _setText(text, format, number) {
+    const date = number ? DateTime
+      .fromMillis(number)
+      .setZone('local')
+      .toFormat(format('format')) : null;
+
+    text
+      .classed('placeholder', number ? false : true)
+      .text(date || format('placeholder') || 'mm/dd/yyyy');
   }
 }

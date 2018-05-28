@@ -11,16 +11,17 @@ export default class TextareaInput {
       .attr('placeholder', format('placeholder'))
       .text(format('value'))
       .on('input', () => {
-        this._grow(textarea);
+        this._grow(datum, textarea);
       });
 
-    this._grow(textarea);
+    this._grow(datum, textarea);
 
     return textarea;
   }
 
-  _grow(textarea) {
+  _grow(datum, textarea) {
     textarea.style('height', 0);
-    textarea.style('height', textarea.node().scrollHeight + 'px');
+    const height = Math.max(datum.height || 0, textarea.node().scrollHeight);
+    textarea.style('height', height + 'px');
   }
 }

@@ -5,6 +5,9 @@ let id = 0;
 
 export default function renderForm(item, format) {
   item
+    .attr('class', (datum) => datum.name);
+
+  item
     .append('span')
     .attr('class', 'number')
     .text((d, i, n) => format(d, i, n, 'number'));
