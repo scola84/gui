@@ -16,7 +16,7 @@ export default class ResultReporter extends GraphicWorker {
 
   act(route, data, callback) {
     const panel = select(route.node)
-      .classed('message', true)
+      .classed('show-message', true)
       .classed(this._class, true);
 
     panel

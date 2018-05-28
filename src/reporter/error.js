@@ -4,7 +4,7 @@ import GraphicWorker from '../worker/graphic';
 export default class ErrorReporter extends GraphicWorker {
   err(route, error) {
     const panel = select(route.node)
-      .classed('message', true);
+      .classed('show-message', true);
 
     panel
       .selectAll('form')
