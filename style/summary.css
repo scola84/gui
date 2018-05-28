@@ -66,6 +66,10 @@
   flex: 1;
 }
 
+.summary .secondary .title .l0:not(:empty) {
+  margin: 0 0 0.15em;
+}
+
 .summary .secondary .title .l1 {
   font-weight: bold;
   font-size: 1.1em;

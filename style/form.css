@@ -41,8 +41,10 @@ form .block > ul textarea {
   resize: none;
 }
 
-form .block > ul input[type=date] {
-  padding: 0.25em 0;
+form .block > ul input.date {
+  border: 0;
+  padding: 0;
+  width: 0;
 }
 
 form .block > ul label.placeholder:not(:empty) + input[type=file] {
@@ -51,6 +53,10 @@ form .block > ul label.placeholder:not(:empty) + input[type=file] {
 
 form .block > ul label.placeholder:not(:empty) span {
   margin-left: 0.5em;
+}
+
+form .block > ul span.date {
+  cursor: pointer;
 }
 
 form .block > ul input[disabled] {
@@ -90,12 +96,12 @@ form .block > ul label:not(:empty) {
   text-overflow: ellipsis;
 }
 
-form .block > ul label.placeholder {
-  color: darkgrey;
-}
-
 form .block > ul .input.textarea label {
   padding: 0.25em 0;
+}
+
+form .block > ul .placeholder {
+  color: darkgrey;
 }
 
 form .block > ul li {

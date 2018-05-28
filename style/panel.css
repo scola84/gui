@@ -186,7 +186,7 @@
   z-index: 0;
 }
 
-.section > .panel.message > .body:not(.disabled) > .message {
+.section > .panel.show-message > .body:not(.disabled) > .message {
   top: 0;
   margin-bottom: 0;
 }
