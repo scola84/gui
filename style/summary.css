@@ -95,6 +95,14 @@
   margin: 1em 0 0;
 }
 
+.summary .primary:empty + .secondary .title .l3 a {
+  text-decoration: underline;
+}
+
+.summary .primary:empty + .secondary .title .l3 a:hover {
+  text-decoration: none;
+}
+
 .summary .primary:empty + .secondary .title .l3 li {
   line-height: inherit;
 }

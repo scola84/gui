@@ -83,7 +83,9 @@ button[tabindex="0"],
   font-size: 1.5em !important;
 }
 
-.ion-ios-square:before {
+.ion-ios-lock:before,
+.ion-ios-square:before,
+.ion-ios-unlock:before {
   font-size: 1em !important;
 }
 

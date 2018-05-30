@@ -222,6 +222,14 @@
   margin: 1em 0 0;
 }
 
+.block > ul > li.full div.primary .l3 a {
+  text-decoration: underline;
+}
+
+.block > ul > li.full div.primary .l3 a:hover {
+  text-decoration: none;
+}
+
 .block > ul > li.full div.primary .l3 li {
   line-height: inherit;
 }

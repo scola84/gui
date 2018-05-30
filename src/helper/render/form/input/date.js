@@ -1,12 +1,15 @@
-import { event } from 'd3';
+import { event, select } from 'd3';
 import flatpickr from 'flatpickr';
 import { DateTime } from 'luxon';
 
 export default class DateInput {
   render(datum, index, node, format) {
+    const panel = select(node.node().closest('.panel'));
+
     const value = format('value');
     const number = Number.isInteger(value) ? value : null;
     const id = 'input-' + datum.name + '-' + index;
+
     let picker = null;
 
     const wrap = node
@@ -45,6 +48,11 @@ export default class DateInput {
     });
 
     this._setText(text, format, number);
+
+    panel.on('remove.scola-gui-data', () => {
+      panel.on('.scola-gui-data', null);
+      picker.destroy();
+    });
 
     return input;
   }
