@@ -72,6 +72,15 @@ export default function renderForm(item, format) {
     .selectAll(':empty')
     .remove();
 
+  const secondary = item
+    .append('div')
+    .classed('secondary', true);
+
+  secondary
+    .append('span')
+    .classed('l5', true)
+    .text((d, i, n) => format(d, i, n, 'l5'));
+
   item.each((datum, index, nodes) => {
     let result = null;
     let inputId = 'input-' + (++id);

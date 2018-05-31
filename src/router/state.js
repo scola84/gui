@@ -205,6 +205,7 @@ export default class StateRouter extends Router {
     const previous = this._history.pop();
 
     previous.node = route.node;
+    previous.reload = route.reload;
     previous.user = route.user;
 
     return previous;

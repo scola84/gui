@@ -39,8 +39,13 @@ export default class PanelBuilder extends GraphicWorker {
 
     this._base.classed('busy', true);
 
-    const moveDir = route.rtl ? 'rtl' : route.ltr ? 'ltr' : null;
-    const readDir = select('html').attr('dir') || 'ltr';
+    const effect = route.rtl === true ? 'rtl' : (
+      route.ltr === true ? 'ltr' : (
+        route.fade === false ? null : (
+          'fade'
+        )));
+
+    const reader = select('html').attr('dir') || 'ltr';
     const width = parseFloat(this._base.style('width'));
 
     const {
@@ -49,7 +54,7 @@ export default class PanelBuilder extends GraphicWorker {
       oldEnd,
       newBegin,
       newEnd
-    } = this._calculate(moveDir, readDir, width, route.factor);
+    } = this._calculate(effect, reader, width, route.factor);
 
     const old = this._base
       .select('.panel')
@@ -114,6 +119,15 @@ export default class PanelBuilder extends GraphicWorker {
     route.node = panel.node();
     route.user = this._user;
 
+    route.reload = (options) => {
+      Object.assign(route, {
+        ltr: null,
+        rtl: null
+      }, options);
+
+      this.act(route, data, callback);
+    };
+
     route.node.size = {};
 
     route.node.resizer = Resizer({
@@ -127,10 +141,16 @@ export default class PanelBuilder extends GraphicWorker {
     this.pass(route, data, callback);
   }
 
-  _calculate(moveDir, readDir, width, factor) {
-    return moveDir ?
-      this._calculateMove(moveDir, readDir, width, factor) :
-      this._calculateFade();
+  _calculate(effect, reader, width, factor) {
+    if (effect === 'rtl' || effect === 'ltr') {
+      return this._calculateMove(effect, reader, width, factor);
+    }
+
+    if (effect === 'fade') {
+      return this._calculateFade();
+    }
+
+    return this._calculateNone();
   }
 
   _calculateFade() {
@@ -143,9 +163,9 @@ export default class PanelBuilder extends GraphicWorker {
     };
   }
 
-  _calculateMove(moveDir, readDir, width, factor = 0.25) {
-    const move = moveDir === 'rtl' ? -1 : 1;
-    const read = readDir === 'rtl' ? -1 : 1;
+  _calculateMove(effect, reader, width, factor = 0.25) {
+    const move = effect === 'rtl' ? -1 : 1;
+    const read = reader === 'rtl' ? -1 : 1;
 
     return {
       property: 'transform',
@@ -153,6 +173,16 @@ export default class PanelBuilder extends GraphicWorker {
       oldEnd: `translate(${move * read * factor * width}px, 0)`,
       newBegin: `translate(${-move * read * width}px, 0)`,
       newEnd: 'translate(0, 0)'
+    };
+  }
+
+  _calculateNone() {
+    return {
+      property: 'opacity',
+      oldBegin: 1,
+      oldEnd: 1,
+      newBegin: 1,
+      newEnd: 1
     };
   }
 

@@ -246,6 +246,7 @@
 }
 
 .section.menu > .panel.outset .body > .content:not(.busy):after {
+  border: 0;
   height: 0;
 }
 

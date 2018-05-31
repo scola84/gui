@@ -3,6 +3,8 @@ import FileSaver from 'file-saver';
 import sprintf from 'sprintf-js';
 import { select } from 'd3';
 
+const dataMethods = ['PATCH', 'POST', 'PUT'];
+
 function clearRequest(box, data = null) {
   const request = box.node.request;
   const result = request.socket.status === 200;
@@ -19,14 +21,10 @@ function clearRequest(box, data = null) {
     const button = select(box.node)
       .select('.ion-ios-square');
 
-    if (result === false) {
-      button.remove();
-    } else {
-      button
-        .classed(box.button, true)
-        .classed('ion-ios-square', false)
-        .datum(request);
-    }
+    button
+      .classed(box.button, true)
+      .classed('ion-ios-square', false)
+      .datum(request);
   }
 
   const panel = box.node.closest ?
@@ -136,7 +134,7 @@ function sendRequest(box, data, callback) {
     socket.setRequestHeader(names[i], headers[names[i]]);
   }
 
-  if (box.method === 'POST' || box.method === 'PUT') {
+  if (dataMethods.indexOf(box.method) > -1) {
     if (data) {
       socket.setRequestHeader('Content-Type', 'application/json');
     }

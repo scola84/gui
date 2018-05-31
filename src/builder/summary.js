@@ -121,7 +121,7 @@ export default class SummaryBuilder extends Builder {
       .append('div')
       .attr('class', (d, i, n) => {
         return 'state ' +
-          (this.format(d, i, n, { data, name: 'state' }) || '');
+          (this.format(d, i, n, { data, name: 'state', route }) || '');
       });
 
     state.append('span');
