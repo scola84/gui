@@ -107,10 +107,8 @@ button[tabindex="0"],
 }
 
 div.state {
-  align-self: flex-start;
   display: flex;
   flex-direction: column;
-  margin: 0.3em 0 0;
   width: 0.75em;
 }
 
@@ -118,8 +116,16 @@ div.state span {
   border-radius: 50%;
   display: none;
   height: 0.75em;
-  margin: 0 0 0.35em;
   width: 0.75em;
+}
+
+.multiline div.state {
+  align-self: flex-start;
+  margin: 0.3em 0 0;
+}
+
+.multiline div.state span {
+  margin: 0 0 0.35em;
 }
 
 *[dir=rtl] div.state:first-of-type,

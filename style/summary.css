@@ -90,9 +90,17 @@
   margin-top: 1em;
 }
 
+.summary .primary:empty + .secondary .title > * > * {
+  margin: 0;
+}
+
 .summary .primary:empty + .secondary .title .l3 > * {
   line-height: 1.5em;
   margin: 1em 0 0;
+}
+
+.summary .primary:empty + .secondary .title :not(.l3) a:active {
+  opacity: 0.5;
 }
 
 .summary .primary:empty + .secondary .title .l3 a {
