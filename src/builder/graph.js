@@ -553,7 +553,9 @@ export default class GraphBuilder extends Builder {
       .enter()
       .append('div')
       .classed('message', true)
-      .text(this.format('empty'));
+      .text((d, i, n) => {
+        return this.format(d, i, n, 'empty');
+      });
   }
 
   _renderNodes(route) {

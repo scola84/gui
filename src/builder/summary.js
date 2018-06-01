@@ -68,28 +68,48 @@ export default class SummaryBuilder extends Builder {
       .append('div')
       .classed('l0', true)
       .text((d, i, n) => {
-        return this.format(d, i, n, { data, name: 'l0', route });
+        const value = this.format(d, i, n, { data, name: 'l0', route });
+        return typeof value === 'string' && value || null;
+      })
+      .html((d, i, n) => {
+        const value = this.format(d, i, n, { data, name: 'l0', route });
+        return value && value.md || n[i].textContent;
       });
 
     title
       .append('div')
       .classed('l1', true)
       .text((d, i, n) => {
-        return this.format(d, i, n, { data, name: 'l1', route });
+        const value = this.format(d, i, n, { data, name: 'l1', route });
+        return typeof value === 'string' && value || null;
+      })
+      .html((d, i, n) => {
+        const value = this.format(d, i, n, { data, name: 'l1', route });
+        return value && value.md || n[i].textContent;
       });
 
     title
       .append('div')
       .classed('l2', true)
       .text((d, i, n) => {
-        return this.format(d, i, n, { data, name: 'l2', route });
+        const value = this.format(d, i, n, { data, name: 'l2', route });
+        return typeof value === 'string' && value || null;
+      })
+      .html((d, i, n) => {
+        const value = this.format(d, i, n, { data, name: 'l2', route });
+        return value && value.md || n[i].textContent;
       });
 
     title
       .append('div')
       .classed('l3', true)
+      .text((d, i, n) => {
+        const value = this.format(d, i, n, { data, name: 'l3', route });
+        return typeof value === 'string' && value || null;
+      })
       .html((d, i, n) => {
-        return this.format(d, i, n, { data, name: 'l3', route });
+        const value = this.format(d, i, n, { data, name: 'l3', route });
+        return value && value.md || n[i].textContent;
       });
 
     const actions = secondary

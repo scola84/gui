@@ -30,17 +30,17 @@ export default class GraphicWorker extends Worker {
     return this;
   }
 
-  format(datum, index, nodes, context) {
+  format(datum, index, nodes, ...args) {
     if (this._format) {
-      return this._format(datum, index, nodes, context);
+      return this._format(datum, index, nodes, ...args);
     }
 
     return datum && datum.name;
   }
 
-  route(datum, index, nodes, context) {
+  route(datum, index, nodes, ...args) {
     if (this._route) {
-      return this._route(datum, index, nodes, context);
+      return this._route(datum, index, nodes, ...args);
     }
 
     return {};
