@@ -20,19 +20,29 @@ export default class DateInput {
     const input = wrap
       .append('input')
       .attr('id', id)
+      .attr('tabindex', -1)
       .attr('type', 'text')
       .attr('value', number)
       .classed('date', true);
 
     const text = wrap
-      .append('span')
+      .append('button')
       .classed('date value', true)
       .attr('for', id)
+      .attr('tabindex', 0)
       .on('mousedown', () => {
         event.stopPropagation();
       })
       .on('click', () => {
+        event.preventDefault();
         picker.toggle();
+      });
+
+    wrap
+      .append('span')
+      .classed('clear ion-ios-close-circle', true)
+      .on('click', () => {
+        picker.clear();
       });
 
     picker = flatpickr(input.node(), {
@@ -40,10 +50,10 @@ export default class DateInput {
       enableTime: datum.time,
       time_24hr: true,
       formatDate: (date) => {
-        return date.valueOf();
+        return date && date.valueOf();
       },
       onChange: ([date]) => {
-        this._setText(text, format, date.valueOf());
+        this._setText(text, format, date && date.valueOf());
       }
     });
 

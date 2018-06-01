@@ -115,8 +115,11 @@ export default function renderForm(item, format) {
 
       result
         .attr('id', inputId)
-        .attr('name', inputName)
-        .attr('tabindex', 0);
+        .attr('name', inputName);
+
+      if (result.attr('tabindex') !== '-1') {
+        result.attr('tabindex', 0);
+      }
     }
 
     if (datum.button && button[datum.button]) {

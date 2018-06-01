@@ -41,6 +41,22 @@ form .block > ul textarea {
   resize: none;
 }
 
+form .block > ul button.date {
+  padding: 0.25em;
+  cursor: pointer;
+}
+
+form .block > ul button.date + span.clear {
+  color: darkgrey;
+  cursor: pointer;
+  display: none;
+  margin: 0 0 0 0.25em;
+}
+
+form .block > ul button.date:not(.placeholder) + span.clear {
+  display: initial;
+}
+
 form .block > ul input.date {
   border: 0;
   padding: 0;
@@ -53,11 +69,6 @@ form .block > ul label.placeholder:not(:empty) + input[type=file] {
 
 form .block > ul label.placeholder:not(:empty) span {
   margin-left: 0.5em;
-}
-
-form .block > ul span.date {
-  padding: 0.25em;
-  cursor: pointer;
 }
 
 form .block > ul input[disabled] {

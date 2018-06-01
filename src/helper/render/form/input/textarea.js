@@ -21,7 +21,10 @@ export default class TextareaInput {
 
   _grow(datum, textarea) {
     textarea.style('height', 0);
-    const height = Math.max(datum.height || 0, textarea.node().scrollHeight);
+
+    const height = Math.max(datum.height || 32,
+      textarea.node().scrollHeight);
+
     textarea.style('height', height + 'px');
   }
 }
