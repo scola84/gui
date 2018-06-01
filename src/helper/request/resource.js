@@ -1,7 +1,8 @@
 import { Request } from '@scola/http';
-import FileSaver from 'file-saver';
-import sprintf from 'sprintf-js';
 import { select } from 'd3';
+import FileSaver from 'file-saver';
+import qs from 'qs';
+import sprintf from 'sprintf-js';
 
 const dataMethods = ['PATCH', 'POST', 'PUT'];
 
@@ -24,7 +25,7 @@ function clearRequest(box, data = null) {
     button
       .classed(box.button, true)
       .classed('ion-ios-square', false)
-      .datum(request);
+      .datum(box.datum);
   }
 
   const panel = box.node.closest ?
@@ -57,7 +58,11 @@ function sendRequest(box, data, callback) {
   const progress = box.button ? prepareProgress(box) : null;
   const socket = new XMLHttpRequest();
 
-  socket.open(box.method || 'GET', sprintf.sprintf(box.path, data));
+  const method = box.method || 'GET';
+  const url = sprintf.sprintf(box.url.path, data);
+  const query = box.url.query ? '?' + qs.stringify(box.url.query) : '';
+
+  socket.open(method, url + query);
   socket.responseType = box.responseType || 'blob';
 
   const panel = box.node.closest ?

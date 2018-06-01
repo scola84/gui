@@ -88,7 +88,7 @@ export default class FileInput {
       file.version = original;
       this._showImage(node, blob, urls);
     } else {
-      const box = Object.assign({ node: node.node() }, datum);
+      const box = Object.assign({ datum, node: node.node() }, datum);
       requestResource(box, file, format);
     }
   }
@@ -243,7 +243,7 @@ export default class FileInput {
       .classed('button', true)
       .classed(datum.button, true)
       .on('click', () => {
-        const box = Object.assign({ node: node.node() }, datum);
+        const box = Object.assign({ datum, node: node.node() }, datum);
         requestResource(box, file, (error, blob) => {
           this._handleRequest(datum, index, node, file,
             format, error, blob, urls);
@@ -252,7 +252,7 @@ export default class FileInput {
 
     if (file.type.match(/^image\//)) {
       file.version = thumbnail;
-      const box = Object.assign({ node: node.node() }, datum);
+      const box = Object.assign({ datum, node: node.node() }, datum);
       requestResource(box, file, (error, blob) => {
         this._handleRequest(datum, index, node, file,
           format, error, blob, urls);
