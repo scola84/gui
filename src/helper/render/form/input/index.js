@@ -10,6 +10,7 @@ import Plain from './plain';
 import RadioInput from './radio';
 import SelectInput from './select';
 import SubmitInput from './submit';
+import TelInput from './tel';
 import TextInput from './text';
 import TextareaInput from './textarea';
 
@@ -26,6 +27,7 @@ export default {
   radio: new RadioInput(),
   select: new SelectInput(),
   submit: new SubmitInput(),
+  tel: new TelInput(),
   text: new TextInput(),
   textarea: new TextareaInput(),
 };
