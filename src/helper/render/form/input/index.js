@@ -13,6 +13,7 @@ import SubmitInput from './submit';
 import TelInput from './tel';
 import TextInput from './text';
 import TextareaInput from './textarea';
+import ZipInput from './zip';
 
 export default {
   checkbox: new CheckboxInput(),
@@ -30,4 +31,5 @@ export default {
   tel: new TelInput(),
   text: new TextInput(),
   textarea: new TextareaInput(),
+  zip: new ZipInput()
 };
