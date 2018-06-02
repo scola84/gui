@@ -43,15 +43,13 @@ export default class ListPreparer extends GraphicWorker {
   }
 
   _formatSearch(value) {
-    const parts = value.split(' ');
+    const parts = value.match(/[^"\s]+|"[^"]+"/g);
     let match = null;
 
     for (let i = 0; i < parts.length; i += 1) {
-      match = parts[i].match(/"(.+)"/);
+      match = parts[i].match(/".+"/);
 
-      if (match !== null) {
-        parts[i] = match[1];
-      } else if (this._search) {
+      if (match === null && this._search) {
         parts[i] = this._search(parts[i]);
       }
     }
