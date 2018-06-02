@@ -30,6 +30,7 @@ export default class DateInput {
       .classed('date value', true)
       .attr('for', id)
       .attr('tabindex', 0)
+      .attr('type', 'button')
       .on('mousedown', () => {
         event.stopPropagation();
       })
