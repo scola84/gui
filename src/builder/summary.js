@@ -1,6 +1,10 @@
 import { select } from 'd3';
 import Builder from './builder';
-import renderSummary from '../helper/render/summary';
+
+import {
+  renderMarkdown,
+  renderSummary
+} from '../helper';
 
 export default class SummaryBuilder extends Builder {
   setRender(value = renderSummary) {
@@ -64,53 +68,37 @@ export default class SummaryBuilder extends Builder {
       .append('div')
       .classed('title', true);
 
-    title
+    const l0 = title
       .append('div')
-      .classed('l0', true)
-      .text((d, i, n) => {
-        const value = this.format(d, i, n, { data, name: 'l0', route });
-        return typeof value === 'string' && value || null;
-      })
-      .html((d, i, n) => {
-        const value = this.format(d, i, n, { data, name: 'l0', route });
-        return value && value.md || n[i].textContent;
-      });
+      .classed('l0', true);
 
-    title
-      .append('div')
-      .classed('l1', true)
-      .text((d, i, n) => {
-        const value = this.format(d, i, n, { data, name: 'l1', route });
-        return typeof value === 'string' && value || null;
-      })
-      .html((d, i, n) => {
-        const value = this.format(d, i, n, { data, name: 'l1', route });
-        return value && value.md || n[i].textContent;
-      });
+    renderMarkdown(l0, 'l0', (d, i, n, name) => {
+      return this.format(d, i, n, { data, name, route });
+    });
 
-    title
+    const l1 = title
       .append('div')
-      .classed('l2', true)
-      .text((d, i, n) => {
-        const value = this.format(d, i, n, { data, name: 'l2', route });
-        return typeof value === 'string' && value || null;
-      })
-      .html((d, i, n) => {
-        const value = this.format(d, i, n, { data, name: 'l2', route });
-        return value && value.md || n[i].textContent;
-      });
+      .classed('l1', true);
 
-    title
+    renderMarkdown(l1, 'l1', (d, i, n, name) => {
+      return this.format(d, i, n, { data, name, route });
+    });
+
+    const l2 = title
       .append('div')
-      .classed('l3', true)
-      .text((d, i, n) => {
-        const value = this.format(d, i, n, { data, name: 'l3', route });
-        return typeof value === 'string' && value || null;
-      })
-      .html((d, i, n) => {
-        const value = this.format(d, i, n, { data, name: 'l3', route });
-        return value && value.md || n[i].textContent;
-      });
+      .classed('l2', true);
+
+    renderMarkdown(l2, 'l2', (d, i, n, name) => {
+      return this.format(d, i, n, { data, name, route });
+    });
+
+    const l3 = title
+      .append('div')
+      .classed('l3', true);
+
+    renderMarkdown(l3, 'l3', (d, i, n, name) => {
+      return this.format(d, i, n, { data, name, route });
+    });
 
     const actions = secondary
       .append('ul')

@@ -168,7 +168,7 @@
   min-width: 0;
 }
 
-.block > ul div.primary span {
+.block > ul div.primary div {
   font-size: 0.9em;
 }
 

@@ -10,6 +10,7 @@ import renderBack from './render/back';
 import renderCancel from './render/cancel';
 import renderForm from './render/form';
 import renderList from './render/list';
+import renderMarkdown from './render/markdown';
 import renderSearch from './render/search';
 import renderSummary from './render/summary';
 import requestResource from './request/resource';
@@ -30,6 +31,7 @@ export {
   renderCancel,
   renderForm,
   renderList,
+  renderMarkdown,
   renderSearch,
   renderSummary,
   requestResource,

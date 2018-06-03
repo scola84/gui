@@ -1,4 +1,5 @@
 import { select } from 'd3';
+import markdown from './markdown';
 
 export default function renderList(item, format) {
   item
@@ -38,13 +39,14 @@ export default function renderList(item, format) {
     .append('div')
     .classed('primary', true);
 
-  primary
-    .append('span')
-    .classed('l0', true)
-    .text((d, i, n) => format(d, i, n, 'l0'));
+  const l0 = primary
+    .append('div')
+    .classed('l0', true);
+
+  markdown(l0, 'l0', format);
 
   const line = primary
-    .append('span')
+    .append('div')
     .classed('line', true);
 
   line
@@ -54,29 +56,33 @@ export default function renderList(item, format) {
     .classed('l1', true)
     .text((d, i, n) => format(d, i, n, 'l1'));
 
-  line
-    .append('span')
-    .classed('l4', true)
-    .text((d, i, n) => format(d, i, n, 'l4'));
+  const l4 = line
+    .append('div')
+    .classed('l4', true);
 
-  primary
-    .append('span')
-    .classed('l2', true)
-    .text((d, i, n) => format(d, i, n, 'l2'));
+  markdown(l4, 'l4', format);
 
-  primary
-    .append('span')
-    .classed('l3', true)
-    .html((d, i, n) => format(d, i, n, 'l3'));
+  const l2 = primary
+    .append('div')
+    .classed('l2', true);
+
+  markdown(l2, 'l2', format);
+
+  const l3 = primary
+    .append('div')
+    .classed('l3', true);
+
+  markdown(l3, 'l3', format);
 
   const secondary = item
     .append('div')
     .classed('secondary', true);
 
-  secondary
-    .append('span')
-    .classed('l5', true)
-    .text((d, i, n) => format(d, i, n, 'l5'));
+  const l5 = secondary
+    .append('div')
+    .classed('l5', true);
+
+  markdown(l5, 'l5', format);
 
   secondary
     .filter((datum) => {
