@@ -106,36 +106,36 @@ button[tabindex="0"],
   width: 0;
 }
 
-div.state {
+div.states {
   display: flex;
   flex-direction: column;
   width: 0.75em;
 }
 
-div.state span {
+div.states span {
   border-radius: 50%;
   display: none;
   height: 0.75em;
   width: 0.75em;
 }
 
-.multiline div.state {
+.multiline div.states {
   align-self: flex-start;
   margin: 0.3em 0 0;
 }
 
-.multiline div.state span {
+.multiline div.states span {
   margin: 0 0 0.35em;
 }
 
-*[dir=rtl] div.state:first-of-type,
-div.state:last-of-type {
+*[dir=rtl] div.states:first-of-type,
+div.states:last-of-type {
   margin-left: 0.5em;
   margin-right: 0;
 }
 
-*[dir=rtl] div.state:last-of-type,
-div.state:first-of-type {
+*[dir=rtl] div.states:last-of-type,
+div.states:first-of-type {
   margin-left: 0;
   margin-right: 0.5em;
 }

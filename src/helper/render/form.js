@@ -36,12 +36,12 @@ export default function renderForm(item, format) {
     .style('width', (datum) => datum.width);
 
   primary
-    .append('span')
+    .append('div')
     .classed('l0', true)
     .text((d, i, n) => format(d, i, n, 'l0'));
 
   const line = primary
-    .append('span')
+    .append('div')
     .classed('line', true);
 
   line
@@ -50,7 +50,7 @@ export default function renderForm(item, format) {
     .text((d, i, n) => format(d, i, n, 'l1'));
 
   line
-    .append('span')
+    .append('div')
     .classed('l4', true)
     .text((d, i, n) => format(d, i, n, 'l4'));
 
@@ -59,12 +59,12 @@ export default function renderForm(item, format) {
     .remove();
 
   primary
-    .append('span')
+    .append('div')
     .classed('l2', true)
     .text((d, i, n) => format(d, i, n, 'l2'));
 
   primary
-    .append('span')
+    .append('div')
     .classed('l3', true)
     .text((d, i, n) => format(d, i, n, 'l3'));
 
@@ -77,7 +77,7 @@ export default function renderForm(item, format) {
     .classed('secondary', true);
 
   secondary
-    .append('span')
+    .append('div')
     .classed('l5', true)
     .text((d, i, n) => format(d, i, n, 'l5'));
 

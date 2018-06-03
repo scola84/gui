@@ -29,7 +29,7 @@ export default function renderList(item, format) {
   const state = item
     .filter((datum) => typeof datum.state !== 'undefined')
     .append('div')
-    .attr('class', (d, i, n) => 'state ' + format(d, i, n, 'state'));
+    .attr('class', (d, i, n) => 'states ' + format(d, i, n, 'state'));
 
   state.append('span');
   state.append('span');

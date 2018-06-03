@@ -33,7 +33,10 @@ export default class SummaryBuilder extends Builder {
 
     const summary = panel
       .select('#' + this._createTarget('summary', number))
-      .datum(this._structure);
+      .datum(this._structure)
+      .attr('class', (datum, index, nodes) => {
+        return nodes[index].className + ' ' + datum.name;
+      });
 
     const details = summary
       .append('div')
@@ -128,7 +131,7 @@ export default class SummaryBuilder extends Builder {
       })
       .append('div')
       .attr('class', (d, i, n) => {
-        return 'state ' +
+        return 'states ' +
           (this.format(d, i, n, { data, name: 'state', route }) || '');
       });
 
