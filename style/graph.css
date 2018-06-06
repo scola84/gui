@@ -23,9 +23,8 @@
 }
 
 .graph .body {
-  height: 100%;
   padding: 0 0.5em;
-  width: 100%;
+  flex: 1;
 }
 
 .graph .body .inner {
