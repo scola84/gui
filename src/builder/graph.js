@@ -616,6 +616,9 @@ export default class GraphBuilder extends Builder {
   }
 
   _resizeGraph(route) {
+    select(route.node)
+      .classed('maximized', route.graph.maximize === true);
+
     route.graph.node
       .classed('maximized', route.graph.maximize === true);
 

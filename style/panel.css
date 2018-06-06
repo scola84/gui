@@ -8,6 +8,11 @@
   width: 100%;
 }
 
+.section > .panel.maximized.footer > .bar.footer,
+.section > .panel.maximized.header > .bar.header {
+  display: none;
+}
+
 .section > .panel > .bar.footer {
   order: 3;
 }
