@@ -3,7 +3,13 @@ import Resizer from 'element-resize-detector';
 import debounce from 'lodash-es/debounce';
 import GraphicWorker from '../worker/graphic';
 
+let transition = true;
+
 export default class PanelBuilder extends GraphicWorker {
+  static setTransition(value) {
+    transition = value;
+  }
+
   constructor(options = {}) {
     super(options);
 
@@ -39,13 +45,8 @@ export default class PanelBuilder extends GraphicWorker {
 
     this._base.classed('busy', true);
 
-    const effect = route.rtl === true ? 'rtl' : (
-      route.ltr === true ? 'ltr' : (
-        route.fade === false ? null : (
-          'fade'
-        )));
-
-    const reader = select('html').attr('dir') || 'ltr';
+    const dir = select('html').attr('dir') || 'ltr';
+    const effect = this._createEffect(route);
     const width = parseFloat(this._base.style('width'));
 
     const {
@@ -54,7 +55,7 @@ export default class PanelBuilder extends GraphicWorker {
       oldEnd,
       newBegin,
       newEnd
-    } = this._calculate(effect, reader, width, route.factor);
+    } = this._calculate(effect, dir, width, route.factor);
 
     const old = this._base
       .select('.panel')
@@ -141,9 +142,9 @@ export default class PanelBuilder extends GraphicWorker {
     this.pass(route, data, callback);
   }
 
-  _calculate(effect, reader, width, factor) {
+  _calculate(effect, dir, width, factor) {
     if (effect === 'rtl' || effect === 'ltr') {
-      return this._calculateMove(effect, reader, width, factor);
+      return this._calculateMove(effect, dir, width, factor);
     }
 
     if (effect === 'fade') {
@@ -163,9 +164,9 @@ export default class PanelBuilder extends GraphicWorker {
     };
   }
 
-  _calculateMove(effect, reader, width, factor = 0.25) {
+  _calculateMove(effect, dir, width, factor = 0.25) {
     const move = effect === 'rtl' ? -1 : 1;
-    const read = reader === 'rtl' ? -1 : 1;
+    const read = dir === 'rtl' ? -1 : 1;
 
     return {
       property: 'transform',
@@ -204,6 +205,26 @@ export default class PanelBuilder extends GraphicWorker {
       .classed('right', true);
 
     return bar;
+  }
+
+  _createEffect(route) {
+    if (transition === false) {
+      return null;
+    }
+
+    if (route.rtl === true) {
+      return 'rtl';
+    }
+
+    if (route.ltr === true) {
+      return 'ltr';
+    }
+
+    if (route.fade !== false) {
+      return 'fade';
+    }
+
+    return null;
   }
 
   _resize(route) {
