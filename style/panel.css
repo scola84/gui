@@ -187,13 +187,13 @@
   padding: 0.5em;
   position: relative;
   top: -2.25em;
-  transition: all 0.25s;
   z-index: 0;
 }
 
 .section > .panel.show-message > .body:not(.disabled) > .message {
-  top: 0;
   margin-bottom: 0;
+  top: 0;
+  transition: all 0.25s;
 }
 
 .section > .panel > .body.disabled > .message span {
@@ -206,17 +206,17 @@
   margin-bottom: -3em;
   position: relative;
   top: -3em;
-  transition: all 0.25s;
   z-index: 1;
-}
-
-.section > .panel.immediate > .body > .search {
-  transition: none !important;
 }
 
 .section > .panel.search > .body:not(.disabled) > .search {
   margin-bottom: 0;
   top: 0;
+  transition: all 0.25s;
+}
+
+.section > .panel.search.immediate > .body:not(.disabled) > .search {
+  transition: none;
 }
 
 .section > .panel > .body > .search div {
