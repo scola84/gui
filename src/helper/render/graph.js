@@ -8,11 +8,11 @@ const render = {
   scatter
 };
 
-export default function renderGraph(route, values, keys, structure, format) {
+export default function renderGraph(graph, values, keys, structure, format) {
   let plot = null;
 
   for (let i = 0; i < structure.plot.length; i += 1) {
     plot = structure.plot[i];
-    render[plot.type](route, values, keys, structure, plot, format);
+    render[plot.type](graph, values, keys, structure, plot, format);
   }
 }

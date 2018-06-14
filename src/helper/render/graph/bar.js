@@ -1,7 +1,7 @@
 import after from 'lodash-es/after';
 import renderTip from './tip';
 
-export default function renderBar(route, values, keys, structure, plot, format) {
+export default function renderBar(graph, values, keys, structure, plot, format) {
   const plotEnter = plot.enter || ((selection, zoomed) => {
     return selection
       .duration(zoomed ? 0 : 250)
@@ -16,13 +16,13 @@ export default function renderBar(route, values, keys, structure, plot, format) 
 
   const groupScale = structure.axis[plot.x].group();
 
-  const xScale = route.graph.axis[plot.x].axis.scale();
+  const xScale = graph.axis[plot.x].axis.scale();
   const xValue = (datum) => structure.axis[plot.x].value(datum, xScale);
 
-  const yScale = route.graph.axis[plot.y].axis.scale();
+  const yScale = graph.axis[plot.y].axis.scale();
   const yValue = (datum) => structure.axis[plot.y].value(datum, yScale);
 
-  const root = route.graph.root
+  const root = graph.root
     .append('g')
     .classed('plot bar', true)
     .on('remove.scola-graph', () => {
@@ -30,7 +30,7 @@ export default function renderBar(route, values, keys, structure, plot, format) 
         .selectAll('rect');
 
       const exit = plotExit(rect
-        .transition(), route.graph.zoomed);
+        .transition(), graph.zoomed);
 
       const end = after(rect.size(), () => {
         root.remove();
@@ -55,7 +55,7 @@ export default function renderBar(route, values, keys, structure, plot, format) 
 
   const exit = plotExit(rect
     .exit()
-    .transition(), route.graph.zoomed);
+    .transition(), graph.zoomed);
 
   exit.remove();
 
@@ -65,48 +65,50 @@ export default function renderBar(route, values, keys, structure, plot, format) 
     .merge(rect);
 
   const minimize = plotExit(enter
-    .transition(), route.graph.zoomed);
+    .transition(), graph.zoomed);
 
   const move = minimize
     .transition()
     .duration(0)
     .attr('class', (datum) => {
-      return attrClass(datum, yValue, route.graph.size.height);
+      return attrClass(datum, yValue, graph.size.height);
     })
     .attr('x', (datum, index) => {
       return attrX(datum, xValue, groupScale, index, isGrouped);
     })
     .attr('y', (datum) => {
       return plot.x === 'top' ?
-        0 : attrY(datum, yValue, route.graph.size.height);
+        0 : attrY(datum, yValue, graph.size.height);
     })
     .attr('width', () => {
       return attrWidth(xScale, groupScale, isGrouped);
     })
     .attr('height', (datum) => {
-      return attrHeight(datum, yValue, route.graph.size.height);
+      return attrHeight(datum, yValue, graph.size.height);
     });
 
   plotEnter(move
-    .transition(), route.graph.zoomed);
+    .transition(), graph.zoomed);
 
   if (plot.tip) {
     enter.on('mouseover', (datum) => {
-      renderTip(route, datum, plot, format);
+      renderTip(graph, datum, plot, format);
     });
 
     enter.on('mouseout', () => {
-      renderTip(route, null, plot, format);
+      renderTip(graph, null, plot, format);
     });
 
-    renderTip(route, null, plot, format);
+    renderTip(graph, null, plot, format);
   }
 
   if (plot.click) {
+    root.classed('click', true);
+
     enter.on('click', (datum) => {
       if (enter.style('cursor') === 'pointer') {
-        renderTip(route, null, plot, format);
-        plot.click(route, datum, structure);
+        renderTip(graph, null, plot, format);
+        plot.click(graph, structure, datum);
       }
     });
   }

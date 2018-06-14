@@ -150,7 +150,7 @@ export default class SummaryBuilder extends Builder {
       .size();
 
     panel
-      .select('.body .content')
+      .select('.body .content ' + this._wrap)
       .append('div')
       .attr('id', this._createTarget('summary', number))
       .classed('summary', true);

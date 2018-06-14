@@ -124,7 +124,7 @@ export default class ListBuilder extends Builder {
     const panel = select(route.node);
 
     panel
-      .select('.body .content')
+      .select('.body .content ' + this._wrap)
       .classed('busy', false)
       .classed('done', data && data.length === 0);
 
@@ -162,7 +162,8 @@ export default class ListBuilder extends Builder {
       });
 
     enter
-      .append('ul');
+      .append('ul')
+      .classed('body', true);
 
     enter
       .append('div')
@@ -247,7 +248,7 @@ export default class ListBuilder extends Builder {
     }
 
     select(route.node)
-      .select('.body .content')
+      .select('.body .content ' + this._wrap)
       .append('div')
       .attr('id', this._createTarget('list', number))
       .classed('list-group', true);

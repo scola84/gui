@@ -9,10 +9,12 @@ export default class GraphicWorker extends Worker {
     this._route = null;
     this._structure = null;
     this._target = null;
+    this._wrap = null;
 
     this.setRoute(options.route);
     this.setStructure(options.structure);
     this.setTarget(options.target);
+    this.setWrap(options.wrap);
   }
 
   setRoute(value = null) {
@@ -27,6 +29,11 @@ export default class GraphicWorker extends Worker {
 
   setTarget(value = null) {
     this._target = value;
+    return this;
+  }
+
+  setWrap(value = '') {
+    this._wrap = value;
     return this;
   }
 

@@ -94,7 +94,7 @@ export default class FormBuilder extends Builder {
       .size();
 
     panel
-      .select('.body .content')
+      .select('.body .content ' + this._wrap)
       .append('form')
       .attr('id', this._createTarget('form', number))
       .attr('novalidate', 'novalidate');

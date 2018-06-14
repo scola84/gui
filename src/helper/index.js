@@ -13,6 +13,7 @@ import renderList from './render/list';
 import renderMarkdown from './render/markdown';
 import renderSearch from './render/search';
 import renderSummary from './render/summary';
+import renderTab from './render/tab';
 import requestResource from './request/resource';
 import setView from './view/set';
 import setupApp from './setup/app';
@@ -34,6 +35,7 @@ export {
   renderMarkdown,
   renderSearch,
   renderSummary,
+  renderTab,
   requestResource,
   setView,
   setupApp,

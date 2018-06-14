@@ -1,7 +1,7 @@
 import after from 'lodash-es/after';
 import renderTip from './tip';
 
-export default function renderScatter(route, values, keys, structure, plot, format) {
+export default function renderScatter(graph, values, keys, structure, plot, format) {
   const plotEnter = plot.enter || ((selection, zoomed) => {
     return selection
       .duration(zoomed ? 0 : 250)
@@ -14,7 +14,7 @@ export default function renderScatter(route, values, keys, structure, plot, form
       .attr('r', 0);
   });
 
-  const root = route.graph.root
+  const root = graph.root
     .append('g')
     .classed('plot scatter', true)
     .on('remove.scola-graph', () => {
@@ -22,7 +22,7 @@ export default function renderScatter(route, values, keys, structure, plot, form
         .selectAll('circle');
 
       const exit = plotExit(circle
-        .transition(), route.graph.zoomed);
+        .transition(), graph.zoomed);
 
       const end = after(circle.size(), () => {
         root.remove();
@@ -50,7 +50,7 @@ export default function renderScatter(route, values, keys, structure, plot, form
 
   const exit = plotExit(circle
     .exit()
-    .transition(), route.graph.zoomed);
+    .transition(), graph.zoomed);
 
   exit.remove();
 
@@ -60,40 +60,40 @@ export default function renderScatter(route, values, keys, structure, plot, form
     .merge(circle);
 
   const minimize = plotExit(enter
-    .transition(), route.graph.zoomed);
+    .transition(), graph.zoomed);
 
   const move = minimize
     .transition()
     .duration(0)
     .attr('cx', (datum) => {
-      const xScale = route.graph.axis[plot.x].axis.scale();
+      const xScale = graph.axis[plot.x].axis.scale();
       return structure.axis[plot.x].value(datum, xScale);
     })
     .attr('cy', (datum) => {
-      const yScale = route.graph.axis[plot.y].axis.scale();
+      const yScale = graph.axis[plot.y].axis.scale();
       return structure.axis[plot.y].value(datum, yScale);
     });
 
   plotEnter(move
-    .transition(), route.graph.zoomed);
+    .transition(), graph.zoomed);
 
   if (plot.tip) {
     enter.on('mouseover', (datum) => {
-      renderTip(route, datum, plot, format);
+      renderTip(graph, datum, plot, format);
     });
 
     enter.on('mouseout', () => {
-      renderTip(route, null, plot, format);
+      renderTip(graph, null, plot, format);
     });
 
-    renderTip(route, null, plot, format);
+    renderTip(graph, null, plot, format);
   }
 
   if (plot.click) {
     enter.on('click', (datum) => {
       if (enter.style('cursor') === 'pointer') {
-        renderTip(route, null, plot, format);
-        plot.click(route, datum, structure);
+        renderTip(graph, null, plot, format);
+        plot.click(graph, datum, structure);
       }
     });
   }

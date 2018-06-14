@@ -1,0 +1,32 @@
+ul.tab {
+  border: 1px solid black;
+  border-radius: 0.25em;
+  color: black;
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.tab li {
+  cursor: pointer;
+  flex: 1;
+  padding: 0.25em;
+  text-align: center;
+}
+
+ul.tab li.selected {
+  background: black;
+  color: white;
+}
+
+ul.tab li + li {
+  border-left: 1px solid black;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+  ul.tab,
+  ul.tab li {
+    border-width: 0.5px;
+  }
+}

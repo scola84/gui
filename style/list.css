@@ -10,7 +10,6 @@
 
 .block > ul {
   border: 0;
-  border-bottom: 1px none lightgrey;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -109,6 +108,10 @@
 .block > ul > li .number:not(:empty) {
   color: darkgrey;
   width: 1.9em;
+}
+
+.block > .body {
+  border-bottom: 1px none lightgrey;
 }
 
 .block > .comment {
@@ -318,8 +321,8 @@
   border-radius: 0;
 }
 
-.menu .outset-x .block > .title,
-.menu .outset-x .block > ul {
+.menu .outset-x .block > .body,
+.menu .outset-x .block > .title {
   border-bottom-style: solid;
 }
 
@@ -409,8 +412,8 @@
     content: none;
   }
 
-  .block > .title,
-  .block > ul {
+  .block > .body,
+  .block > .title {
     border-bottom-style: solid;
   }
 

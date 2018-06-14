@@ -1,11 +1,6 @@
 .graph {
-  background: white;
-  border-bottom: 1px solid lightgrey;
-  border-top: 1px solid lightgrey;
   display: flex;
   flex-direction: column;
-  margin: 2em 0 0;
-  padding: 1em 0;
 }
 
 .graph.maximized {
@@ -23,8 +18,13 @@
 }
 
 .graph .body {
-  padding: 0 0.5em;
+  background: white;
   flex: 1;
+  overflow: hidden;
+}
+
+.graph .body .wrapper {
+  margin: 0 -0.5em -0.5em;
 }
 
 .graph .body .inner {
@@ -53,6 +53,10 @@
 
 .graph .body .bar rect {
   fill: black;
+}
+
+.graph .body .bar.click rect {
+  cursor: pointer;
 }
 
 .graph .body .line path,
@@ -98,21 +102,16 @@
 }
 
 @media (min-width: 48em) {
-  .graph {
-    border: 0;
-    border-radius: 0.5em;
-    margin-left: 1em;
-    margin-right: 1em;
-    padding: 1em;
-  }
-
-  .graph.maximized {
+  .graph.maximized .body {
     border-radius: 0;
-    margin: 0;
   }
 
   .graph .body {
-    padding: 0;
+    border-radius: 0.5em;
+  }
+
+  .graph .body .wrapper {
+    margin: 0;
   }
 
   .graph .body text {
