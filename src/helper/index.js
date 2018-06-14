@@ -2,6 +2,9 @@ import bindOrder from './bind/order';
 import fixDate from './fix/date';
 import fixSubmit from './fix/submit';
 import getView from './view/get';
+import handleArrow from './handle/arrow';
+import handleLevel from './handle/level';
+import handlePicker from './handle/picker';
 import readDate from './read/date';
 import readFile from './read/file';
 import readForm from './read/form';
@@ -24,6 +27,9 @@ export {
   fixDate,
   fixSubmit,
   getView,
+  handleArrow,
+  handleLevel,
+  handlePicker,
   readDate,
   readFile,
   readForm,

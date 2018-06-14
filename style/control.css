@@ -1,0 +1,109 @@
+.control .block .body {
+  background: white;
+  border-radius: 0.5em;
+  padding: 1em;
+}
+
+.control.connect .block .body {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.control.connect ~ .graph:not(:last-child) .body,
+.control.connect ~ .kpi:not(:last-child) ul > li:last-of-type {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.control.connect ~ .graph .title,
+.control.connect ~ .kpi .title {
+  border-bottom-style: solid;
+  margin-top: 0;
+}
+
+.control.connect ~ .graph .body,
+.control.connect ~ .kpi ul > li:first-of-type {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.control .date {
+  display: flex;
+  margin: 0.75em 0 -0.25em;
+}
+
+.control .date button {
+  align-items: center;
+  display: flex;
+  height: 1.5em;
+  position: relative;
+  padding: 0 1.25em 0 0;
+}
+
+.control .date button:before {
+  font-size: 1.5em;
+  position: absolute;
+  top: 50%;
+  transform: translate(0,-50%);
+  width: 100%;
+}
+
+.control .date input {
+  border: 0;
+  padding: 0;
+}
+
+.control .date input[type=date] {
+  position: absolute;
+  margin-top: -100%;
+}
+
+.control .date input[type=text] {
+  width: 0;
+}
+
+.control .date label {
+  cursor: pointer;
+}
+
+.control .date span.icon {
+  align-items: center;
+  display: flex;
+  margin: 0 0.5em;
+}
+
+.control .date span.icon:before {
+  font-size: 1.5em;
+  line-height: 0;
+}
+
+.control .date .title {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
+.control .date .begin,
+.control .date .end {
+  align-items: center;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+@media not all and (min-width: 48em) {
+  .control.connect ~ .graph .title,
+  .control.connect ~ .kpi .title {
+    border-bottom-style: none;
+  }
+
+  .control .block .body {
+    border-radius: 0;
+    padding: 0.5em;
+  }
+
+  .control .date {
+    display: flex;
+    margin: 0.5em 0 0;
+  }
+}

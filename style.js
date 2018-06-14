@@ -1,4 +1,5 @@
 import './style/app.css';
+import './style/control.css';
 import './style/fix.css';
 import './style/flatpickr.css';
 import './style/form.css';
