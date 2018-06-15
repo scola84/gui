@@ -1,7 +1,9 @@
 import {
   Builder,
+  ControlBuilder,
   FormBuilder,
   GraphBuilder,
+  KpiBuilder,
   ListBuilder,
   PanelBuilder,
   SummaryBuilder
@@ -65,8 +67,10 @@ import {
 
 export {
   Builder,
+  ControlBuilder,
   FormBuilder,
   GraphBuilder,
+  KpiBuilder,
   ListBuilder,
   PanelBuilder,
   SummaryBuilder

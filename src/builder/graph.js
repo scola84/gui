@@ -460,16 +460,14 @@ export default class GraphBuilder extends Builder {
   }
 
   _prepareGraph(route) {
-    const structure = typeof this._structure === 'function' ?
-      this._structure(route) : this._structure;
+    const panel = select(route.node);
 
-    let graph = route.graph && route.graph[structure.name];
+    const target = panel
+      .select('#' + this._target);
 
-    if (typeof graph !== 'undefined') {
+    if (target.size() > 0) {
       return;
     }
-
-    const panel = select(route.node);
 
     const number = panel
       .selectAll('div.graph')
@@ -483,10 +481,13 @@ export default class GraphBuilder extends Builder {
       .append('div')
       .classed('block', true);
 
-    graph = { node };
+    const structure = typeof this._structure === 'function' ?
+      this._structure(route) : this._structure;
 
     route.graph = route.graph || {};
-    route.graph[structure.name] = graph;
+    route.graph[structure.name] = { node };
+
+    const graph = route.graph[structure.name];
 
     graph.node
       .append('div')
@@ -605,10 +606,6 @@ export default class GraphBuilder extends Builder {
       .text((d, i, n) => {
         return this.format(d, i, n, 'empty');
       });
-  }
-
-  _renderNodes(route, structure) {
-
   }
 
   _resize(route, structure, data) {

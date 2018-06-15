@@ -247,6 +247,13 @@ export default class ListBuilder extends Builder {
       return;
     }
 
+    const target = panel
+      .select('#' + this._target);
+
+    if (target.size() > 0) {
+      return;
+    }
+
     select(route.node)
       .select('.body .content ' + this._wrap)
       .append('div')

@@ -205,15 +205,19 @@ export default class ControlBuilder extends Builder {
 
   _formatDate(route, panel) {
     const control = route.control[this._structure.name];
+
     const beginLabel = panel.select('.date .begin label');
     const endLabel = panel.select('.date .end label');
 
-    if (beginLabel.node().previousSibling.type === 'date') {
+    const beginNode = beginLabel.node();
+    const endNode = endLabel.node();
+
+    if (beginNode && beginNode.previousSibling.type === 'date') {
       beginLabel.node().previousSibling.valueAsNumber =
         control.meta.date.begin;
     }
 
-    if (endLabel.node().previousSibling.type === 'date') {
+    if (endNode && endNode.previousSibling.type === 'date') {
       endLabel.node().previousSibling.valueAsNumber =
         control.meta.date.end;
     }
@@ -238,16 +242,14 @@ export default class ControlBuilder extends Builder {
   }
 
   _prepareControl(route, data, callback) {
-    route.control = route.control || {};
-    route.control[this._structure.name] = { meta: {} };
-
-    handleLevel(route, this._structure);
-
-    route.control[this._structure.name].reload = () => {
-      this.pass(route, data, callback);
-    };
-
     const panel = select(route.node);
+
+    const target = panel
+      .select('#' + this._target);
+
+    if (target.size() > 0) {
+      return;
+    }
 
     const number = panel
       .selectAll('div.control')
@@ -258,6 +260,15 @@ export default class ControlBuilder extends Builder {
       .append('div')
       .attr('id', this._createTarget('control', number))
       .classed('control', true);
+
+    route.control = route.control || {};
+    route.control[this._structure.name] = { meta: {} };
+
+    handleLevel(route, this._structure);
+
+    route.control[this._structure.name].reload = () => {
+      this.pass(route, data, callback);
+    };
 
     this._createControl(route, data);
   }

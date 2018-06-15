@@ -424,6 +424,7 @@
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+  .block > .body,
   .block > .title,
   .block > ul,
   .block > ul > li .button,

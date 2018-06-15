@@ -145,6 +145,13 @@ export default class SummaryBuilder extends Builder {
   _prepareSummary(route) {
     const panel = select(route.node);
 
+    const target = panel
+      .select('#' + this._target);
+
+    if (target.size() > 0) {
+      return;
+    }
+
     const number = panel
       .selectAll('div.summary')
       .size();

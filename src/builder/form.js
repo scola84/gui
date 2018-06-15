@@ -89,6 +89,13 @@ export default class FormBuilder extends Builder {
   _prepareForm(route) {
     const panel = select(route.node);
 
+    const target = panel
+      .select('#' + this._target);
+
+    if (target.size() > 0) {
+      return;
+    }
+
     const number = panel
       .selectAll('form')
       .size();
