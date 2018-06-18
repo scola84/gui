@@ -25,7 +25,7 @@ export default class FileInput {
     const wrap = node
       .select('.input')
       .append('div')
-      .classed('wrap', true);
+      .classed('wrap file', true);
 
     const label = wrap
       .append('label')
