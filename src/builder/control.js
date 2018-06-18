@@ -232,12 +232,18 @@ export default class ControlBuilder extends Builder {
   }
 
   _formatLevel(route, panel) {
+    const control = route.control[this._structure.name];
+
+    control.node
+      .classed(control.structure.levels.join(' '), false)
+      .classed(control.meta.level, true);
+
     panel
       .selectAll('.tab li')
       .classed('selected', false);
 
     panel
-      .select('.tab .' + route.control[this._structure.name].meta.level)
+      .select('.tab .' + control.meta.level)
       .classed('selected', true);
   }
 
@@ -255,7 +261,7 @@ export default class ControlBuilder extends Builder {
       .selectAll('div.control')
       .size();
 
-    panel
+    const node = panel
       .select('.body .content ' + this._wrap)
       .append('div')
       .attr('id', this._createTarget('control', number))
@@ -263,6 +269,9 @@ export default class ControlBuilder extends Builder {
 
     route.control = route.control || {};
     route.control[this._structure.name] = { meta: {} };
+
+    route.control[this._structure.name].node = node;
+    route.control[this._structure.name].structure = this._structure;
 
     handleLevel(route, this._structure);
 

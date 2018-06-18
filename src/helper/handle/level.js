@@ -8,7 +8,8 @@ const levels = {
 
 export default function handleLevel(route, structure, datum) {
   const name = structure.name;
-  const meta = route.control[name].meta;
+  const control = route.control[name];
+  const meta = control.meta;
 
   let begin = null;
   let end = null;
@@ -23,6 +24,11 @@ export default function handleLevel(route, structure, datum) {
 
     if (datum) {
       level = levels[meta.level];
+
+      if (control.structure.levels.indexOf(level) === -1) {
+        return;
+      }
+
       end = DateTime.fromMillis(datum.timestamp).endOf(levels[meta.level]);
     }
   }
