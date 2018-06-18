@@ -15,29 +15,15 @@ export default class DateInput {
     const wrap = node
       .select('.input')
       .append('div')
-      .classed('wrap', true);
+      .classed('wrap date', true);
 
     const input = wrap
       .append('input')
-      .attr('id', id)
-      .attr('tabindex', -1)
-      .attr('type', 'text')
-      .attr('value', number)
-      .classed('date', true);
+      .attr('type', 'text');
 
-    const text = wrap
-      .append('button')
-      .classed('date value', true)
-      .attr('for', id)
-      .attr('tabindex', 0)
-      .attr('type', 'button')
-      .on('mousedown', () => {
-        event.stopPropagation();
-      })
-      .on('click', () => {
-        event.preventDefault();
-        picker.toggle();
-      });
+    const label = wrap
+      .append('label')
+      .attr('for', id);
 
     wrap
       .append('span')
@@ -46,36 +32,75 @@ export default class DateInput {
         picker.clear();
       });
 
+    datum.time = true;
+
     picker = flatpickr(input.node(), {
-      defaultDate: number ? new Date(number) : null,
+      clickOpens: false,
       enableTime: datum.time,
       time_24hr: true,
-      formatDate: (date) => {
-        return date && date.valueOf();
+      formatDate: () => {
+        return input.property('value');
       },
       onChange: ([date]) => {
-        this._setText(text, format, date && date.valueOf());
+        this._formatDate(datum, label, format, date && date.valueOf());
       }
     });
 
-    this._setText(text, format, number);
+    select(label.node().previousSibling)
+      .attr('id', id);
 
-    panel.on('remove.scola-gui-data', () => {
-      panel.on('.scola-gui-data', null);
+    label
+      .on('mousedown', () => {
+        event.stopPropagation();
+      });
+
+    input
+      .on('mousedown', () => {
+        event.stopPropagation();
+      })
+      .on('click', () => {
+        const date = DateTime
+          .fromMillis(Number(input.property('value')) || Date.now())
+          .setZone('local')
+          .startOf(datum.time ? 'hour' : 'day');
+
+        picker.setDate(date.valueOf());
+        picker.toggle();
+      });
+
+    this._formatDate(datum, label, format, number);
+
+    panel.on('remove.scola-gui-data-' + id, () => {
+      panel.on('remove.scola-gui-data-' + id, null);
       picker.destroy();
     });
 
     return input;
   }
 
-  _setText(text, format, number) {
-    const date = number ? DateTime
-      .fromMillis(number)
-      .setZone('local')
-      .toFormat(format('format')) : null;
+  _formatDate(datum, label, format, number) {
+    const node = label.node();
 
-    text
+    const date = DateTime
+      .fromMillis(number || Date.now())
+      .setZone('local')
+      .startOf(datum.time ? 'hour' : 'day');
+
+    const value = date.valueOf();
+
+    const text = number && date.toFormat(format('format')) ||
+      format('placeholder') || 'mm/dd/yyyy';
+
+    if (number) {
+      if (node && node.previousSibling.type.slice(0, 4) === 'date') {
+        node.previousSibling.valueAsNumber = value + (date.offset * 60 * 1000);
+      } else {
+        node.previousSibling.value = value;
+      }
+    }
+
+    label
       .classed('placeholder', number ? false : true)
-      .text(date || format('placeholder') || 'mm/dd/yyyy');
+      .text(text);
   }
 }

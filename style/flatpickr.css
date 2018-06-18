@@ -1,6 +1,6 @@
 .flatpickr-calendar {
   border-radius: 0.5em;
-  box-shadow: 0 0 10px darkgrey !important;
+  box-shadow: 0 0 10px darkgrey;
 }
 
 .flatpickr-calendar.animate.open {
