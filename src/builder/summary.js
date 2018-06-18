@@ -35,10 +35,25 @@ export default class SummaryBuilder extends Builder {
       .select('#' + this._createTarget('summary', number))
       .datum(this._structure)
       .attr('class', (datum, index, nodes) => {
-        return nodes[index].className + ' ' + datum.name;
+        return nodes[index].className + ' ' + (datum.name || '');
       });
 
-    const details = summary
+    const block = summary
+      .append('div')
+      .classed('block summary', true);
+
+    block
+      .append('div')
+      .classed('title', true)
+      .text((d, i, n) => {
+        return this.format(d, i, n, { data, name: 'title', route });
+      });
+
+    const body = block
+      .append('div')
+      .classed('body', true);
+
+    const details = body
       .append('div')
       .classed('details', true);
 
@@ -125,7 +140,7 @@ export default class SummaryBuilder extends Builder {
         return this.format(d, i, n, { data, name: 'action', route });
       });
 
-    const state = summary
+    const state = body
       .filter((datum) => {
         return datum && typeof datum.state !== 'undefined';
       })

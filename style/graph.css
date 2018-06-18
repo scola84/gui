@@ -48,7 +48,7 @@
 }
 
 .graph .body .axis line {
-  opacity: 0.2;
+  stroke: lightgrey;
 }
 
 .graph .body .bar rect {
@@ -122,6 +122,10 @@
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
   .graph {
     border-width: 0.5px;
+  }
+
+  .graph .body .axis line {
+    stroke-width: 0.5;
   }
 }
 

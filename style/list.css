@@ -1,5 +1,6 @@
 .block {
   height: auto;
+  margin: 0 1em;
   overflow: hidden;
   transition: height 0.25s;
 }
@@ -23,11 +24,6 @@
   overflow: hidden;
   padding: 0.5em 0 0.5em 1em;
   position: relative;
-}
-
-.block > ul > li:after {
-  content: '';
-  min-height: 2em;
 }
 
 .block > ul > li:first-of-type {
@@ -118,6 +114,7 @@
   color: darkgrey;
   display: none;
   font-size: 0.9em;
+  line-height: 1.5em;
 }
 
 .block > .comment:not(:empty) {
@@ -149,7 +146,7 @@
 }
 
 .block > .title.fold:active {
-  color: rgba(169,169,169,0.5);
+  color: rgba(169, 169, 169, 0.5);
 }
 
 .block > .title.fold:after {
@@ -248,7 +245,6 @@
 
 .block > ul div.secondary:not(:empty) {
   align-items: center;
-  color: darkgrey;
   display: flex;
   margin-left: auto;
   overflow: hidden;
@@ -264,6 +260,7 @@
 }
 
 .block > ul div.secondary .l5 {
+  color: darkgrey;
   flex: 1;
 }
 
@@ -294,10 +291,6 @@
 
 .block.list > ul li.secondary div.primary:not(:empty) {
   flex: 1 0 auto;
-}
-
-.block {
-  margin: 0 1em;
 }
 
 .menu .outset .block,

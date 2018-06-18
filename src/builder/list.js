@@ -219,7 +219,11 @@ export default class ListBuilder extends Builder {
 
     localStorage.setItem(name, Number(!value));
 
-    let height = 0;
+    let height = 0 +
+      parseFloat(list.select('.title').style('border-top-width')) +
+      parseFloat(list.select('.title').style('border-bottom-width')) +
+      parseFloat(list.select('.body').style('border-top-width'));
+
     let node = null;
     const selector = value === 1 ? 'ul,.comment,.title' : '.title';
 

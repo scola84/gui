@@ -1,9 +1,4 @@
-.summary:not(:empty) {
-  background: white;
-  border-bottom: 1px solid lightgrey;
-  border-top: 1px solid lightgrey;
-  display: flex;
-  margin: 2em 0 0;
+.summary .body {
   padding: 1em;
 }
 
@@ -150,8 +145,6 @@
 }
 
 .summary .secondary .actions li .button {
-  background: darkgrey;
-  color: white;
   margin: 0 0 0.25em;
 }
 
@@ -183,13 +176,6 @@
 }
 
 @media (min-width: 48em) {
-  .summary:not(:empty) {
-    border: 0;
-    border-radius: 0.5em;
-    margin-left: 1em;
-    margin-right: 1em;
-  }
-
   .summary .details {
     flex-direction: row;
   }

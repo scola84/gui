@@ -60,7 +60,8 @@ export default class FormBuilder extends Builder {
       });
 
     enter
-      .append('ul');
+      .append('ul')
+      .classed('body', true);
 
     enter
       .append('div')

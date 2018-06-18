@@ -24,6 +24,9 @@ export default class SelectInput {
         }));
     }
 
+    wrap
+      .append('span');
+
     return select;
   }
 }
