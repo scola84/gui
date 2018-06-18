@@ -301,7 +301,7 @@ form .block.order > ul [draggable] span.drag span {
   left: -3.35em;
 }
 
-*[dir=rtl] form .block > ul label.placeholder:not(:empty) span {
+*[dir=rtl] form .block > ul label:not(.placeholder) + span {
   margin-left: 0;
   margin-right: 0.5em;
 }
