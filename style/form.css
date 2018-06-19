@@ -75,6 +75,8 @@ form .block > ul input[type=submit][disabled] {
 }
 
 form .block > ul .date {
+  align-items: center;
+  display: flex;
   overflow: hidden;
   padding: 0.25em;
   position: relative;
