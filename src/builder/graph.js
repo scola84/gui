@@ -62,12 +62,7 @@ export default class GraphBuilder extends Builder {
         .selectAll('.axis')
         .remove();
 
-      graph.axis = {
-        bottom: {},
-        left: {},
-        right: {},
-        top: {}
-      };
+      this._prepareAxis(graph);
     }
   }
 
@@ -212,7 +207,11 @@ export default class GraphBuilder extends Builder {
     this._clearPlot(graph);
     this._clearZoom(graph);
 
-    if (data.length === 0) {
+    const valueLength = values.reduce((total, set) => {
+      return total + set.length;
+    }, 0);
+
+    if (data.length === 0 || valueLength === 0) {
       this._clearAxis(graph);
       this._renderMessage(graph);
       return;
@@ -371,6 +370,15 @@ export default class GraphBuilder extends Builder {
     this._styleAxisHorizontal(graph, axis, node);
   }
 
+  _prepareAxis(graph) {
+    graph.axis = {
+      bottom: {},
+      left: {},
+      right: {},
+      top: {}
+    };
+  }
+
   _prepareAxisBottom(graph, values, keys, structure) {
     if (!graph.axis.bottom.axis) {
       graph.axis.bottom.axis = axisBottom()
@@ -488,6 +496,8 @@ export default class GraphBuilder extends Builder {
     route.graph[structure.name] = { node };
 
     const graph = route.graph[structure.name];
+
+    this._prepareAxis(graph);
 
     graph.node
       .append('div')
