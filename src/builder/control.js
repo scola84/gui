@@ -62,10 +62,16 @@ export default class ControlBuilder extends Builder {
     });
 
     tab.on('change', () => {
+      const meta = route.control[this._structure.name].meta;
+
+      if (meta.date.end > Date.now()) {
+        meta.date.end = DateTime.utc().setZone('local').endOf('day');
+      }
+
       if (event.detail === 'day') {
-        delete route.control[this._structure.name].meta.level;
+        delete meta.level;
       } else {
-        route.control[this._structure.name].meta.level = event.detail;
+        meta.level = event.detail;
       }
 
       handleLevel(route, this._structure);
