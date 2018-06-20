@@ -21,7 +21,7 @@ export default class GraphBuilder extends Builder {
     this.setRatio(options.ratio);
   }
 
-  setRatio(value = 0.75) {
+  setRatio(value = 0.5) {
     this._ratio = value;
     return this;
   }

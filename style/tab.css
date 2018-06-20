@@ -1,7 +1,7 @@
 ul.tab {
-  border: 1px solid black;
+  border: 1px solid rgb(14, 122, 254);
   border-radius: 0.25em;
-  color: black;
+  color: rgb(14, 122, 254);
   display: flex;
   list-style: none;
   margin: 0;
@@ -16,12 +16,12 @@ ul.tab li {
 }
 
 ul.tab li.selected {
-  background: black;
+  background: rgb(14, 122, 254);
   color: white;
 }
 
 ul.tab li + li {
-  border-left: 1px solid black;
+  border-left: 1px solid rgb(14, 122, 254);
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {

@@ -32,8 +32,6 @@ export default class DateInput {
         picker.clear();
       });
 
-    datum.time = true;
-
     picker = flatpickr(input.node(), {
       clickOpens: false,
       enableTime: datum.time,
@@ -70,8 +68,8 @@ export default class DateInput {
 
     this._formatDate(datum, label, format, number);
 
-    panel.on('remove.scola-gui-data-' + id, () => {
-      panel.on('remove.scola-gui-data-' + id, null);
+    panel.on('remove.scola-gui-' + id, () => {
+      panel.on('remove.scola-gui-' + id, null);
       picker.destroy();
     });
 

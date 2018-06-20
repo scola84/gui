@@ -52,7 +52,11 @@
 }
 
 .graph .body .bar rect {
-  fill: black;
+  fill: rgb(14, 122, 254);
+}
+
+.graph .body .bar rect.empty {
+  fill: lightgrey;
 }
 
 .graph .body .bar.click rect {
@@ -62,7 +66,7 @@
 .graph .body .line path,
 .graph .body .scatter circle {
   fill: rgba(0, 0, 0, 0);
-  stroke: black;
+  stroke: rgb(14, 122, 254);
 }
 
 .graph .body .message {

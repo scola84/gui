@@ -95,12 +95,12 @@ export default class ControlBuilder extends Builder {
         handleArrow(route, this._structure, 'next');
       });
 
-    this._createTitle(route, title);
+    this._createTitle(route, panel, title);
 
     return control;
   }
 
-  _createTitle(route, title) {
+  _createTitle(route, panel, title) {
     const begin = title
       .append('div')
       .classed('begin', true);
@@ -194,6 +194,12 @@ export default class ControlBuilder extends Builder {
         endPicker.toggle();
         beginPicker.close();
       });
+
+    panel.on('remove.scola-gui-control-' + this.getId(), () => {
+      panel.on('remove.scola-gui-control-' + this.getId(), null);
+      beginPicker.destroy();
+      endPicker.destroy();
+    });
   }
 
   _finishControl(route) {

@@ -108,7 +108,8 @@ export default class FileInput {
       .classed('title', true);
 
     const list = block
-      .append('ul');
+      .append('ul')
+      .classed('body', true);
 
     const item = list
       .append('li');

@@ -32,7 +32,7 @@
 
 .section > .panel > .bar .button {
   align-items: center;
-  color: inherit;
+  color: rgb(14, 122, 254);
   cursor: pointer;
   display: flex;
   height: 2em;

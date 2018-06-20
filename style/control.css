@@ -34,6 +34,7 @@
 
 .control .date button {
   align-items: center;
+  color: rgb(14, 122, 254);
   display: flex;
   height: 1.5em;
   position: relative;
@@ -63,6 +64,7 @@
 }
 
 .control .date label {
+  color: rgb(14, 122, 254);
   cursor: pointer;
 }
 
