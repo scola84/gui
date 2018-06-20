@@ -143,6 +143,7 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  min-width: 3em;
 }
 
 .summary .secondary .actions li + li {

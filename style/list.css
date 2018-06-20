@@ -87,6 +87,12 @@
   left: 0;
 }
 
+.block > .body > li .icon {
+  margin: 0 1em 0 0;
+  text-align: center;
+  width: 1.5em;
+}
+
 .block > .body > li .icon:before {
   font-size: 1.9em;
 }
