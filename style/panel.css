@@ -188,12 +188,12 @@
   position: relative;
   top: -2.25em;
   transition: all 0.25s;
+  z-index: 1;
 }
 
 .section > .panel.show-message > .body:not(.disabled) > .message {
   margin-bottom: 0;
   top: 0;
-  z-index: 1;
 }
 
 .section > .panel > .body.disabled > .message span {
@@ -207,12 +207,12 @@
   position: relative;
   top: -3em;
   transition: all 0.25s;
+  z-index: 2;
 }
 
 .section > .panel.search > .body:not(.disabled) > .search {
   margin-bottom: 0;
   top: 0;
-  z-index: 2;
 }
 
 .section > .panel.search.immediate > .body:not(.disabled) > .search {

@@ -54,9 +54,9 @@
   padding: 0;
 }
 
-.control .date input[type=date] {
-  position: absolute;
-  margin-top: -100%;
+.control .date input[type=date],
+.control .date input[type=datetime-local] {
+  width: 0;
 }
 
 .control .date input[type=text] {

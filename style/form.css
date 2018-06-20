@@ -89,12 +89,10 @@ form .block > .body .input .date input {
 
 form .block > .body .input .date input[type=date],
 form .block > .body .input .date input[type=datetime-local] {
-  position: absolute;
-  margin-top: -100%;
+  width: 0;
 }
 
 form .block > .body .input .date input[type=text] {
-  padding: 0;
   width: 0;
 }
 

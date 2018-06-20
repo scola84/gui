@@ -32,7 +32,7 @@ _:-ms-fullscreen,
   font-size: 50%;
 }
 
-:-ms-input-placeholder {
+::-ms-input-placeholder {
   color: darkgrey !important;
   font-weight: 400 !important;
 }
