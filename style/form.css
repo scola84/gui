@@ -257,6 +257,11 @@ form .block > .body .radio {
   margin-right: 1em;
 }
 
+form .block > .body .radio input:checked + label {
+  align-items: center;
+  display: flex;
+}
+
 form .block > .body .radio input:checked + label:after {
   content: '\f3ff';
   font-family: 'Ionicons';

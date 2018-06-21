@@ -1,3 +1,5 @@
+import { event } from 'd3';
+
 export default class RadioInput {
   render(datum, index, node, format) {
     const container = node
