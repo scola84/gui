@@ -183,12 +183,20 @@
   background: lightgrey;
   color: dimgrey;
   min-height: 2.25em;
-  margin-bottom: -2.25em;
   padding: 0.5em;
   position: relative;
-  top: -2.25em;
-  transition: all 0.25s;
   z-index: 1;
+}
+
+.section > .panel.hide-message > .body:not(.disabled) > .message,
+.section > .panel.show-message > .body:not(.disabled) > .message {
+  transition: all 0.25s;
+}
+
+.section > .panel > .body:not(.disabled) > .message,
+.section > .panel.hide-message > .body:not(.disabled) > .message {
+  margin-bottom: -2.25em;
+  top: -2.25em;
 }
 
 .section > .panel.show-message > .body:not(.disabled) > .message {
@@ -203,19 +211,27 @@
 .section > .panel > .body > .search {
   background: #FAFAFA;
   display: flex;
-  margin-bottom: -3em;
   position: relative;
-  top: -3em;
-  transition: all 0.25s;
   z-index: 2;
 }
 
-.section > .panel.search > .body:not(.disabled) > .search {
+.section > .panel.hide-search > .body:not(.disabled) > .search,
+.section > .panel.show-search > .body:not(.disabled) > .search {
+  transition: all 0.25s;
+}
+
+.section > .panel > .body > .search,
+.section > .panel.hide-search > .body:not(.disabled) > .search {
+  margin-bottom: -3em;
+  top: -3em;
+}
+
+.section > .panel.show-search > .body:not(.disabled) > .search {
   margin-bottom: 0;
   top: 0;
 }
 
-.section > .panel.search.immediate > .body:not(.disabled) > .search {
+.section > .panel.show-search.immediate > .body:not(.disabled) > .search {
   transition: none;
 }
 

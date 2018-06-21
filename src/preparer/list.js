@@ -121,7 +121,7 @@ export default class ListPreparer extends GraphicWorker {
     const value = sessionStorage.getItem('search-' + route.path);
 
     if (value) {
-      panel.classed('search immediate', true);
+      panel.classed('show-search immediate', true);
       input.attr('value', value);
       data.where = this._formatSearch(value);
     }
