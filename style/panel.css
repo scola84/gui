@@ -101,7 +101,7 @@
   position: relative;
 }
 
-.section > .panel > .body > .content:after {
+.section > .panel > .body:not(.disabled) > .content:after {
   border: 1px solid transparent;
   border-radius: 50%;
   border-right: none;
