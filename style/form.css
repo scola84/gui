@@ -88,12 +88,11 @@ form .block > .body .input .date input {
 }
 
 form .block > .body .input .date input[type=date],
-form .block > .body .input .date input[type=datetime-local] {
-  width: 0;
-}
-
+form .block > .body .input .date input[type=datetime-local],
 form .block > .body .input .date input[type=text] {
-  width: 0;
+  height: 1px;
+  margin-left: -1px;
+  width: 1px;
 }
 
 form .block > .body .input .date label {
