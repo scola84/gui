@@ -7,7 +7,7 @@ export default function setupMenu() {
     body.dispatch('click', event);
   });
 
-  body.on('click', () => {
+  body.on('click.scola-gui-menu', () => {
     if (select(event.target).classed('show-menu')) {
       select('.menu')
         .classed('over', true)
