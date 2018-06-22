@@ -68,7 +68,7 @@ export default class PanelBuilder extends GraphicWorker {
 
     if (old.size() > 0) {
       old.node().resizer
-        .uninstall(old.select('.content').node());
+        .uninstall(old.node());
     }
 
     const panel = this._base
@@ -135,7 +135,7 @@ export default class PanelBuilder extends GraphicWorker {
       callOnAdd: false
     });
 
-    route.node.resizer.listenTo(content.node(), debounce(() => {
+    route.node.resizer.listenTo(panel.node(), debounce(() => {
       this._resize(route);
     }, 100));
 
