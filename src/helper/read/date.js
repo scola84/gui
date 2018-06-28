@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 
 export default function readDate(route, data, form) {
   form
-    .selectAll('.date')
+    .selectAll('.input .date')
     .each((datum, index, nodes) => {
       const node = select(nodes[index]);
       const dateInput = node.select('input[type=datetime-local]').node();
