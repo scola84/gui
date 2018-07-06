@@ -6,7 +6,7 @@ export default function readDate(route, data, form) {
     .selectAll('.input .date')
     .each((datum, index, nodes) => {
       const node = select(nodes[index]);
-      const dateInput = node.select('input[type=datetime-local]').node();
+      const dateInput = node.select('input[type=date]').node();
       const textInput = node.select('input[name]').node();
 
       const value = dateInput ?
