@@ -4,6 +4,7 @@
   height: 100%;
   position: relative;
   width: 21.333em;
+  z-index: 3;
 }
 
 *[dir=rtl] .menu {
@@ -17,7 +18,6 @@
     max-width: 85%;
     position: absolute;
     transition: left 0.25s;
-    z-index: 2;
   }
 
   .menu.over {
