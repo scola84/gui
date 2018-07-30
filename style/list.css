@@ -125,6 +125,7 @@
   border: 0;
   border-bottom: 1px none lightgrey;
   color: darkgrey;
+  display: flex;
   font-size: 0.9em;
   height: 0;
   margin: 2.222em 0 0;
