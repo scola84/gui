@@ -37,6 +37,8 @@ export default class FormReader extends GraphicWorker {
         return;
       }
 
+      form.attr('action', '/');
+
       data = {};
       data = readForm(route, data, form, this._serialize);
       data = readDate(route, data, form);
@@ -48,7 +50,6 @@ export default class FormReader extends GraphicWorker {
         callback(data);
       }
 
-      form.attr('action', '/');
       this.pass(route, data);
     });
   }
