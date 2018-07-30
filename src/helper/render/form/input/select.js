@@ -1,3 +1,5 @@
+import { select } from 'd3';
+
 export default class SelectInput {
   render(datum, index, node, format) {
     const wrap = node
@@ -5,11 +7,16 @@ export default class SelectInput {
       .append('div')
       .classed('wrap', true);
 
-    const select = wrap
-      .append('select');
+    const input = wrap
+      .append('select')
+      .on('change', () => {
+        if (datum.link) {
+          this._toggle(input);
+        }
+      });
 
     for (let i = 0; i < datum.values.length; i += 1) {
-      select
+      input
         .append('option')
         .attr('value', datum.values[i])
         .attr('selected', () => {
@@ -27,6 +34,23 @@ export default class SelectInput {
     wrap
       .append('span');
 
-    return select;
+    if (datum.link) {
+      this._toggle(input);
+    }
+
+    return input;
+  }
+
+  _toggle(input) {
+    const value = input.property('value');
+
+    select(input.node().closest('form'))
+      .selectAll('.block')
+      .each((datum, index, nodes) => {
+        if (datum.name) {
+          select(nodes[index])
+            .style('display', datum.name !== value ? 'none' : 'initial');
+        }
+      });
   }
 }
