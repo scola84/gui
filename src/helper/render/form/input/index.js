@@ -3,6 +3,7 @@ import DateInput from './date';
 import EmailInput from './email';
 import FileInput from './file';
 import FloatInput from './float';
+import IbanInput from './iban';
 import IntegerInput from './integer';
 import OrderInput from './order';
 import PasswordInput from './password';
@@ -21,6 +22,7 @@ export default {
   email: new EmailInput(),
   file: new FileInput(),
   float: new FloatInput(),
+  iban: new IbanInput(),
   integer: new IntegerInput(),
   order: new OrderInput(),
   password: new PasswordInput(),
