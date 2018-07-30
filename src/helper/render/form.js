@@ -47,7 +47,9 @@ export default function renderForm(item, format) {
   line
     .append('label')
     .classed('l1', true)
-    .text((d, i, n) => format(d, i, n, 'l1'));
+    .text((d, i, n) => {
+      return d.text || format(d, i, n, 'l1');
+    });
 
   line
     .append('div')

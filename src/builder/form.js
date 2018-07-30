@@ -51,7 +51,7 @@ export default class FormBuilder extends Builder {
       .attr('class', (datum) => datum.fold ? 'fold' : null)
       .classed('title', true)
       .text((d, i, n) => {
-        return this.format(d, i, n, { data, name: 'title', route });
+        return d.text || this.format(d, i, n, { data, name: 'title', route });
       })
       .on('click', (datum, index, nodes) => {
         if (datum.fold) {
