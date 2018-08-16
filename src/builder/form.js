@@ -24,7 +24,7 @@ export default class FormBuilder extends Builder {
 
     const structure = typeof this._structure === 'function' ?
       this._structure(route, data) :
-      this._structure;
+      this._extract(route.structure || this._structure);
 
     const panel = select(route.node);
 

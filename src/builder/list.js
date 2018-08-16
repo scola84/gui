@@ -115,11 +115,13 @@ export default class ListBuilder extends Builder {
   _finishList(route, data = {}) {
     data = this.filter(route, data);
 
-    const structure = typeof this._structure === 'function' ?
+    let structure = typeof this._structure === 'function' ?
       this._structure(route, data) :
-      (this._dynamic === true ?
-        this._structure && this._structure[0].fields || [0] :
-        this._structure);
+      this._extract(route.structure || this._structure);
+
+    structure = (this._dynamic === true ?
+      structure && structure[0].fields || [0] :
+      structure);
 
     const panel = select(route.node);
 
