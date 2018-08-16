@@ -15,20 +15,37 @@ export default class SelectInput {
         }
       });
 
-    for (let i = 0; i < datum.values.length; i += 1) {
+    let selected = null;
+    let text = null;
+    let value = null;
+
+    if (datum.values.length === 0) {
       input
         .append('option')
-        .attr('value', datum.values[i])
-        .attr('selected', () => {
-          return datum.values[i] === datum.selected || format({
-            name: 'selected',
-            value: datum.values[i]
-          }) ? 'selected' : null;
-        })
         .text(format({
           name: 'text',
-          value: datum.values[i]
+          value: 'empty'
         }));
+    }
+
+    for (let i = 0; i < datum.values.length; i += 1) {
+      value = datum.values[i];
+
+      text = datum.labels ? datum.labels[i] : format({
+        name: 'text',
+        value
+      });
+
+      selected = value === datum.selected || format({
+        name: 'selected',
+        value
+      }) ? 'selected' : null;
+
+      input
+        .append('option')
+        .attr('value', value)
+        .attr('selected', selected)
+        .text(text);
     }
 
     wrap
