@@ -99,7 +99,7 @@ export default class PanelBuilder extends GraphicWorker {
       .classed('message', true)
       .append('span');
 
-    const content = body
+    body
       .append('div')
       .classed('content', true);
 
