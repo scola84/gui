@@ -115,9 +115,11 @@ export default class ListBuilder extends Builder {
   _finishList(route, data = {}) {
     data = this.filter(route, data);
 
-    let structure = typeof this._structure === 'function' ?
-      this._structure(route, data) :
-      this._extract(route.structure || this._structure);
+    let structure = this._extract(route.structure || this._structure);
+
+    if (typeof structure === 'function') {
+      structure = structure(route, data);
+    }
 
     structure = (this._dynamic === true ?
       structure && structure[0].fields || [0] :

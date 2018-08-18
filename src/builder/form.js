@@ -22,9 +22,11 @@ export default class FormBuilder extends Builder {
   _finishForm(route, data = {}) {
     data = this.filter(route, data);
 
-    const structure = typeof this._structure === 'function' ?
-      this._structure(route, data) :
-      this._extract(route.structure || this._structure);
+    let structure = this._extract(route.structure || this._structure);
+
+    if (typeof structure === 'function') {
+      structure = structure(route, data);
+    }
 
     const panel = select(route.node);
 
