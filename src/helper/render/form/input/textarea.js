@@ -30,14 +30,19 @@ export default class TextareaInput {
   }
 
   _grow(datum, textarea) {
-    const node = textarea.node();
-
-    const contentRect = node.closest('.content').getBoundingClientRect();
-    const textRect = node.getBoundingClientRect();
-
-    const maxHeight = contentRect.height - textRect.top;
-
     textarea.style('height', 0);
+
+    const node = textarea.node();
+    const content = node.closest('.content');
+
+    let currentHeight = 0;
+
+    select(content).selectAll('form').each((d, i, n) => {
+      currentHeight += n[i].getBoundingClientRect().height;
+    });
+
+    const contentRect = content.getBoundingClientRect();
+    const maxHeight = contentRect.height - currentHeight - 16;
 
     const height = Math.max(datum.height || 32,
       Math.min(maxHeight, node.scrollHeight));
