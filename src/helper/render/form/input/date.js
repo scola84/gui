@@ -64,6 +64,8 @@ export default class DateInput {
 
         picker.setDate(date.valueOf());
         picker.toggle();
+
+        this._centerPicker(label, picker);
       });
 
     this._formatDate(datum, label, format, number);
@@ -74,6 +76,17 @@ export default class DateInput {
     });
 
     return input;
+  }
+
+  _centerPicker(parent, picker) {
+    const container = select(picker.calendarContainer);
+
+    const left = parseFloat(container.style('left'));
+    const inputWidth = parseFloat(parent.style('width'));
+    const containerWidth = parseFloat(container.style('width'));
+    const change = (containerWidth - inputWidth) / 2;
+
+    container.style('left', (left - change) + 'px');
   }
 
   _formatDate(datum, label, format, number) {

@@ -23,6 +23,17 @@ export default class ControlBuilder extends Builder {
     this.pass(route, data, callback);
   }
 
+  _centerPicker(parent, picker) {
+    const container = select(picker.calendarContainer);
+
+    const left = parseFloat(container.style('left'));
+    const inputWidth = parseFloat(parent.style('width'));
+    const containerWidth = parseFloat(container.style('width'));
+    const change = (containerWidth - inputWidth) / 2;
+
+    container.style('left', (left - change) + 'px');
+  }
+
   _createControl(route, data) {
     const panel = select(route.node);
 
@@ -181,6 +192,8 @@ export default class ControlBuilder extends Builder {
         beginPicker.setDate(date.valueOf() - (date.offset * 60 * 1000));
         beginPicker.toggle();
         endPicker.close();
+
+        this._centerPicker(begin, beginPicker);
       });
 
     endLabel
@@ -199,6 +212,8 @@ export default class ControlBuilder extends Builder {
         endPicker.setDate(date.valueOf() - (date.offset * 60 * 1000));
         endPicker.toggle();
         beginPicker.close();
+
+        this._centerPicker(end, endPicker);
       });
 
     panel.on('remove.scola-gui-control-' + this.getId(), () => {
