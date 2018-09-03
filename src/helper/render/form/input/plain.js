@@ -6,10 +6,14 @@ export default class Plain {
       text = datum.value(datum);
     }
 
+    text = typeof text === 'undefined' ||
+      text === null ||
+      text === '' ? '-' : text;
+
     node
       .select('.input')
       .append('div')
       .classed('plain', true)
-      .text(text || '-');
+      .text(text);
   }
 }
