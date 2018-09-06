@@ -76,7 +76,11 @@ export default class ControlBuilder extends Builder {
       const meta = route.control[this._structure.name].meta;
 
       if (meta.date.end > Date.now()) {
-        meta.date.end = DateTime.utc().setZone('local').endOf('day');
+        meta.date.end = DateTime
+          .utc()
+          .setZone('local')
+          .endOf('day')
+          .valueOf();
       }
 
       if (event.detail === 'day') {
