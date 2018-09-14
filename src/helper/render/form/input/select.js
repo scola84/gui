@@ -11,7 +11,7 @@ export default class SelectInput {
       .append('select')
       .on('change', () => {
         if (datum.link) {
-          this._toggle(input);
+          this._toggle(datum, input);
         }
       });
 
@@ -43,6 +43,7 @@ export default class SelectInput {
 
       input
         .append('option')
+        .datum(text)
         .attr('value', value)
         .attr('selected', selected)
         .text(text);
@@ -52,21 +53,49 @@ export default class SelectInput {
       .append('span');
 
     if (datum.link) {
-      this._toggle(input);
+      this._toggle(datum, input);
+    }
+
+    if (datum.sort) {
+      input
+        .selectAll('option')
+        .sort((a, b) => a > b);
+    }
+
+    selected = input
+      .select('option[selected]');
+
+    if (selected.size() === 0) {
+      input
+        .select('option')
+        .attr('selected', 'selected');
     }
 
     return input;
   }
 
-  _toggle(input) {
-    const value = input.property('value');
+  _toggle(datum, input) {
+    const link = Array.isArray(datum.link) ?
+      datum.link : [input.attr('name')];
+
+    let value = [];
+
+    select(input.node().closest('form'))
+      .selectAll(link.map((name) => `[name=${name}]`).join(','))
+      .each((d, i, n) => {
+        value[value.length] = select(n[i]).property('value');
+      });
+
+    value = value.join('_');
 
     select(input.node().closest('form'))
       .selectAll('.block')
-      .each((datum, index, nodes) => {
-        if (datum.name) {
-          select(nodes[index])
-            .style('display', datum.name !== value ? 'none' : 'initial');
+      .each((d, i, n) => {
+        if (d.name) {
+          select(n[i])
+            .style('display', d.name === value ? null : 'none')
+            .selectAll('textarea')
+            .dispatch('input');
         }
       });
   }
