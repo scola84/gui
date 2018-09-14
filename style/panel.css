@@ -325,4 +325,9 @@
   .section > .panel.header > .body.disabled > .message {
     border-width: 0.5px;
   }
+
+  .section > .panel > .body > .search,
+  .section > .panel.hide-search > .body:not(.disabled) > .search {
+    margin-top: -1px;
+  }
 }
