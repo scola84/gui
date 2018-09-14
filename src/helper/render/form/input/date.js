@@ -35,11 +35,14 @@ export default class DateInput {
     picker = flatpickr(input.node(), {
       clickOpens: false,
       enableTime: datum.time,
+      minuteIncrement: 1,
+      position: 'below center',
+      positionElement: label.node(),
       time_24hr: true,
       formatDate: () => {
         return input.property('value');
       },
-      onChange: ([date]) => {
+      onValueUpdate: ([date]) => {
         this._formatDate(datum, label, format, date && date.valueOf());
       }
     });
@@ -60,12 +63,10 @@ export default class DateInput {
         const date = DateTime
           .fromMillis(Number(input.property('value')) || Date.now())
           .setZone('local')
-          .startOf(datum.time ? 'hour' : 'day');
+          .startOf(datum.time ? 'second' : 'day');
 
         picker.setDate(date.valueOf());
         picker.toggle();
-
-        this._centerPicker(label, picker);
       });
 
     this._formatDate(datum, label, format, number);
@@ -78,24 +79,13 @@ export default class DateInput {
     return input;
   }
 
-  _centerPicker(parent, picker) {
-    const container = select(picker.calendarContainer);
-
-    const left = parseFloat(container.style('left'));
-    const inputWidth = parseFloat(parent.style('width'));
-    const containerWidth = parseFloat(container.style('width'));
-    const change = (containerWidth - inputWidth) / 2;
-
-    container.style('left', (left - change) + 'px');
-  }
-
   _formatDate(datum, label, format, number) {
     const node = label.node();
 
     const date = DateTime
       .fromMillis(number || Date.now())
       .setZone('local')
-      .startOf(datum.time ? 'hour' : 'day');
+      .startOf(datum.time ? 'second' : 'day');
 
     const value = date.valueOf();
 
