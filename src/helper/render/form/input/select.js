@@ -92,10 +92,14 @@ export default class SelectInput {
       .selectAll('.block')
       .each((d, i, n) => {
         if (d.name) {
-          select(n[i])
+          const elements = select(n[i])
             .style('display', d.name === value ? null : 'none')
-            .selectAll('textarea')
-            .dispatch('input');
+            .selectAll('input, select, textarea')
+            .attr('disabled', d.name === value ? null : 'disabled');
+
+          setTimeout(() => {
+            elements.dispatch('input');
+          });
         }
       });
   }
