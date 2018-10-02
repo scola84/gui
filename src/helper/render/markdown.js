@@ -1,4 +1,4 @@
-export default function markdown(node, name, format) {
+export default function renderMarkdown(node, name, format) {
   return node
     .text((d, i, n) => {
       const value = format(d, i, n, name);
@@ -10,6 +10,6 @@ export default function markdown(node, name, format) {
       }
 
       const value = format(d, i, n, name);
-      return value && value.md || '';
+      return value || '';
     });
 }

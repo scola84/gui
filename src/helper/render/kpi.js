@@ -1,4 +1,4 @@
-import markdown from './markdown';
+import renderMarkdown from './markdown';
 
 export default function renderKpi(item, format) {
   const primary = item
@@ -9,7 +9,7 @@ export default function renderKpi(item, format) {
     .append('div')
     .classed('l0', true);
 
-  markdown(l0, 'l0', format);
+  renderMarkdown(l0, 'l0', format);
 
   const line = primary
     .append('div')
@@ -25,19 +25,19 @@ export default function renderKpi(item, format) {
     .append('div')
     .classed('l4', true);
 
-  markdown(l4, 'l4', format);
+  renderMarkdown(l4, 'l4', format);
 
   const l2 = primary
     .append('div')
     .classed('l2', true);
 
-  markdown(l2, 'l2', format);
+  renderMarkdown(l2, 'l2', format);
 
   const l3 = primary
     .append('div')
     .classed('l3', true);
 
-  markdown(l3, 'l3', format);
+  renderMarkdown(l3, 'l3', format);
 
   const secondary = item
     .append('div')
@@ -51,11 +51,11 @@ export default function renderKpi(item, format) {
     .append('span')
     .classed('value', true);
 
-  markdown(value, 'l5.value', format);
+  renderMarkdown(value, 'l5.value', format);
 
   const unit = l5
     .append('span')
     .classed('unit', true);
 
-  markdown(unit, 'l5.unit', format);
+  renderMarkdown(unit, 'l5.unit', format);
 }

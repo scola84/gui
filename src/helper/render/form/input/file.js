@@ -1,5 +1,5 @@
 import { select } from 'd3';
-import bytes from 'bytes';
+import { formatters } from '@scola/d3-string-format';
 import requestResource from '../../../request/resource';
 
 export default class FileInput {
@@ -118,10 +118,12 @@ export default class FileInput {
       .append('div')
       .classed('primary', true);
 
+    const size = formatters.si.format([file.size], '%(B)si', ['%(B)si']);
+
     primary
       .append('span')
       .classed('l0', true)
-      .text(`${file.name} (${bytes(file.size)})`);
+      .text(`${file.name} (${size})`);
 
     if (file.type.match(/^image\//)) {
       this._previewImage(primary, file, urls);
@@ -228,10 +230,12 @@ export default class FileInput {
       .append('div')
       .classed('primary', true);
 
+    const size = formatters.si.format([file.size], '%(B)si', ['%(B)si']);
+
     primary
       .append('span')
       .classed('l0', true)
-      .text(`${file.name} (${bytes(file.size)})`);
+      .text(`${file.name} (${size})`);
 
     const secondary = node
       .append('div')

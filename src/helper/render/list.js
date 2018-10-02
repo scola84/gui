@@ -1,5 +1,5 @@
 import { select } from 'd3';
-import markdown from './markdown';
+import renderMarkdown from './markdown';
 
 export default function renderList(item, format) {
   item
@@ -43,7 +43,7 @@ export default function renderList(item, format) {
     .append('div')
     .classed('l0', true);
 
-  markdown(l0, 'l0', format);
+  renderMarkdown(l0, 'l0', format);
 
   const line = primary
     .append('div')
@@ -60,19 +60,19 @@ export default function renderList(item, format) {
     .append('div')
     .classed('l4', true);
 
-  markdown(l4, 'l4', format);
+  renderMarkdown(l4, 'l4', format);
 
   const l2 = primary
     .append('div')
     .classed('l2', true);
 
-  markdown(l2, 'l2', format);
+  renderMarkdown(l2, 'l2', format);
 
   const l3 = primary
     .append('div')
     .classed('l3', true);
 
-  markdown(l3, 'l3', format);
+  renderMarkdown(l3, 'l3', format);
 
   const secondary = item
     .append('div')
@@ -82,7 +82,7 @@ export default function renderList(item, format) {
     .append('div')
     .classed('l5', true);
 
-  markdown(l5, 'l5', format);
+  renderMarkdown(l5, 'l5', format);
 
   secondary
     .filter((datum) => {
