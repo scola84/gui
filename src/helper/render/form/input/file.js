@@ -1,5 +1,5 @@
 import { select } from 'd3';
-import { formatters } from '@scola/d3-string-format';
+import { formatter } from '@scola/d3-string-format';
 import requestResource from '../../../request/resource';
 
 export default class FileInput {
@@ -118,7 +118,7 @@ export default class FileInput {
       .append('div')
       .classed('primary', true);
 
-    const size = formatters.si.format([file.size], '%(B)si', ['%(B)si']);
+    const size = formatter.si.format([file.size], '%(B)si', ['%(B)si']);
 
     primary
       .append('span')
@@ -230,7 +230,7 @@ export default class FileInput {
       .append('div')
       .classed('primary', true);
 
-    const size = formatters.si.format([file.size], '%(B)si', ['%(B)si']);
+    const size = formatter.si.format([file.size], '%(B)si', ['%(B)si']);
 
     primary
       .append('span')
