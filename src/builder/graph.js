@@ -383,7 +383,7 @@ export default class GraphBuilder extends Builder {
     if (!graph.axis.bottom.axis) {
       graph.axis.bottom.axis = axisBottom()
         .tickFormat((datum, index, ticks) => {
-          return structure.tick(graph, datum, index, ticks);
+          return structure.tick(graph, datum, index, ticks, this._format);
         })
         .tickPadding(10)
         .tickSize(0);
@@ -405,7 +405,7 @@ export default class GraphBuilder extends Builder {
     if (!graph.axis.left.axis) {
       graph.axis.left.axis = axisLeft()
         .tickFormat((datum, index, ticks) => {
-          return structure.tick(graph, datum, index, ticks);
+          return structure.tick(graph, datum, index, ticks, this._format);
         })
         .tickPadding(10)
         .tickSize(0);
@@ -427,7 +427,7 @@ export default class GraphBuilder extends Builder {
     if (!graph.axis.right.axis) {
       graph.axis.right.axis = axisRight()
         .tickFormat((datum, index, ticks) => {
-          return structure.tick(graph, datum, index, ticks);
+          return structure.tick(graph, datum, index, ticks, this._format);
         })
         .tickPadding(10)
         .tickSize(0);
@@ -449,7 +449,7 @@ export default class GraphBuilder extends Builder {
     if (!graph.axis.top.axis) {
       graph.axis.top.axis = axisTop()
         .tickFormat((datum, index, ticks) => {
-          return structure.tick(graph, datum, index, ticks);
+          return structure.tick(graph, datum, index, ticks, this._format);
         })
         .tickPadding(10)
         .tickSize(0);
