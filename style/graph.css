@@ -83,16 +83,12 @@
 .graph .header {
   align-items: center;
   background: white;
-  border-top: 1px solid lightgrey;
+  border-bottom: 1px solid lightgrey;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 0 1em;
-  padding: 1em;
-}
-
-.graph .header .name {
-  font-size: 1.1em;
+  margin: 0;
+  padding: 0.5em;
 }
 
 .graph-tip {
@@ -135,6 +131,17 @@
 
   .graph .body text {
     font-size: 0.9em;
+  }
+
+  .graph .header {
+    border-bottom: 0;
+    border-top: 1px solid lightgrey;
+    margin: 0 1em;
+    padding: 1em;
+  }
+
+  .graph .header .name {
+    font-size: 1.1em;
   }
 }
 
