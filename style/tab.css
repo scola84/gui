@@ -24,6 +24,11 @@ ul.tab li + li {
   border-left: 1px solid rgb(14, 122, 254);
 }
 
+*[dir=rtl] ul.tab li + li {
+  border-left: none;
+  border-right: 1px solid rgb(14, 122, 254);
+}
+
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
   ul.tab,
   ul.tab li {

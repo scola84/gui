@@ -92,6 +92,14 @@
   position: relative;
 }
 
+*[dir=rtl] .control .date button {
+  padding: 0 0 0 1.25em;
+}
+
+*[dir=rtl] .control .date button:before {
+  transform: translate(0,-50%) rotate(180deg);
+}
+
 @media not all and (min-width: 48em) {
   .control.connect ~ .graph .title,
   .control.connect ~ .kpi .title {

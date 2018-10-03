@@ -1,0 +1,3 @@
+.kpi .body .unit:before {
+  content: ' ';
+}

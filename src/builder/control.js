@@ -125,7 +125,7 @@ export default class ControlBuilder extends Builder {
 
     title
       .append('span')
-      .classed('icon ion-ios-arrow-round-forward', true);
+      .classed('icon flip ion-ios-arrow-round-forward', true);
 
     const end = title
       .append('div')

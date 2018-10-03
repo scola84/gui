@@ -87,6 +87,22 @@ button[tabindex="0"],
   overflow: hidden;
 }
 
+.outset .app,
+.outset-x .app,
+.outset-y .app {
+  border-radius: 0;
+}
+
+.outset .app,
+.outset-x .app {
+  width: 100%;
+}
+
+.outset .app,
+.outset-y .app {
+  height: 100%;
+}
+
 .ion-ios-brush:before {
   font-size: 1em !important;
 }
