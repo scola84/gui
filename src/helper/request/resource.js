@@ -1,6 +1,6 @@
 import { Request } from '@scola/http';
 import { select } from 'd3';
-import { saveAs } from 'file-saver';
+import FileSaver from 'file-saver';
 import qs from 'qs';
 import sprintf from 'sprintf-js';
 
@@ -105,7 +105,7 @@ function sendRequest(box, data, callback) {
     }
 
     if (box.save === true || data.save === true) {
-      saveAs(socket.response, data.name);
+      FileSaver.saveAs(socket.response, data.name);
     }
 
     if (box.callback) {
@@ -164,7 +164,7 @@ export default function requestResource(box, data = {}, callback = () => {}) {
     typeof data.name !== 'undefined';
 
   if (save) {
-    saveAs(data.data, data.name);
+    FileSaver.saveAs(data.data, data.name);
     return;
   }
 
