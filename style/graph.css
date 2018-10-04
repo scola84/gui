@@ -139,10 +139,6 @@
     margin: 0 1em;
     padding: 1em;
   }
-
-  .graph .header .name {
-    font-size: 1.1em;
-  }
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
