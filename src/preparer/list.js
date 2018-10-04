@@ -43,7 +43,8 @@ export default class ListPreparer extends GraphicWorker {
   }
 
   _formatSearch(route, value) {
-    const format = this._extract(route.structure || this._structure);
+    const format = this._search ||
+      this._extract(route.structure || this._structure);
 
     if (typeof format === 'undefined') {
       return value;
