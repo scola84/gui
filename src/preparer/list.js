@@ -42,15 +42,21 @@ export default class ListPreparer extends GraphicWorker {
     this.pass(route, data, callback);
   }
 
-  _formatSearch(value) {
+  _formatSearch(route, value) {
+    const format = this._extract(route.structure || this._structure);
+
+    if (typeof format === 'undefined') {
+      return value;
+    }
+
     const parts = value.match(/[^"\s]+|"[^"]+"/g);
     let match = null;
 
     for (let i = 0; i < parts.length; i += 1) {
       match = parts[i].match(/".+"/);
 
-      if (match === null && this._search) {
-        parts[i] = this._search(parts[i]);
+      if (match === null) {
+        parts[i] = format(parts[i]);
       }
     }
 
@@ -123,7 +129,7 @@ export default class ListPreparer extends GraphicWorker {
     if (value) {
       panel.classed('show-search immediate', true);
       input.attr('value', value);
-      data.where = this._formatSearch(value);
+      data.where = this._formatSearch(route, value);
     }
   }
 
@@ -132,7 +138,7 @@ export default class ListPreparer extends GraphicWorker {
       if (value.length === 0) {
         delete data.where;
       } else {
-        data.where = this._formatSearch(value);
+        data.where = this._formatSearch(route, value);
       }
 
       delete data.offset;

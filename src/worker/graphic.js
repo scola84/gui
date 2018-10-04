@@ -4,17 +4,24 @@ export default class GraphicWorker extends Worker {
   constructor(options = {}) {
     super(options);
 
+    this._extract = null;
     this._format = null;
     this._route = null;
     this._structure = null;
     this._target = null;
     this._wrap = null;
 
+    this.setExtract(options.extract);
     this.setFormat(options.format);
     this.setRoute(options.route);
     this.setStructure(options.structure);
     this.setTarget(options.target);
     this.setWrap(options.wrap);
+  }
+
+  setExtract(value = (s) => s) {
+    this._extract = value;
+    return this;
   }
 
   setFormat(value = null) {
