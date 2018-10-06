@@ -9,7 +9,7 @@
   "jsnext:main": "./index.js",
   "dependencies": {
     "@scola/d3-string-format": "^1.6.2",
-    "@scola/http": "^5.2.5",
+    "@scola/http": "^5.2.6",
     "@scola/worker": "^2.9.2",
     "d3": "^5.7.0",
     "element-resize-detector": "^1.1.14",
@@ -18,7 +18,8 @@
     "form-serialize": "^0.7.2",
     "leaflet": "^1.3.4",
     "lodash-es": "^4.17.11",
-    "luxon": "^1.4.2",
+    "long": "^4.0.0",
+    "luxon": "^1.4.3",
     "qs": "^6.5.2",
     "sprintf-js": "^1.1.1"
   }
