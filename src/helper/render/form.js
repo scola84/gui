@@ -5,7 +5,11 @@ let id = 0;
 
 export default function renderForm(item, format) {
   item
-    .attr('class', (datum) => datum.name);
+    .attr('class', (datum) => {
+      return [datum.type, datum.name]
+        .filter((v) => v)
+        .join(' ');
+    });
 
   item
     .append('span')

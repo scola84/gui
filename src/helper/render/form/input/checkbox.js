@@ -1,4 +1,5 @@
 import { event, select } from 'd3';
+import Long from 'long';
 
 export default class CheckboxInput {
   render(datum, index, node, format) {
@@ -21,10 +22,10 @@ export default class CheckboxInput {
     const link = select(input.node().form)
       .select(`input[name=${datum.link}]`);
 
-    const value = link.attr('value');
+    const value = Long.fromNumber(Number(link.attr('value')));
+    const bit = Long.fromNumber(datum.bit);
 
-    link.attr('value', checked ?
-      value | datum.bit : value ^ datum.bit);
+    link.attr('value', checked ? value.or(bit) : value.xor(bit));
   }
 
   _renderAfter(datum, index, node, format) {
@@ -91,16 +92,27 @@ export default class CheckboxInput {
   }
 
   _renderValue(datum, input, format) {
+    if (datum.bit) {
+      this._renderValueBit(datum, input, format);
+    } else {
+      this._renderValueNormal(datum, input, format);
+    }
+  }
+
+  _renderValueBit(datum, input, format) {
+    const value = Long.fromNumber(Number(format('value')));
+    const bit = Long.fromNumber(datum.bit);
+
+    input
+      .attr('value', 1)
+      .property('checked', value.and(bit).toNumber());
+  }
+
+  _renderValueNormal(datum, input, format) {
     const value = format('value');
 
-    if (datum.bit) {
-      input
-        .attr('value', 1)
-        .property('checked', value & datum.bit);
-    } else {
-      input
-        .attr('value', value)
-        .property('checked', format('checked'));
-    }
+    input
+      .attr('value', value)
+      .property('checked', format('checked'));
   }
 }

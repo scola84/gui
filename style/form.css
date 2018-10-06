@@ -185,7 +185,7 @@ form .block > .body .input .wrap {
   margin: 0 1em 0 0;
 }
 
-form .block > .body .plain {
+form .block > .body .input .plain {
   color: darkgrey;
   flex: 1;
   margin: 0 1em 0 0;
