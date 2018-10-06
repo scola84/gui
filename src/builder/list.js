@@ -145,10 +145,7 @@ export default class ListBuilder extends Builder {
       .enter()
       .append('div')
       .attr('class', (datum, index) => {
-        const base = datum.class || '';
-        const name = 'fold-' + this._id + '-' + index;
-        return base +
-          (Number(localStorage.getItem(name)) === 1 ? ' folded' : '');
+        return this._setFoldClass(route, datum, index);
       })
       .classed('block list', true);
 
@@ -160,9 +157,7 @@ export default class ListBuilder extends Builder {
         return this.format(d, i, n, { data, name: 'title', route });
       })
       .on('click', (datum, index, nodes) => {
-        if (datum.fold) {
-          this._foldList(datum, index, nodes);
-        }
+        this._foldList(route, datum, index, nodes);
       });
 
     enter
@@ -207,21 +202,24 @@ export default class ListBuilder extends Builder {
       return this.format(d, i, n, { data, name, route });
     });
 
-    setTimeout(() => {
-      list.style('height', (datum, index, nodes) => {
-        return datum.fold ? select(nodes[index]).style('height') : null;
-      });
-    });
+    this._setFoldHeight(list);
 
     return { empty, enter, exit, update };
   }
 
-  _foldList(datum, index, nodes) {
-    const list = select(nodes[index].closest('.block'));
-    const name = 'fold-' + this._id + '-' + index;
-    const value = Number(localStorage.getItem(name));
+  _foldList(route, datum, index, nodes) {
+    if (datum.fold !== true) {
+      return;
+    }
 
-    localStorage.setItem(name, Number(!value));
+    const list = select(nodes[index].closest('.block'));
+    const name = ['fold', route.path, index].join('-');
+    const item = localStorage.getItem(name);
+
+    const isFolded = item === null ?
+      datum.folded === true : Number(item) === 1;
+
+    localStorage.setItem(name, Number(!isFolded));
 
     let height = 0 +
       parseFloat(list.select('.title').style('border-top-width')) +
@@ -229,7 +227,7 @@ export default class ListBuilder extends Builder {
       parseFloat(list.select('.body').style('border-top-width'));
 
     let node = null;
-    const selector = value === 1 ? 'ul,.comment,.title' : '.title';
+    const selector = isFolded ? 'ul,.comment,.title' : '.title';
 
     list.selectAll(selector).each((d, i, n) => {
       node = select(n[i]);
@@ -241,7 +239,7 @@ export default class ListBuilder extends Builder {
 
     list
       .style('height', height ? height + 'px' : null)
-      .classed('folded', !value);
+      .classed('folded', !isFolded);
   }
 
   _prepareList(route) {
@@ -267,5 +265,24 @@ export default class ListBuilder extends Builder {
       .append('div')
       .attr('id', this._createTarget('list', number))
       .classed('list-group', true);
+  }
+
+  _setFoldClass(route, datum, index) {
+    const base = datum.class || '';
+    const name = ['fold', route.path, index].join('-');
+    const item = localStorage.getItem(name);
+
+    const isFolded = item === null ?
+      datum.folded === true : Number(item) === 1;
+
+    return base + (isFolded ? ' folded' : '');
+  }
+
+  _setFoldHeight(list) {
+    setTimeout(() => {
+      list.style('height', (datum, index, nodes) => {
+        return datum.fold ? select(nodes[index]).style('height') : null;
+      });
+    });
   }
 }

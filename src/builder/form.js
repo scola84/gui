@@ -1,8 +1,8 @@
 import { select } from 'd3';
-import Builder from './builder';
+import ListBuilder from './list';
 import renderForm from '../helper/render/form';
 
-export default class FormBuilder extends Builder {
+export default class FormBuilder extends ListBuilder {
   setRender(value = renderForm) {
     return super.setRender(value);
   }
@@ -44,7 +44,9 @@ export default class FormBuilder extends Builder {
     const enter = list
       .enter()
       .append('div')
-      .attr('class', (datum) => datum.class)
+      .attr('class', (datum, index) => {
+        return this._setFoldClass(route, datum, index);
+      })
       .classed('block form', true)
       .classed('hidden', (datum) => datum.hidden);
 
@@ -56,9 +58,7 @@ export default class FormBuilder extends Builder {
         return d.text || this.format(d, i, n, { data, name: 'title', route });
       })
       .on('click', (datum, index, nodes) => {
-        if (datum.fold) {
-          this._foldList(datum, index, nodes);
-        }
+        this._foldList(route, datum, index, nodes);
       });
 
     enter
@@ -85,6 +85,8 @@ export default class FormBuilder extends Builder {
     this._render(item, (d, i, n, name) => {
       return this.format(d, i, n, { data, name, route });
     });
+
+    this._setFoldHeight(list);
 
     return form;
   }
