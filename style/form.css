@@ -114,12 +114,12 @@ form .block > .body .input .placeholder {
   color: darkgrey;
 }
 
-form .block > .body .primary label {
+form .block > .body .input .primary label {
   cursor: inherit;
   display: flex;
 }
 
-form .block > .body .primary label:not(:empty) {
+form .block > .body .input .primary label:not(:empty) {
   border: 1px solid transparent;
   overflow: hidden;
   margin: -1px;
@@ -135,19 +135,19 @@ form .block.order.ungrouped > ul li {
   border-radius: 0 !important;
 }
 
-form .block > .body .button {
+form .block > .body .input .button {
   margin: 0 1em 0 0;
 }
 
-form .block > .body .checkbox {
+form .block > .body .input .checkbox {
   display: flex;
 }
 
-form .block > .body .checkbox:first-child input + label {
+form .block > .body .input .checkbox:first-child input + label {
   width: auto;
 }
 
-form .block > .body .checkbox:first-child input + label:before {
+form .block > .body .input .checkbox:first-child input + label:before {
   align-items: center;
   border: 1px solid transparent;
   border-radius: 50%;
@@ -160,7 +160,7 @@ form .block > .body .checkbox:first-child input + label:before {
   width: 1em;
 }
 
-form .block > .body .checkbox:first-child input:checked + label:before {
+form .block > .body .input .checkbox:first-child input:checked + label:before {
   content: '\f14a';
 }
 
@@ -195,11 +195,11 @@ form .block > .body .input .plain {
   white-space: nowrap;
 }
 
-form .block > .body .primary + .checkbox {
+form .block > .body .input .primary + .checkbox {
   margin: 0 0 0 auto;
 }
 
-form .block > .body .primary + .checkbox input + label {
+form .block > .body .input .primary + .checkbox input + label {
   align-items: center;
   cursor: pointer;
   display: flex;
@@ -212,7 +212,7 @@ form .block > .body .primary + .checkbox input + label {
   width: auto;
 }
 
-form .block > .body .primary + .checkbox input + label:after {
+form .block > .body .input .primary + .checkbox input + label:after {
   background: white;
   border: 1px solid white;
   border-radius: 1em;
@@ -229,7 +229,7 @@ form .block > .body .primary + .checkbox input + label:after {
   width: 1.85em;
 }
 
-form .block > .body .primary + .checkbox input + label:before {
+form .block > .body .input .primary + .checkbox input + label:before {
   background: white;
   border: 1px solid lightgrey;
   border-radius: 1em;
@@ -242,26 +242,26 @@ form .block > .body .primary + .checkbox input + label:before {
   width: 3.25em;
 }
 
-form .block > .body .primary + .checkbox input:checked + label:after {
+form .block > .body .input .primary + .checkbox input:checked + label:after {
   left: 1.3em;
 }
 
-form .block > .body .primary + .checkbox input:checked + label:before {
+form .block > .body .input .primary + .checkbox input:checked + label:before {
   background-color: green !important;
   border-color: green !important;
 }
 
-form .block > .body .radio {
+form .block > .body .input .radio {
   margin-left: auto;
   margin-right: 1em;
 }
 
-form .block > .body .radio input:checked + label {
+form .block > .body .input .radio input:checked + label {
   align-items: center;
   display: flex;
 }
 
-form .block > .body .radio input:checked + label:after {
+form .block > .body .input .radio input:checked + label:after {
   content: '\f3ff';
   font-family: 'Ionicons';
   font-size: 1.9em;
@@ -285,24 +285,24 @@ form .block.order > ul [draggable] span.drag span {
   margin: 0 0 0 1em;
 }
 
-*[dir=rtl] form .block > .body .button {
+*[dir=rtl] form .block > .body .input .button {
   margin: 0 0 0 1em;
 }
 
-*[dir=rtl] form .block > .body .primary + .checkbox {
+*[dir=rtl] form .block > .body .input .primary + .checkbox {
   margin-left: 0;
   margin-right: auto;
 }
 
-*[dir=rtl] form .block > .body .primary + .checkbox input + label {
+*[dir=rtl] form .block > .body .input .primary + .checkbox input + label {
   right: -4.5em;
 }
 
-*[dir=rtl] form .block > .body .primary + .checkbox input + label:after {
+*[dir=rtl] form .block > .body .input .primary + .checkbox input + label:after {
   left: -2.1em;
 }
 
-*[dir=rtl] form .block > .body .primary + .checkbox input:checked + label:after {
+*[dir=rtl] form .block > .body .input .primary + .checkbox input:checked + label:after {
   left: -3.35em;
 }
 
@@ -311,12 +311,12 @@ form .block.order > ul [draggable] span.drag span {
   margin-right: 0.5em;
 }
 
-*[dir=rtl] form .block > .body .plain {
+*[dir=rtl] form .block > .body .input .plain {
   margin-left: 1em;
   margin-right: 0;
 }
 
-*[dir=rtl] form .block > .body .radio {
+*[dir=rtl] form .block > .body .input .radio {
   margin-left: 1em;
   margin-right: auto;
 }
@@ -333,7 +333,7 @@ form .block.order > ul [draggable] span.drag span {
     padding: 0 1em;
   }
 
-  form .block > .body .checkbox:first-child input + label:focus:before {
+  form .block > .body .input .checkbox:first-child input + label:focus:before {
     border: 1px dotted black;
   }
 
@@ -342,14 +342,14 @@ form .block.order > ul [draggable] span.drag span {
     outline: 1px dotted black;
   }
 
-  form .block > .body .primary + .checkbox input + label:focus:after {
+  form .block > .body .input .primary + .checkbox input + label:focus:after {
     border: 1px dotted black;
   }
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-  form .block > .body .primary + .checkbox input + label:after,
-  form .block > .body .primary + .checkbox input + label:before {
+  form .block > .body .input .primary + .checkbox input + label:after,
+  form .block > .body .input .primary + .checkbox input + label:before {
     border-width: 0.5px;
   }
 }
