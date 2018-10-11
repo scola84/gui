@@ -63,8 +63,9 @@
 
 .section > .panel > .bar > .center {
   flex: 1;
-  overflow: hidden;
   margin: 0 1em;
+  overflow: hidden;
+  text-align: center;
 }
 
 .section > .panel > .bar > .left {
@@ -81,7 +82,6 @@
 .section > .panel > .bar .title {
   font-weight: bold;
   overflow: hidden;
-  text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
