@@ -29,7 +29,6 @@ export default class DateInput {
       .append('span')
       .classed('clear ion-ios-close-circle', true)
       .on('click', () => {
-        console.log('clear');
         picker.clear();
       });
 
