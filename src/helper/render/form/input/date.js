@@ -29,6 +29,7 @@ export default class DateInput {
       .append('span')
       .classed('clear ion-ios-close-circle', true)
       .on('click', () => {
+        console.log('clear');
         picker.clear();
       });
 
@@ -42,7 +43,7 @@ export default class DateInput {
       formatDate: () => {
         return input.property('value');
       },
-      onValueUpdate: ([date]) => {
+      onChange: ([date]) => {
         this._formatDate(datum, label, format, date && date.valueOf());
       }
     });

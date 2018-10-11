@@ -146,9 +146,9 @@ export default class ControlBuilder extends Builder {
       formatDate: () => {
         return beginInput.property('value');
       },
-      onValueUpdate: ([beginDate]) => {
-        if (beginDate) {
-          handlePicker(route, this._structure, beginDate, 'begin');
+      onChange: ([date]) => {
+        if (date) {
+          handlePicker(route, this._structure, date, 'begin');
         }
       }
     });
@@ -160,9 +160,9 @@ export default class ControlBuilder extends Builder {
       formatDate: () => {
         return endInput.property('value');
       },
-      onValueUpdate: ([endDate]) => {
-        if (endDate) {
-          handlePicker(route, this._structure, endDate, 'end');
+      onChange: ([date]) => {
+        if (date) {
+          handlePicker(route, this._structure, date, 'end');
         }
       }
     });
