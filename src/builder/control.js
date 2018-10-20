@@ -150,6 +150,11 @@ export default class ControlBuilder extends Builder {
         if (date) {
           handlePicker(route, this._structure, date, 'begin');
         }
+      },
+      onValueUpdate: ([date]) => {
+        if (date) {
+          handlePicker(route, this._structure, date, 'begin');
+        }
       }
     });
 
@@ -161,6 +166,11 @@ export default class ControlBuilder extends Builder {
         return endInput.property('value');
       },
       onChange: ([date]) => {
+        if (date) {
+          handlePicker(route, this._structure, date, 'end');
+        }
+      },
+      onValueUpdate: ([date]) => {
         if (date) {
           handlePicker(route, this._structure, date, 'end');
         }

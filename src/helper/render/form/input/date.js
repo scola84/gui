@@ -44,6 +44,9 @@ export default class DateInput {
       },
       onChange: ([date]) => {
         this._formatDate(datum, label, format, date && date.valueOf());
+      },
+      onValueUpdate: ([date]) => {
+        this._formatDate(datum, label, format, date && date.valueOf());
       }
     });
 
