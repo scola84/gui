@@ -1,6 +1,23 @@
 import { Router } from '@scola/worker';
 
 export default class StateRouter extends Router {
+  static parseHash(hash) {
+    return hash
+      .slice(2)
+      .split('/')
+      .filter((route) => route)
+      .reduce((routes, route) => {
+        route = StateRouter.parseRoute(route);
+
+        routes[route.name] = {
+          params: route.params,
+          path: route.path
+        };
+
+        return routes;
+      }, {});
+  }
+
   static parseRoute(string) {
     const [splitPath, splitName] = string.split('@');
     const [path, rawParams = ''] = splitPath.split(':');
@@ -54,7 +71,7 @@ export default class StateRouter extends Router {
   }
 
   act(route, data, callback) {
-    let hash = this._parseHash(window.location.hash);
+    let hash = StateRouter.parseHash(window.location.hash);
     [hash, route] = this._processHash(hash, route);
 
     history.replaceState({}, '', this._formatHash(hash));
@@ -62,7 +79,7 @@ export default class StateRouter extends Router {
   }
 
   stash() {
-    const hash = this._parseHash(window.location.hash);
+    const hash = StateRouter.parseHash(window.location.hash);
 
     if (hash[this._name]) {
       this._stash = hash[this._name];
@@ -101,27 +118,6 @@ export default class StateRouter extends Router {
   _loadHistory() {
     const history = sessionStorage.getItem('history-' + this._id);
     this._history = history === null ? [] : JSON.parse(history);
-  }
-
-  _parseHash(hash) {
-    return hash
-      .slice(2)
-      .split('/')
-      .filter((route) => route)
-      .reduce((routes, route) => {
-        return this._parseRoute(routes, route);
-      }, {});
-  }
-
-  _parseRoute(routes, route) {
-    route = StateRouter.parseRoute(route);
-
-    routes[route.name] = {
-      params: route.params,
-      path: route.path
-    };
-
-    return routes;
   }
 
   _processBackward(route) {
