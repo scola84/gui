@@ -16,15 +16,15 @@ export default class PopRouter extends StateRouter {
 
   act(route, data, callback) {
     if (route.path === null) {
-      this._close(route, data, callback);
+      this._close(route);
     } else {
-      this._open(route, data, callback);
+      this._open(route);
     }
 
     super.act(route, data, callback);
   }
 
-  _open(route, data, callback) {
+  _open(route) {
     select(route.node).on('click.pop', () => {
       event.stopPropagation();
     });
@@ -46,7 +46,7 @@ export default class PopRouter extends StateRouter {
         this.act({
           node: route.node,
           path: null
-        }, data, callback);
+        });
       })
       .transition()
       .style('opacity', 1);
