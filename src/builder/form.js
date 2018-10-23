@@ -1,6 +1,7 @@
 import { select } from 'd3';
 import ListBuilder from './list';
 import renderForm from '../helper/render/form';
+import renderMarkdown from '../helper/render/markdown';
 
 export default class FormBuilder extends ListBuilder {
   setRender(value = renderForm) {
@@ -65,12 +66,13 @@ export default class FormBuilder extends ListBuilder {
       .append('ul')
       .classed('body', true);
 
-    enter
+    const comment = enter
       .append('div')
-      .classed('comment', true)
-      .text((d, i, n) => {
-        return this.format(d, i, n, { data, name: 'comment', route });
-      });
+      .classed('comment', true);
+
+    renderMarkdown(comment, 'comment', (d, i, n, name) => {
+      return this.format(d, i, n, { data, name, route });
+    });
 
     list = list
       .merge(enter);
