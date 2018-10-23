@@ -74,7 +74,7 @@ button[tabindex="0"],
   cursor: pointer;
 }
 
-.app {
+body .app {
   display: flex;
   overflow: hidden;
   border-radius: 1em;
@@ -83,7 +83,7 @@ button[tabindex="0"],
   width: 64em;
 }
 
-.app > * {
+body .app > * {
   overflow: hidden;
 }
 
@@ -191,7 +191,7 @@ div.states:first-of-type {
 }
 
 @media (max-width: 64em), (max-height: 48em) {
-  .app {
+  body .app {
     border-radius: 0;
     height: 100%;
     padding: 0;

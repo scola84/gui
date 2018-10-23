@@ -108,7 +108,7 @@
 
 .block > .comment {
   color: darkgrey;
-  display: none;
+  display: flex;
   font-size: 0.9em;
   line-height: 1.5em;
 }
@@ -117,8 +117,20 @@
   padding: 0.75em 1em 0;
 }
 
-.block > .comment {
-  display: flex;
+.block > .comment * {
+  font-size: inherit;
+}
+
+.block > .comment a {
+  text-decoration: underline;
+}
+
+.block > .comment a:hover {
+  text-decoration: none;
+}
+
+.block > .comment p {
+  margin: 0;
 }
 
 .block > .title {
