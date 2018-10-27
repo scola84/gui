@@ -184,7 +184,7 @@
   background: lightgrey;
   color: dimgrey;
   min-height: 2.25em;
-  padding: 0.5em 1em;
+  padding: 0.5em;
   position: relative;
   z-index: 1;
 }
@@ -203,10 +203,6 @@
 .section > .panel.show-message > .body:not(.disabled) > .message {
   margin-bottom: 0;
   top: 0;
-}
-
-.section > .panel > .body > .message span {
-  line-height: 1.5em;
 }
 
 .section > .panel > .body.disabled > .message span {
