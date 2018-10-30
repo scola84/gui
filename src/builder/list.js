@@ -1,4 +1,4 @@
-import { select } from 'd3';
+import { event, select } from 'd3';
 import Builder from './builder';
 import renderList from '../helper/render/list';
 
@@ -162,7 +162,10 @@ export default class ListBuilder extends Builder {
 
     enter
       .append('ul')
-      .classed('body', true);
+      .classed('body', true)
+      .on('click', () => {
+        this._unwrapLabel(list);
+      });
 
     enter
       .append('div')
@@ -284,5 +287,15 @@ export default class ListBuilder extends Builder {
         return datum.fold ? select(nodes[index]).style('height') : null;
       });
     });
+  }
+
+  _unwrapLabel(list) {
+    const node = select(event.target);
+    const isUnwrappable = list.classed('unwrap') === true;
+    const isLabel = node.attr('class').match(/l[1-5]/) !== null;
+
+    if (isUnwrappable === true && isLabel === true) {
+      node.classed('unwrap', !node.classed('unwrap'));
+    }
   }
 }

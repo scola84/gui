@@ -264,7 +264,6 @@
   display: flex;
   margin-left: auto;
   overflow: hidden;
-  white-space: nowrap;
 }
 
 .block > .body > li .secondary .button,
@@ -273,6 +272,7 @@
   margin: 0 1em 0 0;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .block > .body > li .secondary .button {
@@ -312,6 +312,14 @@
 
 .block.list > .body li.secondary > .primary:not(:empty) {
   flex: 1 0 auto;
+}
+
+.block.unwrap > .body > li .primary .l0.unwrap,
+.block.unwrap > .body > li .primary .l1.unwrap,
+.block.unwrap > .body > li .primary .l2.unwrap,
+.block.unwrap > .body > li .primary .l3.unwrap,
+.block.unwrap > .body > li .secondary .l5.unwrap {
+  white-space: normal;
 }
 
 .menu .outset .block,
