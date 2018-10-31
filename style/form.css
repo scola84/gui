@@ -74,6 +74,10 @@ form .block > .body .input input[type=submit][disabled] {
   cursor: default;
 }
 
+form .block > .body .input select {
+  width: 100%;
+}
+
 form .block > .body .input .date {
   align-items: center;
   display: flex;
@@ -340,6 +344,10 @@ form .block.order > ul [draggable] span.drag span {
   form .block > .body .input input[tabindex="0"]:focus,
   form .block > .body .input textarea[tabindex="0"]:focus {
     outline: 1px dotted black;
+  }
+
+  form .block > .body .input select {
+    width: initial;
   }
 
   form .block > .body .input .primary + .checkbox input + label:focus:after {
