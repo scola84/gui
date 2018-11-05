@@ -292,7 +292,7 @@ export default class ListBuilder extends Builder {
   _unwrapLabel(list) {
     const node = select(event.target);
     const isUnwrappable = list.classed('unwrap') === true;
-    const isLabel = node.attr('class').match(/l[1-5]/) !== null;
+    const isLabel = (node.attr('class') || '').match(/l[1-5]/) !== null;
 
     if (isUnwrappable === true && isLabel === true) {
       node.classed('unwrap', !node.classed('unwrap'));
