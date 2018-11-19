@@ -133,6 +133,7 @@ export default class StateRouter extends Router {
     const previous = this._history.pop();
 
     if (current.remember || previous.remember) {
+      route.name = this._name;
       route.path = previous.path;
       route.params = previous.params;
       route.remember = previous.remember;
@@ -180,6 +181,7 @@ export default class StateRouter extends Router {
     }
 
     if (typeof hash[this._name] !== 'undefined') {
+      route.name = this._name;
       route.path = hash[this._name].path;
       route.params = hash[this._name].params;
     }
