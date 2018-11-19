@@ -9,12 +9,12 @@ export default function setupMenu() {
 
   body.on('click.scola-gui-menu', () => {
     if (select(event.target).classed('show-menu')) {
-      select('.menu')
+      select('.section.menu')
         .classed('over', true)
         .on('touchstart', () => event.stopPropagation())
         .on('click', () => event.stopPropagation());
     } else {
-      select('.menu.over')
+      select('.section.menu.over')
         .classed('over', false)
         .on('touchstart', null)
         .on('click', null);
