@@ -322,29 +322,29 @@
   white-space: normal;
 }
 
-.menu .outset .block,
-.menu .outset-x .block {
+.section.menu .outset .block,
+.section.menu .outset-x .block {
   margin-left: 0;
   margin-right: 0;
 }
 
-.menu .outset .block > .title,
-.menu .outset-y .block > .title {
+.section.menu .outset .block > .title,
+.section.menu .outset-y .block > .title {
   margin-bottom: 0;
   margin-top: 0;
 }
 
-.menu .outset .block > .body > li:first-of-type,
-.menu .outset .block > .body > li:last-of-type,
-.menu .outset-x .block > .body > li:first-of-type,
-.menu .outset-x .block > .body > li:last-of-type,
-.menu .outset-y .block > .body > li:first-of-type,
-.menu .outset-y .block > .body > li:last-of-type {
+.section.menu .outset .block > .body > li:first-of-type,
+.section.menu .outset .block > .body > li:last-of-type,
+.section.menu .outset-x .block > .body > li:first-of-type,
+.section.menu .outset-x .block > .body > li:last-of-type,
+.section.menu .outset-y .block > .body > li:first-of-type,
+.section.menu .outset-y .block > .body > li:last-of-type {
   border-radius: 0;
 }
 
-.menu .outset-x .block > .body,
-.menu .outset-x .block > .title {
+.section.menu .outset-x .block > .body,
+.section.menu .outset-x .block > .title {
   border-bottom-style: solid;
 }
 
@@ -439,8 +439,8 @@
     border-bottom-style: solid;
   }
 
-  .menu .outset .block > .body,
-  .menu .outset .block > .title {
+  .section.menu .outset .block > .body,
+  .section.menu .outset .block > .title {
     border: none;
   }
 }

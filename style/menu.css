@@ -1,4 +1,4 @@
-.menu {
+.section.menu {
   background: whitesmoke;
   border-right: 1px solid lightgrey;
   height: 100%;
@@ -7,30 +7,42 @@
   z-index: 3;
 }
 
-*[dir=rtl] .menu {
+.section.menu + .section.menu {
+  display: none;
+}
+
+.outset-x .section.menu + .section.menu {
+  display: initial;
+}
+
+* + .section.menu {
+  border-left: 1px solid lightgrey;
+}
+
+*[dir=rtl] .section.menu {
   border-left: 1px solid lightgrey;
   border-right: 0;
 }
 
 @media (max-width: 48em) {
-  .menu {
+  .section.menu {
     left: -100%;
     max-width: 85%;
     position: absolute;
     transition: left 0.25s;
   }
 
-  .menu.over {
+  .section.menu.over {
     left: 0;
   }
 
-  *[dir=rtl] .menu {
+  *[dir=rtl] .section.menu {
     left: 0;
     right: -100%;
     transition: right 0.25s;
   }
 
-  *[dir=rtl] .menu.over {
+  *[dir=rtl] .section.menu.over {
     right: 0;
   }
 }
@@ -42,7 +54,7 @@
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-  .menu {
+  .section.menu {
     border-width: 0.5px;
   }
 }
