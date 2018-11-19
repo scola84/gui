@@ -114,7 +114,7 @@ export default class PanelBuilder extends GraphicWorker {
       .duration(this._duration)
       .style(property, newEnd)
       .on('end', () => {
-        panel.style(property, null)
+        panel.style(property, null);
         this._base.classed('busy', false);
       });
 
