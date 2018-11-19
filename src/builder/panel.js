@@ -73,7 +73,7 @@ export default class PanelBuilder extends GraphicWorker {
 
     const panel = this._base
       .append('div')
-      .classed('panel', true)
+      .classed('panel header', true)
       .style(property, newBegin);
 
     const body = panel
