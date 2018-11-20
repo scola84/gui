@@ -55,7 +55,7 @@ export default class PopRouter extends StateRouter {
       .select('.dialog')
       .transition()
       .duration(route.move === false ? 0 : 250)
-      .style('top', 0);
+      .style('top', '0px');
   }
 
   _close(route) {
