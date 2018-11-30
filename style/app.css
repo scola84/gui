@@ -161,7 +161,7 @@ div.states span {
 }
 
 .state.top div.states span {
-  margin-bottom: 0 0 0.35em;
+  margin-bottom: 0.35em;
 }
 
 *[dir=rtl] div.states:first-of-type,
