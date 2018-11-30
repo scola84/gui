@@ -123,6 +123,7 @@ export default class PanelBuilder extends GraphicWorker {
 
     route.reload = (options) => {
       Object.assign(route, {
+        fwd: false,
         ltr: null,
         rtl: null
       }, options);

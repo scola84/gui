@@ -186,7 +186,9 @@ export default class StateRouter extends Router {
       route.params = hash[this._name].params;
     }
 
-    route = this._processForward(route);
+    if (route.fwd !== false) {
+      route = this._processForward(route);
+    }
 
     return [hash, route];
   }
