@@ -1,6 +1,6 @@
 .section.main {
   background: whitesmoke;
-  flex: 1;
+  flex: 1 1 auto;
   height: 100%;
   position: relative;
 }

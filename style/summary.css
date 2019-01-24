@@ -6,7 +6,7 @@
 
 .summary .details {
   display: flex;
-  flex: 1;
+  flex: 1 1 auto;
   flex-direction: column;
   overflow: hidden;
 }
@@ -204,7 +204,7 @@
   }
 
   .summary .secondary {
-    flex: 1;
+    flex: 1 1 auto;
   }
 
   .summary .primary:not(:empty) + .secondary {

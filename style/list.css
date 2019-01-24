@@ -287,7 +287,7 @@
 
 .block > .body > li .secondary .l5 {
   color: darkgrey;
-  flex: 1;
+  flex: 1 1 auto;
 }
 
 .block > .body > li.disabled > .secondary .icon {
@@ -295,7 +295,7 @@
 }
 
 .block.file .body > li .primary:not(:empty) {
-  flex: 1;
+  flex: 1 1 auto;
 }
 
 .block.file .body > li .primary:not(:empty) .l1 {
@@ -307,7 +307,7 @@
 }
 
 .block.list > .body > li .primary:not(:empty) {
-  flex: 1;
+  flex: 1 1 auto;
 }
 
 .block.list > .body li.secondary > .primary:not(:empty) {

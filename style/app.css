@@ -111,10 +111,6 @@ body .app > * {
   border-color: transparent !important;
 }
 
-.ion-ios-log-out-outline:before {
-  font-size: 1.5em !important;
-}
-
 .ion-ios-search-outline:before {
   font-size: 1.5em !important;
 }

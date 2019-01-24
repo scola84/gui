@@ -10,7 +10,7 @@ ul.tab {
 
 ul.tab li {
   cursor: pointer;
-  flex: 1;
+  flex: 1 1 auto;
   padding: 0.25em;
   text-align: center;
 }

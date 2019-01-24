@@ -1,11 +1,6 @@
 _:-ms-fullscreen,
-:root .section > .panel.header > .body {
+:root .section > .panel > .body {
   padding-top: 2px;
-}
-
-_:-ms-fullscreen,
-:root .section > .panel.footer > .body {
-  padding-bottom: 2px;
 }
 
 _:-ms-fullscreen,

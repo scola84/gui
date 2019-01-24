@@ -238,7 +238,7 @@
 
 .section > .panel > .body > .search div {
   display: flex;
-  flex: 1;
+  flex: 1 1 auto;
 }
 
 .section > .panel > .body > .search div:before {
@@ -254,7 +254,7 @@
   background: lightgrey;
   border: 0;
   border-radius: 0.5em;
-  flex: 1;
+  flex: 1 1 auto;
   margin: 0 1em 0.75em;
   padding: 0.5em 0.5em 0.5em 2em;
 }
