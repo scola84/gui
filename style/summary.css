@@ -61,7 +61,7 @@
 }
 
 .summary .primary:not(:empty) + .secondary .title {
-  flex: 1;
+  flex: 1 1 auto;
 }
 
 .summary .secondary .title .l0:not(:empty) {
