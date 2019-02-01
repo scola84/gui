@@ -5,7 +5,7 @@ export default function renderBack(route, { icon, left, text }, handler) {
     .attr('type', 'button')
     .classed('button left', true);
 
-  if (route.remember === true) {
+  if (route.remember === true || route.history === true) {
     button
       .classed('icon flip ion-ios-arrow-back', icon)
       .text(text)
