@@ -164,7 +164,6 @@ export default class StateRouter extends Router {
     route = this._processHistory(route);
     route = this._processBackward(route);
 
-    console.log(route.history);
     if (typeof route.path !== 'undefined') {
       if (route.path === null) {
         delete hash[this._name];
@@ -194,8 +193,6 @@ export default class StateRouter extends Router {
     if (route.fwd !== false) {
       route = this._processForward(route);
     }
-
-    console.log(route.history);
 
     return [hash, route];
   }
