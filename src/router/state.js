@@ -2,20 +2,24 @@ import { Router } from '@scola/worker';
 
 export default class StateRouter extends Router {
   static parseHash(hash) {
-    return hash
+    hash = hash
       .slice(2)
       .split('/')
-      .filter((route) => route)
-      .reduce((routes, route) => {
-        route = StateRouter.parseRoute(route);
+      .filter((route) => route);
 
-        routes[route.name] = {
-          params: route.params,
-          path: route.path
-        };
+    const routes = {};
+    let route = null;
 
-        return routes;
-      }, {});
+    for (let i = 0; i < hash.length; i += 1) {
+      route = StateRouter.parseRoute(hash[i]);
+
+      routes[route.name] = {
+        params: route.params,
+        path: route.path
+      };
+    }
+
+    return routes;
   }
 
   static parseRoute(string) {
@@ -89,9 +93,9 @@ export default class StateRouter extends Router {
   }
 
   unstash() {
-    const hash = this._stash;
+    const route = this._stash;
     this._stash = null;
-    return hash;
+    return route;
   }
 
   _formatHash(hash) {
@@ -160,6 +164,7 @@ export default class StateRouter extends Router {
     route = this._processHistory(route);
     route = this._processBackward(route);
 
+    console.log(route.history);
     if (typeof route.path !== 'undefined') {
       if (route.path === null) {
         delete hash[this._name];
@@ -189,6 +194,8 @@ export default class StateRouter extends Router {
     if (route.fwd !== false) {
       route = this._processForward(route);
     }
+
+    console.log(route.history);
 
     return [hash, route];
   }
