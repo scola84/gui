@@ -72,7 +72,7 @@ export default class ControlBuilder extends Builder {
           .valueOf();
       }
 
-      if (event.detail === 'day') {
+      if (event.detail === this._structure.level) {
         delete meta.level;
       } else {
         meta.level = event.detail;
