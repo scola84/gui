@@ -4,6 +4,9 @@ export default function bindOrder(route) {
   const content = select(route.node)
     .select('.content');
 
+  const form = content
+    .select('form');
+
   let drag = null;
 
   content.on('mousedown', () => {
@@ -11,6 +14,8 @@ export default function bindOrder(route) {
   });
 
   content.on('dragstart', () => {
+    form.classed('dragging', true);
+
     if (select(drag).classed('handle') === false) {
       event.preventDefault();
     } else {
@@ -23,6 +28,8 @@ export default function bindOrder(route) {
   });
 
   content.on('drop', () => {
+    form.classed('dragging', false);
+
     const from = drag.closest('li');
     const to = event.target.closest('li');
 

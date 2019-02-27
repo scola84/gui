@@ -15,6 +15,15 @@ form .block.order.ungrouped {
   position: sticky;
 }
 
+form.dragging .block.order.ungrouped:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 form .block.order.ungrouped > ul {
   background: lightgrey;
   margin: 0 -1em;
