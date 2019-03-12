@@ -23,7 +23,7 @@ export default class ControlBuilder extends Builder {
     this.pass(route, data, callback);
   }
 
-  _createControl(route, data) {
+  _createControl(route, data, structure) {
     const panel = select(route.node);
 
     const number = panel
@@ -32,9 +32,9 @@ export default class ControlBuilder extends Builder {
 
     const control = panel
       .select('#' + this._createTarget('control', number))
-      .classed('connect', this._structure.connect)
+      .classed('connect', structure.connect)
       .append('div')
-      .datum(this._structure)
+      .datum(structure)
       .attr('class', (datum) => datum.name)
       .classed('block', true);
 
@@ -53,7 +53,7 @@ export default class ControlBuilder extends Builder {
       .append('div')
       .classed('level', true);
 
-    const levels = this._structure.levels;
+    const levels = structure.levels;
 
     const tab = renderTab(level, levels, {
       format: (datum, index, nodes, value) => {
@@ -62,7 +62,7 @@ export default class ControlBuilder extends Builder {
     });
 
     tab.on('change', () => {
-      const meta = route.control[this._structure.name].meta;
+      const meta = route.control[structure.name].meta;
 
       if (meta.date.end > Date.now()) {
         meta.date.end = DateTime
@@ -72,13 +72,13 @@ export default class ControlBuilder extends Builder {
           .valueOf();
       }
 
-      if (event.detail === this._structure.level) {
+      if (event.detail === structure.level) {
         delete meta.level;
       } else {
         meta.level = event.detail;
       }
 
-      handleLevel(route, this._structure);
+      handleLevel(route, structure);
     });
 
     const date = body
@@ -90,7 +90,7 @@ export default class ControlBuilder extends Builder {
       .classed('icon prev ion-ios-arrow-back', true)
       .attr('tabindex', 0)
       .on('click', () => {
-        handleArrow(route, this._structure, 'prev');
+        handleArrow(route, structure, 'prev');
       });
 
     const title = date
@@ -102,15 +102,15 @@ export default class ControlBuilder extends Builder {
       .classed('icon next ion-ios-arrow-forward', true)
       .attr('tabindex', 0)
       .on('click', () => {
-        handleArrow(route, this._structure, 'next');
+        handleArrow(route, structure, 'next');
       });
 
-    this._createTitle(route, panel, title);
+    this._createTitle(route, panel, structure, title);
 
     return control;
   }
 
-  _createTitle(route, panel, title) {
+  _createTitle(route, panel, structure, title) {
     const begin = title
       .append('div')
       .classed('begin', true);
@@ -148,12 +148,12 @@ export default class ControlBuilder extends Builder {
       },
       onChange: ([date]) => {
         if (date) {
-          handlePicker(route, this._structure, date, 'begin');
+          handlePicker(route, structure, date, 'begin');
         }
       },
       onValueUpdate: ([date]) => {
         if (date) {
-          handlePicker(route, this._structure, date, 'begin');
+          handlePicker(route, structure, date, 'begin');
         }
       }
     });
@@ -167,12 +167,12 @@ export default class ControlBuilder extends Builder {
       },
       onChange: ([date]) => {
         if (date) {
-          handlePicker(route, this._structure, date, 'end');
+          handlePicker(route, structure, date, 'end');
         }
       },
       onValueUpdate: ([date]) => {
         if (date) {
-          handlePicker(route, this._structure, date, 'end');
+          handlePicker(route, structure, date, 'end');
         }
       }
     });
@@ -193,7 +193,7 @@ export default class ControlBuilder extends Builder {
         event.stopPropagation();
       })
       .on('click', () => {
-        const meta = route.control[this._structure.name].meta;
+        const meta = route.control[structure.name].meta;
         const date = DateTime.fromMillis(meta.date.begin).setZone('local');
 
         beginPicker.setDate(date.valueOf() - (date.offset * 60 * 1000));
@@ -211,7 +211,7 @@ export default class ControlBuilder extends Builder {
         event.stopPropagation();
       })
       .on('click', () => {
-        const meta = route.control[this._structure.name].meta;
+        const meta = route.control[structure.name].meta;
         const date = DateTime.fromMillis(meta.date.end).setZone('local');
 
         endPicker.setDate(date.valueOf() - (date.offset * 60 * 1000));
@@ -226,15 +226,21 @@ export default class ControlBuilder extends Builder {
     });
   }
 
-  _finishControl(route) {
+  _finishControl(route, data) {
+    data = this.filter(route, data);
+
+    const structure = typeof this._structure === 'function' ?
+      this._structure(route, data) :
+      this._structure;
+
     const panel = select(route.node);
 
-    this._formatLevel(route, panel);
-    this._formatDate(route, panel);
+    this._formatLevel(route, panel, structure);
+    this._formatDate(route, panel, structure);
   }
 
-  _formatDate(route, panel) {
-    const control = route.control[this._structure.name];
+  _formatDate(route, panel, structure) {
+    const control = route.control[structure.name];
 
     const beginLabel = panel.select('.date .begin label');
     const endLabel = panel.select('.date .end label');
@@ -261,12 +267,22 @@ export default class ControlBuilder extends Builder {
     }, control.meta.date.end, 'UTC'));
   }
 
-  _formatLevel(route, panel) {
-    const control = route.control[this._structure.name];
+  _formatLevel(route, panel, structure) {
+    const control = route.control[structure.name];
+
+    const has = control.structure.levels
+      .map((level) => 'has-' + level)
+      .join(' ');
+
+    const unset = control.structure.levels
+      .join(' ');
+
+    const set = control.meta.level;
 
     control.node
-      .classed(control.structure.levels.join(' '), false)
-      .classed(control.meta.level, true);
+      .classed(unset, false)
+      .classed(has, true)
+      .classed(set, true);
 
     panel
       .selectAll('.tab li')
@@ -278,6 +294,12 @@ export default class ControlBuilder extends Builder {
   }
 
   _prepareControl(route, data, callback) {
+    data = this.filter(route, data);
+
+    const structure = typeof this._structure === 'function' ?
+      this._structure(route, data) :
+      this._structure;
+
     const panel = select(route.node);
 
     const target = panel
@@ -298,17 +320,17 @@ export default class ControlBuilder extends Builder {
       .classed('control', true);
 
     route.control = route.control || {};
-    route.control[this._structure.name] = { meta: {} };
+    route.control[structure.name] = { meta: {} };
 
-    route.control[this._structure.name].node = node;
-    route.control[this._structure.name].structure = this._structure;
+    route.control[structure.name].node = node;
+    route.control[structure.name].structure = structure;
 
-    handleLevel(route, this._structure);
+    handleLevel(route, structure);
 
-    route.control[this._structure.name].reload = () => {
+    route.control[structure.name].reload = () => {
       this.pass(route, data, callback);
     };
 
-    this._createControl(route, data);
+    this._createControl(route, data, structure);
   }
 }
