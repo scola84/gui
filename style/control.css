@@ -29,6 +29,9 @@
 
 .control .date {
   display: flex;
+}
+
+.control .level:not(:empty) + .date {
   margin: 0.75em 0 -0.25em;
 }
 

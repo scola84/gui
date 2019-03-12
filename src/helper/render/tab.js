@@ -5,6 +5,10 @@ export default function renderTab(node, items, options = {}) {
     .append('ul')
     .classed('tab', true);
 
+  if (items.length === 0) {
+    tab.remove();
+  }
+
   let item = null;
 
   for (let i = 0; i < items.length; i += 1) {

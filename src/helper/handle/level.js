@@ -16,7 +16,8 @@ export default function handleLevel(route, structure, datum) {
   let level = null;
 
   if (typeof meta.level === 'undefined') {
-    level = structure.levels[structure.levels.indexOf(structure.level)];
+    level = structure.levels[structure.levels.indexOf(structure.level)] ||
+      structure.level;
     end = DateTime.utc().setZone('local').endOf('day');
   } else {
     level = meta.level;
