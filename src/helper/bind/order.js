@@ -174,6 +174,8 @@ export default function bindOrder(route) {
       } else {
         node.appendChild(from);
       }
+
+      reset(fromList);
     }
   }
 
@@ -203,12 +205,13 @@ export default function bindOrder(route) {
     }
   }
 
-  function reset(list, node, datum) {
+  function reset(list, node = null, datum = null) {
     list
       .selectAll('span.number:not(:empty)')
       .text((d, i) => i + 1);
 
-    select(node)
-      .datum(datum);
+    if (node && datum) {
+      select(node).datum(datum);
+    }
   }
 }
