@@ -9,9 +9,9 @@
   "jsnext:main": "./index.js",
   "dependencies": {
     "@scola/d3-string-format": "^1.6.7",
-    "@scola/http": "^5.9.5",
-    "@scola/worker": "^2.14.2",
-    "d3": "^5.9.1",
+    "@scola/http": "^5.9.6",
+    "@scola/worker": "^2.14.3",
+    "d3": "^5.9.2",
     "element-resize-detector": "^1.1.15",
     "file-saver": "^2.0.1",
     "flatpickr": "^4.5.7",
