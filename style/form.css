@@ -338,12 +338,6 @@ form .block.order > ul [draggable] span.drag span {
 }
 
 @media not all and (max-width: 64em) {
-  form .block.order.ungrouped {
-    margin-left: 0;
-    margin-right: 0;
-    padding: 0 1em;
-  }
-
   form .block > .body .input .checkbox:first-child input + label:focus:before {
     border: 1px dotted black;
   }
