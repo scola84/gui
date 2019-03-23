@@ -3,8 +3,13 @@ import { DateTime } from 'luxon';
 export default function handleArrow(route, structure, direction) {
   const meta = route.control[structure.name].meta;
 
-  let begin = DateTime.fromMillis(meta.date.begin);
-  let end = DateTime.fromMillis(meta.date.end);
+  let begin = DateTime.fromMillis(meta.date.begin, {
+    zone: 'UTC'
+  });
+
+  let end = DateTime.fromMillis(meta.date.end, {
+    zone: 'UTC'
+  });
 
   const [amount, level] = diff(begin, end);
 
@@ -19,9 +24,8 @@ export default function handleArrow(route, structure, direction) {
       [level]: amount
     })
     .minus({
-      day: 1
-    })
-    .endOf('day');
+      millisecond: 1
+    });
 
   meta.date.begin = begin.valueOf();
   meta.date.end = end.valueOf();
@@ -31,8 +35,7 @@ export default function handleArrow(route, structure, direction) {
 
 function diff(begin, end) {
   const diffEnd = end
-    .startOf('day')
-    .plus({ day: 1 });
+    .plus({ millisecond: 1 });
 
   const diffYear = diffEnd
     .diff(begin, 'year')

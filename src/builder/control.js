@@ -67,7 +67,6 @@ export default class ControlBuilder extends Builder {
       if (meta.date.end > Date.now()) {
         meta.date.end = DateTime
           .utc()
-          .setZone('local')
           .endOf('day')
           .valueOf();
       }
@@ -194,10 +193,15 @@ export default class ControlBuilder extends Builder {
       })
       .on('click', () => {
         const meta = route.control[structure.name].meta;
-        const date = DateTime.fromMillis(meta.date.begin).setZone('local');
 
-        beginPicker.setDate(date.valueOf() - (date.offset * 60 * 1000));
+        let date = DateTime
+          .fromMillis(meta.date.begin);
+
+        date = date.valueOf() - (date.offset * 60 * 1000);
+
+        beginPicker.setDate(date);
         beginPicker.toggle();
+
         endPicker.close();
       });
 
@@ -212,10 +216,15 @@ export default class ControlBuilder extends Builder {
       })
       .on('click', () => {
         const meta = route.control[structure.name].meta;
-        const date = DateTime.fromMillis(meta.date.end).setZone('local');
 
-        endPicker.setDate(date.valueOf() - (date.offset * 60 * 1000));
+        let date = DateTime
+          .fromMillis(meta.date.end);
+
+        date = date.valueOf() - (date.offset * 60 * 1000);
+
+        endPicker.setDate(date);
         endPicker.toggle();
+
         beginPicker.close();
       });
 

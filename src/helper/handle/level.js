@@ -11,41 +11,14 @@ export default function handleLevel(route, structure, datum) {
   const control = route.control[name];
   const meta = control.meta;
 
-  let begin = null;
-  let end = null;
-  let level = null;
+  const level = determineLevel(control, structure, meta, datum);
 
-  if (typeof meta.level === 'undefined') {
-    level = structure.levels[structure.levels.indexOf(structure.level)] ||
-      structure.level;
-    end = DateTime.utc().setZone('local').endOf('day');
-  } else {
-    level = meta.level;
-    end = DateTime.fromMillis(meta.date.end);
-
-    if (datum) {
-      level = levels[meta.level];
-
-      if (control.structure.levels.indexOf(level) === -1) {
-        return;
-      }
-
-      end = DateTime.fromMillis(datum.timestamp).endOf(levels[meta.level]);
-    }
+  if (level === null) {
+    return;
   }
 
-  if (end.valueOf() === end.endOf(level).valueOf()) {
-    begin = end.startOf(level);
-  } else {
-    begin = end
-      .minus({
-        [level]: 1
-      })
-      .plus({
-        day: 1
-      })
-      .startOf('day');
-  }
+  let end = determineEnd(control, structure, meta, datum);
+  let begin = determineBegin(level, end);
 
   begin = begin.valueOf() + (end.offset * 60 * 1000);
   end = end.valueOf() + (end.offset * 60 * 1000);
@@ -59,4 +32,55 @@ export default function handleLevel(route, structure, datum) {
   if (route.control[name].reload) {
     route.control[name].reload();
   }
+}
+
+function determineBegin(level, end) {
+  if (end.valueOf() === end.endOf(level).valueOf()) {
+    return end.startOf(level);
+  }
+
+  return end
+    .minus({
+      [level]: 1
+    })
+    .plus({
+      millisecond: 1
+    });
+}
+
+function determineEnd(control, structure, meta, datum = null) {
+  if (typeof meta.level === 'undefined') {
+    return DateTime
+      .utc()
+      .endOf('day');
+  }
+
+  if (datum === null) {
+    return DateTime.fromMillis(meta.date.end, {
+      zone: 'UTC'
+    });
+  }
+
+  return DateTime
+    .fromMillis(datum.timestamp)
+    .endOf(levels[meta.level]);
+}
+
+function determineLevel(control, structure, meta, datum = null) {
+  if (typeof meta.level === 'undefined') {
+    const index = structure.levels.indexOf(structure.level);
+    return structure.levels[index] || structure.level;
+  }
+
+  if (datum === null) {
+    return meta.level;
+  }
+
+  const level = levels[meta.level];
+
+  if (control.structure.levels.indexOf(level) === -1) {
+    return null;
+  }
+
+  return level;
 }

@@ -22,7 +22,6 @@ export default function handlePicker(route, structure, date, type) {
 function handleBegin(meta, beginDate) {
   beginDate = DateTime
     .fromJSDate(beginDate)
-    .setZone('local')
     .startOf('day');
 
   const range = ranges[meta.level];
@@ -46,7 +45,6 @@ function handleBegin(meta, beginDate) {
 function handleEnd(meta, endDate) {
   endDate = DateTime
     .fromJSDate(endDate)
-    .setZone('local')
     .endOf('day');
 
   const range = ranges[meta.level];
