@@ -56,13 +56,16 @@ function determineEnd(control, structure, meta, datum = null) {
   }
 
   if (datum === null) {
-    return DateTime.fromMillis(meta.date.end, {
-      zone: 'UTC'
-    });
+    return DateTime
+      .fromMillis(meta.date.end, {
+        zone: 'UTC'
+      });
   }
 
   return DateTime
-    .fromMillis(datum.timestamp)
+    .fromMillis(datum.timestamp, {
+      zone: 'UTC'
+    })
     .endOf(levels[meta.level]);
 }
 
