@@ -59,7 +59,8 @@ function determineEnd(control, structure, meta, datum = null) {
     return DateTime
       .fromMillis(meta.date.end, {
         zone: 'UTC'
-      });
+      })
+      .endOf(levels[meta.level]);
   }
 
   return DateTime
