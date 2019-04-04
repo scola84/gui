@@ -12,6 +12,8 @@ export default function handleLevel(route, structure, datum) {
   const control = route.control[name];
   const meta = control.meta;
 
+  loadMeta(meta, structure.global);
+
   const level = determineLevel(control, structure, meta, datum);
 
   if (level === null) {
@@ -29,6 +31,8 @@ export default function handleLevel(route, structure, datum) {
     begin,
     end
   });
+
+  saveMeta(control.meta, structure.global);
 
   if (route.control[name].reload) {
     route.control[name].reload();
@@ -72,20 +76,62 @@ function determineEnd(control, structure, meta, datum = null) {
 }
 
 function determineLevel(control, structure, meta, datum = null) {
-  if (typeof meta.level === 'undefined') {
-    const index = structure.levels.indexOf(structure.level);
-    return structure.levels[index] || structure.level;
+  const level = meta.level;
+
+  if (typeof level === 'undefined') {
+    return determineLevelDefault(structure);
   }
 
   if (datum === null) {
-    return meta.level;
+    return determineLevelCurrent(control, structure, level);
   }
 
-  const level = levels[meta.level];
+  return determineLevelNext(control, structure, level);
+}
+
+function determineLevelCurrent(control, structure, level) {
+  if (control.structure.levels.indexOf(level) === -1) {
+    return determineLevelDefault(structure);
+  }
+
+  return level;
+}
+
+function determineLevelDefault(structure) {
+  const index = structure.levels.indexOf(structure.level);
+  return structure.levels[index] || structure.level;
+}
+
+function determineLevelNext(control, structure, level) {
+  level = levels[level];
 
   if (control.structure.levels.indexOf(level) === -1) {
     return null;
   }
 
   return level;
+}
+
+function loadMeta(meta, globl = null) {
+  if (globl === null) {
+    return;
+  }
+
+  if (typeof meta.date !== 'undefined') {
+    return;
+  }
+
+  let local = localStorage.getItem(globl);
+  local = JSON.parse(local);
+
+  Object.assign(meta, local);
+}
+
+function saveMeta(meta, globl = null) {
+  if (globl === null) {
+    return;
+  }
+
+  meta = JSON.stringify(meta);
+  localStorage.setItem(globl, meta);
 }
