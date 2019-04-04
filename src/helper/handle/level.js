@@ -3,7 +3,8 @@ import { DateTime } from 'luxon';
 const levels = {
   year: 'month',
   month: 'day',
-  week: 'day'
+  week: 'day',
+  day: 'day'
 };
 
 export default function handleLevel(route, structure, datum) {
