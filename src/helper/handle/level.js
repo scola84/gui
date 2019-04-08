@@ -121,7 +121,7 @@ function loadMeta(meta, globl = null) {
     return;
   }
 
-  let local = localStorage.getItem(globl);
+  let local = sessionStorage.getItem(globl);
   local = JSON.parse(local);
 
   Object.assign(meta, local);
@@ -133,5 +133,5 @@ function saveMeta(meta, globl = null) {
   }
 
   meta = JSON.stringify(meta);
-  localStorage.setItem(globl, meta);
+  sessionStorage.setItem(globl, meta);
 }
