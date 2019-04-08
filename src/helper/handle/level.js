@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import { loadMeta, saveMeta } from './meta';
 
 const levels = {
   year: 'month',
@@ -32,7 +33,7 @@ export default function handleLevel(route, structure, datum) {
     end
   });
 
-  saveMeta(control.meta, structure.global);
+  saveMeta(meta, structure.global);
 
   if (route.control[name].reload) {
     route.control[name].reload();
@@ -110,28 +111,4 @@ function determineLevelNext(control, structure, level) {
   }
 
   return level;
-}
-
-function loadMeta(meta, globl = null) {
-  if (globl === null) {
-    return;
-  }
-
-  if (typeof meta.date !== 'undefined') {
-    return;
-  }
-
-  let local = sessionStorage.getItem(globl);
-  local = JSON.parse(local);
-
-  Object.assign(meta, local);
-}
-
-function saveMeta(meta, globl = null) {
-  if (globl === null) {
-    return;
-  }
-
-  meta = JSON.stringify(meta);
-  sessionStorage.setItem(globl, meta);
 }

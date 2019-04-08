@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import { saveMeta } from './meta';
 
 export default function handleArrow(route, structure, direction) {
   const meta = route.control[structure.name].meta;
@@ -29,6 +30,8 @@ export default function handleArrow(route, structure, direction) {
 
   meta.date.begin = begin.valueOf();
   meta.date.end = end.valueOf();
+
+  saveMeta(meta, structure.global);
 
   route.control[structure.name].reload();
 }
