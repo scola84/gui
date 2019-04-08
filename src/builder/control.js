@@ -63,20 +63,7 @@ export default class ControlBuilder extends Builder {
 
     tab.on('change', () => {
       const meta = route.control[structure.name].meta;
-
-      if (meta.date.end > Date.now()) {
-        meta.date.end = DateTime
-          .utc()
-          .endOf('day')
-          .valueOf();
-      }
-
-      if (event.detail === structure.level) {
-        delete meta.level;
-      } else {
-        meta.level = event.detail;
-      }
-
+      meta.level = event.detail;
       handleLevel(route, structure);
     });
 
