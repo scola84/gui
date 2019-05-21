@@ -1,15 +1,15 @@
 import { StateRouter } from '../worker';
 import Action from './action';
 
-export default class Router extends Action {
+export default class Route extends Action {
   render(box, data) {
-    this._list.forEach((route) => {
-      this._parse(box, data, route);
+    this._list.forEach((item) => {
+      this._parseRoute(box, data, item);
     });
   }
 
-  _parse(box, data, string) {
-    const current = StateRouter.parseRoute(string);
+  _parseRoute(box, data, item) {
+    const current = StateRouter.parseRoute(item);
     const [path, params] = current.path.split('?');
 
     if (typeof params !== 'undefined') {
@@ -26,12 +26,12 @@ export default class Router extends Action {
     current.path = path;
 
     if (params.length) {
-      this._pickParams(box, data, current, params);
+      const names = params.split(';');
+      current.params = this._pickParams(box, data, names);
     }
   }
 
-  _pickParams(box, data, current, params) {
-    const names = params.split(';');
+  _pickParams(box, data, names) {
     const picked = {};
 
     let sourceName = null;
@@ -45,6 +45,6 @@ export default class Router extends Action {
         data && data[sourceName] || sourceName;
     }
 
-    current.params = picked;
+    return picked;
   }
 }
