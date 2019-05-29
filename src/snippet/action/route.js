@@ -1,15 +1,15 @@
-import { StateRouter } from '../worker';
-import Action from './action';
+import { StateRouter } from '../../worker';
+import Action from '../action';
 
 export default class Route extends Action {
   render(box, data) {
-    this._list.forEach((item) => {
-      this._parseRoute(box, data, item);
-    });
+    for (let i = 0; i < this._list.length; i += 1) {
+      this._parseRoute(box, data, this._list[i]);
+    }
   }
 
-  _parseRoute(box, data, item) {
-    const current = StateRouter.parseRoute(item);
+  _parseRoute(box, data, string) {
+    const current = StateRouter.parseRoute(string);
     const [path, params] = current.path.split('?');
 
     if (typeof params !== 'undefined') {

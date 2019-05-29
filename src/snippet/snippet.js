@@ -1,7 +1,19 @@
 export default class Snippet {
   constructor(options = {}) {
+    this._builder = null;
     this._list = null;
+
+    this.setBuilder(options.builder);
     this.setList(options.list);
+  }
+
+  getBuilder() {
+    return this._builder;
+  }
+
+  setBuilder(value = null) {
+    this._builder = value;
+    return this;
   }
 
   getList() {
@@ -19,15 +31,19 @@ export default class Snippet {
   }
 
   remove() {
-    this._removeList(this._list);
+    this._removeList();
   }
 
-  _removeList(list) {
-    list.forEach((item) => {
-      if (typeof item.remove === 'function') {
-        item.remove();
+  _removeList() {
+    let snippet = null;
+
+    for (let i = 0; i < this._list.length; i += 1) {
+      snippet = this._list[i];
+
+      if (typeof snippet.remove === 'function') {
+        snippet.remove();
       }
-    });
+    }
   }
 
   _resolve(value, box, data) {

@@ -243,15 +243,21 @@ export default class StateRouter extends Router {
   }
 
   _saveHistory() {
-    const history = this._history.map((route) => {
-      return {
+    const history = [];
+    let route = null;
+
+    for (let i = 0; i < this._history.length; i += 1) {
+      route = this._history[i];
+
+      history[history.length] = {
         back: route.back,
         path: route.path,
         params: route.params,
         remember: route.remember
       };
-    });
+    }
 
-    sessionStorage.setItem('history-' + this._id, JSON.stringify(history));
+    sessionStorage.setItem('history-' + this._id,
+      JSON.stringify(history));
   }
 }

@@ -3,11 +3,16 @@
   "main": "dist/gui.js",
   "module": "src/index.js",
   "dependencies": {
-    "@scola/worker": "^2.15.0"
+    "@scola/worker": "^2.15.0",
+    "element-resize-detector": "^1.1.15",
+    "form-serialize": "^0.7.2",
+    "luxon": "^1.15.0",
+    "sprintf-js": "^1.1.2"
   },
   "devDependencies": {
     "rollup": "^1.12.3",
     "rollup-plugin-buble": "^0.19.6",
+    "rollup-plugin-css-only": "^1.0.0",
     "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-resolve": "^5.0.0"

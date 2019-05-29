@@ -1,19 +1,21 @@
 import Action from './action';
-import Click from './click';
-import Data from './data';
+import Input from './input';
 import Node from './node';
-import Obj from './obj';
-import Panel from './panel';
-import Route from './route';
 import Snippet from './snippet';
+
+import * as action from './action/';
+import * as input from './input/';
+import * as node from './node/';
 
 export {
   Action,
-  Click,
-  Data,
+  Input,
   Node,
-  Obj,
-  Panel,
-  Route,
   Snippet
+};
+
+export {
+  action,
+  input,
+  node
 };

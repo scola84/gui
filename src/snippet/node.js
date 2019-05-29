@@ -1,148 +1,262 @@
 import { select } from 'd3';
 import Snippet from './snippet';
 
-const states = {
-  attr: 2 ** 0,
-  classed: 2 ** 1,
-  html: 2 ** 2,
-  property: 2 ** 3,
-  style: 2 ** 4,
-  text: 2 ** 5,
-  list: 2 ** 6
-};
-
 export default class Node extends Snippet {
   constructor(options) {
     super(options);
 
-    this._attributes = null;
-    this._classed = null;
-    this._html = null;
-    this._properties = null;
-    this._styles = null;
-    this._text = null;
+    this._attributes = {};
+    this._classed = {};
+    this._html = {};
+    this._name = null;
+    this._node = null;
+    this._properties = {};
+    this._styles = {};
+    this._text = {};
 
     this.setAttributes(options.attributes);
     this.setClassed(options.classed);
     this.setHtml(options.html);
+    this.setName(options.name);
     this.setProperties(options.properties);
     this.setStyles(options.styles);
     this.setText(options.text);
+  }
 
-    this._node = select(document.createElement(options.name));
+  getAttributes() {
+    return this._attributes;
   }
 
   setAttributes(value = {}) {
-    this._attributes = value;
+    Object.assign(this._attributes, value);
     return this;
+  }
+
+  getClassed() {
+    return this._classed;
   }
 
   setClassed(value = {}) {
-    this._classed = value;
+    Object.assign(this._classed, value);
     return this;
+  }
+
+  getHtml() {
+    return this._html;
   }
 
   setHtml(value = null) {
-    this._html = value;
+    this._html = { html: value };
     return this;
+  }
+
+  getName() {
+    return this._name;
+  }
+
+  setName(value = 'div') {
+    this._name = value;
+    return this;
+  }
+
+  getNode() {
+    return this._node;
+  }
+
+  setNode(value = null) {
+    this._node = value;
+    return this;
+  }
+
+  getProperties() {
+    return this._properties;
   }
 
   setProperties(value = {}) {
-    this._properties = value;
+    Object.assign(this._properties, value);
     return this;
+  }
+
+  getStyles() {
+    return this._styles;
   }
 
   setStyles(value = {}) {
-    this._styles = value;
+    Object.assign(this._styles, value);
     return this;
+  }
+
+  getText() {
+    return this._text;
   }
 
   setText(value = null) {
-    this._text = value;
+    this._text = { text: value };
     return this;
+  }
+
+  attributes(value) {
+    return this.setAttributes(value);
+  }
+
+  class(value) {
+    return this.setClassed({
+      [value]: true
+    });
+  }
+
+  classed(value) {
+    return this.setClassed(value);
+  }
+
+  html(value) {
+    return this.setHtml(value);
+  }
+
+  id(value) {
+    return this.setAttributes({
+      id: value
+    });
   }
 
   node() {
-    return this._node;
+    return this.getNode();
   }
 
-  attributes(value = null) {
-    this._attributes = value;
-    return this;
+  properties(value) {
+    return this.setProperties(value);
   }
 
-  classed(value = null) {
-    this._classed = value;
-    return this;
+  styles(value) {
+    return this.setStyles(value);
   }
 
-  html(value = null) {
-    this._html = value;
-    return this;
+  text(value) {
+    return this.setText(value);
   }
 
-  properties(value = null) {
-    this._properties = value;
-    return this;
+  find(compare) {
+    let result = [];
+
+    if (compare(this) === true) {
+      result[result.length] = this;
+    }
+
+    for (let i = 0; i < this._list.length; i += 1) {
+      result = result.concat(this._list[i].find(compare));
+    }
+
+    return result;
   }
 
-  styles(value = null) {
-    this._styles = value;
-    return this;
+  query(query) {
+    return this._node.select(query).node().snippet;
   }
 
-  text(value = null) {
-    this._text = value;
-    return this;
+  queryAll(query) {
+    const all = [];
+
+    this._node.selectAll(query).each((d, i, n) => {
+      all[all.length] = n[i].snippet;
+    });
+
+    return all;
+  }
+
+  queryNext() {
+    const node = this._node.node();
+
+    if (node.nextSibling) {
+      return node.nextSibling.snippet;
+    }
+
+    return null;
+  }
+
+  queryPrevious() {
+    const node = this._node.node();
+
+    if (node.previousSibling) {
+      return node.previousSibling.snippet;
+    }
+
+    return null;
   }
 
   remove() {
-    super.remove();
     this._node.remove();
+    this._node.node().snippet = null;
+    this._node = null;
+
+    super.remove();
   }
 
   render(box, data) {
-    if ((this._state & states.list) > 0) {
-      this._removeList(this._list);
+    if (this._node === null) {
+      this._createNode();
     }
 
-    this._renderItems('attr', this._attributes, box, data);
-    this._renderItems('classed', this._classed, box, data);
-    this._renderItems('property', this._properties, box, data);
-    this._renderItems('style', this._styles, box, data);
-
-    this._renderItem('html', this._html, box, data);
-    this._renderItem('text', this._text, box, data);
-
-    this._renderList(this._list, box, data);
+    this._renderBefore(box, data);
+    this._renderNode(box, data);
+    this._renderList(box, data);
+    this._renderAfter(box, data);
 
     return this._node;
   }
 
-  _renderItem(name, value, box, data) {
-    this._node[name](this._resolve(value, box, data));
-    this._state |= states[name];
+  _createNode() {
+    this._node = select(
+      document.createElement(this._name)
+    );
+
+    this._node.node().snippet = this;
   }
 
-  _renderItems(name, values, box, data) {
+  _insertNode(node) {
+    this._node.insert(() => node);
+  }
+
+  _renderAfter() {}
+
+  _renderBefore() {}
+
+  _renderList(box, data) {
+    let snippets = null;
+
+    for (let i = 0; i < this._list.length; i += 1) {
+      snippets = this._list[i];
+      snippets = this._resolve(snippets, box, data);
+      snippets = Array.isArray(snippets) ? snippets : [snippets];
+
+      for (let j = 0; j < snippets.length; j += 1) {
+        this._insertNode(snippets[j].node());
+      }
+    }
+  }
+
+  _renderNode(box, data) {
+    this._set(box, data, this._attributes, 'attr');
+    this._set(box, data, this._classed, 'classed');
+    this._set(box, data, this._html);
+    this._set(box, data, this._properties, 'property');
+    this._set(box, data, this._styles, 'style');
+    this._set(box, data, this._text);
+  }
+
+  _set(box, data, values, name) {
     values = this._resolve(values, box, data);
 
-    Object.keys(values).forEach((key) => {
-      this._node[name](key, this._resolve(values[key], box, data));
-    });
+    const keys = Object.keys(values);
+    let key = null;
 
-    this._state |= states[name];
-  }
+    for (let i = 0; i < keys.length; i += 1) {
+      key = keys[i];
 
-  _renderList(list, box, data) {
-    list.forEach((item) => {
-      item = this._resolve(item, box, data);
-      item = Array.isArray(item) ? item : [item];
-      item.forEach((child) => this._node.insert(() => {
-        return child.node();
-      }));
-    });
-
-    this._state |= states.list;
+      if (name) {
+        this._node[name](key, this._resolve(values[key], box, data));
+      } else {
+        this._node[key](this._resolve(values[key], box, data));
+      }
+    }
   }
 }

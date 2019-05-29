@@ -1,10 +1,14 @@
 import {
   Action,
-  Click,
-  Data,
+  Input,
   Node,
-  Obj,
   Snippet
+} from './snippet';
+
+import {
+  action,
+  input,
+  node
 } from './snippet';
 
 import {
@@ -14,11 +18,15 @@ import {
 
 export {
   Action,
-  Click,
-  Data,
+  Input,
   Node,
-  Obj,
   Snippet
+};
+
+export {
+  action,
+  input,
+  node
 };
 
 export {

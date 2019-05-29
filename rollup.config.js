@@ -1,10 +1,11 @@
 import buble from 'rollup-plugin-buble';
 import commonjs from 'rollup-plugin-commonjs';
+import css from 'rollup-plugin-css-only';
 import json from 'rollup-plugin-json';
 import resolve from 'rollup-plugin-node-resolve';
 
 export default {
-  input: './src/index.js',
+  input: './index.js',
   external: [
     'async',
     'd3',
@@ -21,8 +22,13 @@ export default {
   },
   plugins: [
     resolve(),
+    css(),
     commonjs(),
     json(),
-    buble()
+    buble({
+      transforms: {
+        dangerousForOf: true
+      }
+    })
   ]
 };
