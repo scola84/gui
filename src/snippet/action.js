@@ -42,13 +42,13 @@ export default class Action extends Snippet {
 
   pass(box, data) {
     for (let i = 0; i < this._act.length; i += 1) {
-      this._resolve(this._act[i], box, data);
+      this._resolve(box, data, this._act[i]);
     }
   }
 
-  fail(box, data) {
+  fail(box, error) {
     for (let i = 0; i < this._err.length; i += 1) {
-      this._resolve(this._err[i], box, data);
+      this._resolve(box, error, this._err[i]);
     }
   }
 
@@ -60,9 +60,9 @@ export default class Action extends Snippet {
       snippet = this._list[i];
 
       result[result.length] = this._bindOn(
-        this._resolve(snippet, box, data),
         snippet,
         name,
+        snippet.render(box, data),
         callback
       );
     }
@@ -70,7 +70,7 @@ export default class Action extends Snippet {
     return result;
   }
 
-  _bindOn(node, snippet, name, callback) {
+  _bindOn(snippet, name, node, callback) {
     return node.on(name, () => {
       callback(snippet, event);
     });
@@ -82,9 +82,15 @@ export default class Action extends Snippet {
     for (let i = 0; i < this._list.length; i += 1) {
       snippet = this._list[i];
 
-      if (typeof snippet.node === 'function') {
-        snippet.node().on(name, null);
-      }
+      this._unbindOn(
+        snippet,
+        name,
+        snippet.node()
+      );
     }
+  }
+
+  _unbindOn(snippet, name, node) {
+    node.on(name, null);
   }
 }

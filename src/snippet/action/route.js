@@ -3,8 +3,11 @@ import Action from '../action';
 
 export default class Route extends Action {
   render(box, data) {
+    let string = null;
+
     for (let i = 0; i < this._list.length; i += 1) {
-      this._parseRoute(box, data, this._list[i]);
+      string = this._resolve(box, data, this._list[i]);
+      this._parseRoute(box, data, string);
     }
   }
 

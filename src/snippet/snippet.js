@@ -34,25 +34,21 @@ export default class Snippet {
     this._removeList();
   }
 
+  render() {}
+
   _removeList() {
-    let snippet = null;
-
     for (let i = 0; i < this._list.length; i += 1) {
-      snippet = this._list[i];
-
-      if (typeof snippet.remove === 'function') {
-        snippet.remove();
-      }
+      this._list[i].remove();
     }
   }
 
-  _resolve(value, box, data) {
+  _resolve(box, data, value) {
     if (value === null || typeof value === 'undefined') {
       return null;
     }
 
     if (typeof value === 'function') {
-      return this._resolve(value(box, data), box, data);
+      return this._resolve(box, data, value(box, data));
     }
 
     if (typeof value.render === 'function') {
@@ -60,5 +56,10 @@ export default class Snippet {
     }
 
     return value;
+  }
+
+  _resolveObject(box, data, object, name) {
+    object = this._resolve(box, data, object);
+    return this._resolve(box, data, object[name]);
   }
 }

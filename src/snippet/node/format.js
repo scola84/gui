@@ -24,13 +24,10 @@ export default class Format extends Node {
 
   render(box, data) {
     const result = [];
-    const values = this._resolve(this._list, box, data);
-
     let value = null;
 
-    for (let i = 0; i < values.length; i += 1) {
-      value = values[i];
-      value = this._resolve(value, box, data);
+    for (let i = 0; i < this._list.length; i += 1) {
+      value = this._resolve(box, data, this._list[i]);
 
       const [code, ...args] = Array.isArray(value) ?
         value : [value];

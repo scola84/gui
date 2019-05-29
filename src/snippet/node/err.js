@@ -45,7 +45,7 @@ export default class Err extends Node {
           datum.details
         ]).render(box, data);
       } else {
-        text = this._resolve(this._message, box, data);
+        text = this._resolve(box, data, this._message);
       }
     }
 

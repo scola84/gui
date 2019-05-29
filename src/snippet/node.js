@@ -28,8 +28,7 @@ export default class Node extends Snippet {
   }
 
   setAttributes(value = {}) {
-    Object.assign(this._attributes, value);
-    return this;
+    return this._setProperty('attributes', value);
   }
 
   getClassed() {
@@ -37,8 +36,7 @@ export default class Node extends Snippet {
   }
 
   setClassed(value = {}) {
-    Object.assign(this._classed, value);
-    return this;
+    return this._setProperty('classed', value);
   }
 
   getHtml() {
@@ -46,8 +44,7 @@ export default class Node extends Snippet {
   }
 
   setHtml(value = null) {
-    this._html = { html: value };
-    return this;
+    return this._setProperty('html', { html: value });
   }
 
   getName() {
@@ -73,8 +70,7 @@ export default class Node extends Snippet {
   }
 
   setProperties(value = {}) {
-    Object.assign(this._properties, value);
-    return this;
+    return this._setProperty('properties', value);
   }
 
   getStyles() {
@@ -82,8 +78,7 @@ export default class Node extends Snippet {
   }
 
   setStyles(value = {}) {
-    Object.assign(this._styles, value);
-    return this;
+    return this._setProperty('styles', value);
   }
 
   getText() {
@@ -91,18 +86,11 @@ export default class Node extends Snippet {
   }
 
   setText(value = null) {
-    this._text = { text: value };
-    return this;
+    return this._setProperty('text', { text: value });
   }
 
   attributes(value) {
     return this.setAttributes(value);
-  }
-
-  class(value) {
-    return this.setClassed({
-      [value]: true
-    });
   }
 
   classed(value) {
@@ -111,12 +99,6 @@ export default class Node extends Snippet {
 
   html(value) {
     return this.setHtml(value);
-  }
-
-  id(value) {
-    return this.setAttributes({
-      id: value
-    });
   }
 
   node() {
@@ -133,6 +115,18 @@ export default class Node extends Snippet {
 
   text(value) {
     return this.setText(value);
+  }
+
+  class(value) {
+    return this.setClassed({
+      [value]: true
+    });
+  }
+
+  id(value) {
+    return this.setAttributes({
+      id: value
+    });
   }
 
   find(compare) {
@@ -184,8 +178,8 @@ export default class Node extends Snippet {
   }
 
   remove() {
-    this._node.remove();
     this._node.node().snippet = null;
+    this._node.remove();
     this._node = null;
 
     super.remove();
@@ -225,7 +219,7 @@ export default class Node extends Snippet {
 
     for (let i = 0; i < this._list.length; i += 1) {
       snippets = this._list[i];
-      snippets = this._resolve(snippets, box, data);
+      snippets = this._resolve(box, data, snippets);
       snippets = Array.isArray(snippets) ? snippets : [snippets];
 
       for (let j = 0; j < snippets.length; j += 1) {
@@ -235,28 +229,44 @@ export default class Node extends Snippet {
   }
 
   _renderNode(box, data) {
-    this._set(box, data, this._attributes, 'attr');
-    this._set(box, data, this._classed, 'classed');
-    this._set(box, data, this._html);
-    this._set(box, data, this._properties, 'property');
-    this._set(box, data, this._styles, 'style');
-    this._set(box, data, this._text);
+    this._setNode(box, data, this._attributes, 'attr');
+    this._setNode(box, data, this._classed, 'classed');
+    this._setNode(box, data, this._html);
+    this._setNode(box, data, this._properties, 'property');
+    this._setNode(box, data, this._styles, 'style');
+    this._setNode(box, data, this._text);
   }
 
-  _set(box, data, values, name) {
-    values = this._resolve(values, box, data);
+  _setNode(box, data, values, name) {
+    values = this._resolve(box, data, values);
 
     const keys = Object.keys(values);
+
     let key = null;
+    let value = null;
 
     for (let i = 0; i < keys.length; i += 1) {
       key = keys[i];
+      value = this._resolve(box, data, values[key]);
 
       if (name) {
-        this._node[name](key, this._resolve(values[key], box, data));
+        this._node[name](key, value);
       } else {
-        this._node[key](this._resolve(values[key], box, data));
+        this._node[key](value);
       }
     }
+  }
+
+  _setProperty(name, value) {
+    if (
+      typeof value === 'function' ||
+      typeof this['_' + name] === 'function'
+    ) {
+      this['_' + name] = value;
+    } else {
+      Object.assign(this['_' + name], value);
+    }
+
+    return this;
   }
 }

@@ -1,13 +1,15 @@
 import Action from '../action';
 
 export default class Obj extends Action {
-  render(box, data, callback) {
+  render(box, data) {
     const values = [];
+    let value = null;
 
     for (let i = 0; i < this._list.length; i += 1) {
-      values[values.length] = this._resolve(this._list[i], box, data);
+      value = this._resolve(box, data, this._list[i]);
+      values[values.length] = value;
     }
 
-    callback(null, ...values);
+    this.pass(box, values);
   }
 }

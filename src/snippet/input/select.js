@@ -7,13 +7,22 @@ export default class Select extends Input {
   }
 
   _validate(box, data, result) {
-    const attributes = this._resolve(this._attributes, box, data);
-    const name = attributes.name;
+    const name = this._resolveObject(
+      box,
+      data,
+      this._attributes,
+      'name'
+    );
 
     const values = [];
 
     for (let i = 0; i < this._list.length; i += 1) {
-      values[values.length] = this._list[i].getAttributes().value;
+      values[values.length] = this._resolveObject(
+        box,
+        data,
+        this._list[i].getAttributes(),
+        'value'
+      );
     }
 
     let found = false;
