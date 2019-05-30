@@ -117,6 +117,10 @@ export default class StateRouter extends Router {
     return route;
   }
 
+  _createId() {
+    return 'history-' + this._id;
+  }
+
   _formatHash(hash) {
     return '#/' + Object
       .keys(hash)
@@ -139,7 +143,7 @@ export default class StateRouter extends Router {
   }
 
   _loadHistory() {
-    const history = sessionStorage.getItem('history-' + this._id);
+    const history = sessionStorage.getItem(this._createId());
     this._history = history === null ? [] : JSON.parse(history);
   }
 
@@ -257,7 +261,6 @@ export default class StateRouter extends Router {
       };
     }
 
-    sessionStorage.setItem('history-' + this._id,
-      JSON.stringify(history));
+    sessionStorage.setItem(this._createId(), JSON.stringify(history));
   }
 }
