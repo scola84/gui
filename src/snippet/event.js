@@ -12,7 +12,7 @@ export default class Event extends Action {
       result[result.length] = this._bindOn(
         snippet,
         name,
-        snippet.render(box, data),
+        snippet.resolve(box, data),
         callback
       );
     }

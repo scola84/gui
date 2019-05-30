@@ -26,7 +26,7 @@ export default class Err extends Node {
     return this;
   }
 
-  _renderAfter(box, data) {
+  _resolveAfter(box, data) {
     const previous = this.queryPrevious();
 
     if (previous === null) {
@@ -39,15 +39,15 @@ export default class Err extends Node {
     let text = null;
 
     if (datum instanceof Error) {
-      if (this._message === null) {
-        text = this._builder.format([
+      text = this._message !== null ?
+        this._message :
+        this._builder.format([
           datum.details.type,
           datum.details
-        ]).render(box, data);
-      } else {
-        text = this._resolve(box, data, this._message);
-      }
+        ]);
     }
+
+    text = this._resolve(box, data, text);
 
     this._node.text(text);
   }

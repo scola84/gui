@@ -57,7 +57,7 @@ export default class ViewBuilder extends Worker {
 
   act(box, data, callback) {
     box.base.insert(() => {
-      return this._view.render(box, data).node();
+      return this._view.resolve(box, data).node();
     });
 
     this.pass(box, data, callback);

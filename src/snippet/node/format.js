@@ -22,7 +22,7 @@ export default class Format extends Node {
     strings = value;
   }
 
-  render(box, data) {
+  resolve(box, data) {
     const result = [];
     let value = null;
 

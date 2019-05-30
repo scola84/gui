@@ -185,15 +185,15 @@ export default class Node extends Snippet {
     super.remove();
   }
 
-  render(box, data) {
+  resolve(box, data) {
     if (this._node === null) {
       this._createNode();
     }
 
-    this._renderBefore(box, data);
-    this._renderNode(box, data);
-    this._renderList(box, data);
-    this._renderAfter(box, data);
+    this._resolveBefore(box, data);
+    this._resolveNode(box, data);
+    this._resolveList(box, data);
+    this._resolveAfter(box, data);
 
     return this._node;
   }
@@ -210,11 +210,11 @@ export default class Node extends Snippet {
     this._node.insert(() => node);
   }
 
-  _renderAfter() {}
+  _resolveAfter() {}
 
-  _renderBefore() {}
+  _resolveBefore() {}
 
-  _renderList(box, data) {
+  _resolveList(box, data) {
     let snippets = null;
 
     for (let i = 0; i < this._list.length; i += 1) {
@@ -228,7 +228,7 @@ export default class Node extends Snippet {
     }
   }
 
-  _renderNode(box, data) {
+  _resolveNode(box, data) {
     this._setNode(box, data, this._attributes, 'attr');
     this._setNode(box, data, this._classed, 'classed');
     this._setNode(box, data, this._html);

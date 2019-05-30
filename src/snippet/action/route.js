@@ -2,7 +2,7 @@ import { StateRouter } from '../../worker';
 import Action from '../action';
 
 export default class Route extends Action {
-  render(box, data) {
+  resolve(box, data) {
     let string = null;
 
     for (let i = 0; i < this._list.length; i += 1) {

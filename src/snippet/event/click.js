@@ -1,7 +1,7 @@
 import Event from '../event';
 
 export default class Click extends Event {
-  render(box, data) {
+  resolve(box, data) {
     return this._bind(box, data, 'click', () => {
       this.pass(box, data);
     });

@@ -2,7 +2,7 @@ import series from 'async/series';
 import Action from '../action';
 
 export default class Series extends Action {
-  render(box, data) {
+  resolve(box, data) {
     const fn = [];
     let snippet = null;
 
@@ -30,7 +30,7 @@ export default class Series extends Action {
         callback(error);
       });
 
-      snippet.render(box, data);
+      snippet.resolve(box, data);
     };
   }
 }

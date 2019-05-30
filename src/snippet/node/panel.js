@@ -96,7 +96,7 @@ export default class Panel extends Node {
     return null;
   }
 
-  _renderAfter(box) {
+  _resolveAfter(box) {
     if (box.base.classed('busy') === true) {
       if (box.force !== true) {
         return;

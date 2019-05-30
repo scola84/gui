@@ -35,7 +35,7 @@ export default class Select extends Input {
       }
     }
 
-    if (found === true) {
+    if (found === false) {
       result[name] = data[name];
       return;
     }

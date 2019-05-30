@@ -1,7 +1,7 @@
 import Action from '../action';
 
 export default class Obj extends Action {
-  render(box, data) {
+  resolve(box, data) {
     const values = [];
     let value = null;
 

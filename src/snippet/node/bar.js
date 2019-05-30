@@ -26,7 +26,7 @@ export default class Bar extends Node {
     }));
   }
 
-  _renderBefore(box, data, node) {
+  _resolveBefore(box, data, node) {
     this._checkChild(0, 'left');
     this._checkChild(1, 'center');
     this._checkChild(2, 'right');

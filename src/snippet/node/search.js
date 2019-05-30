@@ -11,10 +11,10 @@ export default class Button extends Node {
       .setName('form');
   }
 
-  _renderAfter(box, data) {
+  _resolveAfter(box, data) {
     const placeholder = this._builder
       .format('search')
-      .render(box, data);
+      .resolve(box, data);
 
     this._node
       .append('div')

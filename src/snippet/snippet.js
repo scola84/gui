@@ -34,7 +34,7 @@ export default class Snippet {
     this._removeList();
   }
 
-  render() {}
+  resolve() {}
 
   _removeList() {
     for (let i = 0; i < this._list.length; i += 1) {
@@ -51,8 +51,8 @@ export default class Snippet {
       return this._resolve(box, data, value(box, data));
     }
 
-    if (typeof value.render === 'function') {
-      return value.render(box, data);
+    if (typeof value.resolve === 'function') {
+      return value.resolve(box, data);
     }
 
     return value;

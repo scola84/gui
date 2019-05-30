@@ -4,7 +4,7 @@ import { DateTime } from 'luxon';
 import Event from '../event';
 
 export default class Submit extends Event {
-  render(box, data) {
+  resolve(box, data) {
     return this._bind(box, data, 'submit', (form, event) => {
       event.preventDefault();
       this._submit(box, data, form);
@@ -45,7 +45,7 @@ export default class Submit extends Event {
     const snippets = form.queryAll('.error');
 
     for (let i = 0; i < snippets.length; i += 1) {
-      snippets[i].render(box, data);
+      snippets[i].resolve(box, data);
     }
   }
 
