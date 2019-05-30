@@ -7,7 +7,7 @@ export default class Select extends Input {
   }
 
   _validate(box, data, result) {
-    const name = this._resolveObject(
+    const name = this._resolveValue(
       box,
       data,
       this._attributes,
@@ -17,7 +17,7 @@ export default class Select extends Input {
     const values = [];
 
     for (let i = 0; i < this._list.length; i += 1) {
-      values[values.length] = this._resolveObject(
+      values[values.length] = this._resolveValue(
         box,
         data,
         this._list[i].getAttributes(),

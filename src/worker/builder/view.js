@@ -5,16 +5,11 @@ import * as token from '../../token';
 
 export default class ViewBuilder extends Worker {
   static attach() {
-    Object.keys(snippet.action).forEach((name) => {
-      ViewBuilder.attachFactory('action', name, snippet.action[name]);
-    });
-
-    Object.keys(snippet.input).forEach((name) => {
-      ViewBuilder.attachFactory('input', name, snippet.input[name]);
-    });
-
-    Object.keys(snippet.node).forEach((name) => {
-      ViewBuilder.attachFactory('node', name, snippet.node[name]);
+    Object.keys(snippet).forEach((group) => {
+      Object.keys(snippet[group]).forEach((name) => {
+        ViewBuilder.attachFactory('action',
+          name, snippet[group][name]);
+      });
     });
 
     token.cls.forEach((name) => {

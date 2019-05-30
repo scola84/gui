@@ -1,9 +1,9 @@
 import { select } from 'd3';
 import serializeForm from 'form-serialize';
 import { DateTime } from 'luxon';
-import Action from '../action';
+import Event from '../event';
 
-export default class Submit extends Action {
+export default class Submit extends Event {
   render(box, data) {
     return this._bind(box, data, 'submit', (form, event) => {
       event.preventDefault();

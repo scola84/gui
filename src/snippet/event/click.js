@@ -1,6 +1,6 @@
-import Action from '../action';
+import Event from '../event';
 
-export default class Click extends Action {
+export default class Click extends Event {
   render(box, data) {
     return this._bind(box, data, 'click', () => {
       this.pass(box, data);

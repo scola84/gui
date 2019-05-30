@@ -1,5 +1,6 @@
 import {
   Action,
+  Event,
   Input,
   Node,
   Snippet
@@ -7,6 +8,7 @@ import {
 
 import {
   action,
+  event,
   input,
   node
 } from './snippet';
@@ -18,6 +20,7 @@ import {
 
 export {
   Action,
+  Event,
   Input,
   Node,
   Snippet
@@ -25,6 +28,7 @@ export {
 
 export {
   action,
+  event,
   input,
   node
 };

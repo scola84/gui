@@ -58,7 +58,7 @@ export default class Snippet {
     return value;
   }
 
-  _resolveObject(box, data, object, name) {
+  _resolveValue(box, data, object, name) {
     object = this._resolve(box, data, object);
     return this._resolve(box, data, object[name]);
   }
