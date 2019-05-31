@@ -1,17 +1,12 @@
 import Node from '../node';
 
-export default class Button extends Node {
+export default class Search extends Node {
   constructor(options = {}) {
     super(options);
-
-    this
-      .setClassed({
-        search: true
-      })
-      .setName('form');
+    this.setName('form');
   }
 
-  _resolveAfter(box, data) {
+  after(box, data) {
     const placeholder = this._builder
       .format('search')
       .resolve(box, data);

@@ -5,7 +5,7 @@ export default class Footer extends Bar {
     super(options);
 
     this.setClassed({
-      footer: true
+      bar: true
     });
   }
 }

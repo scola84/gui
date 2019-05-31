@@ -1,11 +1,11 @@
 import get from 'lodash-es/get';
 import sprintf from 'sprintf-js';
-import Node from '../node';
+import Snippet from '../snippet';
 
 let locale = '';
 let strings = {};
 
-export default class Format extends Node {
+export default class Format extends Snippet {
   static getLocale() {
     return locale;
   }

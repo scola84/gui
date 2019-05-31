@@ -7,17 +7,23 @@ import resolve from 'rollup-plugin-node-resolve';
 export default {
   input: './index.js',
   external: [
+    '@scola/codec',
+    '@scola/http',
     'async',
     'd3',
     'node-schedule'
   ],
   output: {
+    extend: true,
     file: 'dist/gui.js',
-    name: 'scola',
     format: 'umd',
+    name: 'scola',
     globals: {
+      '@scola/codec': 'scola',
+      '@scola/http': 'scola',
       async: 'async',
-      d3: 'd3'
+      d3: 'd3',
+      'node-schedule': 'schedule'
     }
   },
   plugins: [

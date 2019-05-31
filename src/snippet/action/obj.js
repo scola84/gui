@@ -10,6 +10,6 @@ export default class Obj extends Action {
       values[values.length] = value;
     }
 
-    this.pass(box, values);
+    this.pass(box, values, true);
   }
 }

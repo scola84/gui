@@ -2,9 +2,9 @@ import Bar from './bar';
 import Button from './button';
 import Err from './err';
 import Footer from './footer';
-import Format from './format';
 import Header from './header';
 import Panel from './panel';
+import Progress from './progress';
 import Search from './search';
 
 export {
@@ -12,8 +12,8 @@ export {
   Button,
   Err,
   Footer,
-  Format,
   Header,
   Panel,
+  Progress,
   Search
 };

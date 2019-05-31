@@ -1,12 +1,12 @@
 import Node from '../node';
 
 export default class Bar extends Node {
-  constructor(options = {}) {
-    super(options);
+  before(box, data, node) {
+    this._checkChild(0, 'left');
+    this._checkChild(1, 'center');
+    this._checkChild(2, 'right');
 
-    this.setClassed({
-      bar: true
-    });
+    return node;
   }
 
   _checkChild(index, classed) {
@@ -24,13 +24,5 @@ export default class Bar extends Node {
         [classed]: true
       }
     }));
-  }
-
-  _resolveBefore(box, data, node) {
-    this._checkChild(0, 'left');
-    this._checkChild(1, 'center');
-    this._checkChild(2, 'right');
-
-    return node;
   }
 }

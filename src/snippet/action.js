@@ -39,9 +39,9 @@ export default class Action extends Snippet {
     return this;
   }
 
-  pass(box, data) {
+  pass(box, data, spread = false) {
     for (let i = 0; i < this._act.length; i += 1) {
-      this._resolve(box, data, this._act[i]);
+      this._resolve(box, spread ? data[i] : data, this._act[i]);
     }
   }
 

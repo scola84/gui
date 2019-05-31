@@ -1,5 +1,6 @@
 import { select } from 'd3';
 import Snippet from './snippet';
+import Query from './snippet/query';
 
 export default class Node extends Snippet {
   constructor(options) {
@@ -43,7 +44,7 @@ export default class Node extends Snippet {
     return this._html;
   }
 
-  setHtml(value = null) {
+  setHtml(value) {
     return this._setProperty('html', { html: value });
   }
 
@@ -85,7 +86,7 @@ export default class Node extends Snippet {
     return this._text;
   }
 
-  setText(value = null) {
+  setText(value) {
     return this._setProperty('text', { text: value });
   }
 
@@ -129,6 +130,41 @@ export default class Node extends Snippet {
     });
   }
 
+  after() {}
+
+  before() {}
+
+  create() {
+    this._node = select(
+      document.createElement(this._name)
+    );
+
+    this._node.node().snippet = this;
+  }
+
+  inner(box, data) {
+    let snippets = null;
+
+    for (let i = 0; i < this._list.length; i += 1) {
+      snippets = this._list[i];
+      snippets = this._resolve(box, data, snippets);
+      snippets = Array.isArray(snippets) ? snippets : [snippets];
+
+      for (let j = 0; j < snippets.length; j += 1) {
+        this._insertNode(snippets[j].node());
+      }
+    }
+  }
+
+  outer(box, data) {
+    this._setOuter(box, data, this._attributes, 'attr');
+    this._setOuter(box, data, this._classed, 'classed');
+    this._setOuter(box, data, this._html);
+    this._setOuter(box, data, this._properties, 'property');
+    this._setOuter(box, data, this._styles, 'style');
+    this._setOuter(box, data, this._text);
+  }
+
   find(compare) {
     let result = [];
 
@@ -144,37 +180,10 @@ export default class Node extends Snippet {
   }
 
   query(query) {
-    return this._node.select(query).node().snippet;
-  }
-
-  queryAll(query) {
-    const all = [];
-
-    this._node.selectAll(query).each((d, i, n) => {
-      all[all.length] = n[i].snippet;
+    return new Query({
+      list: [query],
+      node: this._node
     });
-
-    return all;
-  }
-
-  queryNext() {
-    const node = this._node.node();
-
-    if (node.nextSibling) {
-      return node.nextSibling.snippet;
-    }
-
-    return null;
-  }
-
-  queryPrevious() {
-    const node = this._node.node();
-
-    if (node.previousSibling) {
-      return node.previousSibling.snippet;
-    }
-
-    return null;
   }
 
   remove() {
@@ -187,72 +196,38 @@ export default class Node extends Snippet {
 
   resolve(box, data) {
     if (this._node === null) {
-      this._createNode();
+      this.create();
     }
 
-    this._resolveBefore(box, data);
-    this._resolveNode(box, data);
-    this._resolveList(box, data);
-    this._resolveAfter(box, data);
+    this.before(box, data);
+    this.outer(box, data);
+    this.inner(box, data);
+    this.after(box, data);
 
     return this._node;
-  }
-
-  _createNode() {
-    this._node = select(
-      document.createElement(this._name)
-    );
-
-    this._node.node().snippet = this;
   }
 
   _insertNode(node) {
     this._node.insert(() => node);
   }
 
-  _resolveAfter() {}
-
-  _resolveBefore() {}
-
-  _resolveList(box, data) {
-    let snippets = null;
-
-    for (let i = 0; i < this._list.length; i += 1) {
-      snippets = this._list[i];
-      snippets = this._resolve(box, data, snippets);
-      snippets = Array.isArray(snippets) ? snippets : [snippets];
-
-      for (let j = 0; j < snippets.length; j += 1) {
-        this._insertNode(snippets[j].node());
-      }
-    }
-  }
-
-  _resolveNode(box, data) {
-    this._setNode(box, data, this._attributes, 'attr');
-    this._setNode(box, data, this._classed, 'classed');
-    this._setNode(box, data, this._html);
-    this._setNode(box, data, this._properties, 'property');
-    this._setNode(box, data, this._styles, 'style');
-    this._setNode(box, data, this._text);
-  }
-
-  _setNode(box, data, values, name) {
+  _setOuter(box, data, values, name) {
     values = this._resolve(box, data, values);
 
     const keys = Object.keys(values);
-
     let key = null;
-    let value = null;
 
     for (let i = 0; i < keys.length; i += 1) {
       key = keys[i];
-      value = this._resolve(box, data, values[key]);
 
-      if (name) {
-        this._node[name](key, value);
-      } else {
-        this._node[key](value);
+      const value = this._resolve(box, data, values[key]);
+
+      if (typeof value !== 'undefined') {
+        if (name) {
+          this._node[name](key, value);
+        } else {
+          this._node[key](value);
+        }
       }
     }
   }

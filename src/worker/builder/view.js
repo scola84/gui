@@ -1,42 +1,9 @@
 import { Worker } from '@scola/worker';
-import camel from 'lodash-es/camelCase';
-import * as snippet from '../../snippet';
-import * as token from '../../token';
+import { attach } from '../../helper';
 
 export default class ViewBuilder extends Worker {
   static attach() {
-    Object.keys(snippet).forEach((group) => {
-      Object.keys(snippet[group]).forEach((name) => {
-        ViewBuilder.attachFactory('action',
-          name, snippet[group][name]);
-      });
-    });
-
-    token.cls.forEach((name) => {
-      ViewBuilder.attachFactory('cls', name, snippet.Node, {
-        classed: {
-          [name]: true
-        }
-      });
-    });
-
-    token.dom.forEach((name) => {
-      ViewBuilder.attachFactory('dom', name, snippet.Node, {
-        name
-      });
-    });
-  }
-
-  static attachFactory(prefix, name, object, options = {}) {
-    ViewBuilder.prototype[
-      camel(ViewBuilder.prototype[name] ?
-        `${prefix}-${name}` : name)
-    ] = function create(...list) {
-      return new object(Object.assign(options, {
-        builder: this,
-        list
-      }));
-    };
+    attach(ViewBuilder);
   }
 
   constructor(options = {}) {
@@ -63,15 +30,7 @@ export default class ViewBuilder extends Worker {
     this.pass(box, data, callback);
   }
 
-  query(query) {
-    return this._view.query(query);
-  }
-
-  queryAll(query) {
-    return this._view.queryAll(query);
-  }
-
-  render(view) {
+  resolve(view) {
     return this.setView(view);
   }
 }

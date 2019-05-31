@@ -1,7 +1,32 @@
 import parallel from 'async/parallel';
+import series from 'async/series';
 import Action from '../action';
 
-export default class Parallel extends Action {
+export default class Async extends Action {
+  constructor(options = {}) {
+    super(options);
+
+    this._handler = null;
+    this.setHandler(options.handler);
+  }
+
+  getHandler() {
+    return this._handler;
+  }
+
+  setHandler(value = parallel) {
+    this._handler = value;
+    return this;
+  }
+
+  parallel() {
+    return this.setHandler(parallel);
+  }
+
+  series() {
+    return this.setHandler(series);
+  }
+
   resolve(box, data) {
     const fn = [];
     let snippet = null;
@@ -11,11 +36,11 @@ export default class Parallel extends Action {
       fn[fn.length] = this._createFunction(box, data, snippet);
     }
 
-    parallel(fn, (error, results) => {
+    this._handler(fn, (error, results) => {
       if (error) {
         this.fail(box, error);
       } else {
-        this.pass(box, results);
+        this.pass(box, results, true);
       }
     });
   }

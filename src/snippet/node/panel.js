@@ -23,12 +23,61 @@ export default class Panel extends Node {
     transition = value;
   }
 
-  constructor(options = {}) {
-    super(options);
+  after(box) {
+    if (box.base.classed('busy') === true) {
+      if (box.force !== true) {
+        return;
+      }
+    }
 
-    this.setClassed({
-      panel: true
+    box.base.classed('busy', true);
+
+    const dir = select('html').attr('dir') || 'ltr';
+    const effect = this._createEffect(box);
+    const width = parseFloat(box.base.style('width'));
+
+    const {
+      property,
+      oldBegin,
+      oldEnd,
+      newBegin,
+      newEnd
+    } = this._calculate(effect, dir, width, box.factor);
+
+    const old = box.base
+      .select('.panel')
+      .style(property, oldBegin)
+      .dispatch('remove')
+      .transition()
+      .duration(duration)
+      .style(property, oldEnd)
+      .on('end', () => {
+        old.node().resizer.uninstall(old.node());
+        old.node().snippet.remove();
+      });
+
+    this._node
+      .style(property, newBegin)
+      .transition()
+      .duration(duration)
+      .style(property, newEnd)
+      .on('end', () => {
+        this._node.style(property, null);
+        box.base.classed('busy', false);
+      });
+
+    box.node = this._node.node();
+    box.user = this._user;
+
+    box.node.size = {};
+
+    box.node.resizer = Resizer({
+      callOnAdd: false
     });
+
+    box.node.resizer.listenTo(box.node, debounce(() => {
+      this._resize(box);
+    }, 100));
   }
 
   _calculate(effect, dir, width, factor) {
@@ -94,63 +143,6 @@ export default class Panel extends Node {
     }
 
     return null;
-  }
-
-  _resolveAfter(box) {
-    if (box.base.classed('busy') === true) {
-      if (box.force !== true) {
-        return;
-      }
-    }
-
-    box.base.classed('busy', true);
-
-    const dir = select('html').attr('dir') || 'ltr';
-    const effect = this._createEffect(box);
-    const width = parseFloat(box.base.style('width'));
-
-    const {
-      property,
-      oldBegin,
-      oldEnd,
-      newBegin,
-      newEnd
-    } = this._calculate(effect, dir, width, box.factor);
-
-    const old = box.base
-      .select('.panel')
-      .style(property, oldBegin)
-      .dispatch('remove')
-      .transition()
-      .duration(duration)
-      .style(property, oldEnd)
-      .on('end', () => {
-        old.node().resizer.uninstall(old.node());
-        old.node().snippet.remove();
-      });
-
-    this._node
-      .style(property, newBegin)
-      .transition()
-      .duration(duration)
-      .style(property, newEnd)
-      .on('end', () => {
-        this._node.style(property, null);
-        box.base.classed('busy', false);
-      });
-
-    box.node = this._node.node();
-    box.user = this._user;
-
-    box.node.size = {};
-
-    box.node.resizer = Resizer({
-      callOnAdd: false
-    });
-
-    box.node.resizer.listenTo(box.node, debounce(() => {
-      this._resize(box);
-    }, 100));
   }
 
   _resize(box) {

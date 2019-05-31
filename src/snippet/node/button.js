@@ -9,9 +9,6 @@ export default class Button extends Node {
         tabindex: 0,
         type: 'button'
       })
-      .setClassed({
-        button: true
-      })
       .setName('button');
   }
 

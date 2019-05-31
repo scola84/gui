@@ -6,10 +6,6 @@ export default class Err extends Node {
 
     this._message = null;
     this.setMessage(options.message);
-
-    this.setClassed({
-      error: true
-    });
   }
 
   getMessage() {
@@ -26,8 +22,8 @@ export default class Err extends Node {
     return this;
   }
 
-  _resolveAfter(box, data) {
-    const previous = this.queryPrevious();
+  after(box, data) {
+    const previous = this.query().previous();
 
     if (previous === null) {
       return;

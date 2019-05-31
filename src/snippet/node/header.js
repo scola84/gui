@@ -5,7 +5,7 @@ export default class Header extends Bar {
     super(options);
 
     this.setClassed({
-      header: true
+      bar: true
     });
   }
 }

@@ -44,7 +44,7 @@ export default class Snippet {
 
   _resolve(box, data, value) {
     if (value === null || typeof value === 'undefined') {
-      return null;
+      return value;
     }
 
     if (typeof value === 'function') {
@@ -52,7 +52,7 @@ export default class Snippet {
     }
 
     if (typeof value.resolve === 'function') {
-      return value.resolve(box, data);
+      return this._resolve(box, data, value.resolve(box, data));
     }
 
     return value;

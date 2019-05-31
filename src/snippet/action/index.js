@@ -1,11 +1,11 @@
+import Async from './async';
 import Obj from './obj';
-import Parallel from './parallel';
+import Request from './request';
 import Route from './route';
-import Series from './series';
 
 export {
+  Async,
   Obj,
-  Parallel,
-  Route,
-  Series,
+  Request,
+  Route
 };

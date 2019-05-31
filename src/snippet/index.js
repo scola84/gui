@@ -8,18 +8,17 @@ import * as action from './action/';
 import * as event from './event/';
 import * as input from './input/';
 import * as node from './node/';
+import * as snippet from './snippet/';
 
 export {
   Action,
   Event,
   Input,
   Node,
-  Snippet
-};
-
-export {
+  Snippet,
   action,
   event,
   input,
-  node
+  node,
+  snippet
 };

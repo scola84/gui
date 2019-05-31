@@ -42,7 +42,7 @@ export default class Submit extends Event {
   }
 
   _notify(box, data, form) {
-    const snippets = form.queryAll('.error');
+    const snippets = form.query('.err').all();
 
     for (let i = 0; i < snippets.length; i += 1) {
       snippets[i].resolve(box, data);
@@ -137,7 +137,7 @@ export default class Submit extends Event {
 
   _validate(box, data, form) {
     const result = {};
-    const input = form.queryAll('input, select, textarea');
+    const input = form.query('input, select, textarea').all();
 
     for (let i = 0; i < input.length; i += 1) {
       input[i].validate(box, data, result);
