@@ -20,10 +20,7 @@ export default {
     name: 'scola',
     globals: {
       '@scola/codec': 'scola',
-      '@scola/http': 'scola',
-      async: 'async',
-      d3: 'd3',
-      'node-schedule': 'schedule'
+      '@scola/http': 'scola'
     }
   },
   plugins: [
