@@ -30,6 +30,20 @@ export default class Snippet {
     return this;
   }
 
+  find(compare) {
+    let result = [];
+
+    if (compare(this) === true) {
+      result[result.length] = this;
+    }
+
+    for (let i = 0; i < this._list.length; i += 1) {
+      result = result.concat(this._list[i].find(compare));
+    }
+
+    return result;
+  }
+
   remove() {
     this._removeList();
   }

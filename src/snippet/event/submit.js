@@ -17,6 +17,8 @@ export default class Submit extends Event {
   }
 
   _submit(box, data, form) {
+    data = {};
+
     const node = form.node();
 
     if (node.attr('action') === '/') {
@@ -25,39 +27,17 @@ export default class Submit extends Event {
 
     node.attr('action', '/');
 
-    data = {};
-    data = this._read(box, data, form);
-    data = this._validate(box, data, form);
-
-    const hasErrors = Object.keys(data).some((key) => {
-      return data[key] instanceof Error;
-    });
-
-    if (hasErrors) {
-      this._notify(box, data, form);
-      this.fail(box, data);
-    } else {
-      this.pass(box, data);
-    }
-  }
-
-  _notify(box, data, form) {
-    const snippets = form.query('.err').all();
-
-    for (let i = 0; i < snippets.length; i += 1) {
-      snippets[i].resolve(box, data);
-    }
+    this._read(box, data, form);
+    this.pass(box, data);
   }
 
   _read(box, data, form) {
     const node = form.node();
 
-    data = this._readForm(box, data, node);
-    data = this._readDates(box, data, node);
-    data = this._readOrder(box, data, node);
-    data = this._readFiles(box, data, node);
-
-    return data;
+    this._readForm(box, data, node);
+    this._readDates(box, data, node);
+    this._readOrder(box, data, node);
+    this._readFiles(box, data, node);
   }
 
   _readDates(box, data, form) {
@@ -122,27 +102,13 @@ export default class Submit extends Event {
   }
 
   _readForm(box, data, form) {
-    return Object.assign({},
-      data,
-      serializeForm(form.node(), {
-        empty: true,
-        hash: true
-      })
-    );
+    Object.assign(data, serializeForm(form.node(), {
+      empty: true,
+      hash: true
+    }));
   }
 
   _readOrder(box, data) {
     return data;
-  }
-
-  _validate(box, data, form) {
-    const result = {};
-    const input = form.query('input, select, textarea').all();
-
-    for (let i = 0; i < input.length; i += 1) {
-      input[i].validate(box, data, result);
-    }
-
-    return result;
   }
 }

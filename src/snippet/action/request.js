@@ -24,7 +24,7 @@ export default class Request extends Async {
     return this.setProgress(value);
   }
 
-  _createFunction(box, data, options) {
+  each(box, data, options) {
     options = this._parseOptions(box, data, options);
 
     return (callback) => {

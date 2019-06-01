@@ -165,20 +165,6 @@ export default class Node extends Snippet {
     this._setOuter(box, data, this._text);
   }
 
-  find(compare) {
-    let result = [];
-
-    if (compare(this) === true) {
-      result[result.length] = this;
-    }
-
-    for (let i = 0; i < this._list.length; i += 1) {
-      result = result.concat(this._list[i].find(compare));
-    }
-
-    return result;
-  }
-
   query(query) {
     return new Query({
       list: [query],

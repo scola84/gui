@@ -6,7 +6,7 @@ export default class Select extends Input {
     this.setName('select');
   }
 
-  _validate(box, data, result) {
+  _validate(box, data) {
     const name = this._resolveValue(
       box,
       data,
@@ -15,6 +15,7 @@ export default class Select extends Input {
     );
 
     const values = [];
+    const value = data[name];
 
     for (let i = 0; i < this._list.length; i += 1) {
       values[values.length] = this._resolveValue(
@@ -25,25 +26,17 @@ export default class Select extends Input {
       );
     }
 
-    let found = false;
-
     for (let i = 0; i < values.length; i += 1) {
-      found = values[i] === data[name];
-
-      if (found === true) {
-        break;
+      if (values[i] === value) {
+        return;
       }
     }
 
-    if (found === true) {
-      result[name] = data[name];
-      return;
-    }
-
-    result[name] = new Error();
-    result[name].details = {
+    data[name] = new Error();
+    data[name].details = {
       type: 'select',
-      values
+      values,
+      value
     };
   }
 }

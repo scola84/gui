@@ -33,7 +33,7 @@ export default class Async extends Action {
 
     for (let i = 0; i < this._list.length; i += 1) {
       snippet = this._list[i];
-      fn[fn.length] = this._createFunction(box, data, snippet);
+      fn[fn.length] = this.each(box, data, snippet);
     }
 
     this._handler(fn, (error, results) => {
@@ -45,7 +45,7 @@ export default class Async extends Action {
     });
   }
 
-  _createFunction(box, data, snippet) {
+  each(box, data, snippet) {
     return (callback) => {
       snippet.act((b, result) => {
         callback(null, result);

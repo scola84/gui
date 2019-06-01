@@ -23,7 +23,9 @@ export default class Err extends Node {
   }
 
   after(box, data) {
-    const previous = this.query().previous();
+    const previous = this
+      .query()
+      .previous();
 
     if (previous === null) {
       return;
@@ -43,8 +45,8 @@ export default class Err extends Node {
         ]);
     }
 
-    text = this._resolve(box, data, text);
-
-    this._node.text(text);
+    this._node.text(
+      this._resolve(box, data, text)
+    );
   }
 }
