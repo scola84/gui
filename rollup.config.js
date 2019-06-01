@@ -9,23 +9,25 @@ export default {
   external: [
     '@scola/codec',
     '@scola/http',
-    'async',
     'd3',
     'node-schedule'
   ],
   output: {
     extend: true,
-    file: 'dist/gui.js',
+    file: 'dist/doc.umd.js',
     format: 'umd',
-    name: 'scola',
+    name: 'scola.doc',
     globals: {
-      '@scola/codec': 'scola',
-      '@scola/http': 'scola'
+      '@scola/codec': 'scola.codec',
+      '@scola/http': 'scola.http'
     }
   },
   plugins: [
     resolve(),
-    css(),
+    css({
+      include: [new RegExp('.css')],
+      output: 'dist/doc.css'
+    }),
     commonjs(),
     json(),
     buble({

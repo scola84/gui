@@ -1,9 +1,14 @@
 {
-  "name": "@scola/gui",
-  "main": "dist/gui.js",
-  "module": "src/index.js",
+  "name": "@scola/doc",
+  "version": "1.0.0",
+  "description": "Documents",
+  "repository": "github:scola84/doc",
+  "author": "M.C. van den Boogaart <scola@kvdb.name>",
+  "license": "MIT",
+  "main": "./dist/doc.cjs.js",
+  "module": "./index.js",
   "devDependencies": {
-    "rollup": "^1.12.3",
+    "rollup": "^1.12.5",
     "rollup-plugin-buble": "^0.19.6",
     "rollup-plugin-css-only": "^1.0.0",
     "rollup-plugin-commonjs": "^10.0.0",
