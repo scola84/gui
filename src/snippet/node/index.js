@@ -1,6 +1,6 @@
 import Bar from './bar';
 import Button from './button';
-import Err from './err';
+import Hint from './hint';
 import Footer from './footer';
 import Header from './header';
 import Panel from './panel';
@@ -10,9 +10,9 @@ import Search from './search';
 export {
   Bar,
   Button,
-  Err,
   Footer,
   Header,
+  Hint,
   Panel,
   Progress,
   Search

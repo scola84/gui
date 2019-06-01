@@ -24,17 +24,19 @@ export default class Panel extends Node {
   }
 
   after(box) {
-    if (box.base.classed('busy') === true) {
+    const base = select(box.base);
+
+    if (base.classed('busy') === true) {
       if (box.force !== true) {
         return;
       }
     }
 
-    box.base.classed('busy', true);
+    base.classed('busy', true);
 
     const dir = select('html').attr('dir') || 'ltr';
     const effect = this._createEffect(box);
-    const width = parseFloat(box.base.style('width'));
+    const width = parseFloat(base.style('width'));
 
     const {
       property,
@@ -44,7 +46,7 @@ export default class Panel extends Node {
       newEnd
     } = this._calculate(effect, dir, width, box.factor);
 
-    const old = box.base
+    const old = base
       .select('.panel')
       .style(property, oldBegin)
       .dispatch('remove')
@@ -63,7 +65,7 @@ export default class Panel extends Node {
       .style(property, newEnd)
       .on('end', () => {
         this._node.style(property, null);
-        box.base.classed('busy', false);
+        base.classed('busy', false);
       });
 
     box.node = this._node.node();

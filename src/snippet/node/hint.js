@@ -1,6 +1,6 @@
 import Node from '../node';
 
-export default class Err extends Node {
+export default class Hint extends Node {
   constructor(options = {}) {
     super(options);
 
@@ -36,7 +36,7 @@ export default class Err extends Node {
 
     let text = null;
 
-    if (datum instanceof Error) {
+    if (typeof datum !== 'undefined') {
       text = this._message !== null ?
         this._message :
         this._builder.format([

@@ -1,5 +1,4 @@
 import { Router } from '@scola/worker';
-
 const routers = {};
 
 export default class StateRouter extends Router {

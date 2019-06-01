@@ -6,7 +6,7 @@ export default class Select extends Input {
     this.setName('select');
   }
 
-  _validate(box, data) {
+  _validate(box, data, error) {
     const name = this._resolveValue(
       box,
       data,
@@ -32,8 +32,7 @@ export default class Select extends Input {
       }
     }
 
-    data[name] = new Error();
-    data[name].details = {
+    error[name] = {
       type: 'select',
       values,
       value

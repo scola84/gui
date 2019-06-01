@@ -1,4 +1,3 @@
-import * as codec from '@scola/codec';
 import { createBrowser } from '@scola/http';
 import { Worker } from '@scola/worker';
 import Async from './async';
@@ -49,7 +48,7 @@ export default class Request extends Async {
     const {
       connector,
       transformer
-    } = createBrowser(codec);
+    } = createBrowser();
 
     transformer.connect(new Worker({
       act(b, responseData) {

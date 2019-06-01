@@ -23,14 +23,16 @@ export default class ViewBuilder extends Worker {
   }
 
   act(box, data, callback) {
-    box.base.insert(() => {
-      return this._view.resolve(box, data).node();
-    });
+    const node = this._view.resolve(box, data);
+
+    if (node && box.base) {
+      box.base.appendChild(node.node());
+    }
 
     this.pass(box, data, callback);
   }
 
-  resolve(view) {
+  build(view) {
     return this.setView(view);
   }
 }
