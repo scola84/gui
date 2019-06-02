@@ -1,14 +1,9 @@
 import Input from '../input';
 
-export default class Text extends Input {
+export default class Textarea extends Input {
   constructor(options = {}) {
     super(options);
-
-    this
-      .setAttributes({
-        type: 'text'
-      })
-      .setName('input');
+    this.setName('textarea');
   }
 
   cleanAfter(box, data, name, value) {

@@ -6,22 +6,13 @@ export default class Select extends Input {
     this.setName('select');
   }
 
-  _validate(box, data, error) {
-    const name = this._resolveValue(
-      box,
-      data,
-      this._attributes,
-      'name'
-    );
-
+  validateAfter(box, data, error, name, value) {
     const values = [];
-    const value = data[name];
 
     for (let i = 0; i < this._list.length; i += 1) {
-      values[values.length] = this._resolveValue(
+      values[values.length] = this._list[i].resolveAttribute(
         box,
         data,
-        this._list[i].getAttributes(),
         'value'
       );
     }
@@ -32,10 +23,6 @@ export default class Select extends Input {
       }
     }
 
-    error[name] = {
-      type: 'select',
-      values,
-      value
-    };
+    this.throwError(value, 'type', { values });
   }
 }

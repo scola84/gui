@@ -6,7 +6,7 @@ export default class Obj extends Action {
     let value = null;
 
     for (let i = 0; i < this._list.length; i += 1) {
-      value = this._resolve(box, data, this._list[i]);
+      value = this.resolveValue(box, data, this._list[i]);
       values[values.length] = value;
     }
 

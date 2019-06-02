@@ -1,9 +1,10 @@
 import get from 'lodash-es/get';
+import merge from 'lodash-es/merge';
 import sprintf from 'sprintf-js';
 import Snippet from '../snippet';
 
+const strings = {};
 let locale = '';
-let strings = {};
 
 export default class Format extends Snippet {
   static getLocale() {
@@ -19,7 +20,7 @@ export default class Format extends Snippet {
   }
 
   static setStrings(value) {
-    strings = value;
+    merge(strings, value);
   }
 
   resolve(box, data) {
@@ -27,7 +28,7 @@ export default class Format extends Snippet {
     let value = null;
 
     for (let i = 0; i < this._list.length; i += 1) {
-      value = this._resolve(box, data, this._list[i]);
+      value = this.resolveValue(box, data, this._list[i]);
 
       const [code, ...args] = Array.isArray(value) ?
         value : [value];

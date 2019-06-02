@@ -23,7 +23,7 @@ export default class Panel extends Node {
     transition = value;
   }
 
-  after(box) {
+  resolveAfter(box) {
     const base = select(box.base);
 
     if (base.classed('busy') === true) {

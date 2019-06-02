@@ -6,7 +6,7 @@ export default class Search extends Node {
     this.setName('form');
   }
 
-  after(box, data) {
+  resolveAfter(box, data) {
     const placeholder = this._builder
       .format('search')
       .resolve(box, data);

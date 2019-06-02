@@ -29,7 +29,7 @@ export default class Node extends Snippet {
   }
 
   setAttributes(value = {}) {
-    return this._setProperty('attributes', value);
+    return this._setOwnProperty('attributes', value);
   }
 
   getClassed() {
@@ -37,7 +37,7 @@ export default class Node extends Snippet {
   }
 
   setClassed(value = {}) {
-    return this._setProperty('classed', value);
+    return this._setOwnProperty('classed', value);
   }
 
   getHtml() {
@@ -45,7 +45,7 @@ export default class Node extends Snippet {
   }
 
   setHtml(value) {
-    return this._setProperty('html', { html: value });
+    return this._setOwnProperty('html', { html: value });
   }
 
   getName() {
@@ -71,7 +71,7 @@ export default class Node extends Snippet {
   }
 
   setProperties(value = {}) {
-    return this._setProperty('properties', value);
+    return this._setOwnProperty('properties', value);
   }
 
   getStyles() {
@@ -79,7 +79,7 @@ export default class Node extends Snippet {
   }
 
   setStyles(value = {}) {
-    return this._setProperty('styles', value);
+    return this._setOwnProperty('styles', value);
   }
 
   getText() {
@@ -87,7 +87,7 @@ export default class Node extends Snippet {
   }
 
   setText(value) {
-    return this._setProperty('text', { text: value });
+    return this._setOwnProperty('text', { text: value });
   }
 
   attributes(value) {
@@ -130,39 +130,12 @@ export default class Node extends Snippet {
     });
   }
 
-  after() {}
-
-  before() {}
-
   create() {
     this._node = select(
       document.createElement(this._name)
     );
 
     this._node.node().snippet = this;
-  }
-
-  inner(box, data) {
-    let snippets = null;
-
-    for (let i = 0; i < this._list.length; i += 1) {
-      snippets = this._list[i];
-      snippets = this._resolve(box, data, snippets);
-      snippets = Array.isArray(snippets) ? snippets : [snippets];
-
-      for (let j = 0; j < snippets.length; j += 1) {
-        this._insertNode(snippets[j].node());
-      }
-    }
-  }
-
-  outer(box, data) {
-    this._setOuter(box, data, this._attributes, 'attr');
-    this._setOuter(box, data, this._classed, 'classed');
-    this._setOuter(box, data, this._html);
-    this._setOuter(box, data, this._properties, 'property');
-    this._setOuter(box, data, this._styles, 'style');
-    this._setOuter(box, data, this._text);
   }
 
   query(query) {
@@ -173,11 +146,14 @@ export default class Node extends Snippet {
   }
 
   remove() {
+    this.removeNode();
+    super.remove();
+  }
+
+  removeNode() {
     this._node.node().snippet = null;
     this._node.remove();
     this._node = null;
-
-    super.remove();
   }
 
   resolve(box, data) {
@@ -185,12 +161,63 @@ export default class Node extends Snippet {
       this.create();
     }
 
-    this.before(box, data);
-    this.outer(box, data);
-    this.inner(box, data);
-    this.after(box, data);
+    this.resolveBefore(box, data);
+    this.resolveOuter(box, data);
+    this.resolveInner(box, data);
+    this.resolveAfter(box, data);
 
     return this._node;
+  }
+
+  resolveAfter() {}
+
+  resolveAttribute(box, data, name) {
+    return this.resolveObject(box, data, this._attributes, name);
+  }
+
+  resolveBefore() {}
+
+  resolveClassed(box, data, name) {
+    return this.resolveObject(box, data, this._classed, name);
+  }
+
+  resolveHtml(box, data) {
+    return this.resolveObject(box, data, this._html, 'html');
+  }
+
+  resolveInner(box, data) {
+    let snippets = null;
+
+    for (let i = 0; i < this._list.length; i += 1) {
+      snippets = this._list[i];
+      snippets = this.resolveValue(box, data, snippets);
+      snippets = Array.isArray(snippets) ? snippets : [snippets];
+
+      for (let j = 0; j < snippets.length; j += 1) {
+        this._insertNode(snippets[j].node());
+      }
+    }
+  }
+
+  resolveOuter(box, data) {
+    this._setOuter(box, data, this._attributes, 'attr');
+    this._setOuter(box, data, this._classed, 'classed');
+    this._setOuter(box, data, this._html);
+    this._setOuter(box, data, this._properties, 'property');
+    this._setOuter(box, data, this._styles, 'style');
+    this._setOuter(box, data, this._text);
+  }
+
+  resolveProperty(box, data, name) {
+    return this.resolveObject(box, data, this._properties, name);
+  }
+
+  resolveStyle(box, data, name) {
+    return this.resolveObject(box, data, this._styles, name);
+  }
+
+  resolveText(box, data) {
+    return this.resolveObject(box, data, this._text, 'text');
   }
 
   _insertNode(node) {
@@ -198,7 +225,7 @@ export default class Node extends Snippet {
   }
 
   _setOuter(box, data, values, name) {
-    values = this._resolve(box, data, values);
+    values = this.resolveValue(box, data, values);
 
     const keys = Object.keys(values);
     let key = null;
@@ -206,7 +233,7 @@ export default class Node extends Snippet {
     for (let i = 0; i < keys.length; i += 1) {
       key = keys[i];
 
-      const value = this._resolve(box, data, values[key]);
+      const value = this.resolveValue(box, data, values[key]);
 
       if (typeof value !== 'undefined') {
         if (name) {
@@ -218,7 +245,7 @@ export default class Node extends Snippet {
     }
   }
 
-  _setProperty(name, value) {
+  _setOwnProperty(name, value) {
     if (
       typeof value === 'function' ||
       typeof this['_' + name] === 'function'

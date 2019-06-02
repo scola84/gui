@@ -22,7 +22,7 @@ export default class Hint extends Node {
     return this;
   }
 
-  after(box, data) {
+  resolveAfter(box, data) {
     const previous = this
       .query()
       .previous();
@@ -31,22 +31,42 @@ export default class Hint extends Node {
       return;
     }
 
-    const name = previous.getAttributes().name;
-    const datum = data[name];
+    let name = previous.resolveAttribute(box, data, 'name');
+    let value = data[name];
+
+    if (name.slice(-2) === '[]') {
+      [name, value] = this._resolveArray(previous, data, name);
+    }
 
     let text = null;
 
-    if (typeof datum !== 'undefined') {
-      text = this._message !== null ?
-        this._message :
-        this._builder.format([
-          datum.details.type,
-          datum.details
+    if (typeof value !== 'undefined') {
+      text = this._message;
+
+      if (text === null) {
+        text = this._builder.format([
+          `dom.input.${value.type}.${value.reason}`,
+          value
         ]);
+      }
     }
 
     this._node.text(
-      this._resolve(box, data, text)
+      this.resolveValue(box, data, text)
     );
+  }
+
+  _resolveArray(previous, data, name) {
+    const all = this._builder
+      .getView()
+      .query(`input[name="${name}"]`)
+      .all();
+
+    name = name.slice(0, -2);
+
+    const index = all.indexOf(previous);
+    const value = data[name] && data[name][index];
+
+    return [name, value];
   }
 }

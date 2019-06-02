@@ -32,7 +32,7 @@ export default class Request extends Async {
   }
 
   _parseOptions(box, data, options) {
-    options = this._resolve(box, data, options);
+    options = this.resolveValue(box, data, options);
 
     if (typeof options === 'string') {
       const [method, path] = options.split(' ');
@@ -60,7 +60,7 @@ export default class Request extends Async {
     }));
 
     connector.handle(options, data, (event) => {
-      this._resolve(box, event, this._progress);
+      this.resolveValue(box, event, this._progress);
     });
   }
 }

@@ -1,7 +1,7 @@
 import Node from '../node';
 
 export default class Progress extends Node {
-  after(box, data) {
+  resolveAfter(box, data) {
     if (data.lengthComputable !== true) {
       return;
     }
