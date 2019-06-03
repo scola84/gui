@@ -117,13 +117,13 @@ export default class Input extends Node {
     const max = this.resolveAttribute(box, data, 'max');
 
     if (this._isBelowMax(value, max) === false) {
-      this.throwError(value, 'range', { max });
+      this.throwError(value, 'max', { max });
     }
 
     const min = this.resolveAttribute(box, data, 'min');
 
     if (this._isAboveMin(value, min) === false) {
-      this.throwError(value, 'range', { min });
+      this.throwError(value, 'min', { min });
     }
   }
 
@@ -142,7 +142,7 @@ export default class Input extends Node {
       return true;
     }
 
-    return Number(value) >= Number(min);
+    return value >= min;
   }
 
   _isBelowMax(value, max) {
@@ -150,7 +150,7 @@ export default class Input extends Node {
       return true;
     }
 
-    return Number(value) <= Number(max);
+    return value <= max;
   }
 
   _isDefined(value, required) {

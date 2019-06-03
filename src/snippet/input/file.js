@@ -11,8 +11,9 @@ export default class File extends Input {
       .setName('input');
   }
 
-  validateAfter(box, data, error, name, value) {
+  validateBefore(box, data, error, name, value) {
     this.validateAccept(box, data, error, name, value);
+    this.validateMaxsize(box, data, error, name, value);
   }
 
   validateAccept(box, data, error, name, value) {
@@ -22,7 +23,6 @@ export default class File extends Input {
       this.throwError(value, 'accept', { accept });
     }
 
-    this.validateMaxsize(box, data, error, name, value);
   }
 
   validateMaxsize(box, data, error, name, value) {

@@ -32,7 +32,7 @@ export default class Zip extends Input {
     this.set(data, name, String(value).replace(/[-\s]+/g, ''));
   }
 
-  validateAfter(box, data, error, name, value) {
+  validateBefore(box, data, error, name, value) {
     const country = this.resolveValue(box, data, this._country);
 
     if (postalcodes.validate(country, value) !== true) {

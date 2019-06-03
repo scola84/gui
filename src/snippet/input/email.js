@@ -16,7 +16,7 @@ export default class Email extends Input {
     this.set(data, name, String(value).trim().toLowerCase());
   }
 
-  validateAfter(box, data, error, name, value) {
+  validateBefore(box, data, error, name, value) {
     if (value.match(/\s/) !== null) {
       this.throwError(value, 'space');
     }

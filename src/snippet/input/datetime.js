@@ -32,7 +32,7 @@ export default class DateTimeLocal extends Input {
     this.set(data, name, String(value).trim());
   }
 
-  validateAfter(box, data, error, name, value) {
+  validateBefore(box, data, error, name, value) {
     if (this._isEmpty(value) === true) {
       return;
     }

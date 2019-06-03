@@ -48,7 +48,7 @@ export default class Tel extends Input {
     this.set(data, name, String(value).trim());
   }
 
-  validateAfter(box, data, error, name, value) {
+  validateBefore(box, data, error, name, value) {
     const country = this.resolveValue(box, data, this._country);
     let number = null;
 

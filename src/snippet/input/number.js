@@ -11,7 +11,7 @@ export default class Num extends Input {
       .setName('input');
   }
 
-  validateAfter(box, data, error, name, value) {
+  validateBefore(box, data, error, name, value) {
     if (Number(value) !== parseFloat(value)) {
       this.throwError(value, 'type');
     }

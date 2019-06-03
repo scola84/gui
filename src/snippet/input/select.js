@@ -6,7 +6,7 @@ export default class Select extends Input {
     this.setName('select');
   }
 
-  validateAfter(box, data, error, name, value) {
+  validateBefore(box, data, error, name, value) {
     const values = [];
 
     for (let i = 0; i < this._list.length; i += 1) {

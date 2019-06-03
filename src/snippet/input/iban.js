@@ -16,7 +16,7 @@ export default class Iban extends Input {
     this.set(data, name, String(value).replace(/\s+/g, ''));
   }
 
-  validateAfter(box, data, error, name, value) {
+  validateBefore(box, data, error, name, value) {
     const country = value
       .toUpperCase()
       .slice(0, 2);
@@ -24,7 +24,7 @@ export default class Iban extends Input {
     const specification = IBAN.countries[country];
 
     if (typeof specification === 'undefined') {
-      this.throwError(value, 'country');
+      this.throwError(value, 'type');
     }
 
     value = value.slice(0, specification.length);
