@@ -1,15 +1,15 @@
 import DateTime from './datetime';
 
-export default class Date extends DateTime {
+export default class Time extends DateTime {
   constructor(options) {
     super(options);
 
     this.setAttributes({
-      type: 'date'
+      type: 'time'
     });
   }
 
-  setFormat(value = 'yyyy-MM-dd') {
+  setFormat(value = 'HH:mm') {
     this._format = value;
     return this;
   }

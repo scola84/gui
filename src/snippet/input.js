@@ -142,7 +142,7 @@ export default class Input extends Node {
       return true;
     }
 
-    return Number(value) > Number(min);
+    return Number(value) >= Number(min);
   }
 
   _isBelowMax(value, max) {
@@ -150,7 +150,7 @@ export default class Input extends Node {
       return true;
     }
 
-    return Number(value) < Number(max);
+    return Number(value) <= Number(max);
   }
 
   _isDefined(value, required) {
