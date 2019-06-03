@@ -6,10 +6,15 @@ export default class Button extends Node {
 
     this
       .setAttributes({
-        tabindex: 0,
         type: 'button'
       })
       .setName('button');
+  }
+
+  click() {
+    return this.setClassed({
+      click: true
+    });
   }
 
   icon(value) {

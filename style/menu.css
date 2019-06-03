@@ -1,0 +1,60 @@
+.menu {
+  background: whitesmoke;
+  border-right: 1px solid lightgrey;
+  height: 100%;
+  position: relative;
+  width: 21.333em;
+  z-index: 3;
+}
+
+.menu + .menu {
+  display: none;
+}
+
+.outset-x .menu + .menu {
+  display: initial;
+}
+
+* + .menu {
+  border-left: 1px solid lightgrey;
+}
+
+*[dir=rtl] .menu {
+  border-left: 1px solid lightgrey;
+  border-right: 0;
+}
+
+@media (max-width: 48em) {
+  .menu {
+    left: -100%;
+    max-width: 85%;
+    position: absolute;
+    transition: left 0.25s;
+  }
+
+  .menu.over {
+    left: 0;
+  }
+
+  *[dir=rtl] .menu {
+    left: 0;
+    right: -100%;
+    transition: right 0.25s;
+  }
+
+  *[dir=rtl] .menu.over {
+    right: 0;
+  }
+}
+
+@media not all and (max-width: 48em) {
+  .button.show-menu {
+    display: none;
+  }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+  .menu {
+    border-width: 0.5px;
+  }
+}

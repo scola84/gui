@@ -1,0 +1,46 @@
+.form .item > input,
+.form .item > select {
+  background: none;
+  border: 0;
+  flex: 1;
+  margin: 0 1em 0 0;
+  min-width: 0;
+}
+
+*[dir=rtl] .form .item > input,
+*[dir=rtl] .form .item > select {
+  margin: 0 0 0 1em;
+}
+
+.form .item > input[type=range] {
+  -webkit-appearance: slider-horizontal !important;
+}
+
+.form .item > textarea {
+  line-height: 1.5em;
+  resize: none;
+}
+
+.form .item > .label {
+  flex: none;
+  width: 5em;
+}
+
+.form .item > .hint:not(:empty) {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 0.5em;
+  width: 100%;
+}
+
+@media not all and (max-width: 64em) {
+  .form .item > input:focus,
+  .form .item > select:focus,
+  .form .item > textarea:focus {
+    outline: 1px dotted black;
+  }
+
+  .form .item > select {
+    flex: initial;
+  }
+}

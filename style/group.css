@@ -1,0 +1,78 @@
+.group {
+  height: auto;
+  margin-left: 1em;
+  margin-right: 1em;
+  overflow: hidden;
+  transition: height 0.25s;
+}
+
+.panel.outset-x .group {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Body */
+
+.group > .body {
+  border-bottom: 1px none lightgrey;
+}
+
+.panel.outset-x .group > .body {
+  border-bottom-style: solid;
+}
+
+/* Comment */
+
+.group > .comment {
+  color: darkgrey;
+  display: flex;
+  font-size: 0.9em;
+  line-height: 1.5em;
+}
+
+.group > .comment:not(:empty) {
+  padding: 0.75em 1em 0;
+}
+
+.group > .comment * {
+  font-size: inherit;
+}
+
+.group > .comment a {
+  text-decoration: underline;
+}
+
+.group > .comment a:hover {
+  text-decoration: none;
+}
+
+.group > .comment p {
+  margin: 0;
+}
+
+/* Title */
+
+.group > .title {
+  border: 0;
+  border-bottom: 1px none lightgrey;
+  color: darkgrey;
+  display: flex;
+  font-size: 0.9em;
+  height: 0;
+  margin-top: 2.222em;
+  text-transform: uppercase;
+}
+
+.group > .title:not(:empty) {
+  height: auto;
+  padding: 0 1.111em 0.555em;
+}
+
+.panel.outset-x .group > .title {
+  border-bottom-style: solid;
+}
+
+.panel.outset-y .group > .title {
+  margin-bottom: 0;
+  margin-top: 0;
+}

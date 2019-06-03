@@ -1,0 +1,127 @@
+* {
+  -webkit-tap-highlight-color: rgba(255,255,255,0);
+  box-sizing: border-box;
+  font-family: 'SF Pro Text','SF Pro Icons','Helvetica Neue','Helvetica','Arial',sans-serif;
+  font-size: 16px;
+  line-height: 1.25em;
+}
+
+:focus {
+  outline: none;
+}
+
+::placeholder {
+  color: darkgrey;
+  opacity: 1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+body,
+html {
+  position: fixed;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  align-items: center;
+  background: lightgrey;
+  cursor: default;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  margin: 0;
+  position: absolute;
+  width: 100%;
+}
+
+button {
+  background: none;
+  border: 1px solid transparent;
+  color: inherit;
+  margin: -1px;
+  padding: 0;
+}
+
+button {
+  -webkit-touch-callout: text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+input {
+  -webkit-appearance: none !important;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+}
+
+form {
+  margin: 0;
+}
+
+.app {
+  border-radius: 1em;
+  display: flex;
+  height: 48em;
+  overflow: hidden;
+  width: 64em;
+}
+
+.app > * {
+  overflow: hidden;
+}
+
+.outset-x .app,
+.outset-y .app {
+  border-radius: 0;
+}
+
+.outset-x .app {
+  width: 100%;
+}
+
+.outset-y .app {
+  height: 100%;
+}
+
+@keyframes spin {
+  from {
+    transform: scale(1) rotate(0deg);
+  }
+
+  to {
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+@media (max-width: 64em), (max-height: 48em) {
+  .app {
+    border-radius: 0;
+    height: 100%;
+    padding: 0;
+    width: 100%;
+  }
+}
+
+@media not all and (max-width: 64em) {
+  button:focus {
+    border: 1px dotted black !important;
+  }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+  * {
+    border-width: 0.5px;
+  }
+}

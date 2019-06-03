@@ -13,7 +13,7 @@ export default class Search extends Node {
 
     this._node
       .append('div')
-      .classed('ion-ios-search-outline', true)
+      .classed('ion-ios-search', true)
       .append('input')
       .attr('autocomplete', 'on')
       .attr('name', 'search')

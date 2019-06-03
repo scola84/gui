@@ -1,0 +1,185 @@
+.item {
+  align-items: center;
+  background: white;
+  display: flex;
+  flex-flow: wrap row;
+  min-height: 3em;
+  overflow: hidden;
+  padding: 0.5em 0 0.5em 1em;
+  position: relative;
+}
+
+*[dir=rtl] .item {
+  padding: 0.5em 1em 0.5em 0;
+}
+
+.item:before {
+  border-bottom: 1px solid lightgrey;
+  content: '';
+  left: 1em;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+*[dir=rtl] .item:before {
+  left: 0;
+  right: 1em;
+}
+
+.item:first-of-type:before {
+  content: none;
+}
+
+.item:first-of-type {
+  border-top-left-radius: 0.5em;
+  border-top-right-radius: 0.5em;
+}
+
+.item:last-of-type {
+  border-bottom-left-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+}
+
+.panel.outset-x .item:first-of-type,
+.panel.outset-x .item:last-of-type,
+.panel.outset-y .item:first-of-type,
+.panel.outset-y .item:last-of-type {
+  border-radius: 0;
+}
+
+.item.icon + .item:before {
+  left: 3.5em;
+}
+
+*[dir=rtl] .item.icon + .item:before {
+  left: 0;
+  right: 3.5em;
+}
+
+.item.number + .item:before {
+  left: 2.9em;
+}
+
+*[dir=rtl] .item.number + .item:before {
+  left: 0;
+  right: 2.9em;
+}
+
+.item.icon.number + .item:before {
+  left: 5.4em;
+}
+
+*[dir=rtl] .item.icon.number + .item:before {
+  left: 0;
+  right: 5.4em;
+}
+
+.item.click:active {
+  background: lightgrey;
+}
+
+.item.click:active + .item:before,
+.item.click:active:before {
+  left: 0;
+}
+
+*[dir=rtl] .item.click:active + .item:before,
+*[dir=rtl] .item.click:active:before {
+  right: 0;
+}
+
+/* Icon */
+
+.item > .icon {
+  margin-right: 1em;
+  text-align: center;
+  width: 1.5em;
+}
+
+*[dir=rtl] .item > .icon {
+  margin: 0 0 0 1em;
+}
+
+.item > .icon:before {
+  font-size: 1.9em;
+}
+
+.item > .icon:last-of-type {
+  color: #a9a9a9;
+  width: auto;
+}
+
+.item > .icon.top {
+  align-self: baseline;
+  margin-top: 0.2em;
+}
+
+.item > .icon.top:before {
+  font-size: 1.1em;
+}
+
+/* Label */
+
+.item > .label {
+  display: flex;
+  flex: 1;
+  flex-flow: wrap row;
+  margin: 0 1em 0 0;
+  min-width: 0;
+}
+
+*[dir=rtl] .item > .label {
+  margin: 0 0 0 1em;
+}
+
+.item > .label > * {
+  font-size: 0.9em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item > .label > .l1 {
+  flex: 1;
+  font-size: 1em;
+  margin: 0 1em 0 0;
+  text-align: start;
+}
+
+*[dir=rtl] .item > .label > .l1 {
+  margin: 0 0 0 1em;
+}
+
+.item > .label > .l2 {
+  align-items: center;
+  color: darkgrey;
+  display: flex;
+  font-size: 1em;
+  max-width: 50%;
+  text-align: end;
+}
+
+.item > .label > .l3 {
+  align-items: center;
+  color: darkgrey;
+  display: flex;
+  max-width: 50%;
+  text-align: end;
+}
+
+.item > .label > .l4 {
+  flex: 100%;
+  margin-top: 0.2em;
+  text-align: start;
+}
+
+.item > .label > .l5 {
+  color: darkgrey;
+  flex: 100%;
+  height: 2.5em;
+  margin-top: 0.2em;
+  text-align: start;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
