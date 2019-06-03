@@ -7,7 +7,7 @@ import { format } from '../../helper';
 const regexpBase = '%((\\((\\w+)\\))?((\\d+)\\$)?)([b-gijostTuvxXlmn])(\\[(.+)\\])?';
 const regexpGlobal = new RegExp(regexpBase, 'g');
 const regexpSingle = new RegExp(regexpBase);
-const reductor = (name) => (r, a) => a[name] || r;
+const reductor = (name) => (a, v) => v[name] || a;
 
 const strings = {};
 let wlocale = 'nl_NL';

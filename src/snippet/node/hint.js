@@ -35,7 +35,7 @@ export default class Hint extends Node {
     let value = data[name];
 
     if (name.slice(-2) === '[]') {
-      [name, value] = this._resolveArray(previous, data, name);
+      [name, value] = this._resolveArray(box, data, previous, name);
     }
 
     let text = null;
@@ -56,16 +56,23 @@ export default class Hint extends Node {
     );
   }
 
-  _resolveArray(previous, data, name) {
+  _resolveArray(box, data, previous, name) {
+    const multiple = previous.resolveAttribute(box, data, 'multiple');
+
     const all = this._builder
       .getView()
       .query(`input[name="${name}"]`)
       .all();
 
     name = name.slice(0, -2);
+    let value = null;
 
-    const index = all.indexOf(previous);
-    const value = data[name] && data[name][index];
+    if (typeof multiple === 'undefined') {
+      const index = all.indexOf(previous);
+      value = data[name] && data[name][index];
+    } else {
+      value = data[name].reduce((a, v) => v, {});
+    }
 
     return [name, value];
   }

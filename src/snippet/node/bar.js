@@ -15,7 +15,7 @@ export default class Bar extends Node {
     const isDefined = typeof node !== 'undefined' &&
       typeof node.getClassed()[classed] !== 'undefined';
 
-    if (isDefined) {
+    if (isDefined === true) {
       return;
     }
 
