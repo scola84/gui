@@ -63,7 +63,7 @@ export default class Format extends Snippet {
       value = this.resolveValue(box, data, this._list[i]);
 
       [code, ...args] = Array.isArray(value) ?
-        value : [value];
+        value : [value, data];
 
       path = locale ? `${locale}.${code}` : code;
 
