@@ -27,18 +27,20 @@ export default class Input extends Node {
     const value = data[name];
 
     if (Array.isArray(value) === false) {
-      this.cleanValue(box, data, name, value);
+      this.cleanBefore(box, data, name, value);
       return;
     }
 
     for (let i = 0; i < value.length; i += 1) {
-      this.cleanValue(box, data, `${name}.${i}`, value[i]);
+      this.cleanBefore(box, data, `${name}.${i}`, value[i]);
     }
   }
 
   cleanAfter() {}
 
-  cleanBefore() {}
+  cleanBefore(box, data, name, value) {
+    this.cleanInput(box, data, name, value);
+  }
 
   cleanInput(box, data, name, value) {
     if (this.isEmpty(value) === true) {
@@ -47,11 +49,7 @@ export default class Input extends Node {
         this.set(data, name, value);
       }
     }
-  }
 
-  cleanValue(box, data, name, value) {
-    this.cleanBefore(box, data, name, value);
-    this.cleanInput(box, data, name, value);
     this.cleanAfter(box, data, name, value);
   }
 

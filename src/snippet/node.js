@@ -149,15 +149,12 @@ export default class Node extends Snippet {
     });
   }
 
-  remove() {
-    this.removeNode();
-    super.remove();
-  }
-
-  removeNode() {
+  removeOuter() {
     this._node.node().snippet = null;
     this._node.remove();
     this._node = null;
+
+    this.removeInner();
   }
 
   resolve(box, data) {
@@ -170,14 +167,8 @@ export default class Node extends Snippet {
     return this._node;
   }
 
-  resolveAfter() {}
-
   resolveAttribute(box, data, name) {
     return this.resolveObject(box, data, this._attributes, name);
-  }
-
-  resolveBefore(box, data) {
-    this.resolveOuter(box, data);
   }
 
   resolveClassed(box, data, name) {

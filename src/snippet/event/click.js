@@ -9,8 +9,8 @@ export default class Click extends Event {
     });
   }
 
-  remove() {
+  removeBefore() {
     this.unbind('click');
-    super.remove();
+    this.removeOuter();
   }
 }

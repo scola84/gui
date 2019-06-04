@@ -49,7 +49,6 @@ export default class Panel extends Node {
     const old = base
       .select('.panel')
       .style(property, oldBegin)
-      .dispatch('remove')
       .transition()
       .duration(duration)
       .style(property, oldEnd)

@@ -45,16 +45,44 @@ export default class Snippet {
   }
 
   remove() {
-    this.removeList();
+    this.removeBefore();
   }
 
-  removeList() {
+  removeAfter() {}
+
+  removeBefore() {
+    this.removeOuter();
+  }
+
+  removeInner() {
     for (let i = 0; i < this._list.length; i += 1) {
       this._list[i].remove();
     }
+
+    this.removeAfter();
   }
 
-  resolve() {}
+  removeOuter() {
+    this.removeInner();
+  }
+
+  resolve(box, data) {
+    this.resolveBefore(box, data);
+  }
+
+  resolveAfter() {}
+
+  resolveBefore(box, data) {
+    this.resolveOuter(box, data);
+  }
+
+  resolveInner(box, data) {
+    this.resolveAfter(box, data);
+  }
+
+  resolveOuter(box, data) {
+    this.resolveInner(box, data);
+  }
 
   resolveValue(box, data, value) {
     if (value === null || typeof value === 'undefined') {

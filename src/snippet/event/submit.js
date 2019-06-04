@@ -7,9 +7,9 @@ export default class Submit extends Event {
     });
   }
 
-  remove() {
+  removeBefore() {
     this.unbind('submit');
-    super.remove();
+    this.removeOuter();
   }
 
   submit(box, data, snippet) {
