@@ -11,28 +11,7 @@ export default class File extends Input {
       .setName('input');
   }
 
-  validateBefore(box, data, error, name, value) {
-    this.validateAccept(box, data, error, name, value);
-    this.validateMaxsize(box, data, error, name, value);
-  }
-
-  validateAccept(box, data, error, name, value) {
-    const accept = this.resolveAttribute(box, data, 'accept');
-
-    if (this._isAcceptable(value, accept) === false) {
-      this.throwError(value, 'accept', { accept });
-    }
-  }
-
-  validateMaxsize(box, data, error, name, value) {
-    const maxsize = this.resolveAttribute(box, data, 'maxsize');
-
-    if (this._isBelowMax(value.size, maxsize) === false) {
-      this.throwError(value, 'maxsize', { maxsize });
-    }
-  }
-
-  _isAcceptable(value, accept) {
+  isAcceptable(value, accept) {
     if (typeof accept === 'undefined') {
       return true;
     }
@@ -56,5 +35,26 @@ export default class File extends Input {
     }
 
     return true;
+  }
+
+  validateBefore(box, data, error, name, value) {
+    this.validateAccept(box, data, error, name, value);
+    this.validateMaxsize(box, data, error, name, value);
+  }
+
+  validateAccept(box, data, error, name, value) {
+    const accept = this.resolveAttribute(box, data, 'accept');
+
+    if (this.isAcceptable(value, accept) === false) {
+      this.throwError(value, 'accept', { accept });
+    }
+  }
+
+  validateMaxsize(box, data, error, name, value) {
+    const maxsize = this.resolveAttribute(box, data, 'maxsize');
+
+    if (this.isBelowMax(value.size, maxsize) === false) {
+      this.throwError(value, 'maxsize', { maxsize });
+    }
   }
 }

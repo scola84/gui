@@ -35,7 +35,7 @@ export default class Panel extends Node {
     base.classed('busy', true);
 
     const dir = select('html').attr('dir') || 'ltr';
-    const effect = this._createEffect(box);
+    const effect = this.createEffect(box);
     const width = parseFloat(base.style('width'));
 
     const {
@@ -44,7 +44,7 @@ export default class Panel extends Node {
       oldEnd,
       newBegin,
       newEnd
-    } = this._calculate(effect, dir, width, box.factor);
+    } = this.calculate(effect, dir, width, box.factor);
 
     const old = base
       .select('.panel')
@@ -78,23 +78,23 @@ export default class Panel extends Node {
     });
 
     box.node.resizer.listenTo(box.node, debounce(() => {
-      this._resize(box);
+      this.resize(box);
     }, 100));
   }
 
-  _calculate(effect, dir, width, factor) {
+  calculate(effect, dir, width, factor) {
     if (effect === 'rtl' || effect === 'ltr') {
-      return this._calculateMove(effect, dir, width, factor);
+      return this.calculateMove(effect, dir, width, factor);
     }
 
     if (effect === 'fade') {
-      return this._calculateFade();
+      return this.calculateFade();
     }
 
-    return this._calculateNone();
+    return this.calculateNone();
   }
 
-  _calculateFade() {
+  calculateFade() {
     return {
       property: 'opacity',
       oldBegin: 1,
@@ -104,7 +104,7 @@ export default class Panel extends Node {
     };
   }
 
-  _calculateMove(effect, dir, width, factor = 0.25) {
+  calculateMove(effect, dir, width, factor = 0.25) {
     const move = effect === 'rtl' ? -1 : 1;
     const read = dir === 'rtl' ? -1 : 1;
 
@@ -117,7 +117,7 @@ export default class Panel extends Node {
     };
   }
 
-  _calculateNone() {
+  calculateNone() {
     return {
       property: 'opacity',
       oldBegin: 1,
@@ -127,7 +127,7 @@ export default class Panel extends Node {
     };
   }
 
-  _createEffect(box) {
+  createEffect(box) {
     if (transition === false) {
       return null;
     }
@@ -147,7 +147,7 @@ export default class Panel extends Node {
     return null;
   }
 
-  _resize(box) {
+  resize(box) {
     const node = select(box.node);
     const body = node.select('.body').node();
 

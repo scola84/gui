@@ -74,7 +74,7 @@ export default class StateRouter extends Router {
 
     StateRouter.setRouter(this._name, this);
 
-    this._loadHistory();
+    this.loadHistory();
   }
 
   setBase(value = null) {
@@ -94,9 +94,9 @@ export default class StateRouter extends Router {
 
   act(route, data, callback) {
     let hash = StateRouter.parseHash(window.location.hash);
-    [hash, route] = this._processHash(hash, route);
+    [hash, route] = this.processHash(hash, route);
 
-    history.replaceState({}, '', this._formatHash(hash));
+    history.replaceState({}, '', this.formatHash(hash));
     this.pass(route.path, route, data, callback);
   }
 
@@ -116,20 +116,20 @@ export default class StateRouter extends Router {
     return route;
   }
 
-  _createId() {
+  createId() {
     return 'history-' + this._id;
   }
 
-  _formatHash(hash) {
+  formatHash(hash) {
     return '#/' + Object
       .keys(hash)
       .map((name) => {
-        return this._formatRoute(hash, name);
+        return this.formatRoute(hash, name);
       })
       .join('/');
   }
 
-  _formatRoute(hash, name) {
+  formatRoute(hash, name) {
     const params = Object
       .keys(hash[name].params)
       .map((paramName, index) => {
@@ -141,12 +141,12 @@ export default class StateRouter extends Router {
     return hash[name].path + params + '@' + name;
   }
 
-  _loadHistory() {
-    const history = sessionStorage.getItem(this._createId());
+  loadHistory() {
+    const history = sessionStorage.getItem(this.createId());
     this._history = history === null ? [] : JSON.parse(history);
   }
 
-  _processBackward(route) {
+  processBackward(route) {
     if (route.back !== true) {
       return route;
     }
@@ -168,7 +168,7 @@ export default class StateRouter extends Router {
     return route;
   }
 
-  _processForward(route) {
+  processForward(route) {
     if (route.clear === true) {
       this._history = [];
     }
@@ -177,32 +177,32 @@ export default class StateRouter extends Router {
       this._history.push(route);
     }
 
-    this._saveHistory();
+    this.saveHistory();
 
     return route;
   }
 
-  _processHash(hash, route) {
-    route = this._processHistory(route);
-    route = this._processBackward(route);
+  processHash(hash, route) {
+    route = this.processHistory(route);
+    route = this.processBackward(route);
 
     if (typeof route.path !== 'undefined') {
       if (route.path === null) {
         delete hash[this._name];
       } else if (!this._workers[route.path]) {
         if (this._default) {
-          hash[this._name] = this._processRoute(this._default, route.params);
+          hash[this._name] = this.processRoute(this._default, route.params);
         } else if (route.default) {
-          hash[this._name] = this._processRoute(route.default, route.params);
+          hash[this._name] = this.processRoute(route.default, route.params);
         }
       } else {
-        hash[this._name] = this._processRoute(route.path, route.params);
+        hash[this._name] = this.processRoute(route.path, route.params);
       }
     } else if (typeof hash[this._name] === 'undefined') {
       if (this._default !== null) {
-        hash[this._name] = this._processRoute(this._default, route.params);
+        hash[this._name] = this.processRoute(this._default, route.params);
       } else if (route.default) {
-        hash[this._name] = this._processRoute(route.default, route.params);
+        hash[this._name] = this.processRoute(route.default, route.params);
       }
     }
 
@@ -214,13 +214,13 @@ export default class StateRouter extends Router {
     }
 
     if (route.fwd !== false) {
-      route = this._processForward(route);
+      route = this.processForward(route);
     }
 
     return [hash, route];
   }
 
-  _processHistory(route) {
+  processHistory(route) {
     if (route.history !== true) {
       return route;
     }
@@ -238,14 +238,14 @@ export default class StateRouter extends Router {
     return previous;
   }
 
-  _processRoute(path, params = {}) {
+  processRoute(path, params = {}) {
     return {
       params,
       path
     };
   }
 
-  _saveHistory() {
+  saveHistory() {
     const history = [];
     let route = null;
 
@@ -260,6 +260,6 @@ export default class StateRouter extends Router {
       };
     }
 
-    sessionStorage.setItem(this._createId(), JSON.stringify(history));
+    sessionStorage.setItem(this.createId(), JSON.stringify(history));
   }
 }

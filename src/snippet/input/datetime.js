@@ -33,7 +33,7 @@ export default class DateTimeLocal extends Input {
   }
 
   validateBefore(box, data, error, name, value) {
-    if (this._isEmpty(value) === true) {
+    if (this.isEmpty(value) === true) {
       return;
     }
 

@@ -7,16 +7,16 @@ export default class Route extends Snippet {
 
     for (let i = 0; i < this._list.length; i += 1) {
       string = this.resolveValue(box, data, this._list[i]);
-      this._parseRoute(box, data, string);
+      this.parseRoute(box, data, string);
     }
   }
 
-  _parseRoute(box, data, string) {
+  parseRoute(box, data, string) {
     const current = StateRouter.parseRoute(string);
     const [path, params] = current.path.split('?');
 
     if (typeof params !== 'undefined') {
-      this._parseParams(box, data, current, path, params);
+      this.parseParams(box, data, current, path, params);
     }
 
     const name = current.name === 'self' ? box.name : current.name;
@@ -24,17 +24,17 @@ export default class Route extends Snippet {
     StateRouter.getRouter(name).handle(current, data);
   }
 
-  _parseParams(box, data, current, path, params) {
+  parseParams(box, data, current, path, params) {
     current.params = box.params;
     current.path = path;
 
     if (params.length) {
       const names = params.split(';');
-      current.params = this._pickParams(box, data, names);
+      current.params = this.pickParams(box, data, names);
     }
   }
 
-  _pickParams(box, data, names) {
+  pickParams(box, data, names) {
     const picked = {};
 
     let sourceName = null;

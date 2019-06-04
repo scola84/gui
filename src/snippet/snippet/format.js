@@ -69,7 +69,7 @@ export default class Format extends Snippet {
 
       string = get(strings, path);
       string = typeof string === 'undefined' ? code : string;
-      string = this._resolveCustom(string, locale, args);
+      string = this.resolveCustom(string, locale, args);
 
       try {
         result[result.length] = sprintf.vsprintf(string, args);
@@ -82,7 +82,7 @@ export default class Format extends Snippet {
     return result;
   }
 
-  _resolveCustom(string, locale, args) {
+  resolveCustom(string, locale, args) {
     const matches = string.match(regexpGlobal) || [];
 
     let match = null;

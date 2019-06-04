@@ -22,7 +22,7 @@ export default class Hint extends Node {
     let value = data.details[name];
 
     if (Array.isArray(value) === true) {
-      [name, value] = this._resolveArray(box, data, previous, name);
+      [name, value] = this.resolveArray(box, data, previous, name);
     }
 
     let text = null;
@@ -42,7 +42,7 @@ export default class Hint extends Node {
     );
   }
 
-  _resolveArray(box, data, previous, name) {
+  resolveArray(box, data, previous, name) {
     const multiple = previous.resolveAttribute(box, data, 'multiple');
 
     const all = this._builder

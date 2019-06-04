@@ -41,7 +41,7 @@ export default class Input extends Node {
   cleanBefore() {}
 
   cleanInput(box, data, name, value) {
-    if (this._isEmpty(value) === true) {
+    if (this.isEmpty(value) === true) {
       if (this._default !== null) {
         value = this.resolveValue(box, data, this._default);
         this.set(data, name, value);
@@ -53,6 +53,44 @@ export default class Input extends Node {
     this.cleanBefore(box, data, name, value);
     this.cleanInput(box, data, name, value);
     this.cleanAfter(box, data, name, value);
+  }
+
+  isAboveMin(value, min) {
+    if (typeof min === 'undefined') {
+      return true;
+    }
+
+    return value >= min;
+  }
+
+  isBelowMax(value, max) {
+    if (typeof max === 'undefined') {
+      return true;
+    }
+
+    return value <= max;
+  }
+
+  isDefined(value, required) {
+    if (typeof required === 'undefined') {
+      return true;
+    }
+
+    return this.isEmpty(value) === false;
+  }
+
+  isEmpty(value) {
+    return typeof value === 'undefined' ||
+      value === null ||
+      value === '';
+  }
+
+  isPattern(value, pattern) {
+    if (typeof pattern === 'undefined') {
+      return true;
+    }
+
+    return new RegExp(pattern).test(String(value));
   }
 
   set(object, key, value) {
@@ -92,31 +130,31 @@ export default class Input extends Node {
   validateInput(box, data, error, name, value) {
     const required = this.resolveAttribute(box, data, 'required');
 
-    if (this._isDefined(value, required) === false) {
+    if (this.isDefined(value, required) === false) {
       this.throwError(value, 'required');
     }
 
     const pattern = this.resolveAttribute(box, data, 'pattern');
 
-    if (this._isPattern(value, pattern) === false) {
+    if (this.isPattern(value, pattern) === false) {
       this.throwError(value, 'pattern', { pattern });
     }
 
     const maxlength = this.resolveAttribute(box, data, 'maxlength');
 
-    if (this._isBelowMax(String(value).length, maxlength) === false) {
+    if (this.isBelowMax(String(value).length, maxlength) === false) {
       this.throwError(value, 'maxlength', { maxlength });
     }
 
     const max = this.resolveAttribute(box, data, 'max');
 
-    if (this._isBelowMax(value, max) === false) {
+    if (this.isBelowMax(value, max) === false) {
       this.throwError(value, 'max', { max });
     }
 
     const min = this.resolveAttribute(box, data, 'min');
 
-    if (this._isAboveMin(value, min) === false) {
+    if (this.isAboveMin(value, min) === false) {
       this.throwError(value, 'min', { min });
     }
   }
@@ -129,43 +167,5 @@ export default class Input extends Node {
     } catch (e) {
       this.set(error, name, e.details);
     }
-  }
-
-  _isAboveMin(value, min) {
-    if (typeof min === 'undefined') {
-      return true;
-    }
-
-    return value >= min;
-  }
-
-  _isBelowMax(value, max) {
-    if (typeof max === 'undefined') {
-      return true;
-    }
-
-    return value <= max;
-  }
-
-  _isDefined(value, required) {
-    if (typeof required === 'undefined') {
-      return true;
-    }
-
-    return this._isEmpty(value) === false;
-  }
-
-  _isEmpty(value) {
-    return typeof value === 'undefined' ||
-      value === null ||
-      value === '';
-  }
-
-  _isPattern(value, pattern) {
-    if (typeof pattern === 'undefined') {
-      return true;
-    }
-
-    return new RegExp(pattern).test(String(value));
   }
 }

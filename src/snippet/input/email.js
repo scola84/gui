@@ -12,6 +12,14 @@ export default class Email extends Input {
       .setName('input');
   }
 
+  checkDomain(domain) {
+    return domain.split('.').every((part) => {
+      return regexp.test(part) === true &&
+        part[0] !== '-' &&
+        part[part.length - 1] !== '-';
+    });
+  }
+
   cleanAfter(box, data, name, value) {
     this.set(data, name, String(value).trim().toLowerCase());
   }
@@ -32,16 +40,8 @@ export default class Email extends Input {
       this.throwError(value, 'local');
     }
 
-    if (domain.length === 0 || this._checkDomain(domain) === false) {
+    if (domain.length === 0 || this.checkDomain(domain) === false) {
       this.throwError(value, 'domain');
     }
-  }
-
-  _checkDomain(domain) {
-    return domain.split('.').every((part) => {
-      return regexp.test(part) === true &&
-        part[0] !== '-' &&
-        part[part.length - 1] !== '-';
-    });
   }
 }

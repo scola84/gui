@@ -2,14 +2,14 @@ import { event } from 'd3';
 import Action from './action';
 
 export default class Event extends Action {
-  _bind(box, data, name, callback) {
+  bind(box, data, name, callback) {
     const result = [];
     let snippet = null;
 
     for (let i = 0; i < this._list.length; i += 1) {
       snippet = this._list[i];
 
-      result[result.length] = this._bindOn(
+      result[result.length] = this.bindOn(
         snippet,
         name,
         snippet.resolve(box, data),
@@ -20,20 +20,20 @@ export default class Event extends Action {
     return result;
   }
 
-  _bindOn(snippet, name, node, callback) {
+  bindOn(snippet, name, node, callback) {
     return node.on(name, () => {
       event.preventDefault();
       callback(snippet, event);
     });
   }
 
-  _unbind(name) {
+  unbind(name) {
     let snippet = null;
 
     for (let i = 0; i < this._list.length; i += 1) {
       snippet = this._list[i];
 
-      this._unbindOn(
+      this.unbindOn(
         snippet,
         name,
         snippet.node()
@@ -41,7 +41,7 @@ export default class Event extends Action {
     }
   }
 
-  _unbindOn(snippet, name, node) {
+  unbindOn(snippet, name, node) {
     node.on(name, null);
   }
 }

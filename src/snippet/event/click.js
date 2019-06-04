@@ -2,7 +2,7 @@ import Event from '../event';
 
 export default class Click extends Event {
   resolve(box, data) {
-    return this._bind(box, data, 'click', (snippet) => {
+    return this.bind(box, data, 'click', (snippet) => {
       if (snippet.node().classed('click') === true) {
         this.pass(box, data);
       }
@@ -10,7 +10,7 @@ export default class Click extends Event {
   }
 
   remove() {
-    this._unbind('click');
+    this.unbind('click');
     super.remove();
   }
 }

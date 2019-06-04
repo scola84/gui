@@ -25,14 +25,14 @@ export default class Request extends Async {
   }
 
   each(box, data, options) {
-    options = this._parseOptions(box, data, options);
+    options = this.parseOptions(box, data, options);
 
     return (callback) => {
-      this._sendRequest(box, data, callback, options);
+      this.sendRequest(box, data, callback, options);
     };
   }
 
-  _parseOptions(box, data, options) {
+  parseOptions(box, data, options) {
     options = this.resolveValue(box, data, options);
 
     if (typeof options === 'string') {
@@ -49,7 +49,7 @@ export default class Request extends Async {
     return options;
   }
 
-  _sendRequest(requestBox, requestData, callback, options) {
+  sendRequest(requestBox, requestData, callback, options) {
     const {
       connector,
       transformer
