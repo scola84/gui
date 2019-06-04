@@ -61,6 +61,7 @@ export default class Validate extends Action {
       snippets[i].resolve(box, error);
     }
 
+    snippet.resolve().unlock();
     this.fail(box, error);
   }
 

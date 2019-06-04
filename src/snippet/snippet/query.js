@@ -17,10 +17,6 @@ export default class Query extends Snippet {
     return this;
   }
 
-  node(value) {
-    return this.setNode(value);
-  }
-
   find(compare) {
     let result = [];
     const snippet = this.resolve();

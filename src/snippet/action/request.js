@@ -1,5 +1,6 @@
 import { createBrowser } from '@scola/http';
 import { Worker } from '@scola/worker';
+import merge from 'lodash-es/merge';
 import Async from './async';
 
 export default class Request extends Async {
@@ -31,6 +32,14 @@ export default class Request extends Async {
     };
   }
 
+  _callback(callback, options, error, data) {
+    if (options.extra.snippet) {
+      options.extra.snippet.resolve().unlock();
+    }
+
+    callback(error, data);
+  }
+
   _parseOptions(box, data, options) {
     options = this.resolveValue(box, data, options);
 
@@ -39,28 +48,32 @@ export default class Request extends Async {
       options = { method, url: { path } };
     }
 
-    options.extra = { box };
+    merge(options, {
+      extra: {
+        box
+      }
+    });
 
     return options;
   }
 
-  _sendRequest(box, data, callback, options) {
+  _sendRequest(requestBox, requestData, callback, options) {
     const {
       connector,
       transformer
     } = createBrowser();
 
     transformer.connect(new Worker({
-      act(b, responseData) {
-        callback(null, responseData);
+      act: (box, data) => {
+        this._callback(callback, options, null, data);
       },
-      err(b, error) {
-        callback(error);
+      err: (box, error) => {
+        this._callback(callback, options, error);
       }
     }));
 
-    connector.handle(options, data, (event) => {
-      this.resolveValue(box, event, this._progress);
+    connector.handle(options, requestData, (event) => {
+      this.resolveValue(requestBox, event, this._progress);
     });
   }
 }

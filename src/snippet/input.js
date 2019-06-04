@@ -23,16 +23,13 @@ export default class Input extends Node {
   }
 
   clean(box, data) {
-    let name = this.resolveAttribute(box, data, 'name');
-    let value = data[name];
+    const name = this.resolveAttribute(box, data, 'name');
+    const value = data[name];
 
-    if (name.slice(-2) !== '[]') {
+    if (Array.isArray(value) === false) {
       this.cleanValue(box, data, name, value);
       return;
     }
-
-    name = name.slice(0, -2);
-    value = data[name] || [];
 
     for (let i = 0; i < value.length; i += 1) {
       this.cleanValue(box, data, `${name}.${i}`, value[i]);
@@ -75,16 +72,13 @@ export default class Input extends Node {
   }
 
   validate(box, data, error) {
-    let name = this.resolveAttribute(box, data, 'name');
-    let value = data[name];
+    const name = this.resolveAttribute(box, data, 'name');
+    const value = data[name];
 
-    if (name.slice(-2) !== '[]') {
+    if (Array.isArray(value) === false) {
       this.validateValue(box, data, error, name, value);
       return;
     }
-
-    name = name.slice(0, -2);
-    value = data[name] || [];
 
     for (let i = 0; i < value.length; i += 1) {
       this.validateValue(box, data, error, `${name}.${i}`, value[i]);

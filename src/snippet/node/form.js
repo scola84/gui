@@ -10,4 +10,18 @@ export default class Form extends Node {
       })
       .setName('form');
   }
+
+  isLocked() {
+    return this._node.classed('locked');
+  }
+
+  lock() {
+    this._node.classed('locked', true);
+    return this;
+  }
+
+  unlock() {
+    this._node.classed('locked', false);
+    return this;
+  }
 }

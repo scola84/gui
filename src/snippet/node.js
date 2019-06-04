@@ -157,6 +157,10 @@ export default class Node extends Snippet {
   }
 
   resolve(box, data) {
+    if (typeof box === 'undefined') {
+      return this;
+    }
+
     if (this._node === null) {
       this.create();
     }

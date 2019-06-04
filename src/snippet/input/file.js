@@ -22,7 +22,6 @@ export default class File extends Input {
     if (this._isAcceptable(value, accept) === false) {
       this.throwError(value, 'accept', { accept });
     }
-
   }
 
   validateMaxsize(box, data, error, name, value) {

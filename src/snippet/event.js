@@ -22,6 +22,7 @@ export default class Event extends Action {
 
   _bindOn(snippet, name, node, callback) {
     return node.on(name, () => {
+      event.preventDefault();
       callback(snippet, event);
     });
   }

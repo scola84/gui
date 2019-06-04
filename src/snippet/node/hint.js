@@ -34,7 +34,7 @@ export default class Hint extends Node {
     let name = previous.resolveAttribute(box, data, 'name');
     let value = data[name];
 
-    if (name.slice(-2) === '[]') {
+    if (Array.isArray(value) === true) {
       [name, value] = this._resolveArray(box, data, previous, name);
     }
 
@@ -64,7 +64,6 @@ export default class Hint extends Node {
       .query(`input[name="${name}"]`)
       .all();
 
-    name = name.slice(0, -2);
     let value = null;
 
     if (typeof multiple === 'undefined') {
