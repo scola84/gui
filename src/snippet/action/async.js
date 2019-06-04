@@ -37,7 +37,6 @@ export default class Async extends Action {
     }
 
     this._handler(fn, (error, results) => {
-
       if (error) {
         this.fail(box, error);
       } else {
