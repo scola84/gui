@@ -9,6 +9,10 @@ export default class Query extends Snippet {
   }
 
   getNode() {
+    if (this._node === null) {
+      return this._builder.getView().node();
+    }
+
     return this._node;
   }
 
@@ -19,29 +23,27 @@ export default class Query extends Snippet {
 
   find(compare) {
     let result = [];
-    const snippet = this.resolve();
 
-    if (snippet !== null) {
-      result = snippet.find(compare);
+    const snippets = this.all();
+
+    for (let i = 0; i < snippets.length; i += 1) {
+      result = result.concat(snippets[i].find(compare));
     }
 
     return result;
   }
 
-  resolve() {
-    this._node = this._builder
-      .getView()
-      .node();
+  resolve(box, data) {
+    const snippets = this.all();
 
-    return this.one();
+    for (let i = 0; i < snippets.length; i += 1) {
+      snippets[i].resolve(box, data);
+    }
   }
 
   one() {
-    if (this._node === null) {
-      return null;
-    }
-
-    const node = this._node
+    const node = this
+      .getNode()
       .select(this._list[0])
       .node();
 
@@ -51,11 +53,8 @@ export default class Query extends Snippet {
   all() {
     const all = [];
 
-    if (this._node === null) {
-      return all;
-    }
-
-    this._node
+    this
+      .getNode()
       .selectAll(this._list[0])
       .each((datum, index, nodes) => {
         all[all.length] = nodes[index].snippet;
@@ -65,11 +64,9 @@ export default class Query extends Snippet {
   }
 
   next() {
-    if (this._node === null) {
-      return null;
-    }
-
-    const node = this._node.node();
+    const node = this
+      .getNode()
+      .node();
 
     if (node.nextSibling) {
       return node.nextSibling.snippet;
@@ -79,11 +76,9 @@ export default class Query extends Snippet {
   }
 
   previous() {
-    if (this._node === null) {
-      return null;
-    }
-
-    const node = this._node.node();
+    const node = this
+      .getNode()
+      .node();
 
     if (node.previousSibling) {
       return node.previousSibling.snippet;

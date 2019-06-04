@@ -157,18 +157,11 @@ export default class Node extends Snippet {
   }
 
   resolve(box, data) {
-    if (typeof box === 'undefined') {
-      return this;
-    }
-
     if (this._node === null) {
       this.create();
     }
 
     this.resolveBefore(box, data);
-    this.resolveOuter(box, data);
-    this.resolveInner(box, data);
-    this.resolveAfter(box, data);
 
     return this._node;
   }
@@ -179,7 +172,9 @@ export default class Node extends Snippet {
     return this.resolveObject(box, data, this._attributes, name);
   }
 
-  resolveBefore() {}
+  resolveBefore(box, data) {
+    this.resolveOuter(box, data);
+  }
 
   resolveClassed(box, data, name) {
     return this.resolveObject(box, data, this._classed, name);
@@ -201,6 +196,8 @@ export default class Node extends Snippet {
         this._insertNode(snippets[j].node());
       }
     }
+
+    this.resolveAfter(box, data);
   }
 
   resolveOuter(box, data) {
@@ -210,6 +207,8 @@ export default class Node extends Snippet {
     this._setOuter(box, data, this._properties, 'property');
     this._setOuter(box, data, this._styles, 'style');
     this._setOuter(box, data, this._text);
+
+    this.resolveInner(box, data);
   }
 
   resolveProperty(box, data, name) {

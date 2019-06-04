@@ -24,4 +24,13 @@ export default class Form extends Node {
     this._node.classed('locked', false);
     return this;
   }
+
+  resolveBefore(box, data) {
+    if (this.isLocked() === true) {
+      this.unlock();
+      return;
+    }
+
+    this.resolveOuter(box, data);
+  }
 }

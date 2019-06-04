@@ -1,7 +1,6 @@
 export default [
   'body',
   'center',
-  'content',
   'comment',
   'footer',
   'group',
@@ -10,8 +9,6 @@ export default [
   'item',
   'label',
   'left',
-  'list',
-  'message',
   'right',
   'title'
 ];

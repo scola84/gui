@@ -203,18 +203,18 @@
   z-index: 1;
 }
 
-.panel.hide-message > .header > .message,
-.panel.show-message > .header > .message {
+.panel > .header > .message.hide,
+.panel > .header > .message.show {
   transition: all 0.25s;
 }
 
-.panel .header > .message,
-.panel.hide-message > .header > .message {
+.panel > .header > .message,
+.panel > .header > .message.hide {
   margin-bottom: -2.25em;
   top: -2.25em;
 }
 
-.panel.show-message > .header > .message {
+.panel > .header > .message.show {
   margin-bottom: 0;
   top: 0;
 }
@@ -223,7 +223,7 @@
 
 .panel > .header > .progress {
   background: rgb(14, 122, 254);
-  bottom: 0;
+  bottom: -3px;
   height: 3px;
   left: 0;
   position: absolute;

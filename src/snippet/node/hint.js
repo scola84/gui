@@ -1,28 +1,11 @@
 import Node from '../node';
 
 export default class Hint extends Node {
-  constructor(options = {}) {
-    super(options);
-
-    this._message = null;
-    this.setMessage(options.message);
-  }
-
-  getMessage() {
-    return this._message;
-  }
-
-  setMessage(value = null) {
-    this._message = value;
-    return this;
-  }
-
-  message(value) {
-    this._message = value;
-    return this;
-  }
-
   resolveAfter(box, data) {
+    if (typeof this._text.text !== 'undefined') {
+      return;
+    }
+
     const previous = this
       .query()
       .previous();
@@ -40,15 +23,14 @@ export default class Hint extends Node {
 
     let text = null;
 
-    if (typeof value !== 'undefined') {
-      text = this._message;
-
-      if (text === null) {
-        text = this._builder.format([
-          `dom.input.${value.type}.${value.reason}`,
-          value
-        ]);
-      }
+    if (
+      typeof value !== 'undefined' &&
+      typeof value.reason !== 'undefined'
+    ) {
+      text = this._builder.format([
+        `input.${value.type}.${value.reason}`,
+        value
+      ]);
     }
 
     this._node.text(

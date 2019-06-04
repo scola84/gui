@@ -32,14 +32,6 @@ export default class Request extends Async {
     };
   }
 
-  _callback(callback, options, error, data) {
-    if (options.extra.snippet) {
-      options.extra.snippet.resolve().unlock();
-    }
-
-    callback(error, data);
-  }
-
   _parseOptions(box, data, options) {
     options = this.resolveValue(box, data, options);
 
@@ -64,11 +56,11 @@ export default class Request extends Async {
     } = createBrowser();
 
     transformer.connect(new Worker({
-      act: (box, data) => {
-        this._callback(callback, options, null, data);
+      act(box, data) {
+        callback(null, data);
       },
-      err: (box, error) => {
-        this._callback(callback, options, error);
+      err(box, error) {
+        callback(error);
       }
     }));
 

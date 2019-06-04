@@ -37,10 +37,12 @@ export default class Async extends Action {
     }
 
     this._handler(fn, (error, results) => {
+
       if (error) {
         this.fail(box, error);
       } else {
-        this.pass(box, results, true);
+        results = fn.length === 1 ? results[0] : results;
+        this.pass(box, results);
       }
     });
   }

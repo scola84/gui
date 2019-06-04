@@ -1,12 +1,12 @@
 import Node from '../node';
 
 export default class Bar extends Node {
-  resolveBefore(box, data, node) {
+  resolveBefore(box, data) {
     this._checkChild(0, 'left');
     this._checkChild(1, 'center');
     this._checkChild(2, 'right');
 
-    return node;
+    this.resolveOuter(box, data);
   }
 
   _checkChild(index, classed) {

@@ -1,5 +1,4 @@
 import Action from '../action';
-import Hint from '../node/hint';
 import Input from '../input';
 
 export default class Validate extends Action {
@@ -47,26 +46,11 @@ export default class Validate extends Action {
       if (this._throw === true) {
         this._throwError(box, error);
       } else {
-        this._handleError(box, error, snippet);
+        this.fail(box, error);
       }
     } else {
-      this._handleSuccess(box, data);
+      this.pass(box, data);
     }
-  }
-
-  _handleError(box, error, snippet) {
-    const snippets = snippet.find((s) => s instanceof Hint);
-
-    for (let i = 0; i < snippets.length; i += 1) {
-      snippets[i].resolve(box, error);
-    }
-
-    snippet.resolve().unlock();
-    this.fail(box, error);
-  }
-
-  _handleSuccess(box, data) {
-    this.pass(box, data);
   }
 
   _throwError(box, error) {
