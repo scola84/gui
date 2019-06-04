@@ -1,9 +1,22 @@
 import { Worker } from '@scola/worker';
+import camel from 'lodash-es/camelCase';
 import { attach } from '../../helper';
 
 export default class ViewBuilder extends Worker {
   static attach() {
     attach(ViewBuilder);
+  }
+
+  static attachFactory(prefix, name, object, options = {}) {
+    ViewBuilder.prototype[
+      camel(ViewBuilder.prototype[name] ?
+        `${prefix}-${name}` : name)
+    ] = function create(...list) {
+      return new object(Object.assign(options, {
+        builder: this,
+        list
+      }));
+    };
   }
 
   constructor(options = {}) {
