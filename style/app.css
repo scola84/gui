@@ -103,24 +103,6 @@ body .app > * {
   height: 100%;
 }
 
-.ion-ios-brush:before {
-  font-size: 1em !important;
-}
-
-.ion-ios-cloud-download-outline {
-  border-color: transparent !important;
-}
-
-.ion-ios-search-outline:before {
-  font-size: 1.5em !important;
-}
-
-.ion-ios-lock:before,
-.ion-ios-square:before,
-.ion-ios-unlock:before {
-  font-size: 1em !important;
-}
-
 .progress {
   background: inherit;
   height: 3px;

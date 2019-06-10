@@ -93,6 +93,15 @@
   width: 1.5em;
 }
 
+.block > .body > li .icon.top {
+  align-self: baseline;
+  margin-top: 0.1em;
+}
+
+.block > .body > li > .icon {
+  color: rgb(14, 122, 254);
+}
+
 .block > .body > li .icon:before {
   font-size: 1.9em;
 }
@@ -170,18 +179,10 @@
   transform: rotate(-90deg);
 }
 
-.block > .body > li > .icon {
-  color: rgb(14, 122, 254);
-  margin: 0 1em 0 0;
-  text-align: center;
-  width: 1.5em;
-}
-
 .block > .body > li .primary:not(:empty) {
   display: flex;
   flex-direction: column;
   margin: 0 1em 0 0;
-  min-width: 0;
 }
 
 .block > .body > li .primary div {
@@ -193,6 +194,7 @@
 .block > .body > li .primary .l2,
 .block > .body > li .primary .l3 {
   overflow: hidden;
+  text-align: start;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -314,11 +316,7 @@
   flex: 1 0 auto;
 }
 
-.block.unwrap > .body > li .primary .l0.unwrap,
-.block.unwrap > .body > li .primary .l1.unwrap,
-.block.unwrap > .body > li .primary .l2.unwrap,
-.block.unwrap > .body > li .primary .l3.unwrap,
-.block.unwrap > .body > li .secondary .l5.unwrap {
+.block.unwrap > .body > li .unwrap {
   white-space: normal;
 }
 

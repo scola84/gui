@@ -1,0 +1,26 @@
+.section > .panel > .bar .button.ion-ios-search-outline:before {
+  font-size: 1.5em;
+}
+
+.section > .panel > .body .button.ion-ios-lock:before,
+.section > .panel > .body .button.ion-ios-square:before,
+.section > .panel > .body .button.ion-ios-unlock:before {
+  font-size: 1em;
+}
+
+.section > .panel > .body .button.ion-ios-brush:before,
+.summary .secondary .actions li .button.ion-ios-brush:before {
+  font-size: 1em;
+}
+
+.summary .secondary .actions li .button.ion-ios-person:before {
+  font-size: 1.5em;
+}
+
+.summary .secondary .actions li .button.ion-ios-call:before {
+  font-size: 1.5em;
+}
+
+.summary .secondary .actions li .button.ion-ios-mail:before {
+  font-size: 1.5em;
+}

@@ -4,6 +4,7 @@ import './style/fix.css';
 import './style/flatpickr.css';
 import './style/form.css';
 import './style/graph.css';
+import './style/icon.css';
 import './style/kpi.css';
 import './style/list.css';
 import './style/main.css';

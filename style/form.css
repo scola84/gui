@@ -44,7 +44,6 @@ form .block > .body .input textarea {
 }
 
 form .block > .body .input textarea {
-  line-height: 1.5em;
   resize: none;
 }
 
@@ -183,7 +182,7 @@ form .block > .body .input {
 }
 
 form .block > .body .input.textarea {
-  align-items: flex-start;
+  align-items: flex-end;
 }
 
 form .block > .body .input .button {

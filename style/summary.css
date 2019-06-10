@@ -156,10 +156,6 @@
   margin: 0 0 0.25em;
 }
 
-.summary .secondary .actions li .button:before {
-  font-size: 1.5em;
-}
-
 .summary .secondary .actions li .button + .label {
   color: rgb(14, 122, 254);
   font-size: 0.75em;
