@@ -3,6 +3,7 @@ import fixDate from './fix/date';
 import fixSubmit from './fix/submit';
 import getView from './view/get';
 import handleArrow from './handle/arrow';
+import handleGrow from './handle/grow';
 import handleLevel from './handle/level';
 import handlePicker from './handle/picker';
 import readDate from './read/date';
@@ -28,6 +29,7 @@ export {
   fixSubmit,
   getView,
   handleArrow,
+  handleGrow,
   handleLevel,
   handlePicker,
   readDate,
