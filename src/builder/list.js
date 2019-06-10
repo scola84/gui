@@ -216,7 +216,7 @@ export default class ListBuilder extends Builder {
     }
 
     const list = select(nodes[index].closest('.block'));
-    const name = ['fold', route.path, index].join('-');
+    const name = ['fold', route.path, datum.name || index].join('-');
     const item = localStorage.getItem(name);
 
     const isFolded = item === null ?
@@ -272,7 +272,7 @@ export default class ListBuilder extends Builder {
 
   _setFoldClass(route, datum, index) {
     const base = datum.class || '';
-    const name = ['fold', route.path, index].join('-');
+    const name = ['fold', route.path, datum.name || index].join('-');
     const item = localStorage.getItem(name);
 
     const isFolded = item === null ?
