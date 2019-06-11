@@ -39,6 +39,7 @@ form .block > .body .input textarea {
   background: none;
   border: 0;
   color: black;
+  margin: 0;
   padding: 0.25em;
   width: 100%;
 }
