@@ -1,7 +1,6 @@
 .form .item > input,
 .form .item > select,
 .form .item > textarea {
-  align-self: center;
   flex: 1;
   margin-right: 1em;
   min-width: 0;
@@ -13,11 +12,6 @@
 *[dir=rtl] .form .item > textarea {
   margin-right: 0;
   margin-left: 1em;
-}
-
-.form .item > .label {
-  flex: none;
-  padding-top: 0.4em;
 }
 
 .form .item > .hint:not(:empty) {
