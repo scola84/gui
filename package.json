@@ -17,15 +17,24 @@
     "rollup-plugin-node-resolve": "^5.0.1"
   },
   "dependencies": {
-    "@scola/http": "^5.9.11",
-    "@scola/worker": "^2.15.0",
+    "@scola/http": "file:@scola/http",
+    "@scola/worker": "file:@scola/worker",
     "async": "^3.0.1",
     "d3": "^5.9.2",
+    "dom-shims": "^0.1.4",
     "element-resize-detector": "^1.1.15",
-    "form-serialize": "^0.7.2",
+    "es5-shim": "^4.5.13",
+    "es6-shim": "^0.35.5",
+    "es6-symbol": "^3.1.1",
+    "es7-shim": "^6.0.0",
+    "fastclick": "^1.0.6",
+    "iban": "0.0.12",
     "ionicons": "^4.5.8",
+    "libphonenumber-js": "^1.7.19",
     "lodash-es": "^4.17.11",
-    "luxon": "^1.15.0",
+    "luxon": "^1.16.0",
+    "marked": "^0.6.2",
+    "postal-codes-js": "^2.0.2",
     "sprintf-js": "^1.1.2"
   }
 }

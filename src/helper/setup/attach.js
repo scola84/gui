@@ -1,7 +1,7 @@
 import camel from 'lodash-es/camelCase';
-import { ViewBuilder } from '../worker';
-import * as snippet from '../snippet';
-import * as token from '../token';
+import { ViewBuilder } from '../../worker';
+import * as snippet from '../../snippet';
+import * as token from '../../token';
 
 export default function attach() {
   Object.keys(snippet).forEach((group) => {

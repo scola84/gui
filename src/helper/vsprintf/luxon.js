@@ -1,13 +1,12 @@
 import { DateTime } from 'luxon';
 
-export default function luxon(value, locale = 'nl_NL', options = '') {
+export default function luxon(value, options = '', locale = 'nl_NL') {
+  locale = locale.replace('_', '-');
   options = options ? options.split(';') : [];
 
   const [
     format = 'D'
   ] = options;
-
-  locale = locale.replace('_', '-');
 
   return DateTime
     .fromISO(value)

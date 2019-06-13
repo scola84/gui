@@ -1,13 +1,7 @@
 import get from 'lodash-es/get';
 import merge from 'lodash-es/merge';
-import sprintf from 'sprintf-js';
 import Snippet from '../snippet';
-import format from './format/';
-
-const regexpBase = '%((\\((\\w+)\\))?((\\d+)\\$)?)([b-gijostTuvxXlmn])(\\[(.+)\\])?';
-const regexpGlobal = new RegExp(regexpBase, 'g');
-const regexpSingle = new RegExp(regexpBase);
-const reductor = (name) => (a, v) => v[name] || a;
+import { vsprintf } from '../../helper';
 
 const strings = {};
 let wlocale = 'nl_NL';
@@ -19,6 +13,14 @@ export default class Format extends Snippet {
 
   static setLocale(value) {
     wlocale = value;
+  }
+
+  static setNumbers(value) {
+    merge(vsprintf.n.definitions, value);
+  }
+
+  static getNumbers() {
+    return vsprintf.n.definitions;
   }
 
   static getStrings() {
@@ -40,7 +42,7 @@ export default class Format extends Snippet {
     return this._locale;
   }
 
-  setLocale(value = 'nl_NL') {
+  setLocale(value = wlocale) {
     this._locale = value;
     return this;
   }
@@ -69,48 +71,16 @@ export default class Format extends Snippet {
 
       string = get(strings, path);
       string = typeof string === 'undefined' ? code : string;
-      string = this.resolveCustom(string, locale, args);
 
       try {
-        result[result.length] = sprintf.vsprintf(string, args);
+        string = vsprintf(string, args, locale);
       } catch (e) {
         console.warn(e);
-        result[result.length] = string;
       }
+
+      result[result.length] = string;
     }
 
     return result;
-  }
-
-  resolveCustom(string, locale, args) {
-    const matches = string.match(regexpGlobal) || [];
-
-    let match = null;
-    let name = null;
-    let number = null;
-    let options = null;
-    let type = null;
-    let value = null;
-
-    for (let i = 0; i < matches.length; i += 1) {
-      [
-        match, , , name, , number, type, , options
-      ] = matches[i].match(regexpSingle);
-
-      value = number ?
-        args[number - 1] :
-        name ?
-        args.reduce(reductor(name), '') :
-        args[i];
-
-      if (format[type]) {
-        string = string.replace(
-          match,
-          format[type](value, locale, options)
-        );
-      }
-    }
-
-    return string;
   }
 }

@@ -1,15 +1,7 @@
-import attach from './attach';
-import bind from './bind';
-import shim from './shim';
+import setup from './setup';
+import vsprintf from './vsprintf';
 
 export {
-  attach,
-  bind,
-  shim
+  setup,
+  vsprintf
 };
-
-export function setup() {
-  shim();
-  bind();
-  attach();
-}
