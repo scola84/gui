@@ -27,7 +27,8 @@ const bubleOptions = {
 export default {
   input: './index.js',
   external: [
-    '@scola/http'
+    '@scola/http',
+    'process'
   ],
   output: [{
     file: 'dist/dom.cjs.js',

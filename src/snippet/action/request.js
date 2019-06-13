@@ -1,6 +1,7 @@
 import { createBrowser } from '@scola/http';
 import { Worker } from '@scola/worker';
 import merge from 'lodash-es/merge';
+import { parse } from 'url';
 import Async from './async';
 
 export default class Request extends Async {
@@ -25,7 +26,13 @@ export default class Request extends Async {
   }
 
   each(box, data, options) {
-    options = this.parseOptions(box, data, options);
+    options = this.resolveValue(box, data, options);
+
+    if (typeof options === 'string') {
+      options = this.parseOptions(box, data, options);
+    }
+
+    merge(options, { extra: { box } });
 
     return (callback) => {
       this.sendRequest(box, data, callback, options);
@@ -33,18 +40,26 @@ export default class Request extends Async {
   }
 
   parseOptions(box, data, options) {
-    options = this.resolveValue(box, data, options);
+    const [
+      method,
+      url
+    ] = options.split(' ');
 
-    if (typeof options === 'string') {
-      const [method, path] = options.split(' ');
-      options = { method, url: { path } };
-    }
+    options = {
+      method,
+      url: parse(url)
+    };
 
-    merge(options, {
-      extra: {
-        box
+    const keys = Object.keys(options.url);
+    let key = null;
+
+    for (let i = 0; i < keys.length; i += 1) {
+      key = keys[i];
+
+      if (options.url[key] === null) {
+        delete options.url[key];
       }
-    });
+    }
 
     return options;
   }
