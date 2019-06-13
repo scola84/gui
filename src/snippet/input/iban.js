@@ -16,7 +16,7 @@ export default class Iban extends Input {
     this.set(data, name, String(value).replace(/\s+/g, ''));
   }
 
-  validateBefore(box, data, error, name, value) {
+  validateAfter(box, data, error, name, value) {
     const country = value
       .toUpperCase()
       .slice(0, 2);
@@ -24,15 +24,17 @@ export default class Iban extends Input {
     const specification = IBAN.countries[country];
 
     if (typeof specification === 'undefined') {
-      this.throwError(value, 'type');
+      return this.setError(error, name, value, 'type');
     }
 
     value = value.slice(0, specification.length);
 
     if (IBAN.isValid(value) === false) {
-      this.throwError(value, 'type');
+      return this.setError(error, name, value, 'type');
     }
 
     this.set(data, name, IBAN.electronicFormat(value));
+
+    return null;
   }
 }

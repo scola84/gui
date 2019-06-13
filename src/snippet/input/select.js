@@ -6,7 +6,7 @@ export default class Select extends Input {
     this.setName('select');
   }
 
-  validateBefore(box, data, error, name, value) {
+  validateAfter(box, data, error, name, value) {
     const values = [];
 
     for (let i = 0; i < this._list.length; i += 1) {
@@ -19,10 +19,10 @@ export default class Select extends Input {
 
     for (let i = 0; i < values.length; i += 1) {
       if (values[i] === value) {
-        return;
+        return null;
       }
     }
 
-    this.throwError(value, 'type', { values });
+    return this.setError(error, name, value, 'type', { values });
   }
 }

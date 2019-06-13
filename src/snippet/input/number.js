@@ -11,11 +11,13 @@ export default class Num extends Input {
       .setName('input');
   }
 
-  validateBefore(box, data, error, name, value) {
+  validateAfter(box, data, error, name, value) {
     if (Number(value) !== parseFloat(value)) {
-      this.throwError(value, 'type');
+      return this.setError(error, name, value, 'type');
     }
 
     this.set(data, name, Number(value));
+
+    return null;
   }
 }

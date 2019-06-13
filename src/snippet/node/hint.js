@@ -22,7 +22,7 @@ export default class Hint extends Node {
     let value = data.details[name];
 
     if (Array.isArray(value) === true) {
-      [name, value] = this.resolveArray(box, data, previous, name);
+      [name, value] = this.resolveArray(box, data, previous, name, value);
     }
 
     let text = null;
@@ -42,7 +42,7 @@ export default class Hint extends Node {
     );
   }
 
-  resolveArray(box, data, previous, name) {
+  resolveArray(box, data, previous, name, value) {
     const multiple = previous.resolveAttribute(box, data, 'multiple');
 
     const all = this._builder
@@ -50,13 +50,11 @@ export default class Hint extends Node {
       .query(`input[name="${name}"]`)
       .all();
 
-    let value = null;
-
     if (typeof multiple === 'undefined') {
       const index = all.indexOf(previous);
-      value = data[name] && data[name][index];
+      value = value[index];
     } else {
-      value = data[name].reduce((a, v) => v, {});
+      value = value.reduce((a, v) => v, {});
     }
 
     return [name, value];

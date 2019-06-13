@@ -2,7 +2,7 @@ import get from 'lodash-es/get';
 import merge from 'lodash-es/merge';
 import sprintf from 'sprintf-js';
 import Snippet from '../snippet';
-import { format } from '../../helper';
+import format from './format/';
 
 const regexpBase = '%((\\((\\w+)\\))?((\\d+)\\$)?)([b-gijostTuvxXlmn])(\\[(.+)\\])?';
 const regexpGlobal = new RegExp(regexpBase, 'g');

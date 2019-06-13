@@ -1,7 +1,7 @@
-import { DateTime } from 'luxon';
+import { DateTime as Luxon } from 'luxon';
 import Input from '../input';
 
-export default class DateTimeLocal extends Input {
+export default class DateTime extends Input {
   constructor(options = {}) {
     super(options);
 
@@ -32,16 +32,14 @@ export default class DateTimeLocal extends Input {
     this.set(data, name, String(value).trim());
   }
 
-  validateBefore(box, data, error, name, value) {
-    if (this.isEmpty(value) === true) {
-      return;
-    }
-
+  validateAfter(box, data, error, name, value) {
     const format = this.resolveValue(box, data, this._format);
-    const date = DateTime.fromFormat(value, format);
+    const date = Luxon.fromFormat(value, format);
 
     if (date.isValid === false) {
-      this.throwError(value, 'type');
+      return this.setError(error, name, value, 'type');
     }
+
+    return null;
   }
 }

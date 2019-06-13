@@ -48,21 +48,24 @@ export default class Tel extends Input {
     this.set(data, name, String(value).trim());
   }
 
-  validateBefore(box, data, error, name, value) {
+  validateAfter(box, data, error, name, value) {
     const country = this.resolveValue(box, data, this._country);
     let number = null;
 
     try {
       number = parsePhoneNumber(value, country);
     } catch (err) {
-      this.throwError(value, 'type');
+      return this.setError(error, name, value, 'type');
     }
 
     if (number.isValid() === false) {
-      this.throwError(value, 'type');
+      return this.setError(error, name, value, 'type');
     }
 
     const format = this.resolveValue(box, data, this._format);
+
     this.set(data, name, number.format(format));
+
+    return null;
   }
 }

@@ -95,16 +95,14 @@ export default class Input extends Node {
     set(object, key, value);
   }
 
-  throwError(value, reason, options = {}) {
-    const error = new Error('Input is invalid');
-
-    error.details = Object.assign(options, {
+  setError(error, name, value, reason, options = {}) {
+    value = Object.assign({}, options, {
       reason,
       type: this.constructor.name.toLowerCase(),
       value
     });
 
-    throw error;
+    this.set(error, name, value);
   }
 
   validate(box, data, error) {
@@ -112,58 +110,57 @@ export default class Input extends Node {
     const value = data[name];
 
     if (Array.isArray(value) === false) {
-      this.validateValue(box, data, error, name, value);
-      return;
+      return this.validateBefore(box, data, error, name, value);
     }
 
     for (let i = 0; i < value.length; i += 1) {
-      this.validateValue(box, data, error, `${name}.${i}`, value[i]);
+      this.validateBefore(box, data, error, `${name}.${i}`, value[i]);
     }
+
+    return null;
   }
 
   validateAfter() {}
 
-  validateBefore() {}
+  validateBefore(box, data, error, name, value) {
+    return this.validateInput(box, data, error, name, value);
+  }
 
   validateInput(box, data, error, name, value) {
     const required = this.resolveAttribute(box, data, 'required');
 
     if (this.isDefined(value, required) === false) {
-      this.throwError(value, 'required');
+      return this.setError(error, name, value, 'required');
+    }
+
+    if (this.isEmpty(value) === true) {
+      return null;
     }
 
     const pattern = this.resolveAttribute(box, data, 'pattern');
 
     if (this.isPattern(value, pattern) === false) {
-      this.throwError(value, 'pattern', { pattern });
+      return this.setError(error, name, value, 'pattern', { pattern });
     }
 
     const maxlength = this.resolveAttribute(box, data, 'maxlength');
 
     if (this.isBelowMax(String(value).length, maxlength) === false) {
-      this.throwError(value, 'maxlength', { maxlength });
+      return this.setError(error, name, value, 'maxlength', { maxlength });
     }
 
     const max = this.resolveAttribute(box, data, 'max');
 
     if (this.isBelowMax(value, max) === false) {
-      this.throwError(value, 'max', { max });
+      return this.setError(error, name, value, 'max', { max });
     }
 
     const min = this.resolveAttribute(box, data, 'min');
 
     if (this.isAboveMin(value, min) === false) {
-      this.throwError(value, 'min', { min });
+      return this.setError(error, name, value, 'min', { min });
     }
-  }
 
-  validateValue(box, data, error, name, value) {
-    try {
-      this.validateBefore(box, data, error, name, value);
-      this.validateInput(box, data, error, name, value);
-      this.validateAfter(box, data, error, name, value);
-    } catch (e) {
-      this.set(error, name, e.details);
-    }
+    return this.validateAfter(box, data, error, name, value);
   }
 }

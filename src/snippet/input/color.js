@@ -16,9 +16,11 @@ export default class Color extends Input {
     this.set(data, name, String(value).trim().toUpperCase());
   }
 
-  validateBefore(box, data, error, name, value) {
+  validateAfter(box, data, error, name, value) {
     if (regexp.test(value) === false) {
-      this.throwError(value, 'type');
+      return this.setError(error, name, value, 'type');
     }
+
+    return null;
   }
 }

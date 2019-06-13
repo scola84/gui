@@ -1,7 +1,15 @@
 import attach from './attach';
-import format from './format';
+import bind from './bind';
+import shim from './shim';
 
 export {
   attach,
-  format
+  bind,
+  shim
 };
+
+export function setup() {
+  shim();
+  bind();
+  attach();
+}

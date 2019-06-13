@@ -18,7 +18,7 @@ export default {
       min: 'Deze datum is te vroeg (min. %(min)l[D]).',
       type: 'Dit is geen datum.'
     },
-    datetimelocal: {
+    datetime: {
       maxlength,
       pattern,
       required,
@@ -55,7 +55,7 @@ export default {
       min: 'Deze maand is te vroeg (min. %(min)l[D]).',
       type: 'Dit is geen maand.'
     },
-    number: {
+    num: {
       maxlength,
       pattern,
       required,

@@ -37,24 +37,27 @@ export default class File extends Input {
     return true;
   }
 
-  validateBefore(box, data, error, name, value) {
-    this.validateAccept(box, data, error, name, value);
-    this.validateMaxsize(box, data, error, name, value);
+  validateAfter(box, data, error, name, value) {
+    return this.validateAccept(box, data, error, name, value);
   }
 
   validateAccept(box, data, error, name, value) {
     const accept = this.resolveAttribute(box, data, 'accept');
 
     if (this.isAcceptable(value, accept) === false) {
-      this.throwError(value, 'accept', { accept });
+      return this.setError(error, name, value, 'accept', { accept });
     }
+
+    return this.validateMaxsize(box, data, error, name, value);
   }
 
   validateMaxsize(box, data, error, name, value) {
     const maxsize = this.resolveAttribute(box, data, 'maxsize');
 
     if (this.isBelowMax(value.size, maxsize) === false) {
-      this.throwError(value, 'maxsize', { maxsize });
+      return this.setError(error, name, value, 'maxsize', { maxsize });
     }
+
+    return null;
   }
 }

@@ -24,9 +24,9 @@ export default class Email extends Input {
     this.set(data, name, String(value).trim().toLowerCase());
   }
 
-  validateBefore(box, data, error, name, value) {
+  validateAfter(box, data, error, name, value) {
     if (value.match(/\s/) !== null) {
-      this.throwError(value, 'space');
+      return this.setError(error, name, value, 'space');
     }
 
     const [
@@ -37,11 +37,13 @@ export default class Email extends Input {
       .split('@');
 
     if (local.length === 0) {
-      this.throwError(value, 'local');
+      return this.setError(error, name, value, 'local');
     }
 
     if (domain.length === 0 || this.checkDomain(domain) === false) {
-      this.throwError(value, 'domain');
+      return this.setError(error, name, value, 'domain');
     }
+
+    return null;
   }
 }
