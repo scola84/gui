@@ -113,7 +113,6 @@
 
 .item > .icon.top {
   align-self: baseline;
-  margin-top: 0.2em;
 }
 
 .item > .icon.top:before {
@@ -128,7 +127,6 @@
   flex-flow: wrap row;
   margin: 0 1em 0 0;
   min-width: 0;
-  padding-top: 0.4em;
 }
 
 *[dir=rtl] .item > .label {

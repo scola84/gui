@@ -34,22 +34,6 @@
   padding: 0.75em 1em 0;
 }
 
-.group > .comment * {
-  font-size: inherit;
-}
-
-.group > .comment a {
-  text-decoration: underline;
-}
-
-.group > .comment a:hover {
-  text-decoration: none;
-}
-
-.group > .comment p {
-  margin: 0;
-}
-
 /* Title */
 
 .group > .title {

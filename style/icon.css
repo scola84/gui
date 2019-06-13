@@ -2,10 +2,6 @@
   font-size: 1em !important;
 }
 
-.ion-ios-cloud-download {
-  border-color: transparent !important;
-}
-
 .ion-ios-search:before {
   font-size: 1.5em !important;
 }
@@ -16,6 +12,7 @@
   font-size: 1em !important;
 }
 
+*[dir=rtl] .ion-ios-arrow-back,
 *[dir=rtl] .ion-ios-arrow-forward {
   transform: rotate(180deg);
 }

@@ -6,10 +6,6 @@
   line-height: 1.25em;
 }
 
-:focus {
-  outline: none;
-}
-
 ::placeholder {
   color: darkgrey;
   opacity: 1;
@@ -42,23 +38,10 @@ body {
 
 button {
   background: none;
-  border: 1px solid transparent;
+  border: 0;
   color: inherit;
-  margin: -1px;
   padding: 0;
-}
-
-button {
-  -webkit-touch-callout: text;
-  -webkit-user-select: text;
-  -khtml-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
   user-select: text;
-}
-
-input {
-  -webkit-appearance: none !important;
 }
 
 button::-moz-focus-inner,
@@ -66,8 +49,29 @@ input::-moz-focus-inner {
   border: 0;
 }
 
+@media not all and (max-width: 64em) {
+  button:focus,
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: 1px dotted black;
+  }
+}
+
 form {
   margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+p a {
+  text-decoration: underline;
+}
+
+p a:hover {
+  text-decoration: none;
 }
 
 .app {
@@ -78,8 +82,13 @@ form {
   width: 64em;
 }
 
-.app > * {
-  overflow: hidden;
+@media (max-width: 64em), (max-height: 48em) {
+  .app {
+    border-radius: 0;
+    height: 100%;
+    padding: 0;
+    width: 100%;
+  }
 }
 
 .outset-x .app,
@@ -95,6 +104,66 @@ form {
   height: 100%;
 }
 
+.app > * {
+  overflow: hidden;
+}
+
+.app > .main {
+  background: whitesmoke;
+  flex: 1 1 auto;
+  height: 100%;
+  position: relative;
+}
+
+.app > .menu {
+  background: whitesmoke;
+  border-right: 1px solid lightgrey;
+  height: 100%;
+  position: relative;
+  width: 21.333em;
+  z-index: 3;
+}
+
+.app > * + .menu {
+  border-left: 1px solid lightgrey;
+}
+
+.app > .menu + .menu {
+  display: none;
+}
+
+.outset-x .app > .menu + .menu {
+  display: initial;
+}
+
+*[dir=rtl] .app > .menu {
+  border-left: 1px solid lightgrey;
+  border-right: 0;
+}
+
+@media (max-width: 48em) {
+  .app > .menu {
+    left: -100%;
+    max-width: 85%;
+    position: absolute;
+    transition: left 0.25s;
+  }
+
+  .app > .menu.over {
+    left: 0;
+  }
+
+  *[dir=rtl] .app > .menu {
+    left: 0;
+    right: -100%;
+    transition: right 0.25s;
+  }
+
+  *[dir=rtl] .app > .menu.over {
+    right: 0;
+  }
+}
+
 @keyframes spin {
   from {
     transform: scale(1) rotate(0deg);
@@ -105,23 +174,15 @@ form {
   }
 }
 
-@media (max-width: 64em), (max-height: 48em) {
-  .app {
-    border-radius: 0;
-    height: 100%;
-    padding: 0;
-    width: 100%;
+@media not all and (max-width: 48em) {
+  .button.show-menu {
+    display: none !important;
   }
 }
 
-@media not all and (max-width: 64em) {
-  button:focus {
-    border: 1px dotted black !important;
-  }
-}
-
-@media only screen and (-webkit-min-device-pixel-ratio: 2) {
-  * {
-    border-width: 0.5px;
+@media (-webkit-min-device-pixel-ratio: 2) {
+  *,
+  *:before {
+    border-width: 0.5px !important;
   }
 }

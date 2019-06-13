@@ -71,6 +71,24 @@
   width: 100%;
 }
 
+.panel > * > .bar > .left .button.icon {
+  padding: 0 0 0 1.25em;
+}
+
+.panel > * > .bar > .left .button.icon:before {
+  left: 0;
+  right: auto;
+}
+
+.panel > * > .bar > .right .button.icon {
+  padding: 0 1.25em 0 0;
+}
+
+.panel > * > .bar > .right .button.icon:before {
+  left: auto;
+  right: 0;
+}
+
 *[dir=rtl] .panel > * > .bar > .right .button,
 .panel > * > .bar > .left .button {
   margin: 0 0 0 1em;
@@ -81,11 +99,6 @@
   margin: 0 -0.5em 0 1em;
 }
 
-*[dir=rtl] .panel > * > .bar > .right .button.icon,
-.panel > * > .bar > .left .button.icon {
-  padding: 0 0 0 1.25em;
-}
-
 *[dir=rtl] .panel > * > .bar > .left .button,
 .panel > * > .bar > .right .button {
   margin: 0 1em 0 0;
@@ -94,23 +107,6 @@
 *[dir=rtl] .panel > * > .bar > .left .button + .button,
 .panel > * > .bar > .right .button + .button {
   margin: 0 1em 0 -0.5em;
-}
-
-*[dir=rtl] .panel > * > .bar > .left .button.icon,
-.panel > * > .bar > .right .button.icon {
-  padding: 0 1.25em 0 0;
-}
-
-*[dir=rtl] .panel > * > .bar > .right .button.icon:before,
-.panel > * > .bar > .left .button.icon:before {
-  left: 0;
-  right: auto;
-}
-
-*[dir=rtl] .panel > * > .bar > .left .button.icon:before,
-.panel > * > .bar > .right .button.icon:before {
-  left: auto;
-  right: 0;
 }
 
 /* Body */
@@ -237,6 +233,12 @@
   flex: 1 1 auto;
   position: relative;
   z-index: 1;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2) {
+  .panel > .header > .search {
+    margin-top: -1px;
+  }
 }
 
 .panel > .header > .search > div {
