@@ -16,8 +16,8 @@ export default class Request extends Async {
     return woptions;
   }
 
-  static setOptions(value) {
-    merge(woptions, value);
+  static setOptions(options) {
+    merge(woptions, options);
   }
 
   constructor(options = {}) {
