@@ -2,7 +2,7 @@ import Node from '../node';
 
 export default class Hint extends Node {
   resolveAfter(box, data) {
-    if (typeof data.details === 'undefined') {
+    if (typeof data.data === 'undefined') {
       return;
     }
 
@@ -19,7 +19,7 @@ export default class Hint extends Node {
     }
 
     let name = previous.resolveAttribute(box, data, 'name');
-    let value = data.details[name];
+    let value = data.data[name];
 
     if (Array.isArray(value) === true) {
       [name, value] = this.resolveArray(box, data, previous, name, value);

@@ -1,10 +1,25 @@
 import { createBrowser } from '@scola/http';
 import { Worker } from '@scola/worker';
+import defaults from 'lodash-es/defaultsDeep';
 import merge from 'lodash-es/merge';
-import { parse } from 'url';
 import Async from './async';
 
+const woptions = {
+  headers: {
+    POST: { 'content-type': 'application/json' },
+    PUT: { 'content-type': 'application/json' }
+  }
+};
+
 export default class Request extends Async {
+  static getOptions() {
+    return woptions;
+  }
+
+  static setOptions(value) {
+    merge(woptions, value);
+  }
+
   constructor(options = {}) {
     super(options);
 
@@ -29,39 +44,18 @@ export default class Request extends Async {
     options = this.resolveValue(box, data, options);
 
     if (typeof options === 'string') {
-      options = this.parseOptions(box, data, options);
+      const [method, url] = options.split(' ');
+      options = { method, url };
     }
 
-    merge(options, { extra: { box } });
+    defaults(options, {
+      extra: { box },
+      headers: woptions.headers[options.method]
+    });
 
     return (callback) => {
       this.sendRequest(box, data, callback, options);
     };
-  }
-
-  parseOptions(box, data, options) {
-    const [
-      method,
-      url
-    ] = options.split(' ');
-
-    options = {
-      method,
-      url: parse(url)
-    };
-
-    const keys = Object.keys(options.url);
-    let key = null;
-
-    for (let i = 0; i < keys.length; i += 1) {
-      key = keys[i];
-
-      if (options.url[key] === null) {
-        delete options.url[key];
-      }
-    }
-
-    return options;
   }
 
   sendRequest(requestBox, requestData, callback, options) {

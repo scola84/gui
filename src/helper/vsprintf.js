@@ -6,11 +6,11 @@ import {
   number
 } from './vsprintf/';
 
+const format = { l: luxon, m: marked, n: number };
 const regexpBase = '%((\\((\\w+)\\))?((\\d+)\\$)?)([b-gijostTuvxXlmn])(\\[(.+)\\])?';
 const regexpGlobal = new RegExp(regexpBase, 'g');
 const regexpSingle = new RegExp(regexpBase);
 const reductor = (name) => (a, v) => v[name] || a;
-const format = { l: luxon, m: marked, n: number };
 
 export default function vsprintf(string, args, locale) {
   const matches = string.match(regexpGlobal) || [];

@@ -5,7 +5,18 @@ import {
 } from './setup/';
 
 export default function setup() {
+  attach();
+
+  if (typeof window === 'undefined') {
+    return;
+  }
+
   shim();
   bind();
-  attach();
 }
+
+Object.assign(setup, {
+  shim,
+  bind,
+  attach
+});

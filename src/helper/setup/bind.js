@@ -1,10 +1,10 @@
 import { select, event } from 'd3';
-import { FastClick } from 'fastclick';
+import fastclick from 'fastclick';
 
 export default function bind() {
   const body = select('body');
 
-  FastClick.attach(body.node());
+  fastclick(body.node());
 
   body.on('touchstart', () => {
     body.dispatch('click', event);
