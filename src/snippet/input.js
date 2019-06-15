@@ -9,6 +9,12 @@ export default class Input extends Node {
     this.setDefault(options.default);
   }
 
+  getOptions() {
+    return Object.assign(super.getOptions(), {
+      default: this._default
+    });
+  }
+
   getDefault() {
     return this._default;
   }

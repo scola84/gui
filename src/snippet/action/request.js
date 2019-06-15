@@ -23,21 +23,27 @@ export default class Request extends Async {
   constructor(options = {}) {
     super(options);
 
-    this._progress = null;
-    this.setProgress(options.progress);
+    this._loading = null;
+    this.setLoading(options.loading);
   }
 
-  getProgress() {
-    return this._progress;
+  getOptions() {
+    return Object.assign(super.getOptions(), {
+      loading: this._loading
+    });
   }
 
-  setProgress(value = null) {
-    this._progress = value;
+  getLoading() {
+    return this._loading;
+  }
+
+  setLoading(value = null) {
+    this._loading = value;
     return this;
   }
 
-  progress(value) {
-    return this.setProgress(value);
+  loading(value) {
+    return this.setLoading(value);
   }
 
   each(box, data, options) {
@@ -74,7 +80,7 @@ export default class Request extends Async {
     }));
 
     connector.handle(options, requestData, (event) => {
-      this.resolveValue(requestBox, event, this._progress);
+      this.resolveValue(requestBox, event, this._loading);
     });
   }
 }

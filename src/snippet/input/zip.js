@@ -15,6 +15,12 @@ export default class Zip extends Input {
       .setName('input');
   }
 
+  getOptions() {
+    return Object.assign(super.getOptions(), {
+      country: this._country
+    });
+  }
+
   getCountry() {
     return this._country;
   }

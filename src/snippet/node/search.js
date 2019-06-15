@@ -1,7 +1,7 @@
 import Node from '../node';
 
 export default class Search extends Node {
-  constructor(options = {}) {
+  constructor(options) {
     super(options);
     this.setName('form');
   }

@@ -8,6 +8,12 @@ export default class Query extends Snippet {
     this.setNode(options.node);
   }
 
+  getOptions() {
+    return Object.assign(super.getOptions(), {
+      node: this._node
+    });
+  }
+
   getNode() {
     if (this._node === null) {
       return this._builder.getView().node();
@@ -33,7 +39,7 @@ export default class Query extends Snippet {
     return result;
   }
 
-  resolve(box, data) {
+  resolveAfter(box, data) {
     const snippets = this.all();
 
     for (let i = 0; i < snippets.length; i += 1) {

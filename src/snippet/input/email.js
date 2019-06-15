@@ -2,7 +2,7 @@ import Input from '../input';
 const regexp = /^[a-z0-9\-()]+$/i;
 
 export default class Email extends Input {
-  constructor(options = {}) {
+  constructor(options) {
     super(options);
 
     this

@@ -2,7 +2,7 @@ import { StateRouter } from '../../worker';
 import Snippet from '../action';
 
 export default class Route extends Snippet {
-  resolve(box, data) {
+  resolveAfter(box, data) {
     let string = null;
 
     for (let i = 0; i < this._list.length; i += 1) {

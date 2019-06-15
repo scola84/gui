@@ -1,7 +1,7 @@
 import Node from '../node';
 
 export default class Button extends Node {
-  constructor(options = {}) {
+  constructor(options) {
     super(options);
 
     this
@@ -9,18 +9,5 @@ export default class Button extends Node {
         type: 'button'
       })
       .setName('button');
-  }
-
-  click() {
-    return this.setClassed({
-      click: true
-    });
-  }
-
-  icon(value) {
-    return this.setClassed({
-      icon: true,
-      [value]: true
-    });
   }
 }

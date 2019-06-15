@@ -120,6 +120,8 @@
 
 .panel.outset-x.outset-y > .body {
   background: white;
+  display: flex;
+  flex-direction: column;
 }
 
 .panel > .body:after {

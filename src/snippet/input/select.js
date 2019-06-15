@@ -1,7 +1,7 @@
 import Input from '../input';
 
 export default class Select extends Input {
-  constructor(options = {}) {
+  constructor(options) {
     super(options);
     this.setName('select');
   }

@@ -7,6 +7,23 @@ export default class Snippet {
     this.setList(options.list);
   }
 
+  clone() {
+    const options = this.getOptions();
+
+    options.list = options.list.map((snippet) => {
+      return snippet.clone();
+    });
+
+    return new this.constructor(options);
+  }
+
+  getOptions() {
+    return {
+      builder: this._builder,
+      list: this._list
+    };
+  }
+
   getBuilder() {
     return this._builder;
   }

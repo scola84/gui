@@ -2,7 +2,7 @@ import Action from '../action';
 import Input from '../input';
 
 export default class Validate extends Action {
-  resolve(box, data) {
+  resolveAfter(box, data) {
     for (let i = 0; i < this._list.length; i += 1) {
       this.validate(box, data, this._list[i]);
     }

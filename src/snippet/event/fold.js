@@ -12,6 +12,17 @@ export default class Fold extends Event {
     this.setStorage(options.storage);
   }
 
+  getOptions() {
+    return Object.assign(super.getOptions(), {
+      filter: this._filter,
+      storage: this._storage
+    });
+  }
+
+  setName(value = 'click') {
+    return super.setName(value);
+  }
+
   getFilter() {
     return this._filter;
   }
@@ -38,28 +49,27 @@ export default class Fold extends Event {
     return this.setStorage(value);
   }
 
-  removeBefore() {
-    this.unbind('click');
-    this.removeOuter();
-  }
-
   resolveAfter(box, data) {
-    return this._list.map((snippet) => {
+    const result = [];
+    let snippet = null;
+
+    for (let i = 0; i < this._list.length; i += 1) {
+      snippet = this._list[i];
+
       this.load(box, data, snippet);
       this.fold(box, data, snippet);
-      return snippet.node();
-    });
+
+      result[result.length] = snippet.node();
+    }
+
+    return result;
   }
 
-  resolveInner(box, data) {
-    this.bind(box, data, 'click', (snippet, event) => {
-      if (select(event.target).classed('fold handle') === true) {
-        this.fold(box, data, snippet);
-        this.save(box, data, snippet);
-      }
-    });
-
-    return this.resolveAfter(box, data);
+  handle(box, data, snippet, event) {
+    if (select(event.target).classed('fold handle') === true) {
+      this.fold(box, data, snippet);
+      this.save(box, data, snippet);
+    }
   }
 
   attach(node) {

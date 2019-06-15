@@ -38,6 +38,12 @@ export default class Format extends Snippet {
     this.setLocale(options.locale);
   }
 
+  getOptions() {
+    return Object.assign(super.getOptions(), {
+      locale: this._locale
+    });
+  }
+
   getLocale() {
     return this._locale;
   }
@@ -51,7 +57,7 @@ export default class Format extends Snippet {
     return this.setLocale(value);
   }
 
-  resolve(box, data) {
+  resolveAfter(box, data) {
     const result = [];
     const locale = this.resolveValue(box, data, this._locale) || wlocale;
 

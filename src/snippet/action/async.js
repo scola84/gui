@@ -10,6 +10,12 @@ export default class Async extends Action {
     this.setHandler(options.handler);
   }
 
+  getOptions() {
+    return Object.assign(super.getOptions(), {
+      handler: this._handler
+    });
+  }
+
   getHandler() {
     return this._handler;
   }
@@ -27,13 +33,11 @@ export default class Async extends Action {
     return this.setHandler(series);
   }
 
-  resolve(box, data) {
+  resolveAfter(box, data) {
     const fn = [];
-    let snippet = null;
 
     for (let i = 0; i < this._list.length; i += 1) {
-      snippet = this._list[i];
-      fn[fn.length] = this.each(box, data, snippet);
+      fn[fn.length] = this.each(box, data, this._list[i]);
     }
 
     this._handler(fn, (error, results) => {

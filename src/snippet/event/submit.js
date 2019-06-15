@@ -1,18 +1,13 @@
 import Event from '../event';
 
 export default class Submit extends Event {
-  resolve(box, data) {
-    return this.bind(box, data, 'submit', (snippet) => {
-      this.submit(box, data, snippet);
-    });
+  setName(value = 'submit') {
+    return super.setName(value);
   }
 
-  removeBefore() {
-    this.unbind('submit');
-    this.removeOuter();
-  }
+  handle(box, data, snippet, event) {
+    event.preventDefault();
 
-  submit(box, data, snippet) {
     if (snippet.isLocked() === true) {
       return;
     }

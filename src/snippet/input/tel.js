@@ -18,6 +18,13 @@ export default class Tel extends Input {
       .setName('input');
   }
 
+  getOptions() {
+    return Object.assign(super.getOptions(), {
+      country: this._country,
+      format: this._format
+    });
+  }
+
   getFormat() {
     return this._format;
   }

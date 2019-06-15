@@ -1,7 +1,7 @@
 import Input from '../input';
 
 export default class Text extends Input {
-  constructor(options = {}) {
+  constructor(options) {
     super(options);
 
     this

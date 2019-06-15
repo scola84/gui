@@ -11,6 +11,13 @@ export default class Action extends Snippet {
     this.setErr(options.err);
   }
 
+  getOptions() {
+    return Object.assign(super.getOptions(), {
+      act: this._act,
+      err: this._err
+    });
+  }
+
   getAct() {
     return this._act;
   }

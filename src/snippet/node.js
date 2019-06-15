@@ -3,7 +3,7 @@ import Snippet from './snippet';
 import Query from './snippet/query';
 
 export default class Node extends Snippet {
-  constructor(options) {
+  constructor(options = {}) {
     super(options);
 
     this._attributes = {};
@@ -22,6 +22,18 @@ export default class Node extends Snippet {
     this.setProperties(options.properties);
     this.setStyles(options.styles);
     this.setText(options.text);
+  }
+
+  getOptions() {
+    return Object.assign(super.getOptions(), {
+      attributes: this._attributes,
+      classed: this._classed,
+      html: this._html.html,
+      name: this._name,
+      properties: this._properties,
+      styles: this._styles,
+      text: this._text.text
+    });
   }
 
   getAttributes() {

@@ -15,6 +15,12 @@ export default class DateTime extends Input {
       .setName('input');
   }
 
+  getOptions() {
+    return Object.assign(super.getOptions(), {
+      format: this._format
+    });
+  }
+
   getFormat() {
     return this._format;
   }

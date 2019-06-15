@@ -1,16 +1,13 @@
 import Event from '../event';
 
 export default class Click extends Event {
-  resolve(box, data) {
-    return this.bind(box, data, 'click', (snippet) => {
-      if (snippet.node().classed('click') === true) {
-        this.pass(box, data);
-      }
-    });
+  setName(value = 'click') {
+    return super.setName(value);
   }
 
-  removeBefore() {
-    this.unbind('click');
-    this.removeOuter();
+  handle(box, data, snippet) {
+    if (snippet.node().classed('click') === true) {
+      this.pass(box, data);
+    }
   }
 }
