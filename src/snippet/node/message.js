@@ -3,11 +3,11 @@ import Node from '../node';
 export default class Message extends Node {
   resolveAfter(box, data) {
     if (typeof this._text.text !== 'undefined') {
-      return;
+      return this._node;
     }
 
     if (typeof data.status === 'undefined') {
-      return;
+      return this._node;
     }
 
     let code = `status.${data.status}`;
@@ -26,5 +26,7 @@ export default class Message extends Node {
     );
 
     this._node.classed('show', true);
+
+    return this._node;
   }
 }

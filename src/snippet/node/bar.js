@@ -6,7 +6,7 @@ export default class Bar extends Node {
     this.checkChild(1, 'center');
     this.checkChild(2, 'right');
 
-    this.resolveOuter(box, data);
+    return this.resolveOuter(box, data);
   }
 
   checkChild(index, classed) {

@@ -162,8 +162,10 @@ export default class Node extends Snippet {
       this.createNode();
     }
 
-    this.resolveBefore(box, data);
+    return this.resolveBefore(box, data);
+  }
 
+  resolveAfter() {
     return this._node;
   }
 
@@ -180,19 +182,18 @@ export default class Node extends Snippet {
   }
 
   resolveInner(box, data) {
-    let snippets = null;
+    let nodes = null;
 
     for (let i = 0; i < this._list.length; i += 1) {
-      snippets = this._list[i];
-      snippets = this.resolveValue(box, data, snippets);
-      snippets = Array.isArray(snippets) ? snippets : [snippets];
+      nodes = this.resolveValue(box, data, this._list[i]);
+      nodes = Array.isArray(nodes) ? nodes : [nodes];
 
-      for (let j = 0; j < snippets.length; j += 1) {
-        this.insertNode(snippets[j].node());
+      for (let j = 0; j < nodes.length; j += 1) {
+        this.insertNode(nodes[j].node());
       }
     }
 
-    this.resolveAfter(box, data);
+    return this.resolveAfter(box, data);
   }
 
   resolveOuter(box, data) {
@@ -203,7 +204,7 @@ export default class Node extends Snippet {
     this.setOuter(box, data, this._styles, 'style');
     this.setOuter(box, data, this._text);
 
-    this.resolveInner(box, data);
+    return this.resolveInner(box, data);
   }
 
   resolveProperty(box, data, name) {

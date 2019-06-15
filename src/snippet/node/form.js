@@ -28,9 +28,9 @@ export default class Form extends Node {
   resolveBefore(box, data) {
     if (this.isLocked() === true) {
       this.unlock();
-      return;
+      return this._node;
     }
 
-    this.resolveOuter(box, data);
+    return this.resolveOuter(box, data);
   }
 }

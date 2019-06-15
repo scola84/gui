@@ -67,21 +67,21 @@ export default class Snippet {
   }
 
   resolve(box, data) {
-    this.resolveBefore(box, data);
+    return this.resolveBefore(box, data);
   }
 
   resolveAfter() {}
 
   resolveBefore(box, data) {
-    this.resolveOuter(box, data);
+    return this.resolveOuter(box, data);
   }
 
   resolveInner(box, data) {
-    this.resolveAfter(box, data);
+    return this.resolveAfter(box, data);
   }
 
   resolveOuter(box, data) {
-    this.resolveInner(box, data);
+    return this.resolveInner(box, data);
   }
 
   resolveValue(box, data, value) {

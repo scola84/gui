@@ -19,5 +19,7 @@ export default class Search extends Node {
       .attr('name', 'search')
       .attr('placeholder', placeholder)
       .attr('type', 'search');
+
+    return this._node;
   }
 }

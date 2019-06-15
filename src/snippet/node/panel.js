@@ -28,7 +28,7 @@ export default class Panel extends Node {
 
     if (base.classed('busy') === true) {
       if (box.force !== true) {
-        return;
+        return this._node;
       }
     }
 
@@ -79,6 +79,8 @@ export default class Panel extends Node {
     box.node.resizer.listenTo(box.node, debounce(() => {
       this.resize(box);
     }, 100));
+
+    return this._node;
   }
 
   calculate(effect, dir, width, factor) {

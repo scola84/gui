@@ -1,24 +1,19 @@
 .group {
-  height: auto;
-  margin-left: 1em;
-  margin-right: 1em;
-  overflow: hidden;
-  transition: height 0.25s;
+  margin: 0 1em;
 }
 
 .panel.outset-x .group {
-  margin-left: 0;
-  margin-right: 0;
+  margin: 0;
 }
 
 /* Body */
 
 .group > .body {
-  border-bottom: 1px none lightgrey;
+  overflow: hidden;
 }
 
-.panel.outset-x .group > .body {
-  border-bottom-style: solid;
+.panel.outset-x .group > .body:not(:empty) {
+  border-bottom: 1px solid lightgrey;
 }
 
 /* Comment */
@@ -28,32 +23,51 @@
   display: flex;
   font-size: 0.9em;
   line-height: 1.5em;
-}
-
-.group > .comment:not(:empty) {
   padding: 0.75em 1em 0;
 }
 
 /* Title */
 
 .group > .title {
-  border: 0;
-  border-bottom: 1px none lightgrey;
   color: darkgrey;
   display: flex;
   font-size: 0.9em;
-  height: 0;
   margin-top: 2.222em;
+  padding: 0 1.111em 0.555em;
   text-transform: uppercase;
 }
 
-.group > .title:not(:empty) {
-  height: auto;
-  padding: 0 1.111em 0.555em;
+.group > .title.fold:after {
+  font-family: Ionicons;
+  font-size: 1.25em;
+  margin-left: auto;
+  transition: transform 0.25s;
+  width: 0.5em;
+}
+
+*[dir=rtl] .group > .title.fold:after {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.group > .title.fold.all:after {
+  content: '\f3d0';
+}
+
+.group.folded > .title.fold.all:after {
+  transform: rotate(-90deg);
+}
+
+.group > .title.fold.some:after {
+  content: '\f1fc';
+}
+
+.group.folded > .title.fold.some:after {
+  content: '\f102';
 }
 
 .panel.outset-x .group > .title {
-  border-bottom-style: solid;
+  border-bottom: 1px solid lightgrey;
 }
 
 .panel.outset-y .group > .title {

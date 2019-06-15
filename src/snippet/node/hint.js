@@ -3,11 +3,11 @@ import Node from '../node';
 export default class Hint extends Node {
   resolveAfter(box, data) {
     if (typeof data.data === 'undefined') {
-      return;
+      return this._node;
     }
 
     if (typeof this._text.text !== 'undefined') {
-      return;
+      return this._node;
     }
 
     const previous = this
@@ -15,7 +15,7 @@ export default class Hint extends Node {
       .previous();
 
     if (previous === null) {
-      return;
+      return this._node;
     }
 
     let name = previous.resolveAttribute(box, data, 'name');
@@ -40,6 +40,8 @@ export default class Hint extends Node {
     this._node.text(
       this.resolveValue(box, data, text)
     );
+
+    return this._node;
   }
 
   resolveArray(box, data, previous, name, value) {
