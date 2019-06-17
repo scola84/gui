@@ -5,11 +5,9 @@ export default class Iban extends Input {
   constructor(options) {
     super(options);
 
-    this
-      .setAttributes({
-        type: 'text'
-      })
-      .setName('input');
+    this.attributes({
+      type: 'iban'
+    });
   }
 
   cleanAfter(box, data, name, value) {

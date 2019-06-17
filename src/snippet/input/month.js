@@ -4,7 +4,7 @@ export default class Month extends DateTime {
   constructor(options) {
     super(options);
 
-    this.setAttributes({
+    this.attributes({
       type: 'month'
     });
   }

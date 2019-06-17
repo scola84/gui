@@ -8,11 +8,9 @@ export default class DateTime extends Input {
     this._format = null;
     this.setFormat(options.format);
 
-    this
-      .setAttributes({
-        type: 'datetime-local'
-      })
-      .setName('input');
+    this.attributes({
+      type: 'datetime-local'
+    });
   }
 
   getOptions() {

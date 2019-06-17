@@ -16,28 +16,58 @@ export default class List extends Node {
   }
 
   resolveInner(box, data) {
-    const [item] = this._list;
+    let newData = data.data;
+    let isEmpty = false;
 
-    const items = this._node
+    if (typeof newData === 'undefined') {
+      newData = [];
+    } else if (newData.length === 0) {
+      newData = [{}];
+      isEmpty = true;
+    }
+
+    const [
+      item,
+      empty
+    ] = this._list;
+
+    let items = this._node
       .selectAll('.item');
 
+    if (box.busy === true) {
+      delete box.busy;
+    }
+
+    if (box.list) {
+      if (box.list.clear) {
+        delete box.list.clear;
+
+        box.list.offset = 0;
+        box.list.total = 0;
+
+        items.remove();
+        items = this._node.selectAll('.item');
+      }
+
+      if (box.list.offset === 0 && box.list.count > 0) {
+        this._node.node().parentNode.scrollTop = 0;
+      }
+
+      box.list.total += newData.length;
+    }
+
     items
-      .data(data.data || [], (datum) => JSON.stringify(datum))
+      .data(newData, (datum) => JSON.stringify(datum))
       .enter()
       .append((datum) => {
-        return this.append(box, datum, item);
+        return this.append(box, datum, isEmpty ? empty : item);
       });
-
-    if (box.scroll) {
-      box.scroll.busy = false;
-      box.scroll.total += data.data.length;
-    }
 
     return this.resolveAfter(box, data);
   }
 
-  append(box, datum, item) {
-    const clone = item.clone();
+  append(box, datum, snippet) {
+    const clone = snippet.clone();
     const node = clone.resolve(box, datum);
 
     this._items[this._items.length] = clone;

@@ -1,19 +1,12 @@
 import Event from '../event';
 
 export default class Submit extends Event {
-  setName(value = 'submit') {
-    return super.setName(value);
+  constructor(options) {
+    super(options);
+    this.name('submit');
   }
 
-  handle(box, data, snippet, event) {
-    event.preventDefault();
-
-    if (snippet.isLocked() === true) {
-      return;
-    }
-
-    snippet.lock();
-
+  handle(box, data, snippet) {
     data = {};
 
     const formData = new FormData(snippet.node().node());
@@ -29,5 +22,7 @@ export default class Submit extends Event {
     }
 
     this.pass(box, data);
+
+    return true;
   }
 }

@@ -6,58 +6,28 @@ export default class Node extends Snippet {
   constructor(options = {}) {
     super(options);
 
-    this._attributes = {};
-    this._classed = {};
-    this._html = {};
     this._name = null;
     this._node = null;
-    this._properties = {};
-    this._styles = {};
-    this._text = {};
+    this._transforms = [];
 
-    this.setAttributes(options.attributes);
-    this.setClassed(options.classed);
-    this.setHtml(options.html);
     this.setName(options.name);
-    this.setProperties(options.properties);
-    this.setStyles(options.styles);
-    this.setText(options.text);
+    this.setNode(options.node);
+    this.setTransforms(options.transforms);
+
+    if (options.class) {
+      this.class(options.class);
+    }
+
+    if (options.id) {
+      this.id(options.id);
+    }
   }
 
   getOptions() {
     return Object.assign(super.getOptions(), {
-      attributes: this._attributes,
-      classed: this._classed,
-      html: this._html.html,
       name: this._name,
-      properties: this._properties,
-      styles: this._styles,
-      text: this._text.text
+      transforms: this._transforms
     });
-  }
-
-  getAttributes() {
-    return this._attributes;
-  }
-
-  setAttributes(value = {}) {
-    return this.setOwnProperty('attributes', value);
-  }
-
-  getClassed() {
-    return this._classed;
-  }
-
-  setClassed(value = {}) {
-    return this.setOwnProperty('classed', value);
-  }
-
-  getHtml() {
-    return this._html;
-  }
-
-  setHtml(value) {
-    return this.setOwnProperty('html', { html: value });
   }
 
   getName() {
@@ -78,68 +48,82 @@ export default class Node extends Snippet {
     return this;
   }
 
-  getProperties() {
-    return this._properties;
+  getTransforms() {
+    return this._transforms;
   }
 
-  setProperties(value = {}) {
-    return this.setOwnProperty('properties', value);
+  setTransforms(value = []) {
+    this._transforms = value;
+    return this;
   }
 
-  getStyles() {
-    return this._styles;
+  attributes(values) {
+    return this.transform((box, data, node) => {
+      this.each(box, data, values, (key, value) => {
+        node.attr(key, value);
+      });
+    });
   }
 
-  setStyles(value = {}) {
-    return this.setOwnProperty('styles', value);
+  class(value) {
+    return this.classed({
+      [value]: true
+    });
   }
 
-  getText() {
-    return this._text;
-  }
-
-  setText(value) {
-    return this.setOwnProperty('text', { text: value });
-  }
-
-  attributes(value) {
-    return this.setAttributes(value);
-  }
-
-  classed(value) {
-    return this.setClassed(value);
+  classed(values) {
+    return this.transform((box, data, node) => {
+      this.each(box, data, values, (key, value) => {
+        node.classed(key, value);
+      });
+    });
   }
 
   html(value) {
-    return this.setHtml(value);
+    return this.transform((box, data, node) => {
+      node.html(this.resolveValue(box, data, value));
+    });
+  }
+
+  id(value) {
+    return this.attributes({
+      id: value
+    });
+  }
+
+  name(value) {
+    return this.setName(value);
   }
 
   node() {
     return this.getNode();
   }
 
-  properties(value) {
-    return this.setProperties(value);
+  properties(values) {
+    return this.transform((box, data, node) => {
+      this.each(box, data, values, (key, value) => {
+        node.property(key, value);
+      });
+    });
   }
 
-  styles(value) {
-    return this.setStyles(value);
+  styles(values) {
+    return this.transform((box, data, node) => {
+      this.each(box, data, values, (key, value) => {
+        node.style(key, value);
+      });
+    });
   }
 
   text(value) {
-    return this.setText(value);
-  }
-
-  class(value) {
-    return this.setClassed({
-      [value]: true
+    return this.transform((box, data, node) => {
+      node.text(this.resolveValue(box, data, value));
     });
   }
 
-  id(value) {
-    return this.setAttributes({
-      id: value
-    });
+  transform(value) {
+    this._transforms[this._transforms.length] = value;
+    return this;
   }
 
   createNode() {
@@ -152,6 +136,18 @@ export default class Node extends Snippet {
 
   insertNode(node) {
     this._node.insert(() => node);
+  }
+
+  each(box, data, object, callback) {
+    object = this.resolveValue(box, data, object);
+
+    const keys = Object.keys(object);
+    let key = null;
+
+    for (let i = 0; i < keys.length; i += 1) {
+      key = keys[i];
+      callback(key, this.resolveValue(box, data, object[key]));
+    }
   }
 
   query(query) {
@@ -181,16 +177,8 @@ export default class Node extends Snippet {
     return this._node;
   }
 
-  resolveAttribute(box, data, name) {
-    return this.resolveObject(box, data, this._attributes, name);
-  }
-
-  resolveClassed(box, data, name) {
-    return this.resolveObject(box, data, this._classed, name);
-  }
-
-  resolveHtml(box, data) {
-    return this.resolveObject(box, data, this._html, 'html');
+  resolveBefore(box, data) {
+    return this.resolveOuter(box, data);
   }
 
   resolveInner(box, data) {
@@ -209,59 +197,10 @@ export default class Node extends Snippet {
   }
 
   resolveOuter(box, data) {
-    this.setOuter(box, data, this._attributes, 'attr');
-    this.setOuter(box, data, this._classed, 'classed');
-    this.setOuter(box, data, this._html);
-    this.setOuter(box, data, this._properties, 'property');
-    this.setOuter(box, data, this._styles, 'style');
-    this.setOuter(box, data, this._text);
+    for (let i = 0; i < this._transforms.length; i += 1) {
+      this._transforms[i](box, data, this._node);
+    }
 
     return this.resolveInner(box, data);
-  }
-
-  resolveProperty(box, data, name) {
-    return this.resolveObject(box, data, this._properties, name);
-  }
-
-  resolveStyle(box, data, name) {
-    return this.resolveObject(box, data, this._styles, name);
-  }
-
-  resolveText(box, data) {
-    return this.resolveObject(box, data, this._text, 'text');
-  }
-
-  setOuter(box, data, values, name) {
-    values = this.resolveValue(box, data, values);
-
-    const keys = Object.keys(values);
-    let key = null;
-
-    for (let i = 0; i < keys.length; i += 1) {
-      key = keys[i];
-
-      const value = this.resolveValue(box, data, values[key]);
-
-      if (typeof value !== 'undefined') {
-        if (name) {
-          this._node[name](key, value);
-        } else {
-          this._node[key](value);
-        }
-      }
-    }
-  }
-
-  setOwnProperty(name, value) {
-    if (
-      typeof value === 'function' ||
-      typeof this['_' + name] === 'function'
-    ) {
-      this['_' + name] = value;
-    } else {
-      Object.assign(this['_' + name], value);
-    }
-
-    return this;
   }
 }

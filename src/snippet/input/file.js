@@ -4,11 +4,9 @@ export default class File extends Input {
   constructor(options) {
     super(options);
 
-    this
-      .setAttributes({
-        type: 'file'
-      })
-      .setName('input');
+    this.attributes({
+      type: 'file'
+    });
   }
 
   isAcceptable(value, accept) {
@@ -42,7 +40,7 @@ export default class File extends Input {
   }
 
   validateAccept(box, data, error, name, value) {
-    const accept = this.resolveAttribute(box, data, 'accept');
+    const accept = this._node.attr('accept');
 
     if (this.isAcceptable(value, accept) === false) {
       return this.setError(error, name, value, 'accept', { accept });
@@ -52,7 +50,7 @@ export default class File extends Input {
   }
 
   validateMaxsize(box, data, error, name, value) {
-    const maxsize = this.resolveAttribute(box, data, 'maxsize');
+    const maxsize = this._node.attr('maxsize');
 
     if (this.isBelowMax(value.size, maxsize) === false) {
       return this.setError(error, name, value, 'maxsize', { maxsize });

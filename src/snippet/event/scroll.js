@@ -1,3 +1,4 @@
+import defaults from 'lodash-es/defaultsDeep';
 import Event from '../event';
 
 export default class Scroll extends Event {
@@ -6,10 +7,8 @@ export default class Scroll extends Event {
 
     this._height = null;
     this.setHeight(options.height);
-  }
 
-  setName(value = 'scroll') {
-    return super.setName(value);
+    this.name('scroll');
   }
 
   setThrottle(value = 250) {
@@ -39,42 +38,51 @@ export default class Scroll extends Event {
     return result;
   }
 
-  handle(box, data, snippet, event) {
-    if (box.scroll.total % box.scroll.count > 0) {
-      return;
-    }
+  resolveBefore(box, data) {
+    defaults(box, {
+      list: {
+        count: 0,
+        height: 0,
+        offset: 0,
+        total: 0
+      }
+    });
 
-    if (box.scroll.busy === true) {
-      return;
+    return this.resolveOuter(box, data);
+  }
+
+  handle(box, data, snippet, event) {
+    if (box.list.total % box.list.count > 0) {
+      return false;
     }
 
     const node = snippet.node().node();
-    const top = box.scroll.height + node.scrollTop;
-    const threshold = node.scrollHeight - (box.scroll.height / 4 * 2);
+    const top = box.list.height + node.scrollTop;
+    const threshold = node.scrollHeight - (box.list.height / 4 * 2);
     const initialize = event && event.detail && event.detail.initialize;
 
     if (top > threshold) {
-      box.scroll.busy = true;
-
       if (initialize !== true) {
-        box.scroll.offset += box.scroll.count;
+        box.list.offset += box.list.count;
       }
 
       this.pass(box, data);
+      return true;
     }
+
+    return false;
   }
 
   initialize(box, data, node) {
-    const height = parseInt(node.style('height'), 10) || 768;
+    setTimeout(() => {
+      box.list.height = parseInt(node.style('height'), 10);
+      box.list.count = Math.round(box.list.height / this._height) * 2;
 
-    box.scroll = {
-      busy: false,
-      count: Math.round(height / this._height) * 2,
-      height,
-      offset: 0,
-      total: 0
-    };
-
-    node.dispatch('scroll', { detail: { initialize: true } });
+      node.dispatch('scroll', {
+        detail: {
+          initialize: true
+        }
+      });
+    });
   }
 }

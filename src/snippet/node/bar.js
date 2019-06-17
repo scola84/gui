@@ -1,28 +1,26 @@
 import Node from '../node';
+const classes = ['right', 'center', 'left'];
 
 export default class Bar extends Node {
-  resolveBefore(box, data) {
-    this.checkChild(0, 'left');
-    this.checkChild(1, 'center');
-    this.checkChild(2, 'right');
+  resolveAfter() {
+    for (let i = 0; i < classes.length; i += 1) {
+      this.checkChild(classes[i], classes[i - 1]);
+    }
 
-    return this.resolveOuter(box, data);
+    return this._node;
   }
 
-  checkChild(index, classed) {
-    const node = this._list[index];
+  checkChild(classed, before) {
+    const size = this._node
+      .select('.' + classed)
+      .size();
 
-    const isDefined = typeof node !== 'undefined' &&
-      typeof node.getClassed()[classed] !== 'undefined';
-
-    if (isDefined === true) {
+    if (size > 0) {
       return;
     }
 
-    this._list.splice(index, 0, new Node({
-      classed: {
-        [classed]: true
-      }
-    }));
+    this._node
+      .insert('div', '.' + before)
+      .classed(classed, true);
   }
 }

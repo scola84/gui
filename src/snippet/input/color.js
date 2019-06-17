@@ -5,11 +5,9 @@ export default class Color extends Input {
   constructor(options) {
     super(options);
 
-    this
-      .setAttributes({
-        type: 'color'
-      })
-      .setName('input');
+    this.attributes({
+      type: 'color'
+    });
   }
 
   cleanAfter(box, data, name, value) {

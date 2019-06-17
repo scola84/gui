@@ -2,7 +2,7 @@ import Node from '../node';
 
 export default class Message extends Node {
   resolveAfter(box, data) {
-    if (typeof this._text.text !== 'undefined') {
+    if (this._node.text() !== '') {
       return this._node;
     }
 

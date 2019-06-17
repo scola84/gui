@@ -7,18 +7,14 @@ export default function attach() {
   Object.keys(snippet).forEach((group) => {
     Object.keys(snippet[group]).forEach((name) => {
       ViewBuilder.attachFactory('action', name, snippet[group][name], {
-        classed: {
-          [camel(name)]: true
-        }
+        class: camel(name)
       });
     });
   });
 
   token.cls.forEach((name) => {
     ViewBuilder.attachFactory('cls', name, snippet.Node, {
-      classed: {
-        [name]: true
-      }
+      class: camel(name)
     });
   });
 

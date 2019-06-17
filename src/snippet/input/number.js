@@ -4,11 +4,9 @@ export default class Num extends Input {
   constructor(options) {
     super(options);
 
-    this
-      .setAttributes({
-        type: 'number'
-      })
-      .setName('input');
+    this.attributes({
+      type: 'number'
+    });
   }
 
   validateAfter(box, data, error, name, value) {

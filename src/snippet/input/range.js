@@ -4,9 +4,8 @@ export default class Range extends Number {
   constructor(options) {
     super(options);
 
-    this
-      .setAttributes({
-        type: 'range'
-      });
+    this.attributes({
+      type: 'range'
+    });
   }
 }

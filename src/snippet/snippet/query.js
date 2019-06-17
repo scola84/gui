@@ -28,9 +28,8 @@ export default class Query extends Snippet {
   }
 
   find(compare) {
-    let result = [];
-
     const snippets = this.all();
+    let result = [];
 
     for (let i = 0; i < snippets.length; i += 1) {
       result = result.concat(snippets[i].find(compare));
@@ -41,10 +40,13 @@ export default class Query extends Snippet {
 
   resolveAfter(box, data) {
     const snippets = this.all();
+    const result = [];
 
     for (let i = 0; i < snippets.length; i += 1) {
-      snippets[i].resolve(box, data);
+      result[result.length] = snippets[i].resolve(box, data);
     }
+
+    return result;
   }
 
   one() {

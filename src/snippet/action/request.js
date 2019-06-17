@@ -23,27 +23,27 @@ export default class Request extends Async {
   constructor(options = {}) {
     super(options);
 
-    this._loading = null;
-    this.setLoading(options.loading);
+    this._indicator = null;
+    this.setIndicator(options.indicator);
   }
 
   getOptions() {
     return Object.assign(super.getOptions(), {
-      loading: this._loading
+      indicator: this._indicator
     });
   }
 
-  getLoading() {
-    return this._loading;
+  getIndicator() {
+    return this._indicator;
   }
 
-  setLoading(value = null) {
-    this._loading = value;
+  setIndicator(value = null) {
+    this._indicator = value;
     return this;
   }
 
-  loading(value) {
-    return this.setLoading(value);
+  indicator(value) {
+    return this.setIndicator(value);
   }
 
   each(box, data, options) {
@@ -80,7 +80,7 @@ export default class Request extends Async {
     }));
 
     connector.handle(options, requestData, (event) => {
-      this.resolveValue(requestBox, event, this._loading);
+      this.resolveValue(requestBox, event, this._indicator);
     });
   }
 }

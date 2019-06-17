@@ -1,9 +1,13 @@
+let id = 0;
+
 export default class Snippet {
   constructor(options = {}) {
     this._builder = null;
+    this._id = null;
     this._list = null;
 
     this.setBuilder(options.builder);
+    this.setId(options.id);
     this.setList(options.list);
   }
 
@@ -30,6 +34,15 @@ export default class Snippet {
 
   setBuilder(value = null) {
     this._builder = value;
+    return this;
+  }
+
+  getId() {
+    return this._id;
+  }
+
+  setId(value = ++id) {
+    this._id = value;
     return this;
   }
 

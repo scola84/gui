@@ -11,11 +11,9 @@ export default class Tel extends Input {
     this.setCountry(options.country);
     this.setFormat(options.format);
 
-    this
-      .setAttributes({
-        type: 'tel'
-      })
-      .setName('input');
+    this.attributes({
+      type: 'tel'
+    });
   }
 
   getOptions() {

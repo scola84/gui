@@ -69,12 +69,31 @@ export default class Event extends Action {
     const node = snippet.resolve(box, data);
 
     node.on(this._name, throttle(() => {
-      this.handle(box, data, snippet, event);
+      let busy = this.isBusy(box);
+
+      if (busy === false) {
+        busy = this.handle(box, data, snippet, event);
+
+        if (busy === false) {
+          delete box.busy;
+        }
+      }
     }, this._throttle));
   }
 
   handle(box, data) {
     this.pass(box, data);
+    return false;
+  }
+
+  isBusy(box) {
+    if (box.busy === true) {
+      return true;
+    }
+
+    box.busy = true;
+
+    return false;
   }
 
   unbind(snippet) {

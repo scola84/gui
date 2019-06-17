@@ -18,7 +18,7 @@ export default class Hint extends Node {
       return this._node;
     }
 
-    let name = previous.resolveAttribute(box, data, 'name');
+    let name = previous.node().attr('name');
     let value = data.data[name];
 
     if (Array.isArray(value) === true) {
@@ -45,7 +45,7 @@ export default class Hint extends Node {
   }
 
   resolveArray(box, data, previous, name, value) {
-    const multiple = previous.resolveAttribute(box, data, 'multiple');
+    const multiple = previous.node().attr('multiple');
 
     const all = this._builder
       .getView()

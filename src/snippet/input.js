@@ -7,6 +7,8 @@ export default class Input extends Node {
 
     this._default = null;
     this.setDefault(options.default);
+
+    this.name('input');
   }
 
   getOptions() {
@@ -29,7 +31,7 @@ export default class Input extends Node {
   }
 
   clean(box, data) {
-    const name = this.resolveAttribute(box, data, 'name');
+    const name = this._node.attr('name');
     const value = data[name];
 
     if (Array.isArray(value) === false) {
@@ -112,7 +114,7 @@ export default class Input extends Node {
   }
 
   validate(box, data, error) {
-    const name = this.resolveAttribute(box, data, 'name');
+    const name = this._node.attr('name');
     const value = data[name];
 
     if (Array.isArray(value) === false) {
@@ -133,7 +135,7 @@ export default class Input extends Node {
   }
 
   validateInput(box, data, error, name, value) {
-    const required = this.resolveAttribute(box, data, 'required');
+    const required = this._node.attr('required');
 
     if (this.isDefined(value, required) === false) {
       return this.setError(error, name, value, 'required');
@@ -143,25 +145,25 @@ export default class Input extends Node {
       return null;
     }
 
-    const pattern = this.resolveAttribute(box, data, 'pattern');
+    const pattern = this._node.attr('pattern');
 
     if (this.isPattern(value, pattern) === false) {
       return this.setError(error, name, value, 'pattern', { pattern });
     }
 
-    const maxlength = this.resolveAttribute(box, data, 'maxlength');
+    const maxlength = this._node.attr('maxlength');
 
     if (this.isBelowMax(String(value).length, maxlength) === false) {
       return this.setError(error, name, value, 'maxlength', { maxlength });
     }
 
-    const max = this.resolveAttribute(box, data, 'max');
+    const max = this._node.attr('max');
 
     if (this.isBelowMax(value, max) === false) {
       return this.setError(error, name, value, 'max', { max });
     }
 
-    const min = this.resolveAttribute(box, data, 'min');
+    const min = this._node.attr('min');
 
     if (this.isAboveMin(value, min) === false) {
       return this.setError(error, name, value, 'min', { min });

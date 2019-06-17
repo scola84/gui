@@ -5,9 +5,9 @@ export default class Button extends Node {
     super(options);
 
     this
-      .setAttributes({
+      .name('button')
+      .attributes({
         type: 'button'
-      })
-      .setName('button');
+      });
   }
 }

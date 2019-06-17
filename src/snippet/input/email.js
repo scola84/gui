@@ -5,11 +5,9 @@ export default class Email extends Input {
   constructor(options) {
     super(options);
 
-    this
-      .setAttributes({
-        type: 'email'
-      })
-      .setName('input');
+    this.attributes({
+      type: 'email'
+    });
   }
 
   checkDomain(domain) {

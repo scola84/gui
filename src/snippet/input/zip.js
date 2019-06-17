@@ -8,11 +8,9 @@ export default class Zip extends Input {
     this._country = null;
     this.setCountry(options.country);
 
-    this
-      .setAttributes({
-        type: 'zip'
-      })
-      .setName('input');
+    this.attributes({
+      type: 'zip'
+    });
   }
 
   getOptions() {

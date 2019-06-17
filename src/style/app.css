@@ -154,6 +154,10 @@ p a:hover {
   }
 }
 
+.transition {
+  transition: all 0.25s;
+}
+
 @keyframes spin {
   from {
     transform: scale(1) rotate(0deg);

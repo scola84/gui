@@ -10,6 +10,8 @@ export default class Fold extends Event {
 
     this.setFilter(options.filter);
     this.setStorage(options.storage);
+
+    this.name('click');
   }
 
   getOptions() {
@@ -17,10 +19,6 @@ export default class Fold extends Event {
       filter: this._filter,
       storage: this._storage
     });
-  }
-
-  setName(value = 'click') {
-    return super.setName(value);
   }
 
   getFilter() {
@@ -70,6 +68,8 @@ export default class Fold extends Event {
       this.fold(box, data, snippet);
       this.save(box, data, snippet);
     }
+
+    return false;
   }
 
   attach(node) {
@@ -129,16 +129,14 @@ export default class Fold extends Event {
   }
 
   load(box, data, snippet) {
-    const id = snippet.resolveAttribute(box, data, 'id');
-    const key = `fold-${id}`;
+    const key = `fold-${this._id}`;
     const folded = Boolean(Number(this._storage.getItem(key)));
 
     snippet.node().classed('folded', !folded);
   }
 
   save(box, data, snippet) {
-    const id = snippet.resolveAttribute(box, data, 'id');
-    const key = `fold-${id}`;
+    const key = `fold-${this._id}`;
     const folded = snippet.node().classed('folded');
 
     this._storage.setItem(key, Number(folded));
