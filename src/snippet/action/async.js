@@ -37,7 +37,7 @@ export class Async extends Action {
     const fn = [];
 
     for (let i = 0; i < this._list.length; i += 1) {
-      fn[fn.length] = this.each(box, data, this._list[i]);
+      fn[fn.length] = this.asyncify(box, data, this._list[i]);
     }
 
     this._handler(fn, (error, results) => {
@@ -50,7 +50,7 @@ export class Async extends Action {
     });
   }
 
-  each(box, data, snippet) {
+  asyncify(box, data, snippet) {
     return (callback) => {
       snippet.act((b, result) => {
         callback(null, result);

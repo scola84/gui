@@ -59,7 +59,7 @@ export class Node extends Snippet {
 
   attributes(values) {
     return this.transform((box, data, node) => {
-      this.each(box, data, values, (key, value) => {
+      this.resolveEach(box, data, values, (key, value) => {
         node.attr(key, value);
       });
     });
@@ -73,7 +73,7 @@ export class Node extends Snippet {
 
   classed(values) {
     return this.transform((box, data, node) => {
-      this.each(box, data, values, (key, value) => {
+      this.resolveEach(box, data, values, (key, value) => {
         node.classed(key, value);
       });
     });
@@ -101,7 +101,7 @@ export class Node extends Snippet {
 
   properties(values) {
     return this.transform((box, data, node) => {
-      this.each(box, data, values, (key, value) => {
+      this.resolveEach(box, data, values, (key, value) => {
         node.property(key, value);
       });
     });
@@ -109,7 +109,7 @@ export class Node extends Snippet {
 
   styles(values) {
     return this.transform((box, data, node) => {
-      this.each(box, data, values, (key, value) => {
+      this.resolveEach(box, data, values, (key, value) => {
         node.style(key, value);
       });
     });
@@ -136,18 +136,6 @@ export class Node extends Snippet {
 
   insertNode(node) {
     this._node.insert(() => node);
-  }
-
-  each(box, data, object, callback) {
-    object = this.resolveValue(box, data, object);
-
-    const keys = Object.keys(object);
-    let key = null;
-
-    for (let i = 0; i < keys.length; i += 1) {
-      key = keys[i];
-      callback(key, this.resolveValue(box, data, object[key]));
-    }
   }
 
   removeOuter() {
@@ -183,6 +171,18 @@ export class Node extends Snippet {
 
   resolveBefore(box, data) {
     return this.resolveOuter(box, data);
+  }
+
+  resolveEach(box, data, object, callback) {
+    object = this.resolveValue(box, data, object);
+
+    const keys = Object.keys(object);
+    let key = null;
+
+    for (let i = 0; i < keys.length; i += 1) {
+      key = keys[i];
+      callback(key, this.resolveValue(box, data, object[key]));
+    }
   }
 
   resolveInner(box, data) {

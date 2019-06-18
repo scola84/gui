@@ -46,41 +46,37 @@ export class Request extends Async {
     return this.setIndicator(value);
   }
 
-  each(box, data, options) {
-    options = this.resolveValue(box, data, options);
-
-    if (typeof options === 'string') {
-      const [method, url] = options.split(' ');
-      options = { method, url };
-    }
-
-    options = defaults({}, options, {
-      extra: { box },
-      headers: woptions.headers[options.method]
-    });
-
+  asyncify(box, data, options) {
     return (callback) => {
-      this.sendRequest(box, data, callback, options);
-    };
-  }
+      options = this.resolveValue(box, data, options);
 
-  sendRequest(requestBox, requestData, callback, options) {
-    const {
-      connector,
-      transformer
-    } = createBrowser();
-
-    transformer.connect(new Worker({
-      act(box, data) {
-        callback(null, data);
-      },
-      err(box, error) {
-        callback(error);
+      if (typeof options === 'string') {
+        const [method, url] = options.split(' ');
+        options = { method, url };
       }
-    }));
 
-    connector.handle(options, requestData, (event) => {
-      this.resolveValue(requestBox, event, this._indicator);
-    });
+      options = defaults({}, options, {
+        extra: { box },
+        headers: woptions.headers[options.method]
+      });
+
+      const {
+        connector,
+        transformer
+      } = createBrowser();
+
+      transformer.connect(new Worker({
+        act(b, result) {
+          callback(null, result);
+        },
+        err(b, error) {
+          callback(error);
+        }
+      }));
+
+      connector.handle(options, data, (event) => {
+        this.resolveValue(box, event, this._indicator);
+      });
+    };
   }
 }
