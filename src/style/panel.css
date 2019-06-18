@@ -177,12 +177,14 @@
 
 .panel > .footer {
   border-top: 1px solid lightgrey;
+  position: relative;
 }
 
 /* Header */
 
 .panel > .header {
   border-bottom: 1px solid lightgrey;
+  position: relative;
 }
 
 /* Header message */
