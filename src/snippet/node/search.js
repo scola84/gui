@@ -52,7 +52,6 @@ export class Search extends Node {
     const input = this._node
       .append('input')
       .attr('autocomplete', 'on')
-      .attr('minlength', 3)
       .attr('name', 'search')
       .attr('type', 'search');
 

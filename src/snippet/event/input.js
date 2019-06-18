@@ -4,7 +4,10 @@ import { Event } from '../event';
 export class Input extends Event {
   constructor(options) {
     super(options);
-    this.name('input');
+
+    this
+      .name('input')
+      .throttle(500);
   }
 
   handle(box, data, snippet, event) {

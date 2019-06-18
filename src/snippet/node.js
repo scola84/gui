@@ -8,11 +8,11 @@ export class Node extends Snippet {
 
     this._name = null;
     this._node = null;
-    this._transforms = [];
+    this._transform = [];
 
     this.setName(options.name);
     this.setNode(options.node);
-    this.setTransforms(options.transforms);
+    this.setTransform(options.transform);
 
     if (options.class) {
       this.class(options.class);
@@ -26,7 +26,7 @@ export class Node extends Snippet {
   getOptions() {
     return Object.assign(super.getOptions(), {
       name: this._name,
-      transforms: this._transforms
+      transform: this._transform
     });
   }
 
@@ -48,12 +48,12 @@ export class Node extends Snippet {
     return this;
   }
 
-  getTransforms() {
-    return this._transforms;
+  getTransform() {
+    return this._transform;
   }
 
-  setTransforms(value = []) {
-    this._transforms = value;
+  setTransform(value = []) {
+    this._transform = value;
     return this;
   }
 
@@ -122,7 +122,7 @@ export class Node extends Snippet {
   }
 
   transform(value) {
-    this._transforms[this._transforms.length] = value;
+    this._transform[this._transform.length] = value;
     return this;
   }
 
@@ -175,7 +175,7 @@ export class Node extends Snippet {
 
     if (node === null) {
       node = new Dummy();
-      this.resolveTransforms(box, data, node);
+      this.resolveTransform(box, data, node);
     }
 
     return node.attr(name);
@@ -201,13 +201,13 @@ export class Node extends Snippet {
   }
 
   resolveOuter(box, data) {
-    this.resolveTransforms(box, data, this._node);
+    this.resolveTransform(box, data, this._node);
     return this.resolveInner(box, data);
   }
 
-  resolveTransforms(box, data, node) {
-    for (let i = 0; i < this._transforms.length; i += 1) {
-      this._transforms[i](box, data, node);
+  resolveTransform(box, data, node) {
+    for (let i = 0; i < this._transform.length; i += 1) {
+      this._transform[i](box, data, node);
     }
   }
 }

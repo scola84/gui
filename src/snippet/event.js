@@ -68,9 +68,13 @@ export class Event extends Action {
   bind(box, data, snippet) {
     const node = snippet.resolve(box, data);
 
-    node.on(this._name, throttle(() => {
-      this.handleBefore(box, data, snippet, event);
-    }, this._throttle));
+    const throttled = throttle((newEvent) => {
+      this.handleBefore(box, data, snippet, newEvent);
+    }, this._throttle);
+
+    node.on(this._name, () => {
+      throttled(event);
+    });
   }
 
   handle(box, data) {
@@ -79,9 +83,7 @@ export class Event extends Action {
   }
 
   handleBefore(box, data, snippet, newEvent) {
-    if (newEvent) {
-      newEvent.preventDefault();
-    }
+    newEvent.preventDefault();
 
     if (box.busy === true) {
       return;

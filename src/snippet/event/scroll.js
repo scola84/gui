@@ -8,11 +8,9 @@ export class Scroll extends Event {
     this._height = null;
     this.setHeight(options.height);
 
-    this.name('scroll');
-  }
-
-  setThrottle(value = 250) {
-    return super.setThrottle(value);
+    this
+      .name('scroll')
+      .throttle(250);
   }
 
   getHeight() {

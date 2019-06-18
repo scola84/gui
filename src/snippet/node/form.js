@@ -5,10 +5,10 @@ export class Form extends Node {
     super(options);
 
     this
-      .name('form')
       .attributes({
         novalidate: 'novalidate'
-      });
+      })
+      .name('form');
   }
 
   resolveBefore(box, data) {
