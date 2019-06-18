@@ -73,7 +73,7 @@ export class Fold extends Event {
   }
 
   attach(node) {
-    node.width = node.node().offsetWidth;
+    node.style('left');
 
     node
       .classed('folded', false)
@@ -88,8 +88,10 @@ export class Fold extends Event {
   detach(node) {
     const height = node.node().getBoundingClientRect().height;
 
+    node.style('height', height);
+    node.style('left');
+
     node
-      .style('height', height)
       .classed('transition', true)
       .classed('folded', true)
       .on('transitionend.scola', () => {

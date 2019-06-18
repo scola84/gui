@@ -8,6 +8,43 @@
   width: 100%;
 }
 
+/* Transition */
+
+.panel.fade {
+  opacity: 0;
+}
+
+.panel.fade.in {
+  opacity: 1;
+}
+
+*[dir=rtl] .panel.rtl.new,
+.panel.ltr.new {
+  transform: translate(-100%, 0);
+}
+
+*[dir=rtl] .panel.ltr.new,
+.panel.rtl.new {
+  transform: translate(100%, 0);
+}
+
+*[dir=rtl] .panel.rtl.old,
+.panel.ltr.old {
+  transform: translate(33%, 0);
+}
+
+*[dir=rtl] .panel.ltr.old,
+.panel.rtl.old {
+  transform: translate(-33%, 0);
+}
+
+*[dir=rtl] .panel.ltr.in,
+*[dir=rtl] .panel.rtl.in,
+.panel.ltr.in,
+.panel.rtl.in {
+  transform: translate(0, 0);
+}
+
 /* Bar */
 
 .panel > * > .bar {

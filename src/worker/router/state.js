@@ -93,6 +93,12 @@ export class StateRouter extends Router {
   }
 
   act(box, data, callback) {
+    if (this._base.busy === true) {
+      return;
+    }
+
+    this._base.busy = true;
+
     let hash = StateRouter.parseHash(window.location.hash);
     [hash, box] = this.processHash(hash, box);
 
@@ -229,13 +235,7 @@ export class StateRouter extends Router {
       return box;
     }
 
-    const previous = this._history.pop();
-
-    previous.node = box.node;
-    previous.reload = box.reload;
-    previous.user = box.user;
-
-    return previous;
+    return this._history.pop();
   }
 
   processRoute(path, params = {}) {
