@@ -1,7 +1,7 @@
 import { Router } from '@scola/worker';
 const routers = {};
 
-export default class StateRouter extends Router {
+export class StateRouter extends Router {
   static getRouter(name) {
     return routers[name];
   }

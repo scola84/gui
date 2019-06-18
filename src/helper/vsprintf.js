@@ -12,7 +12,7 @@ const regexpGlobal = new RegExp(regexpBase, 'g');
 const regexpSingle = new RegExp(regexpBase);
 const reductor = (name) => (a, v) => v[name] || a;
 
-export default function vsprintf(string, args, locale) {
+export function vsprintf(string, args, locale) {
   const matches = string.match(regexpGlobal) || [];
 
   let match = null;

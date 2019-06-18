@@ -1,12 +1,12 @@
 import { select } from 'd3';
 import Resizer from 'element-resize-detector';
 import debounce from 'lodash-es/debounce';
-import Node from '../node';
+import { Node } from '../node';
 
 let duration = 250;
 let transition = true;
 
-export default class Panel extends Node {
+export class Panel extends Node {
   static getDuration() {
     return duration;
   }

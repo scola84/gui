@@ -29,6 +29,29 @@ export default [{
   input: './index.js',
   external: [
     '@scola/http',
+    'process'
+  ],
+  output: {
+    extend: true,
+    file: 'dist/dom.umd.js',
+    format: 'umd',
+    name: 'scola.dom',
+    globals: {
+      '@scola/http': 'scola.http'
+    }
+  },
+  plugins: [
+    resolve(),
+    commonjs(),
+    builtins(),
+    css(cssOptions),
+    json(),
+    buble(bubleOptions)
+  ]
+}, {
+  input: './index.js',
+  external: [
+    '@scola/http',
     'postal-codes-js'
   ],
   output: {
@@ -43,29 +66,6 @@ export default [{
       'es6-shim',
       'es6-symbol/implement'
     ]),
-    resolve(),
-    commonjs(),
-    builtins(),
-    css(cssOptions),
-    json(),
-    buble(bubleOptions)
-  ]
-}, {
-  input: './index.js',
-  external: [
-    '@scola/http',
-    'process'
-  ],
-  output: {
-    extend: true,
-    file: 'dist/dom.umd.js',
-    format: 'umd',
-    name: 'scola.dom',
-    globals: {
-      '@scola/http': 'scola.http'
-    }
-  },
-  plugins: [
     resolve(),
     commonjs(),
     builtins(),

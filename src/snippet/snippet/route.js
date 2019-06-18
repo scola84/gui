@@ -1,7 +1,7 @@
 import { StateRouter } from '../../worker';
-import Snippet from '../action';
+import { Action } from '../action';
 
-export default class Route extends Snippet {
+export class Route extends Action {
   resolveAfter(box, data) {
     let string = null;
 

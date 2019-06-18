@@ -1,8 +1,8 @@
 import { select } from 'd3';
-import Snippet from './snippet';
-import Query from './snippet/query';
+import { Snippet } from './snippet';
+import { Dummy } from '../helper';
 
-export default class Node extends Snippet {
+export class Node extends Snippet {
   constructor(options = {}) {
     super(options);
 
@@ -150,13 +150,6 @@ export default class Node extends Snippet {
     }
   }
 
-  query(query) {
-    return new Query({
-      list: [query],
-      node: this._node
-    });
-  }
-
   removeOuter() {
     this._node.node().snippet = null;
     this._node.remove();
@@ -175,6 +168,17 @@ export default class Node extends Snippet {
 
   resolveAfter() {
     return this._node;
+  }
+
+  resolveAttribute(box, data, name) {
+    let node = this._node;
+
+    if (node === null) {
+      node = new Dummy();
+      this.resolveTransforms(box, data, node);
+    }
+
+    return node.attr(name);
   }
 
   resolveBefore(box, data) {
@@ -197,10 +201,13 @@ export default class Node extends Snippet {
   }
 
   resolveOuter(box, data) {
-    for (let i = 0; i < this._transforms.length; i += 1) {
-      this._transforms[i](box, data, this._node);
-    }
-
+    this.resolveTransforms(box, data, this._node);
     return this.resolveInner(box, data);
+  }
+
+  resolveTransforms(box, data, node) {
+    for (let i = 0; i < this._transforms.length; i += 1) {
+      this._transforms[i](box, data, node);
+    }
   }
 }

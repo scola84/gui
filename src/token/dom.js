@@ -3,7 +3,7 @@ https://htmlreference.io/
 "[\n'" + Array.from(document.querySelectorAll('.item-name')).map((node) => node.innerHTML).join("',\n'") + "'\n]"
 */
 
-export default [
+export const dom = [
   'a',
   'abbr',
   'address',

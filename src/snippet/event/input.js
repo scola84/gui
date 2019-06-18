@@ -1,7 +1,7 @@
 import { select } from 'd3';
-import Event from '../event';
+import { Event } from '../event';
 
-export default class Input extends Event {
+export class Input extends Event {
   constructor(options) {
     super(options);
     this.name('input');

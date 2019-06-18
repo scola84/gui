@@ -1,8 +1,8 @@
 import parallel from 'async/parallel';
 import series from 'async/series';
-import Action from '../action';
+import { Action } from '../action';
 
-export default class Async extends Action {
+export class Async extends Action {
   constructor(options = {}) {
     super(options);
 

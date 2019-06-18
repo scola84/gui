@@ -1,15 +1,6 @@
-import Click from './click';
-import Fold from './fold';
-import Input from './input';
-import Scroll from './scroll';
-import Submit from './submit';
-import Toggle from './toggle';
-
-export {
-  Click,
-  Fold,
-  Input,
-  Scroll,
-  Submit,
-  Toggle
-};
+export * from './click';
+export * from './fold';
+export * from './input';
+export * from './scroll';
+export * from './submit';
+export * from './toggle';

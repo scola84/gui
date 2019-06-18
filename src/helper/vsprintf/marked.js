@@ -1,6 +1,6 @@
 import markdown from 'marked';
 
-export default function marked(value, options = '') {
+export function marked(value, options = '') {
   options = options ? options.split(';') : [];
 
   const moptions = {

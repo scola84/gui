@@ -1,6 +1,6 @@
-import Input from '../input';
+import { Input } from '../input';
 
-export default class Text extends Input {
+export class Text extends Input {
   constructor(options) {
     super(options);
 

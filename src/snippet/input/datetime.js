@@ -1,7 +1,7 @@
 import { DateTime as Luxon } from 'luxon';
-import Input from '../input';
+import { Input } from '../input';
 
-export default class DateTime extends Input {
+export class DateTime extends Input {
   constructor(options = {}) {
     super(options);
 

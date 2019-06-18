@@ -1,22 +1,18 @@
-import Node from '../node';
+import { Node } from '../node';
 
-export default class Hint extends Node {
+export class Hint extends Node {
   resolveAfter(box, data) {
-    if (typeof data.data === 'undefined') {
+    if (typeof data.data === 'undefined' || data.data === null) {
       return this._node;
     }
 
-    if (typeof this._text.text !== 'undefined') {
+    let previous = this._node.node().previousSibling;
+
+    if (previous === null || previous.snippet === null) {
       return this._node;
     }
 
-    const previous = this
-      .query()
-      .previous();
-
-    if (previous === null) {
-      return this._node;
-    }
+    previous = previous.snippet;
 
     let name = previous.node().attr('name');
     let value = data.data[name];
@@ -45,12 +41,14 @@ export default class Hint extends Node {
   }
 
   resolveArray(box, data, previous, name, value) {
-    const multiple = previous.node().attr('multiple');
+    const multiple = previous
+      .node()
+      .attr('multiple');
 
     const all = this._builder
       .getView()
       .query(`input[name="${name}"]`)
-      .all();
+      .resolve();
 
     if (typeof multiple === 'undefined') {
       const index = all.indexOf(previous);

@@ -1,6 +1,6 @@
-import Input from '../input';
+import { Input } from '../input';
 
-export default class Textarea extends Input {
+export class Textarea extends Input {
   constructor(options) {
     super(options);
     this.setName('textarea');

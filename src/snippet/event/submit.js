@@ -1,6 +1,6 @@
-import Event from '../event';
+import { Event } from '../event';
 
-export default class Submit extends Event {
+export class Submit extends Event {
   constructor(options) {
     super(options);
     this.name('submit');

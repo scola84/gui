@@ -1,7 +1,7 @@
 import { Worker } from '@scola/worker';
 import camel from 'lodash-es/camelCase';
 
-export default class ViewBuilder extends Worker {
+export class ViewBuilder extends Worker {
   static attachFactory(prefix, name, object, options = {}) {
     ViewBuilder.prototype[
       camel(ViewBuilder.prototype[name] ?

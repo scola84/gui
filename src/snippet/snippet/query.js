@@ -1,97 +1,45 @@
-import Snippet from '../snippet';
+import { Snippet } from '../snippet';
 
-export default class Query extends Snippet {
-  constructor(options = {}) {
-    super(options);
-
-    this._node = null;
-    this.setNode(options.node);
-  }
-
-  getOptions() {
-    return Object.assign(super.getOptions(), {
-      node: this._node
-    });
-  }
-
-  getNode() {
-    if (this._node === null) {
-      return this._builder.getView().node();
-    }
-
-    return this._node;
-  }
-
-  setNode(value = null) {
-    this._node = value;
-    return this;
-  }
-
-  find(compare) {
-    const snippets = this.all();
-    let result = [];
-
-    for (let i = 0; i < snippets.length; i += 1) {
-      result = result.concat(snippets[i].find(compare));
-    }
-
-    return result;
-  }
-
+export class Query extends Snippet {
   resolveAfter(box, data) {
-    const snippets = this.all();
+    const query = this._list[0];
+
+    if (typeof query === 'function') {
+      return this.resolveFunction(box, data, query);
+    }
+
+    return this.resolveString(box, data, query);
+  }
+
+  resolveFunction(box, data, query) {
     const result = [];
 
+    const snippets = this._builder
+      .getView()
+      .find(query);
+
     for (let i = 0; i < snippets.length; i += 1) {
-      result[result.length] = snippets[i].resolve(box, data);
+      result[result.length] = box ?
+        snippets[i].resolve(box, data) :
+        snippets[i];
     }
 
     return result;
   }
 
-  one() {
-    const node = this
-      .getNode()
-      .select(this._list[0])
-      .node();
+  resolveString(box, data, query) {
+    const result = [];
 
-    return node ? node.snippet : null;
-  }
-
-  all() {
-    const all = [];
-
-    this
-      .getNode()
-      .selectAll(this._list[0])
+    this._builder
+      .getView()
+      .node()
+      .selectAll(query)
       .each((datum, index, nodes) => {
-        all[all.length] = nodes[index].snippet;
+        result[result.length] = box ?
+          nodes[index].snippet.resolve(box, data) :
+          nodes[index].snippet;
       });
 
-    return all;
-  }
-
-  next() {
-    const node = this
-      .getNode()
-      .node();
-
-    if (node.nextSibling) {
-      return node.nextSibling.snippet;
-    }
-
-    return null;
-  }
-
-  previous() {
-    const node = this
-      .getNode()
-      .node();
-
-    if (node.previousSibling) {
-      return node.previousSibling.snippet;
-    }
-
-    return null;
+    return result;
   }
 }

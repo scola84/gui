@@ -1,8 +1,8 @@
 import { event } from 'd3';
 import throttle from 'lodash-es/throttle';
-import Action from './action';
+import { Action } from './action';
 
-export default class Event extends Action {
+export class Event extends Action {
   constructor(options = {}) {
     super(options);
 
@@ -69,15 +69,7 @@ export default class Event extends Action {
     const node = snippet.resolve(box, data);
 
     node.on(this._name, throttle(() => {
-      let busy = this.isBusy(box);
-
-      if (busy === false) {
-        busy = this.handle(box, data, snippet, event);
-
-        if (busy === false) {
-          delete box.busy;
-        }
-      }
+      this.handleBefore(box, data, snippet, event);
     }, this._throttle));
   }
 
@@ -86,14 +78,16 @@ export default class Event extends Action {
     return false;
   }
 
-  isBusy(box) {
-    if (box.busy === true) {
-      return true;
+  handleBefore(box, data, snippet, newEvent) {
+    if (newEvent) {
+      newEvent.preventDefault();
     }
 
-    box.busy = true;
+    if (box.busy === true) {
+      return;
+    }
 
-    return false;
+    box.busy = this.handle(box, data, snippet, newEvent);
   }
 
   unbind(snippet) {

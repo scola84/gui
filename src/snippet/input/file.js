@@ -1,6 +1,6 @@
-import Input from '../input';
+import { Input } from '../input';
 
-export default class File extends Input {
+export class File extends Input {
   constructor(options) {
     super(options);
 
@@ -40,7 +40,7 @@ export default class File extends Input {
   }
 
   validateAccept(box, data, error, name, value) {
-    const accept = this._node.attr('accept');
+    const accept = this.resolveAttribute(box, data, 'accept');
 
     if (this.isAcceptable(value, accept) === false) {
       return this.setError(error, name, value, 'accept', { accept });
@@ -50,7 +50,7 @@ export default class File extends Input {
   }
 
   validateMaxsize(box, data, error, name, value) {
-    const maxsize = this._node.attr('maxsize');
+    const maxsize = this.resolveAttribute(box, data, 'maxsize');
 
     if (this.isBelowMax(value.size, maxsize) === false) {
       return this.setError(error, name, value, 'maxsize', { maxsize });

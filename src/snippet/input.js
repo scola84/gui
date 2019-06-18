@@ -1,7 +1,7 @@
 import set from 'lodash-es/set';
-import Node from './node';
+import { Node } from './node';
 
-export default class Input extends Node {
+export class Input extends Node {
   constructor(options = {}) {
     super(options);
 
@@ -31,7 +31,7 @@ export default class Input extends Node {
   }
 
   clean(box, data) {
-    const name = this._node.attr('name');
+    const name = this.resolveAttribute(box, data, 'name');
     const value = data[name];
 
     if (Array.isArray(value) === false) {
@@ -114,7 +114,7 @@ export default class Input extends Node {
   }
 
   validate(box, data, error) {
-    const name = this._node.attr('name');
+    const name = this.resolveAttribute(box, data, 'name');
     const value = data[name];
 
     if (Array.isArray(value) === false) {
@@ -135,7 +135,7 @@ export default class Input extends Node {
   }
 
   validateInput(box, data, error, name, value) {
-    const required = this._node.attr('required');
+    const required = this.resolveAttribute(box, data, 'required');
 
     if (this.isDefined(value, required) === false) {
       return this.setError(error, name, value, 'required');
@@ -145,25 +145,25 @@ export default class Input extends Node {
       return null;
     }
 
-    const pattern = this._node.attr('pattern');
+    const pattern = this.resolveAttribute(box, data, 'pattern');
 
     if (this.isPattern(value, pattern) === false) {
       return this.setError(error, name, value, 'pattern', { pattern });
     }
 
-    const maxlength = this._node.attr('maxlength');
+    const maxlength = this.resolveAttribute(box, data, 'maxlength');
 
     if (this.isBelowMax(String(value).length, maxlength) === false) {
       return this.setError(error, name, value, 'maxlength', { maxlength });
     }
 
-    const max = this._node.attr('max');
+    const max = this.resolveAttribute(box, data, 'max');
 
     if (this.isBelowMax(value, max) === false) {
       return this.setError(error, name, value, 'max', { max });
     }
 
-    const min = this._node.attr('min');
+    const min = this.resolveAttribute(box, data, 'min');
 
     if (this.isAboveMin(value, min) === false) {
       return this.setError(error, name, value, 'min', { min });

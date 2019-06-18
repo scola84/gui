@@ -1,7 +1,7 @@
 import { select } from 'd3';
-import Event from '../event';
+import { Event } from '../event';
 
-export default class Fold extends Event {
+export class Fold extends Event {
   constructor(options = {}) {
     super(options);
 

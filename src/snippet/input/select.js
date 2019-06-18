@@ -1,6 +1,6 @@
-import Input from '../input';
+import { Input } from '../input';
 
-export default class Select extends Input {
+export class Select extends Input {
   constructor(options) {
     super(options);
     this.name('select');
@@ -11,8 +11,7 @@ export default class Select extends Input {
 
     for (let i = 0; i < this._list.length; i += 1) {
       values[values.length] = this._list[i]
-        .node()
-        .attr('value');
+        .resolveAttribute(box, data, 'value');
     }
 
     for (let i = 0; i < values.length; i += 1) {

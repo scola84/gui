@@ -2,6 +2,7 @@
   align-items: center;
   background: white;
   display: flex;
+  flex-wrap: wrap;
   min-height: 3em;
   padding: 0.5em 0 0.5em 1em;
   position: relative;

@@ -1,7 +1,7 @@
-import Input from '../input';
+import { Input } from '../input';
 const regexp = /^#[A-F0-9]{6}$/;
 
-export default class Color extends Input {
+export class Color extends Input {
   constructor(options) {
     super(options);
 

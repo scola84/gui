@@ -11,7 +11,7 @@ const defaultFormat = {
 
 const definitions = {};
 
-export default function number(value, options = '', locale = 'nl_NL') {
+export function number(value, options = '', locale = 'nl_NL') {
   options = options ? options.split(';') : [];
 
   const [

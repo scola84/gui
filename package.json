@@ -12,13 +12,14 @@
     "rollup-plugin-buble": "^0.19.6",
     "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-css-only": "^1.0.0",
+    "rollup-plugin-ignore": "^1.0.5",
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-resolve": "^5.0.1"
   },
   "dependencies": {
-    "@scola/http": "file:@scola/http",
-    "@scola/worker": "file:@scola/worker",
+    "@scola/http": "^5.9.11",
+    "@scola/worker": "^2.15.0",
     "async": "^3.0.1",
     "d3": "^5.9.2",
     "dom-shims": "^0.1.4",

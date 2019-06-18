@@ -4,7 +4,7 @@ import {
   shim
 } from './setup/';
 
-export default function setup() {
+export function setup() {
   attach();
 
   if (typeof window === 'undefined') {

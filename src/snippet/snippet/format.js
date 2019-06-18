@@ -1,12 +1,12 @@
 import get from 'lodash-es/get';
 import merge from 'lodash-es/merge';
-import Snippet from '../snippet';
+import { Snippet } from '../snippet';
 import { vsprintf } from '../../helper';
 
 const strings = {};
 let wlocale = 'nl_NL';
 
-export default class Format extends Snippet {
+export class Format extends Snippet {
   static getLocale() {
     return wlocale;
   }

@@ -1,6 +1,6 @@
-import Input from '../input';
+import { Input } from '../input';
 
-export default class Password extends Input {
+export class Password extends Input {
   constructor(options) {
     super(options);
 

@@ -1,7 +1,7 @@
 import { select, event } from 'd3';
 import fastclick from 'fastclick';
 
-export default function bind() {
+export function bind() {
   const body = select('body');
 
   fastclick(body.node());

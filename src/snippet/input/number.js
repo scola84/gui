@@ -1,6 +1,6 @@
-import Input from '../input';
+import { Input } from '../input';
 
-export default class Num extends Input {
+export class Number extends Input {
   constructor(options) {
     super(options);
 
@@ -10,11 +10,14 @@ export default class Num extends Input {
   }
 
   validateAfter(box, data, error, name, value) {
-    if (Number(value) !== parseFloat(value)) {
+    // https://stackoverflow.com/a/1830844
+    const isNumber = !isNaN(value - parseFloat(value));
+
+    if (isNumber === false) {
       return this.setError(error, name, value, 'type');
     }
 
-    this.set(data, name, Number(value));
+    this.set(data, name, parseFloat(value));
 
     return null;
   }

@@ -1,6 +1,6 @@
-import Node from '../node';
+import { Node } from '../node';
 
-export default class List extends Node {
+export class List extends Node {
   constructor(options) {
     super(options);
     this._items = [];
@@ -19,7 +19,7 @@ export default class List extends Node {
     let newData = data.data;
     let isEmpty = false;
 
-    if (typeof newData === 'undefined') {
+    if (typeof newData === 'undefined' || newData === null) {
       newData = [];
     } else if (newData.length === 0) {
       newData = [{}];

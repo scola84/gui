@@ -1,6 +1,6 @@
-import Node from '../node';
+import { Node } from '../node';
 
-export default class Progress extends Node {
+export class Progress extends Node {
   resolveAfter(box, data) {
     if (data.lengthComputable !== true) {
       return this._node;

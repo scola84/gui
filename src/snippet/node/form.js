@@ -1,6 +1,6 @@
-import Node from '../node';
+import { Node } from '../node';
 
-export default class Form extends Node {
+export class Form extends Node {
   constructor(options) {
     super(options);
 

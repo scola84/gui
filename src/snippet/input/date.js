@@ -1,6 +1,6 @@
-import DateTime from './datetime';
+import { DateTime } from './datetime';
 
-export default class Date extends DateTime {
+export class Date extends DateTime {
   constructor(options) {
     super(options);
 

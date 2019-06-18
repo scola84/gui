@@ -1,7 +1,3 @@
-import setup from './setup';
-import vsprintf from './vsprintf';
-
-export {
-  setup,
-  vsprintf
-};
+export * from './dummy';
+export * from './setup';
+export * from './vsprintf';

@@ -1,5 +1,1 @@
-import StateRouter from './state';
-
-export {
-  StateRouter
-};
+export * from './state';

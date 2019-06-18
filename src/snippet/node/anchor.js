@@ -1,3 +1,3 @@
-import Button from './button';
+import { Button } from './button';
 
-export default class Anchor extends Button {}
+export class Anchor extends Button {}

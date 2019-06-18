@@ -1,5 +1,1 @@
-import ViewBuilder from './view';
-
-export {
-  ViewBuilder
-};
+export * from './view';

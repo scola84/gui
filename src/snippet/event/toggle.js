@@ -1,6 +1,6 @@
-import Click from './click';
+import { Click } from './click';
 
-export default class Toggle extends Click {
+export class Toggle extends Click {
   handle(box, data, snippet) {
     const node = snippet.node();
     box.toggle = !node.classed('toggled');

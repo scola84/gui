@@ -1,6 +1,6 @@
-import Snippet from '../snippet';
+import { Snippet } from '../snippet';
 
-export default class Throw extends Snippet {
+export class Throw extends Snippet {
   resolveAfter(box, error) {
     throw error;
   }

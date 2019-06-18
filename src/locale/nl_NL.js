@@ -2,7 +2,7 @@ const maxlength = 'Deze waarde is te lang (max. %(maxlength)s tekens).';
 const required = 'Dit veld is verplicht.';
 const pattern = 'Deze waarde is niet goed (%(pattern)s).';
 
-export default {
+export const nl_NL = {
   input: {
     color: {
       maxlength,

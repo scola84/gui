@@ -1,6 +1,6 @@
 let id = 0;
 
-export default class Snippet {
+export class Snippet {
   constructor(options = {}) {
     this._builder = null;
     this._id = null;
@@ -55,6 +55,10 @@ export default class Snippet {
     return this;
   }
 
+  id(value) {
+    return this.setId(value);
+  }
+
   append(...list) {
     this._list = this._list.concat(list);
     return this;
@@ -62,13 +66,18 @@ export default class Snippet {
 
   find(compare) {
     let result = [];
+    let snippet = null;
 
     if (compare(this) === true) {
       result[result.length] = this;
     }
 
     for (let i = 0; i < this._list.length; i += 1) {
-      result = result.concat(this._list[i].find(compare));
+      snippet = this._list[i];
+
+      if (snippet.find) {
+        result = result.concat(snippet.find(compare));
+      }
     }
 
     return result;

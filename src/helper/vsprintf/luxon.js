@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-export default function luxon(value, options = '', locale = 'nl_NL') {
+export function luxon(value, options = '', locale = 'nl_NL') {
   locale = locale.replace('_', '-');
   options = options ? options.split(';') : [];
 

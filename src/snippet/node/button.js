@@ -1,6 +1,6 @@
-import Node from '../node';
+import { Node } from '../node';
 
-export default class Button extends Node {
+export class Button extends Node {
   constructor(options) {
     super(options);
 

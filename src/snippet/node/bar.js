@@ -1,7 +1,7 @@
-import Node from '../node';
+import { Node } from '../node';
 const classes = ['right', 'center', 'left'];
 
-export default class Bar extends Node {
+export class Bar extends Node {
   resolveAfter() {
     for (let i = 0; i < classes.length; i += 1) {
       this.checkChild(classes[i], classes[i - 1]);

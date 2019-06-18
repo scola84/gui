@@ -1,7 +1,7 @@
 import { parsePhoneNumber } from 'libphonenumber-js';
-import Input from '../input';
+import { Input } from '../input';
 
-export default class Tel extends Input {
+export class Tel extends Input {
   constructor(options = {}) {
     super(options);
 

@@ -1,16 +1,39 @@
 import defaults from 'lodash-es/defaultsDeep';
-import Node from '../node';
+import { Node } from '../node';
 
-export default class Search extends Node {
+export class Search extends Node {
+  constructor(options) {
+    super(options);
+
+    this._wildcard = null;
+    this.setWildcard(options.wildcard);
+  }
+
+  getWildcard() {
+    return this._wildcard;
+  }
+
+  setWildcard(value = '*') {
+    this._wildcard = value;
+    return this;
+  }
+
+  wildcard(value) {
+    return this.setWildcard(value);
+  }
+
   formatSearch(value) {
     const parts = value.match(/[^"\s]+|"[^"]+"/g);
+
     let match = null;
+    let part = null;
 
     for (let i = 0; i < parts.length; i += 1) {
-      match = parts[i].match(/".+"/);
+      part = parts[i];
+      match = part.match(/".+"/);
 
       if (match === null) {
-        parts[i] = '*' + parts[i] + '*';
+        parts[i] = this._wildcard + part + this._wildcard;
       }
     }
 

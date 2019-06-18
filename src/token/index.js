@@ -1,7 +1,2 @@
-import cls from './cls';
-import dom from './dom';
-
-export {
-  cls,
-  dom
-};
+export * from './cls';
+export * from './dom';

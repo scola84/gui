@@ -1,7 +1,7 @@
 import IBAN from 'iban';
-import Input from '../input';
+import { Input } from '../input';
 
-export default class Iban extends Input {
+export class Iban extends Input {
   constructor(options) {
     super(options);
 

@@ -2,7 +2,7 @@ import { createBrowser } from '@scola/http';
 import { Worker } from '@scola/worker';
 import defaults from 'lodash-es/defaultsDeep';
 import merge from 'lodash-es/merge';
-import Async from './async';
+import { Async } from './async';
 
 const woptions = {
   headers: {
@@ -11,7 +11,7 @@ const woptions = {
   }
 };
 
-export default class Request extends Async {
+export class Request extends Async {
   static getOptions() {
     return woptions;
   }
@@ -54,7 +54,7 @@ export default class Request extends Async {
       options = { method, url };
     }
 
-    defaults(options, {
+    options = defaults({}, options, {
       extra: { box },
       headers: woptions.headers[options.method]
     });

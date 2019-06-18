@@ -1,7 +1,7 @@
 import defaults from 'lodash-es/defaultsDeep';
-import Event from '../event';
+import { Event } from '../event';
 
-export default class Scroll extends Event {
+export class Scroll extends Event {
   constructor(options = {}) {
     super(options);
 

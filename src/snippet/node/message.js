@@ -1,11 +1,7 @@
-import Node from '../node';
+import { Node } from '../node';
 
-export default class Message extends Node {
+export class Message extends Node {
   resolveAfter(box, data) {
-    if (this._node.text() !== '') {
-      return this._node;
-    }
-
     if (typeof data.status === 'undefined') {
       return this._node;
     }

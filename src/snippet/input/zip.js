@@ -1,7 +1,7 @@
 import postalcodes from 'postal-codes-js';
-import Input from '../input';
+import { Input } from '../input';
 
-export default class Zip extends Input {
+export class Zip extends Input {
   constructor(options = {}) {
     super(options);
 
