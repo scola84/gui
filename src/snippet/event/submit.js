@@ -17,8 +17,11 @@ export class Submit extends Event {
 
     for (let i = 0; i < keys.length; i += 1) {
       key = keys[i];
+
       value = formData.getAll(key);
-      data[key] = value.length === 1 ? value[0] : value;
+      value = value.length === 1 ? value[0] : value;
+
+      data[key] = value;
     }
 
     this.pass(box, data);

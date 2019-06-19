@@ -1,6 +1,6 @@
 import { select } from 'd3';
 import { Snippet } from './snippet';
-import { Dummy } from '../helper';
+import { Dummy } from '../object';
 
 export class Node extends Snippet {
   constructor(options = {}) {
@@ -16,10 +16,6 @@ export class Node extends Snippet {
 
     if (options.class) {
       this.class(options.class);
-    }
-
-    if (options.id) {
-      this.id(options.id);
     }
   }
 
