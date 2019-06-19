@@ -6,7 +6,7 @@
 .form .item > select,
 .form .item > textarea {
   flex: 1;
-  margin: 0 1em 0 0;
+  margin-right: 1em;
   min-width: 0;
   white-space: nowrap;
 }
@@ -14,7 +14,8 @@
 *[dir=rtl] .form .item > input,
 *[dir=rtl] .form .item > select,
 *[dir=rtl] .form .item > textarea {
-  margin: 0 0 0 1em;
+  margin-left: 1em;
+  margin-right: 0;
 }
 
 .form .item > .hint:not(:empty) {

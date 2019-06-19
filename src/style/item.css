@@ -4,12 +4,7 @@
   display: flex;
   flex-wrap: wrap;
   min-height: 3em;
-  padding: 0.5em 0 0.5em 1em;
   position: relative;
-}
-
-*[dir=rtl] .item {
-  padding: 0.5em 1em 0.5em 0;
 }
 
 .item.click:active {
@@ -29,9 +24,6 @@
 .item.fold.transition.folded {
   height: 0 !important;
   min-height: 0 !important;
-  opacity: 0;
-  padding-bottom: 0;
-  padding-top: 0;
 }
 
 .item:before {
@@ -96,6 +88,20 @@
   right: 5.4em;
 }
 
+.item > * {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.item > *:first-child {
+  margin-left: 1em;
+}
+
+*[dir=rtl] .item > *:first-child {
+  margin-left: 0;
+  margin-right: 1em;
+}
+
 /* Icon */
 
 .item > .icon {
@@ -106,7 +112,11 @@
 }
 
 *[dir=rtl] .item > .icon {
-  margin: 0 0 0 1em;
+  margin-left: 1em;
+}
+
+*[dir=rtl] .item > .icon:not(:first-child) {
+  margin-right: 0;
 }
 
 .item > .icon:before {
@@ -137,7 +147,7 @@
   display: flex;
   flex: 1;
   flex-flow: wrap row;
-  margin: 0 1em 0 0;
+  margin-right: 1em;
   min-width: 0;
 }
 
@@ -147,7 +157,11 @@
 }
 
 *[dir=rtl] .item > .label {
-  margin: 0 0 0 1em;
+  margin-left: 1em;
+}
+
+*[dir=rtl] .item > .label:not(:first-child) {
+  margin-right: 0;
 }
 
 .item > .label > * {
@@ -160,27 +174,34 @@
 .item > .label > .l1 {
   flex: 1;
   font-size: 1em;
-  margin: 0 1em 0 0;
   text-align: start;
-}
-
-*[dir=rtl] .item > .label > .l1 {
-  margin: 0 0 0 1em;
 }
 
 .item > .label > .l2 {
   color: darkgrey;
   display: flex;
   font-size: 1em;
+  margin-left: 1em;
   max-width: 50%;
   text-align: end;
+}
+
+*[dir=rtl] .item > .label > .l2 {
+  margin-left: 0;
+  margin-right: 1em;
 }
 
 .item > .label > .l3 {
   color: darkgrey;
   display: flex;
+  margin-left: 1em;
   max-width: 50%;
   text-align: end;
+}
+
+*[dir=rtl] .item > .label > .l3 {
+  margin-left: 0;
+  margin-right: 1em;
 }
 
 .item > .label > .l4 {
