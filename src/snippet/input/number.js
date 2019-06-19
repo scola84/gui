@@ -17,7 +17,7 @@ export class Number extends Input {
       return this.setError(error, name, value, 'type');
     }
 
-    this.set(data, name, parseFloat(value));
+    this.setValue(data, name, parseFloat(value));
 
     return null;
   }

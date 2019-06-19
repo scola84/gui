@@ -33,7 +33,7 @@ export class Zip extends Input {
   }
 
   cleanAfter(box, data, name, value) {
-    this.set(data, name, String(value).replace(/[-\s]+/g, ''));
+    this.setValue(data, name, String(value).replace(/[-\s]+/g, ''));
   }
 
   validateAfter(box, data, error, name, value) {

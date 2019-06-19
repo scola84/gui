@@ -54,7 +54,7 @@ export class Input extends Node {
     if (this.isEmpty(value) === true) {
       if (this._default !== null) {
         value = this.resolveValue(box, data, this._default);
-        this.set(data, name, value);
+        this.setValue(data, name, value);
       }
     }
 
@@ -99,7 +99,7 @@ export class Input extends Node {
     return new RegExp(pattern).test(String(value));
   }
 
-  set(object, key, value) {
+  setValue(object, key, value) {
     set(object, key, value);
   }
 
@@ -110,7 +110,7 @@ export class Input extends Node {
       value
     });
 
-    this.set(error, name, value);
+    this.setValue(error, name, value);
   }
 
   validate(box, data, error) {

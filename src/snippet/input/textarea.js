@@ -7,6 +7,6 @@ export class Textarea extends Input {
   }
 
   cleanAfter(box, data, name, value) {
-    this.set(data, name, String(value).trim());
+    this.setValue(data, name, String(value).trim());
   }
 }

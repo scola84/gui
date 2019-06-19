@@ -33,7 +33,7 @@ export class DateTime extends Input {
   }
 
   cleanAfter(box, data, name, value) {
-    this.set(data, name, String(value).trim());
+    this.setValue(data, name, String(value).trim());
   }
 
   validateAfter(box, data, error, name, value) {

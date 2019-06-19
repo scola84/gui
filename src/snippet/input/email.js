@@ -19,7 +19,7 @@ export class Email extends Input {
   }
 
   cleanAfter(box, data, name, value) {
-    this.set(data, name, String(value).trim().toLowerCase());
+    this.setValue(data, name, String(value).trim().toLowerCase());
   }
 
   validateAfter(box, data, error, name, value) {

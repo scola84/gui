@@ -10,6 +10,6 @@ export class Password extends Input {
   }
 
   cleanAfter(box, data, name, value) {
-    this.set(data, name, String(value));
+    this.setValue(data, name, String(value));
   }
 }

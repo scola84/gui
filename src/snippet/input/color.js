@@ -11,7 +11,7 @@ export class Color extends Input {
   }
 
   cleanAfter(box, data, name, value) {
-    this.set(data, name, String(value).trim().toUpperCase());
+    this.setValue(data, name, String(value).trim().toUpperCase());
   }
 
   validateAfter(box, data, error, name, value) {

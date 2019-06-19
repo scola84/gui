@@ -11,7 +11,7 @@ export class Iban extends Input {
   }
 
   cleanAfter(box, data, name, value) {
-    this.set(data, name, String(value).replace(/\s+/g, ''));
+    this.setValue(data, name, String(value).replace(/\s+/g, ''));
   }
 
   validateAfter(box, data, error, name, value) {
@@ -31,7 +31,7 @@ export class Iban extends Input {
       return this.setError(error, name, value, 'type');
     }
 
-    this.set(data, name, IBAN.electronicFormat(value));
+    this.setValue(data, name, IBAN.electronicFormat(value));
 
     return null;
   }

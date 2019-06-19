@@ -50,7 +50,7 @@ export class Tel extends Input {
   }
 
   cleanAfter(box, data, name, value) {
-    this.set(data, name, String(value).trim());
+    this.setValue(data, name, String(value).trim());
   }
 
   validateAfter(box, data, error, name, value) {
@@ -69,7 +69,7 @@ export class Tel extends Input {
 
     const format = this.resolveValue(box, data, this._format);
 
-    this.set(data, name, number.format(format));
+    this.setValue(data, name, number.format(format));
 
     return null;
   }
