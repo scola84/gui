@@ -65,12 +65,6 @@ export class Node extends Snippet {
     });
   }
 
-  class(value) {
-    return this.classed({
-      [value]: true
-    });
-  }
-
   classed(values) {
     return this.transform((box, data, node) => {
       this.resolveEach(box, data, values, (key, value) => {
@@ -83,20 +77,6 @@ export class Node extends Snippet {
     return this.transform((box, data, node) => {
       node.html(this.resolveValue(box, data, value));
     });
-  }
-
-  id(value) {
-    return this.attributes({
-      id: value
-    });
-  }
-
-  name(value) {
-    return this.setName(value);
-  }
-
-  node() {
-    return this.getNode();
   }
 
   properties(values) {
@@ -121,8 +101,22 @@ export class Node extends Snippet {
     });
   }
 
-  transform(value) {
-    this._transform[this._transform.length] = value;
+  class(value) {
+    return this.classed({
+      [value]: true
+    });
+  }
+
+  name(value) {
+    return this.setName(value);
+  }
+
+  node() {
+    return this.getNode();
+  }
+
+  transform(...transform) {
+    this._transform = this._transform.concat(transform);
     return this;
   }
 

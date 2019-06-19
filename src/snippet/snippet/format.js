@@ -15,19 +15,19 @@ export class Format extends Snippet {
     wlocale = value;
   }
 
-  static setNumbers(value) {
-    merge(vsprintf.n.definitions, value);
-  }
-
   static getNumbers() {
     return vsprintf.n.definitions;
+  }
+
+  static addNumbers(value) {
+    merge(vsprintf.n.definitions, value);
   }
 
   static getStrings() {
     return strings;
   }
 
-  static setStrings(value) {
+  static addStrings(value) {
     merge(strings, value);
   }
 
