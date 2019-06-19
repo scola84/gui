@@ -7,26 +7,29 @@ import css from 'rollup-plugin-css-only';
 import json from 'rollup-plugin-json';
 import resolve from 'rollup-plugin-node-resolve';
 
-const cssOptions = {
-  include: [new RegExp('.css')],
-  output: (styles) => {
-    styles = styles.replace(
-      /..\/fonts\/ionicons/g,
-      'https://unpkg.com/ionicons@4.5.6/dist/fonts/ionicons'
-    );
+const input = './index.js';
 
-    writeFileSync('dist/dom.css', styles);
-  }
-};
-
-const bubleOptions = {
-  transforms: {
-    dangerousForOf: true
-  }
-};
+const plugins = [
+  resolve(),
+  commonjs(),
+  builtins(),
+  css({
+    output: (styles) => {
+      writeFileSync('dist/dom.css', styles.replace(
+        /\.\.\//g, 'https://unpkg.com/ionicons@4.5.6/dist/'
+      ));
+    }
+  }),
+  json(),
+  buble({
+    transforms: {
+      dangerousForOf: true
+    }
+  })
+];
 
 export default [{
-  input: './index.js',
+  input,
   external: [
     '@scola/http',
     'process'
@@ -40,16 +43,9 @@ export default [{
       '@scola/http': 'scola.http'
     }
   },
-  plugins: [
-    resolve(),
-    commonjs(),
-    builtins(),
-    css(cssOptions),
-    json(),
-    buble(bubleOptions)
-  ]
+  plugins
 }, {
-  input: './index.js',
+  input,
   external: [
     '@scola/http',
     'postal-codes-js'
@@ -66,11 +62,6 @@ export default [{
       'es6-shim',
       'es6-symbol/implement'
     ]),
-    resolve(),
-    commonjs(),
-    builtins(),
-    css(cssOptions),
-    json(),
-    buble(bubleOptions)
+    ...plugins
   ]
 }];
