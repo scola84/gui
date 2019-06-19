@@ -21,7 +21,9 @@ export class Message extends Node {
       this.resolveValue(box, data, text)
     );
 
-    this._node.classed('show', true);
+    this._node
+      .classed('transition', true)
+      .classed('in', true);
 
     return this._node;
   }

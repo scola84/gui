@@ -58,7 +58,7 @@ export class Search extends Node {
     const value = sessionStorage.getItem('search-' + this._id);
 
     if (value) {
-      this._node.classed('show', true);
+      this._node.classed('in', true);
       input.attr('value', value);
 
       defaults(box, {
@@ -94,15 +94,9 @@ export class Search extends Node {
 
     this._node
       .classed('transition', true)
-      .classed('show', box.toggle)
-      .on('transitionend.scola', () => {
-        this._node
-          .classed('transition', false)
-          .on('transitionend.scola', null);
-      });
+      .classed('in', box.toggle);
 
     delete box.toggle;
-
     return this._node;
   }
 }

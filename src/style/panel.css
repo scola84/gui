@@ -55,7 +55,7 @@
   height: 3em;
   justify-content: center;
   position: relative;
-  z-index: 3;
+  z-index: 2;
 }
 
 .panel > * > .bar > .center {
@@ -232,25 +232,15 @@
   color: dimgrey;
   display: flex;
   justify-content: center;
+  margin-bottom: -2.25em;
   min-height: 2.25em;
   padding: 0.5em;
   position: relative;
   text-align: center;
-  z-index: 1;
-}
-
-.panel > .header > .message.hide,
-.panel > .header > .message.show {
-  transition: all 0.25s;
-}
-
-.panel > .header > .message,
-.panel > .header > .message.hide {
-  margin-bottom: -2.25em;
   top: -2.25em;
 }
 
-.panel > .header > .message.show {
+.panel > .header > .message.in {
   margin-bottom: 0;
   top: 0;
 }
@@ -263,7 +253,6 @@
   height: 3px;
   left: 0;
   position: absolute;
-  z-index: 3;
 }
 
 /* Header search */
@@ -274,10 +263,10 @@
   margin-bottom: -3em;
   position: relative;
   top: -3em;
-  z-index: 2;
+  z-index: 1;
 }
 
-.panel > .header > .search.show {
+.panel > .header > .search.in {
   margin-bottom: 0;
   top: 0;
 }

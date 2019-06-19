@@ -24,7 +24,8 @@ export class Panel extends Node {
       .classed('rtl ltr fade', false);
 
     old
-      .classed('transition old', true)
+      .classed('transition', true)
+      .classed('old', true)
       .classed(effect, true)
       .on('transitionend.scola', () => {
         if (old.size() > 0) {
@@ -33,7 +34,8 @@ export class Panel extends Node {
       });
 
     this._node
-      .classed('transition new', true)
+      .classed('transition', true)
+      .classed('new', true)
       .classed(effect, true)
       .on('transitionend.scola', () => {
         box.base.busy = false;

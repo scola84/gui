@@ -111,7 +111,6 @@ p a:hover {
   height: 100%;
   position: relative;
   width: 21.333em;
-  z-index: 3;
 }
 
 .app > * + .menu {
@@ -136,26 +135,25 @@ p a:hover {
     left: -100%;
     max-width: 85%;
     position: absolute;
-    transition: left 0.25s;
+    z-index: 3;
   }
 
-  .app > .menu.over {
+  .app > .menu.in {
     left: 0;
   }
 
   *[dir=rtl] .app > .menu {
     left: 0;
     right: -100%;
-    transition: right 0.25s;
   }
 
-  *[dir=rtl] .app > .menu.over {
+  *[dir=rtl] .app > .menu.in {
     right: 0;
   }
 }
 
 .transition {
-  transition: all 0.25s ease-in;
+  transition: all 0.25s ease-in-out;
 }
 
 @keyframes spin {

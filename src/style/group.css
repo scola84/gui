@@ -41,7 +41,7 @@
   font-family: Ionicons;
   font-size: 1.25em;
   margin-left: auto;
-  transition: transform 0.25s;
+  transition: transform 0.25s ease-in-out;
   width: 0.5em;
 }
 

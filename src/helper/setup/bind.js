@@ -13,17 +13,15 @@ export function bind() {
   body.on('click.scola-dom-menu', () => {
     if (select(event.target).classed('show-menu')) {
       select('.app > .menu')
-        .classed('over', true)
+        .classed('transition', true)
+        .classed('in', true)
         .on('touchstart', () => event.stopPropagation())
         .on('click', () => event.stopPropagation());
     } else {
-      select('.app > .menu.over')
-        .classed('over', false)
+      select('.app > .menu.in')
+        .classed('in', false)
         .on('touchstart', null)
         .on('click', null);
     }
   });
-
-  select('.app > .menu')
-    .classed('over', true);
 }
