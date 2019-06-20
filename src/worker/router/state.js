@@ -4,7 +4,7 @@ import { Route } from '../../object';
 const routers = {};
 
 export class StateRouter extends Router {
-  static handleRoute(box, data, route) {
+  static handle(box, data, route) {
     route = Route.parse(route);
     routers[route.slf ? box.name : route.name].handle(route, data);
   }

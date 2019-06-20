@@ -3,20 +3,24 @@ import merge from 'lodash-es/merge';
 import { Snippet } from '../snippet';
 import { vsprintf } from '../../helper';
 
-const strings = {};
-let wlocale = 'nl_NL';
+let locale = 'nl_NL';
+let strings = {};
 
 export class Format extends Snippet {
   static getLocale() {
-    return wlocale;
+    return locale;
   }
 
   static setLocale(value) {
-    wlocale = value;
+    locale = value;
   }
 
   static getNumbers() {
     return vsprintf.n.definitions;
+  }
+
+  static setNumbers(value) {
+    vsprintf.n.definitions = value;
   }
 
   static addNumbers(value) {
@@ -25,6 +29,10 @@ export class Format extends Snippet {
 
   static getStrings() {
     return strings;
+  }
+
+  static setStrings(value) {
+    strings = value;
   }
 
   static addStrings(value) {
@@ -48,7 +56,7 @@ export class Format extends Snippet {
     return this._locale;
   }
 
-  setLocale(value = wlocale) {
+  setLocale(value = locale) {
     this._locale = value;
     return this;
   }
@@ -59,11 +67,10 @@ export class Format extends Snippet {
 
   resolveAfter(box, data) {
     const result = [];
-    const locale = this.resolveValue(box, data, this._locale) || wlocale;
+    const flocale = this.resolveValue(box, data, this._locale);
 
     let args = null;
     let code = null;
-    let path = null;
     let string = null;
     let value = null;
 
@@ -73,13 +80,11 @@ export class Format extends Snippet {
       [code, ...args] = Array.isArray(value) ?
         value : [value, data];
 
-      path = locale ? `${locale}.${code}` : code;
-
-      string = get(strings, path);
+      string = get(strings, `${flocale}.${code}`);
       string = typeof string === 'undefined' ? code : string;
 
       try {
-        string = vsprintf(string, args, locale);
+        string = vsprintf(string, args, flocale);
       } catch (e) {
         console.warn(e);
       }
