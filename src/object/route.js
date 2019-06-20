@@ -61,31 +61,53 @@ export class Route {
     });
   }
 
-  format(filter = []) {
-    let params = '';
-    let options = '';
+  format(filter) {
+    let string = '';
 
-    let names = Object.keys(this.params);
+    string += this.path;
+    string += this.formatParams();
+    string += '@';
+    string += this.name;
+    string += this.formatOptions(filter);
+
+    return string;
+  }
+
+  formatOptions(filter = []) {
+    const names = Object.keys(this.options);
+
+    let string = '';
     let name = null;
-
-    for (let i = 0; i < names.length; i += 1) {
-      params += params.length === 0 ? ':' : ';';
-      params += names[i] + '=' + this.params[names[i]];
-    }
-
-    names = Object.keys(this.options);
-    name = null;
 
     for (let i = 0; i < names.length; i += 1) {
       name = names[i];
 
-      if (this.options[name] === true && filter.indexOf(name) > -1) {
-        options += options.length === 0 ? ':' : ';';
-        options += name;
+      if (
+        this.options[name] === true &&
+        filter.indexOf(name) > -1
+      ) {
+        string += string.length === 0 ? ':' : ';';
+        string += name;
       }
     }
 
-    return this.path + params + '@' + this.name + options;
+    return string;
+  }
+
+  formatParams() {
+    const names = Object.keys(this.params);
+
+    let string = '';
+    let name = null;
+
+    for (let i = 0; i < names.length; i += 1) {
+      name = names[i];
+
+      string += string.length === 0 ? ':' : ';';
+      string += name + '=' + this.params[name];
+    }
+
+    return string;
   }
 
   toJSON() {

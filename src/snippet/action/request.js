@@ -55,7 +55,7 @@ export class Request extends Async {
 
     if (typeof options === 'string') {
       const [method, url] = options.split(' ');
-      options = { method, url };
+      options = url ? { method, url } : { url: method };
     }
 
     options = defaults({}, options, {

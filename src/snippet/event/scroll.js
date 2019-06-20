@@ -49,18 +49,24 @@ export class Scroll extends Event {
     return this.resolveOuter(box, data);
   }
 
-  handle(box, data, snippet, event) {
+  handle(box, data, snippet) {
     if (box.list.total % box.list.count > 0) {
       return false;
+    }
+
+    const initialized = box.list.height > 0;
+
+    if (initialized === false) {
+      box.list.height = parseInt(snippet.node().style('height'), 10);
+      box.list.count = Math.round(box.list.height / this._height) * 2;
     }
 
     const node = snippet.node().node();
     const top = box.list.height + node.scrollTop;
     const threshold = node.scrollHeight - (box.list.height / 4 * 2);
-    const initialize = event && event.detail && event.detail.initialize;
 
     if (top > threshold) {
-      if (initialize !== true) {
+      if (initialized === true) {
         box.list.offset += box.list.count;
       }
 
@@ -72,15 +78,6 @@ export class Scroll extends Event {
   }
 
   initialize(box, data, node) {
-    setTimeout(() => {
-      box.list.height = parseInt(node.style('height'), 10);
-      box.list.count = Math.round(box.list.height / this._height) * 2;
-
-      node.dispatch('scroll', {
-        detail: {
-          initialize: true
-        }
-      });
-    });
+    setTimeout(() => node.dispatch('scroll'));
   }
 }
