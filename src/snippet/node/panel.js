@@ -3,8 +3,6 @@ import Resizer from 'element-resize-detector';
 import debounce from 'lodash-es/debounce';
 import { Node } from '../node';
 
-const effects = ['rtl', 'ltr', 'fade'];
-
 export class Panel extends Node {
   removeBefore(box, data) {
     const node = this._node.node();
@@ -16,21 +14,20 @@ export class Panel extends Node {
   resolveAfter(box) {
     box.base.appendChild(this._node.node());
 
-    const effect = effects
-      .find((name) => box[name] === true) || 'none';
+    const effect = ['rtl', 'ltr', 'ins']
+      .find((name) => box.options[name] === true) || 'none';
 
     const old = select(box.base)
       .select('.panel.new')
-      .classed('rtl ltr fade', false);
+      .classed('rtl ltr ins', false);
 
     old
       .classed('transition', true)
       .classed('old', true)
       .classed(effect, true)
       .on('transitionend.scola', () => {
-        if (old.size() > 0) {
-          old.node().snippet.remove();
-        }
+        old.on('transitionend.scola', null);
+        old.node().snippet.remove();
       });
 
     this._node
@@ -38,6 +35,7 @@ export class Panel extends Node {
       .classed('new', true)
       .classed(effect, true)
       .on('transitionend.scola', () => {
+        this._node.on('transitionend.scola', null);
         box.base.busy = false;
       });
 

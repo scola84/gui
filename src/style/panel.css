@@ -10,11 +10,11 @@
 
 /* Transition */
 
-.panel.fade {
+.panel.ins {
   opacity: 0;
 }
 
-.panel.fade.in {
+.panel.ins.in {
   opacity: 1;
 }
 

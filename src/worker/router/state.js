@@ -1,62 +1,12 @@
 import { Router } from '@scola/worker';
+import { Route } from '../../object';
+
 const routers = {};
 
 export class StateRouter extends Router {
-  static getRouter(name) {
-    return routers[name];
-  }
-
-  static setRouter(name, router) {
-    routers[name] = router;
-  }
-
-  static parseHash(hash) {
-    hash = hash
-      .slice(2)
-      .split('/')
-      .filter((part) => part);
-
-    const routes = {};
-    let route = null;
-
-    for (let i = 0; i < hash.length; i += 1) {
-      route = StateRouter.parseRoute(hash[i]);
-
-      routes[route.name] = {
-        params: route.params,
-        path: route.path
-      };
-    }
-
-    return routes;
-  }
-
-  static parseRoute(string) {
-    const [splitPath, splitName] = string.split('@');
-    const [path, rawParams = ''] = splitPath.split(':');
-    const [name, rawOptions = ''] = splitName.split(':');
-
-    const route = {
-      name,
-      params: {},
-      path
-    };
-
-    const options = rawOptions.split(';');
-    const params = rawParams.split(';');
-
-    for (let i = 0; i < options.length; i += 1) {
-      route[options[i]] = true;
-    }
-
-    for (let i = 0; i < params.length; i += 1) {
-      if (params[i].length > 0) {
-        const [paramName, paramValue] = params[i].split('=');
-        route.params[paramName] = paramValue;
-      }
-    }
-
-    return route;
+  static handleRoute(box, data, route) {
+    route = Route.parse(route);
+    routers[route.slf ? box.name : route.name].handle(route, data);
   }
 
   constructor(options = {}) {
@@ -64,17 +14,27 @@ export class StateRouter extends Router {
 
     this._base = null;
     this._default = null;
-    this._history = [];
+    this._global = null;
+    this._history = null;
     this._name = null;
     this._stash = null;
+    this._storage = null;
 
     this.setBase(options.base);
     this.setDefault(options.default);
+    this.setGlobal(options.global);
+    this.setHistory(options.history);
     this.setName(options.name);
+    this.setStash(options.stash);
+    this.setStorage(options.storage);
 
     this.loadHistory();
 
-    StateRouter.setRouter(this._name, this);
+    routers[this._name] = this;
+  }
+
+  getBase() {
+    return this._base;
   }
 
   setBase(value = null) {
@@ -82,13 +42,57 @@ export class StateRouter extends Router {
     return this;
   }
 
+  getDefault() {
+    return this._default;
+  }
+
   setDefault(value = null) {
     this._default = value;
     return this;
   }
 
+  getGlobal() {
+    return this._global;
+  }
+
+  setGlobal(value = window) {
+    this._global = value;
+    return this;
+  }
+
+  getHistory() {
+    return this._history;
+  }
+
+  setHistory(value = []) {
+    this._history = value;
+    return this;
+  }
+
+  getName() {
+    return this._name;
+  }
+
   setName(value = null) {
     this._name = value;
+    return this;
+  }
+
+  getStash() {
+    return this._stash;
+  }
+
+  setStash(value = null) {
+    this._stash = value;
+    return this;
+  }
+
+  getStorage() {
+    return this._storage;
+  }
+
+  setStorage(value = sessionStorage) {
+    this._storage = value;
     return this;
   }
 
@@ -99,61 +103,64 @@ export class StateRouter extends Router {
 
     this._base.busy = true;
 
-    let hash = StateRouter.parseHash(window.location.hash);
-    [hash, box] = this.processHash(hash, box);
+    box = this.processHistory(box);
+    box = this.processBackward(box);
 
-    history.replaceState({}, '', this.formatHash(hash));
+    const routes = this.parseHash();
+
+    if (box.path === null) {
+      this.processDelete(box, routes);
+    } else if (
+      typeof this._workers[box.path] === 'undefined' ||
+      typeof routes[this._name] === 'undefined'
+    ) {
+      this.processDefault(box, routes);
+    } else {
+      this.processRoute(box, routes, box);
+    }
+
+    this.formatHash(routes);
+    this.processForward(box);
+
     this.pass(box.path, box, data, callback);
   }
 
-  stash() {
-    const hash = StateRouter.parseHash(window.location.hash);
+  formatHash(routes) {
+    const names = Object.keys(routes);
+    let hash = '#';
 
-    if (hash[this._name]) {
-      this._stash = hash[this._name];
+    for (let i = 0; i < names.length; i += 1) {
+      hash += '/' + routes[names[i]].format();
     }
 
-    return this;
-  }
-
-  unstash() {
-    const box = this._stash;
-    this._stash = null;
-    return box;
-  }
-
-  createId() {
-    return 'history-' + this._id;
-  }
-
-  formatHash(hash) {
-    return '#/' + Object
-      .keys(hash)
-      .map((name) => {
-        return this.formatRoute(hash, name);
-      })
-      .join('/');
-  }
-
-  formatRoute(hash, name) {
-    const params = Object
-      .keys(hash[name].params)
-      .map((paramName, index) => {
-        return (index === 0 ? ':' : '') +
-          paramName + '=' + hash[name].params[paramName];
-      })
-      .join(';');
-
-    return hash[name].path + params + '@' + name;
+    this._global.history.replaceState({}, '', hash);
   }
 
   loadHistory() {
-    const history = sessionStorage.getItem(this.createId());
-    this._history = history === null ? [] : JSON.parse(history);
+    this._history = JSON.parse(
+      this._storage.getItem('route-' + this._name) || '[]'
+    ).map((route) => Route.parse(route));
+  }
+
+  parseHash() {
+    const hash = this._global.location.hash;
+
+    let parts = hash.slice(2).split('/');
+    parts = parts.filter((part) => part);
+
+    const routes = {};
+    let route = null;
+
+    for (let i = 0; i < parts.length; i += 1) {
+      route = Route.parse(parts[i]);
+      routes[route.name] = route;
+    }
+
+    return routes;
   }
 
   processBackward(box) {
-    if (box.back !== true) {
+    if (box.options.bwd === false) {
       return box;
     }
 
@@ -164,18 +171,31 @@ export class StateRouter extends Router {
     const current = this._history.pop();
     const previous = this._history.pop();
 
-    if (current.remember || previous.remember) {
-      box.name = this._name;
-      box.path = previous.path;
-      box.params = previous.params;
-      box.remember = previous.remember;
+    if (current.options.mem || previous.options.mem) {
+      return previous;
     }
 
     return box;
   }
 
+  processDefault(box, routes) {
+    const path = box.options.def || this._default;
+
+    if (path !== null) {
+      this.processRoute(box, routes, { path });
+    }
+  }
+
+  processDelete(box, routes) {
+    delete routes[this._name];
+  }
+
   processForward(box) {
-    if (box.clear === true) {
+    if (box.options.bwd === true) {
+      return;
+    }
+
+    if (box.options.clr === true) {
       this._history = [];
     }
 
@@ -184,50 +204,10 @@ export class StateRouter extends Router {
     }
 
     this.saveHistory();
-
-    return box;
-  }
-
-  processHash(hash, box) {
-    box = this.processHistory(box);
-    box = this.processBackward(box);
-
-    if (typeof box.path !== 'undefined') {
-      if (box.path === null) {
-        delete hash[this._name];
-      } else if (!this._workers[box.path]) {
-        if (this._default) {
-          hash[this._name] = this.processRoute(this._default, box.params);
-        } else if (box.default) {
-          hash[this._name] = this.processRoute(box.default, box.params);
-        }
-      } else {
-        hash[this._name] = this.processRoute(box.path, box.params);
-      }
-    } else if (typeof hash[this._name] === 'undefined') {
-      if (this._default !== null) {
-        hash[this._name] = this.processRoute(this._default, box.params);
-      } else if (box.default) {
-        hash[this._name] = this.processRoute(box.default, box.params);
-      }
-    }
-
-    if (typeof hash[this._name] !== 'undefined') {
-      box.base = this._base;
-      box.name = this._name;
-      box.path = hash[this._name].path;
-      box.params = hash[this._name].params;
-    }
-
-    if (box.fwd !== false) {
-      box = this.processForward(box);
-    }
-
-    return [hash, box];
   }
 
   processHistory(box) {
-    if (box.history !== true) {
+    if (box.options.his === false) {
       return box;
     }
 
@@ -238,28 +218,38 @@ export class StateRouter extends Router {
     return this._history.pop();
   }
 
-  processRoute(path, params = {}) {
-    return {
-      params,
-      path
-    };
+  processRoute(box, routes, from) {
+    routes[this._name] = new Route({
+      base: this._base,
+      name: this._name,
+      options: from.options,
+      params: from.params,
+      path: from.path
+    });
+
+    Object.assign(box, routes[this._name]);
   }
 
   saveHistory() {
-    const history = [];
-    let box = null;
+    this._storage.setItem(
+      'route-' + this._name,
+      JSON.stringify(this._history)
+    );
+  }
 
-    for (let i = 0; i < this._history.length; i += 1) {
-      box = this._history[i];
+  stash() {
+    const routes = this.parseHash();
 
-      history[history.length] = {
-        back: box.back,
-        path: box.path,
-        params: box.params,
-        remember: box.remember
-      };
+    if (routes[this._name]) {
+      this._stash = routes[this._name];
     }
 
-    sessionStorage.setItem(this.createId(), JSON.stringify(history));
+    return this;
+  }
+
+  unstash() {
+    const box = this._stash;
+    this._stash = null;
+    return box;
   }
 }
