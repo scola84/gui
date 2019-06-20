@@ -59,7 +59,12 @@ export class Request extends Async {
     }
 
     options = defaults({}, options, {
-      extra: { box }
+      extra: {
+        box
+      },
+      url: {
+        hostname: window.location.hostname
+      }
     });
 
     return (callback) => {
