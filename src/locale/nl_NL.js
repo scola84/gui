@@ -4,6 +4,9 @@ const pattern = 'Deze waarde is niet goed (%(pattern)s).';
 
 export const nl_NL = {
   input: {
+    checkbox: {
+      required
+    },
     color: {
       maxlength,
       pattern,
@@ -68,6 +71,9 @@ export const nl_NL = {
       pattern,
       required,
       type: 'Dit is geen wachtwoord.'
+    },
+    radio: {
+      required
     },
     range: {
       maxlength,
