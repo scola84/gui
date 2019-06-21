@@ -6,19 +6,20 @@ export class Hint extends Node {
       return this._node;
     }
 
-    let previous = this._node.node().previousSibling;
+    const parent = this._node.node().parentNode;
+    let input = parent.querySelector('input, select, textarea');
 
-    if (previous === null || previous.snippet === null) {
+    if (input === null || typeof input.snippet === 'undefined') {
       return this._node;
     }
 
-    previous = previous.snippet;
+    input = input.snippet;
 
-    let name = previous.node().attr('name');
+    let name = input.node().attr('name');
     let value = data.data[name];
 
     if (Array.isArray(value) === true) {
-      [name, value] = this.resolveArray(box, data, previous, name, value);
+      [name, value] = this.resolveArray(box, data, input, name, value);
     }
 
     let text = null;
@@ -40,8 +41,8 @@ export class Hint extends Node {
     return this._node;
   }
 
-  resolveArray(box, data, previous, name, value) {
-    const multiple = previous
+  resolveArray(box, data, input, name, value) {
+    const multiple = input
       .node()
       .attr('multiple');
 
@@ -51,7 +52,7 @@ export class Hint extends Node {
       .resolve();
 
     if (typeof multiple === 'undefined') {
-      const index = all.indexOf(previous);
+      const index = all.indexOf(input);
       value = value[index];
     } else {
       value = value.reduce((a, v) => v, {});
