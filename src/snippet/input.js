@@ -54,7 +54,7 @@ export class Input extends Node {
     const isPermitted = this.isPermitted(box, data);
 
     if (isPermitted === false) {
-      value = null;
+      value = '';
       this.setValue(data, name, value);
     }
 
