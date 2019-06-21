@@ -1,4 +1,4 @@
-import { StateRouter } from '../../worker';
+import { ViewRouter } from '../../worker';
 import { Action } from '../action';
 
 export class Route extends Action {
@@ -7,7 +7,7 @@ export class Route extends Action {
 
     for (let i = 0; i < this._list.length; i += 1) {
       route = this.resolveValue(box, data, this._list[i]);
-      StateRouter.handle(box, data, route);
+      ViewRouter.handle(box, data, route);
     }
   }
 }

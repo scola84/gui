@@ -3,7 +3,7 @@ import { Route } from '../../object';
 
 const routers = {};
 
-export class StateRouter extends Router {
+export class ViewRouter extends Router {
   static handle(box, data, route) {
     route = Route.parse(route, box.name);
     routers[route.name].handle(route, data);
@@ -111,7 +111,7 @@ export class StateRouter extends Router {
     if (box.path === false) {
       box = this.processDelete(box, routes);
     } else if (
-      typeof this._workers[box.path] === 'undefined' ||
+      typeof this._workers[box.path] === 'undefined' &&
       typeof routes[this._name] === 'undefined'
     ) {
       box = this.processDefault(box, routes);
@@ -189,6 +189,12 @@ export class StateRouter extends Router {
 
   processDelete(box, routes) {
     delete routes[this._name];
+
+    if (this._base.snippet) {
+      this._base.snippet.remove();
+      this._base.snippet = null;
+    }
+
     return box;
   }
 

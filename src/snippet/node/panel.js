@@ -17,9 +17,8 @@ export class Panel extends Node {
     const effect = ['rtl', 'ltr', 'ins']
       .find((name) => box.options[name] === true) || 'none';
 
-    const old = select(box.base)
-      .select('.panel.new')
-      .classed('rtl ltr ins', false);
+    const old = box.base.snippet ? box.base.snippet.node()
+      .classed('rtl ltr ins', false) : select();
 
     old
       .classed('transition', true)
@@ -48,6 +47,8 @@ export class Panel extends Node {
       old.dispatch('transitionend');
       this._node.dispatch('transitionend');
     }
+
+    box.base.snippet = this;
 
     return this.resolveResize();
   }
