@@ -68,6 +68,10 @@ export class Event extends Action {
   bind(box, data, snippet) {
     const node = snippet.resolve(box, data);
 
+    if (node === null) {
+      return;
+    }
+
     const throttled = throttle((newEvent) => {
       this.handleBefore(box, data, snippet, newEvent);
     }, this._throttle);

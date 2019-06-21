@@ -5,10 +5,12 @@ export class Snippet {
     this._builder = null;
     this._id = null;
     this._list = null;
+    this._permission = null;
 
     this.setBuilder(options.builder);
     this.setId(options.id);
     this.setList(options.list);
+    this.setPermission(options.permission);
   }
 
   clone() {
@@ -24,7 +26,9 @@ export class Snippet {
   getOptions() {
     return {
       builder: this._builder,
-      list: this._list
+      id: this._id,
+      list: this._list,
+      permission: this._permission
     };
   }
 
@@ -55,8 +59,21 @@ export class Snippet {
     return this;
   }
 
+  getPermission() {
+    return this._permission;
+  }
+
+  setPermission(value = null) {
+    this._permission = value;
+    return this;
+  }
+
   id(value) {
     return this.setId(value);
+  }
+
+  permission(value) {
+    return this.setPermission(value);
   }
 
   append(...list) {
@@ -106,6 +123,13 @@ export class Snippet {
   }
 
   resolve(box, data) {
+    const hasPermission = this
+      .resolveValue(box, data, this._permission);
+
+    if (hasPermission === false) {
+      return null;
+    }
+
     return this.resolveBefore(box, data);
   }
 

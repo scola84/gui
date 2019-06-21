@@ -137,6 +137,13 @@ export class Node extends Snippet {
   }
 
   resolve(box, data) {
+    const hasPermission = this
+      .resolveValue(box, data, this._permission);
+
+    if (hasPermission === false) {
+      return null;
+    }
+
     if (this._node === null) {
       this.createNode();
     }
@@ -183,7 +190,9 @@ export class Node extends Snippet {
       nodes = Array.isArray(nodes) ? nodes : [nodes];
 
       for (let j = 0; j < nodes.length; j += 1) {
-        this.insertNode(nodes[j].node());
+        if (nodes[j]) {
+          this.insertNode(nodes[j].node());
+        }
       }
     }
 

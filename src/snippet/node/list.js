@@ -6,13 +6,24 @@ export class List extends Node {
     this._items = [];
   }
 
-  appendItem(box, datum, snippet) {
-    const clone = snippet.clone();
-    const node = clone.resolve(box, datum);
+  appendItems(box, data, items, item) {
+    items
+      .data(data, (datum) => JSON.stringify(datum))
+      .enter()
+      .append((datum) => {
+        const clone = item.clone();
 
-    this._items[this._items.length] = clone;
+        let node = clone.resolve(box, datum);
+        node = Array.isArray(node) ? node[0] : node;
 
-    return Array.isArray(node) ? node[0].node() : node.node();
+        if (node === null) {
+          return document.createDocumentFragment();
+        }
+
+        this._items[this._items.length] = clone;
+
+        return node.node();
+      });
   }
 
   removeInner() {
@@ -25,15 +36,8 @@ export class List extends Node {
   }
 
   resolveInner(box, data) {
-    let newData = data.data;
-    let isEmpty = false;
-
-    if (typeof newData === 'undefined' || newData === null) {
-      newData = [];
-    } else if (newData.length === 0) {
-      newData = [{}];
-      isEmpty = true;
-    }
+    const hasData = Array.isArray(data.data);
+    const listData = data.data || [];
 
     const [
       item,
@@ -48,15 +52,14 @@ export class List extends Node {
     }
 
     if (box.list) {
-      items = this.resolveItems(box, newData, items);
+      items = this.resolveItems(box, listData, items);
     }
 
-    items
-      .data(newData, (datum) => JSON.stringify(datum))
-      .enter()
-      .append((datum) => {
-        return this.appendItem(box, datum, isEmpty ? empty : item);
-      });
+    this.appendItems(box, listData, items, item);
+
+    if (hasData === true && items.size() === 0) {
+      this.appendItems(box, [{}], items, empty);
+    }
 
     return this.resolveAfter(box, data);
   }
