@@ -6,6 +6,15 @@ export class List extends Node {
     this._items = [];
   }
 
+  appendItem(box, datum, snippet) {
+    const clone = snippet.clone();
+    const node = clone.resolve(box, datum);
+
+    this._items[this._items.length] = clone;
+
+    return Array.isArray(node) ? node[0].node() : node.node();
+  }
+
   removeInner() {
     for (let i = 0; i < this._items.length; i += 1) {
       this._items[i].remove();
@@ -39,39 +48,36 @@ export class List extends Node {
     }
 
     if (box.list) {
-      if (box.list.clear) {
-        delete box.list.clear;
-
-        box.list.offset = 0;
-        box.list.total = 0;
-
-        items.remove();
-        items = this._node.selectAll('.item');
-      }
-
-      if (box.list.offset === 0 && box.list.count > 0) {
-        this._node.node().parentNode.scrollTop = 0;
-      }
-
-      box.list.total += newData.length;
+      items = this.resolveItems(box, newData, items);
     }
 
     items
       .data(newData, (datum) => JSON.stringify(datum))
       .enter()
       .append((datum) => {
-        return this.append(box, datum, isEmpty ? empty : item);
+        return this.appendItem(box, datum, isEmpty ? empty : item);
       });
 
     return this.resolveAfter(box, data);
   }
 
-  append(box, datum, snippet) {
-    const clone = snippet.clone();
-    const node = clone.resolve(box, datum);
+  resolveItems(box, data, items) {
+    if (box.list.clear) {
+      delete box.list.clear;
 
-    this._items[this._items.length] = clone;
+      box.list.offset = 0;
+      box.list.total = 0;
 
-    return Array.isArray(node) ? node[0].node() : node.node();
+      items.remove();
+      items = this._node.selectAll('.item');
+    }
+
+    if (box.list.offset === 0 && box.list.count > 0) {
+      this._node.node().parentNode.scrollTop = 0;
+    }
+
+    box.list.total += data.length;
+
+    return items;
   }
 }
