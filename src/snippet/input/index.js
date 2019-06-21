@@ -1,3 +1,4 @@
+export * from './checkbox';
 export * from './color';
 export * from './date';
 export * from './datetime';
@@ -8,6 +9,7 @@ export * from './month';
 export * from './number';
 export * from './password';
 export * from './range';
+export * from './radio';
 export * from './select';
 export * from './tel';
 export * from './text';

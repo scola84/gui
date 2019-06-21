@@ -11,6 +11,16 @@
   white-space: nowrap;
 }
 
+.form .item > input[type=checkbox],
+.form .item > input[type=radio] {
+  flex: none;
+}
+
+.form .item > input[type=checkbox]:not(:first-child),
+.form .item > input[type=radio]:not(:first-child) {
+  margin-left: 0;
+}
+
 *[dir=rtl] .form .item > input,
 *[dir=rtl] .form .item > select,
 *[dir=rtl] .form .item > textarea {
