@@ -4,6 +4,7 @@ export * from './button';
 export * from './hint';
 export * from './form';
 export * from './list';
+export * from './loading';
 export * from './message';
 export * from './panel';
 export * from './progress';

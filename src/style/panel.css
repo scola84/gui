@@ -173,19 +173,6 @@
   width: 2em;
 }
 
-.panel > .body.busy:after {
-  animation: spin 1s infinite linear;
-  border-color: grey;
-  height: 1.5em;
-  margin: 1em auto;
-  width: 1.5em;
-}
-
-.panel.outset-x.outset-y > .body:not(.busy):after {
-  border: 0;
-  height: 0;
-}
-
 /* Body button */
 
 .panel > .body .button {
@@ -208,6 +195,19 @@
   display: block;
   font-size: 1.9em;
   width: 100%;
+}
+
+/* Body loading */
+
+.panel > .body > .loading.in {
+  animation: spin 1s infinite linear;
+  border: 1px solid grey;
+  border-radius: 50%;
+  border-right: none;
+  flex: none;
+  height: 1.5em;
+  margin: 1em auto;
+  width: 1.5em;
 }
 
 /* Footer / header */
