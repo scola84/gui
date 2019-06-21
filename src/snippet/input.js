@@ -51,11 +51,21 @@ export class Input extends Node {
   }
 
   cleanInput(box, data, name, value) {
-    if (this.isEmpty(value) === true) {
-      if (this._default !== null) {
-        value = this.resolveValue(box, data, this._default);
-        this.setValue(data, name, value);
-      }
+    const isPermitted = this.isPermitted(box, data);
+
+    if (isPermitted === false) {
+      value = null;
+      this.setValue(data, name, value);
+    }
+
+    const isEmpty = this.isEmpty(value);
+
+    if (
+      isEmpty === true &&
+      this._default !== null
+    ) {
+      value = this.resolveValue(box, data, this._default);
+      this.setValue(data, name, value);
     }
 
     this.cleanAfter(box, data, name, value);

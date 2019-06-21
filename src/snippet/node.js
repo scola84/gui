@@ -137,10 +137,9 @@ export class Node extends Snippet {
   }
 
   resolve(box, data) {
-    const hasPermission = this
-      .resolveValue(box, data, this._permission);
+    const isPermitted = this.isPermitted(box, data);
 
-    if (hasPermission === false) {
+    if (isPermitted === false) {
       return null;
     }
 
