@@ -1,7 +1,7 @@
 import defaults from 'lodash-es/defaultsDeep';
 
 export class Route {
-  static parse(route) {
+  static parse(route, router) {
     if (route instanceof Route) {
       return route;
     }
@@ -14,7 +14,7 @@ export class Route {
       return route;
     }
 
-    const [splitPath, splitName] = route.split('@');
+    const [splitPath, splitName = ''] = route.split('@');
     const [path, rawParams = ''] = splitPath.split(':');
     const [name, rawOptions = ''] = splitName.split(':');
 
@@ -24,6 +24,10 @@ export class Route {
       params: {},
       path
     };
+
+    if (options.name === 'self') {
+      options.name = router;
+    }
 
     const optionNames = rawOptions ? rawOptions.split(';') : [];
 
@@ -53,8 +57,7 @@ export class Route {
         ins: true,
         ltr: false,
         mem: false,
-        rtl: false,
-        slf: false
+        rtl: false
       },
       params: {},
       path: null
@@ -111,6 +114,6 @@ export class Route {
   }
 
   toJSON() {
-    return this.format(['bwd', 'mem']);
+    return this.format(['mem']);
   }
 }

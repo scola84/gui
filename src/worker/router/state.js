@@ -5,8 +5,8 @@ const routers = {};
 
 export class StateRouter extends Router {
   static handle(box, data, route) {
-    route = Route.parse(route);
-    routers[route.slf ? box.name : route.name].handle(route, data);
+    route = Route.parse(route, box.name);
+    routers[route.name].handle(route, data);
   }
 
   constructor(options = {}) {
@@ -108,15 +108,15 @@ export class StateRouter extends Router {
 
     const routes = this.parseHash();
 
-    if (box.path === null) {
-      this.processDelete(box, routes);
+    if (box.path === false) {
+      box = this.processDelete(box, routes);
     } else if (
       typeof this._workers[box.path] === 'undefined' ||
       typeof routes[this._name] === 'undefined'
     ) {
-      this.processDefault(box, routes);
+      box = this.processDefault(box, routes);
     } else {
-      this.processRoute(box, routes, box);
+      box = this.processRoute(box, routes, box);
     }
 
     this.formatHash(routes);
@@ -143,10 +143,8 @@ export class StateRouter extends Router {
   }
 
   parseHash() {
-    const hash = this._global.location.hash;
-
-    let parts = hash.slice(2).split('/');
-    parts = parts.filter((part) => part);
+    const hash = this._global.location.hash.slice(2);
+    const parts = hash ? hash.split('/') : [];
 
     const routes = {};
     let route = null;
@@ -164,7 +162,7 @@ export class StateRouter extends Router {
       return box;
     }
 
-    if (this._history.length <= 1) {
+    if (this._history.length < 2) {
       return box;
     }
 
@@ -172,6 +170,7 @@ export class StateRouter extends Router {
     const previous = this._history.pop();
 
     if (current.options.mem || previous.options.mem) {
+      previous.options = box.options;
       return previous;
     }
 
@@ -179,22 +178,21 @@ export class StateRouter extends Router {
   }
 
   processDefault(box, routes) {
-    const path = box.options.def || this._default;
+    const path = box.default || this._default;
 
-    if (path !== null) {
-      this.processRoute(box, routes, { path });
+    if (path === null) {
+      return box;
     }
+
+    return this.processRoute(box, routes, { path });
   }
 
   processDelete(box, routes) {
     delete routes[this._name];
+    return box;
   }
 
   processForward(box) {
-    if (box.options.bwd === true) {
-      return;
-    }
-
     if (box.options.clr === true) {
       this._history = [];
     }
@@ -227,7 +225,7 @@ export class StateRouter extends Router {
       path: from.path
     });
 
-    Object.assign(box, routes[this._name]);
+    return routes[this._name];
   }
 
   saveHistory() {
