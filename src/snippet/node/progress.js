@@ -9,11 +9,13 @@ export class Progress extends Node {
     const fraction = data.loaded / data.total;
 
     this._node
-      .transition()
+      .classed('transition', true)
       .style('width', (fraction * 100) + '%')
-      .on('end', () => {
+      .on('transitionend', () => {
         if (fraction === 1) {
-          this._node.style('width', 0);
+          this._node
+            .classed('transition', false)
+            .style('width', null);
         }
       });
 
