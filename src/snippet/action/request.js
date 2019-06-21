@@ -48,7 +48,7 @@ export class Request extends Async {
 
   asyncify(box, data, options) {
     if (this._client === null) {
-      this.setupClient();
+      this._client = createBrowser();
     }
 
     options = this.resolveValue(box, data, options);
@@ -68,28 +68,20 @@ export class Request extends Async {
     });
 
     return (callback) => {
-      this._client.handler
-        .setAct((b, result) => callback(null, result))
-        .setErr((b, error) => callback(error));
+      this._client.transformer.connect(new Worker({
+        act: (b, result) => {
+          this._client.transformer.setWorker(null);
+          callback(null, result);
+        },
+        err: (b, error) => {
+          this._client.transformer.setWorker(null);
+          callback(error);
+        }
+      }));
 
       this._client.connector.handle(options, data, (event) => {
         this.resolveValue(box, event, this._indicator);
       });
-    };
-  }
-
-  setupClient() {
-    const {
-      connector,
-      transformer
-    } = createBrowser();
-
-    const handler = transformer
-      .connect(new Worker());
-
-    this._client = {
-      connector,
-      handler
     };
   }
 }
