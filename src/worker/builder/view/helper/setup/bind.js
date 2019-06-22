@@ -14,7 +14,7 @@ export function bind() {
     body.dispatch('click', event);
   });
 
-  body.on('click.scola-dom-menu', () => {
+  body.on('click.scola-menu', () => {
     if (select(event.target).classed('show-menu')) {
       select('.app > .menu')
         .classed('transition', true)

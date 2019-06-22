@@ -13,7 +13,7 @@ export class Button extends Node {
   }
 
   removeBefore() {
-    this._node.on('click.scola-dom', null);
+    this._node.on('click.scola-button', null);
     this.removeOuter();
   }
 
@@ -28,7 +28,7 @@ export class Button extends Node {
   }
 
   resolveForm(box, data, form) {
-    this._node.on('click.scola-dom', () => {
+    this._node.on('click.scola-button', () => {
       event.preventDefault();
       select('#' + form).dispatch('submit');
     });

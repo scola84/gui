@@ -77,9 +77,9 @@ export class Fold extends Event {
 
     node
       .classed('out', false)
-      .on('transitionend.scola', () => {
+      .on('transitionend.scola-fold', () => {
         node
-          .on('transitionend.scola', null)
+          .on('transitionend.scola-fold', null)
           .style('height', null);
       });
   }
@@ -93,9 +93,9 @@ export class Fold extends Event {
     node
       .classed('transition', true)
       .classed('out', true)
-      .on('transitionend.scola', () => {
+      .on('transitionend.scola-fold', () => {
         node
-          .on('transitionend.scola', null)
+          .on('transitionend.scola-fold', null)
           .remove();
       });
 

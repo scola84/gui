@@ -24,8 +24,8 @@ export class Panel extends Node {
       .classed('transition', true)
       .classed('old', true)
       .classed(effect, true)
-      .on('transitionend.scola', () => {
-        old.on('transitionend.scola', null);
+      .on('transitionend.scola-panel', () => {
+        old.on('transitionend.scola-panel', null);
         old.node().snippet.remove();
       });
 
@@ -33,8 +33,8 @@ export class Panel extends Node {
       .classed('transition', true)
       .classed('new', true)
       .classed(effect, true)
-      .on('transitionend.scola', () => {
-        this._node.on('transitionend.scola', null);
+      .on('transitionend.scola-panel', () => {
+        this._node.on('transitionend.scola-panel', null);
         box.base.busy = false;
       });
 
