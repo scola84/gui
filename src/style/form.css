@@ -8,7 +8,22 @@
   flex: 1;
   margin-right: 1em;
   min-width: 0;
+}
+
+*[dir=rtl] .form .item > input,
+*[dir=rtl] .form .item > select,
+*[dir=rtl] .form .item > textarea {
+  margin-left: 1em;
+  margin-right: 0;
+}
+
+.form .item > input,
+.form .item > select {
   white-space: nowrap;
+}
+
+.form .item > textarea {
+  -webkit-appearance: textfield;
 }
 
 .form .item > input[type=checkbox],
@@ -19,13 +34,6 @@
 .form .item > input[type=checkbox]:not(:first-child),
 .form .item > input[type=radio]:not(:first-child) {
   margin-left: 0;
-}
-
-*[dir=rtl] .form .item > input,
-*[dir=rtl] .form .item > select,
-*[dir=rtl] .form .item > textarea {
-  margin-left: 1em;
-  margin-right: 0;
 }
 
 .form .item > .hint:not(:empty) {
