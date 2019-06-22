@@ -1,4 +1,4 @@
-import { ViewRouter } from '../../worker';
+import { ViewRouter } from '../../../../router';
 import { Action } from '../action';
 
 export class Route extends Action {

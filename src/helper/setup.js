@@ -1,22 +1,5 @@
-import {
-  attach,
-  bind,
-  shim
-} from './setup/';
+import { ViewBuilder } from '../worker';
 
 export function setup() {
-  attach();
-
-  if (typeof window === 'undefined') {
-    return;
-  }
-
-  shim();
-  bind();
+  ViewBuilder.setup();
 }
-
-Object.assign(setup, {
-  shim,
-  bind,
-  attach
-});

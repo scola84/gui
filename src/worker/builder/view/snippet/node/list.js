@@ -7,7 +7,7 @@ export class List extends Node {
   }
 
   appendItems(box, data, items, item) {
-    items
+    return items
       .data(data, (datum) => JSON.stringify(datum))
       .enter()
       .append((datum) => {
@@ -55,7 +55,7 @@ export class List extends Node {
       items = this.resolveItems(box, listData, items);
     }
 
-    this.appendItems(box, listData, items, item);
+    items = this.appendItems(box, listData, items, item);
 
     if (hasData === true && items.size() === 0) {
       this.appendItems(box, [{}], items, empty);

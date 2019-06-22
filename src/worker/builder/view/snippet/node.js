@@ -1,6 +1,6 @@
 import { select } from 'd3';
 import { Snippet } from './snippet';
-import { Dummy } from '../object';
+import { Dummy } from '../object/dummy';
 
 export class Node extends Snippet {
   constructor(options = {}) {
@@ -128,11 +128,18 @@ export class Node extends Snippet {
     this._node.insert(() => node);
   }
 
-  removeOuter() {
+  removeNode() {
+    if (this._node === null) {
+      return;
+    }
+
     this._node.node().snippet = null;
     this._node.remove();
     this._node = null;
+  }
 
+  removeOuter() {
+    this.removeNode();
     this.removeInner();
   }
 

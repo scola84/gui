@@ -253,6 +253,7 @@
   height: 3px;
   left: 0;
   position: absolute;
+  z-index: 1;
 }
 
 /* Header search */

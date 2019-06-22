@@ -1,6 +1,6 @@
 {
   "name": "@scola/dom",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Create, update and delete documents",
   "repository": "github:scola84/dom",
   "author": "M.C. van den Boogaart <scola@kvdb.name>",

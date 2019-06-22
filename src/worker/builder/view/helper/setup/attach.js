@@ -1,5 +1,5 @@
 import camel from 'lodash-es/camelCase';
-import { ViewBuilder } from '../../worker';
+import { ViewBuilder } from '../../../view';
 import * as snippet from '../../snippet';
 import * as token from '../../token';
 

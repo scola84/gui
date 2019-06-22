@@ -2,6 +2,10 @@ import { select, event } from 'd3';
 import fastclick from 'fastclick';
 
 export function bind() {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
   const body = select('body');
 
   fastclick(body.node());

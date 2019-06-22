@@ -1,5 +1,6 @@
 import { Worker } from '@scola/worker';
 import camel from 'lodash-es/camelCase';
+import * as setup from './view/helper/setup';
 
 export class ViewBuilder extends Worker {
   static attachFactory(prefix, name, object, options = {}) {
@@ -12,6 +13,11 @@ export class ViewBuilder extends Worker {
         list
       }));
     };
+  }
+
+  static setup(...names) {
+    names = names.length === 0 ? Object.keys(setup) : names;
+    names.forEach((name) => setup[name]());
   }
 
   constructor(options = {}) {
