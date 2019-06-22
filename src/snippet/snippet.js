@@ -82,15 +82,20 @@ export class Snippet {
   }
 
   find(compare) {
-    let result = [];
-    let snippet = null;
+    const result = [];
 
     if (compare(this) === true) {
       result[result.length] = this;
     }
 
-    for (let i = 0; i < this._list.length; i += 1) {
-      snippet = this._list[i];
+    return this.findRecursive(result, this._list, compare);
+  }
+
+  findRecursive(result, list, compare) {
+    let snippet = null;
+
+    for (let i = 0; i < list.length; i += 1) {
+      snippet = list[i];
 
       if (snippet.find) {
         result = result.concat(snippet.find(compare));

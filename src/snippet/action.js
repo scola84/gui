@@ -48,23 +48,9 @@ export class Action extends Snippet {
 
   find(compare) {
     let result = super.find(compare);
-    let snippet = null;
 
-    for (let i = 0; i < this._act.length; i += 1) {
-      snippet = this._act[i];
-
-      if (snippet.find) {
-        result = result.concat(snippet.find(compare));
-      }
-    }
-
-    for (let i = 0; i < this._err.length; i += 1) {
-      snippet = this._err[i];
-
-      if (snippet.find) {
-        result = result.concat(snippet.find(compare));
-      }
-    }
+    result = this.findRecursive(result, this._act, compare);
+    result = this.findRecursive(result, this._err, compare);
 
     return result;
   }
