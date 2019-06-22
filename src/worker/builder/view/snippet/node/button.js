@@ -30,7 +30,9 @@ export class Button extends Node {
   resolveForm(box, data, form) {
     this._node.on('click.scola-button', () => {
       event.preventDefault();
-      select('#' + form).dispatch('submit');
+      select('#' + form).dispatch('submit', {
+        cancelable: true
+      });
     });
 
     return this._node;
