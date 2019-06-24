@@ -64,6 +64,10 @@ p a:hover {
   text-decoration: none;
 }
 
+textarea {
+  -webkit-appearance: textfield;
+}
+
 .transition {
   transition: all 0.25s ease-in-out;
 }

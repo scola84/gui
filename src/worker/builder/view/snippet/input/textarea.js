@@ -44,32 +44,37 @@ export class Textarea extends Input {
   }
 
   resolveGrow() {
-    const pre = this
+    const wrapper = this
       .wrapNode('div')
-      .classed('input', true)
-      .append('pre');
+      .classed('input', true);
 
+    const pre = wrapper.append('pre');
     const span = pre.append('span');
+
     pre.append('br');
 
     const style = window
       .getComputedStyle(this._node.node());
 
-    this._node
-      .style('box-sizing', 'border-box')
-      .style('height', '100%')
-      .style('margin', 0)
-      .style('overflow', 'hidden')
-      .style('resize', 'none')
-      .style('width', '100%');
+    wrapper
+      .style('display', 'flex');
 
     pre
       .style('border', '1px solid black')
+      .style('box-sizing', 'content-box')
       .style('position', 'absolute')
       .style('top', '-100%')
       .style('visibility', 'hidden')
       .style('white-space', 'pre-wrap')
       .style('word-wrap', 'break-word');
+
+    this._node
+      .style('box-sizing', 'content-box')
+      .style('height', '100%')
+      .style('margin', 0)
+      .style('overflow', 'hidden')
+      .style('resize', 'none')
+      .style('width', '100%');
 
     [
       'border-bottom-width',

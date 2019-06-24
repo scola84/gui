@@ -15,10 +15,6 @@
   white-space: nowrap;
 }
 
-.form .item > textarea {
-  -webkit-appearance: textfield;
-}
-
 .form .item > input[type=checkbox],
 .form .item > input[type=radio] {
   flex: none;
@@ -42,3 +38,4 @@
   margin-top: 0;
   width: 100%;
 }
+-
