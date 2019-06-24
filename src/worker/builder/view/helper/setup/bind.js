@@ -15,7 +15,7 @@ export function bind() {
   });
 
   body.on('click.scola-menu', () => {
-    if (select(event.target).classed('show-menu')) {
+    if (select(event.target).classed('show-menu') === true) {
       select('.app > .menu')
         .classed('transition', true)
         .classed('in', true)
