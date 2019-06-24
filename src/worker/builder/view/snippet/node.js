@@ -138,6 +138,16 @@ export class Node extends Snippet {
     this._node = null;
   }
 
+  wrapNode(name) {
+    const node = this._node.node();
+    const wrapper = document.createElement(name);
+
+    node.parentNode.insertBefore(wrapper, node);
+    wrapper.appendChild(node);
+
+    return select(wrapper);
+  }
+
   removeOuter() {
     this.removeNode();
     this.removeInner();
