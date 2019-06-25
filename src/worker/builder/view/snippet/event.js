@@ -66,7 +66,7 @@ export class Event extends Action {
   }
 
   bind(box, data, snippet) {
-    const node = snippet.resolve(box, data);
+    const node = this.resolveValue(box, data, snippet);
 
     if (node === null) {
       return;

@@ -162,17 +162,6 @@
   flex-direction: column;
 }
 
-.panel > .body:after {
-  border: 1px solid transparent;
-  border-radius: 50%;
-  border-right: none;
-  box-sizing: border-box;
-  content: '';
-  display: flex;
-  height: 2em;
-  width: 2em;
-}
-
 /* Body button */
 
 .panel > .body .button {

@@ -60,7 +60,7 @@ export class Async extends Action {
         callback(error);
       });
 
-      snippet.resolve(box, data);
+      this.resolveValue(box, data, snippet);
     };
   }
 }

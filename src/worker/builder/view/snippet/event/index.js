@@ -3,4 +3,5 @@ export * from './fold';
 export * from './input';
 export * from './scroll';
 export * from './submit';
+export * from './tab';
 export * from './toggle';

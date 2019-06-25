@@ -1,6 +1,7 @@
 export * from './anchor';
 export * from './bar';
 export * from './button';
+export * from './clip';
 export * from './hint';
 export * from './form';
 export * from './list';

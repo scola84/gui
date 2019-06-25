@@ -11,5 +11,7 @@ export class Click extends Event {
     if (select(event.target).classed('click') === true) {
       this.pass(box, data);
     }
+
+    return false;
   }
 }

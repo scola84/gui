@@ -20,7 +20,7 @@ export class Query extends Snippet {
 
     for (let i = 0; i < snippets.length; i += 1) {
       result[result.length] = box ?
-        snippets[i].resolve(box, data) :
+        this.resolveValue(box, data, snippets[i]) :
         snippets[i];
     }
 
@@ -36,7 +36,7 @@ export class Query extends Snippet {
       .selectAll(query)
       .each((datum, index, nodes) => {
         result[result.length] = box ?
-          nodes[index].snippet.resolve(box, data) :
+          this.resolveValue(box, data, nodes[index].snippet) :
           nodes[index].snippet;
       });
 

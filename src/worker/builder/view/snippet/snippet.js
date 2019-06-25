@@ -56,6 +56,22 @@ export class Snippet {
 
   setList(value = []) {
     this._list = value;
+
+    for (let i = 0; i < this._list.length; i += 1) {
+      if (this._list[i].setParent) {
+        this._list[i].setParent(this);
+      }
+    }
+
+    return this;
+  }
+
+  getParent() {
+    return this._parent;
+  }
+
+  setParent(value = null) {
+    this._parent = value;
     return this;
   }
 
@@ -77,8 +93,7 @@ export class Snippet {
   }
 
   append(...list) {
-    this._list = this._list.concat(list);
-    return this;
+    return this.setList(this._list.concat(list));
   }
 
   find(compare) {

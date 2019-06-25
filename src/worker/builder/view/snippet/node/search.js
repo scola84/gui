@@ -49,6 +49,23 @@ export class Search extends Node {
       return this.resolveToggle(box, data);
     }
 
+    return this.resolveSearch(box, data);
+  }
+
+  resolveInput(box) {
+    sessionStorage.setItem('search-' + this._id, box.input);
+
+    box.list.clear = true;
+
+    box.list.search = box.input ?
+      this.formatSearch(box.input) :
+      null;
+
+    delete box.input;
+    return this._node;
+  }
+
+  resolveSearch(box, data) {
     const input = this._node
       .append('input')
       .attr('autocomplete', 'on')
@@ -69,19 +86,6 @@ export class Search extends Node {
     }
 
     return this.resolveOuter(box, data);
-  }
-
-  resolveInput(box) {
-    sessionStorage.setItem('search-' + this._id, box.input);
-
-    box.list.clear = true;
-
-    box.list.search = box.input ?
-      this.formatSearch(box.input) :
-      null;
-
-    delete box.input;
-    return this._node;
   }
 
   resolveToggle(box) {
