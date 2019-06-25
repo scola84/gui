@@ -9,7 +9,7 @@ export class Clip extends Node {
     fragment.setAttribute = () => {};
     fragment.snippet = this;
 
-    this._node = select(fragment);
+    this.setNode(select(fragment));
   }
 
   resolveInner(box, data) {
