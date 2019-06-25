@@ -37,6 +37,7 @@ export class ViewBuilder extends Worker {
   }
 
   act(box, data, callback) {
+    data = this.filter(box, data);
     this._view.resolve(box, data);
     this.pass(box, data, callback);
   }
