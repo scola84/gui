@@ -12,12 +12,14 @@ export class Progress extends Node {
       .classed('transition', true)
       .style('width', (fraction * 100) + '%')
       .on('transitionend.scola-progress', () => {
-        if (fraction === 1) {
-          this._node
-            .classed('transition', false)
-            .style('width', null)
-            .on('transitionend.scola-progress', null);
+        if (fraction < 1) {
+          return;
         }
+
+        this._node
+          .classed('transition', false)
+          .style('width', null)
+          .on('transitionend.scola-progress', null);
       });
 
     return this._node;
