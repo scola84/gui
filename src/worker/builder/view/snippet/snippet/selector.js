@@ -1,6 +1,6 @@
 import { Snippet } from '../snippet';
 
-export class Query extends Snippet {
+export class Selector extends Snippet {
   resolveAfter(box, data) {
     const query = this._list[0];
 

@@ -1,3 +1,3 @@
 export * from './format';
-export * from './query';
+export * from './selector';
 export * from './throw';
