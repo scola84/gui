@@ -119,7 +119,6 @@ export class Node extends Snippet {
   createNode() {
     const element = document.createElement(this._name);
     element.snippet = this;
-
     this.setNode(select(element));
   }
 

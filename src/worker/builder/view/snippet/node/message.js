@@ -23,7 +23,12 @@ export class Message extends Node {
 
     this._node
       .classed('transition', true)
-      .classed('in', true);
+      .classed('in', true)
+      .on('transitionend.scola-message', () => {
+        this._node
+          .classed('transition', false)
+          .on('transitionend.scola-message', null);
+      });
 
     return this._node;
   }

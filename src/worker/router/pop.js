@@ -17,6 +17,7 @@ export class PopRouter extends ViewRouter {
     select(document).on('keydown.scola-pop', null);
 
     parent
+      .classed('transition', true)
       .classed('in', false)
       .on('click.scola-pop', null)
       .on('transitionend.scola-pop', () => {
@@ -29,8 +30,14 @@ export class PopRouter extends ViewRouter {
       });
 
     base
+      .classed('transition', true)
+      .classed('in', false)
       .on('click.scola-pop', null)
-      .classed('in', false);
+      .on('transitionend.scola-pop', () => {
+        base
+          .classed('transition', false)
+          .on('transitionend.scola-pop', null);
+      });
   }
 
   open(box) {
@@ -52,6 +59,11 @@ export class PopRouter extends ViewRouter {
         if (box.lock !== true) {
           this.close(box);
         }
+      })
+      .on('transitionend.scola-pop', () => {
+        parent
+          .classed('transition', false)
+          .on('transitionend.scola-pop', null);
       });
 
     base
@@ -59,6 +71,11 @@ export class PopRouter extends ViewRouter {
       .classed('in', true)
       .on('click.scola-pop', () => {
         event.stopPropagation();
+      })
+      .on('transitionend.scola-pop', () => {
+        base
+          .classed('transition', false)
+          .on('transitionend.scola-pop', null);
       });
   }
 }

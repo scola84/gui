@@ -98,7 +98,12 @@ export class Search extends Node {
 
     this._node
       .classed('transition', true)
-      .classed('in', box.toggle);
+      .classed('in', box.toggle)
+      .on('transitionend.scola-search', () => {
+        this._node
+          .classed('transition', false)
+          .on('transitionend.scola-search', null);
+      });
 
     delete box.toggle;
     return this._node;

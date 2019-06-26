@@ -19,13 +19,14 @@ export function bind() {
       select('.app > .menu')
         .classed('transition', true)
         .classed('in', true)
-        .on('touchstart', () => event.stopPropagation())
-        .on('click', () => event.stopPropagation());
+        .on('touchstart.scola-menu', () => event.stopPropagation())
+        .on('click.scola-menu', () => event.stopPropagation());
     } else {
       select('.app > .menu.in')
+        .classed('transition', true)
         .classed('in', false)
-        .on('touchstart', null)
-        .on('click', null);
+        .on('touchstart.scola-menu', null)
+        .on('click.scola-menu', null);
     }
   });
 }

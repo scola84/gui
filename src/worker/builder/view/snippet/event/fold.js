@@ -76,11 +76,13 @@ export class Fold extends Event {
     node.style('left');
 
     node
+      .classed('transition', true)
       .classed('out', false)
       .on('transitionend.scola-fold', () => {
         node
-          .on('transitionend.scola-fold', null)
-          .style('height', null);
+          .classed('transition', false)
+          .style('height', null)
+          .on('transitionend.scola-fold', null);
       });
   }
 
@@ -95,6 +97,7 @@ export class Fold extends Event {
       .classed('out', true)
       .on('transitionend.scola-fold', () => {
         node
+          .classed('transition', false)
           .on('transitionend.scola-fold', null)
           .remove();
       });

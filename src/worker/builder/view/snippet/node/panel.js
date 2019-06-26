@@ -25,7 +25,10 @@ export class Panel extends Node {
       .classed('old', true)
       .classed(effect, true)
       .on('transitionend.scola-panel', () => {
-        old.on('transitionend.scola-panel', null);
+        old
+          .classed('transition', false)
+          .on('transitionend.scola-panel', null);
+
         old.node().snippet.remove();
       });
 
@@ -34,7 +37,10 @@ export class Panel extends Node {
       .classed('new', true)
       .classed(effect, true)
       .on('transitionend.scola-panel', () => {
-        this._node.on('transitionend.scola-panel', null);
+        this._node
+          .classed('transition', false)
+          .on('transitionend.scola-panel', null);
+
         box.base.busy = false;
       });
 

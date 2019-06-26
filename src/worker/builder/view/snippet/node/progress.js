@@ -10,16 +10,15 @@ export class Progress extends Node {
 
     this._node
       .classed('transition', true)
-      .on('transitionend', () => {
+      .style('width', (fraction * 100) + '%')
+      .on('transitionend.scola-progress', () => {
         if (fraction === 1) {
           this._node
             .classed('transition', false)
-            .style('width', null);
+            .style('width', null)
+            .on('transitionend.scola-progress', null);
         }
       });
-
-    this._node
-      .style('width', (fraction * 100) + '%');
 
     return this._node;
   }
