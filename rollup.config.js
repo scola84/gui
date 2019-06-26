@@ -1,9 +1,9 @@
 import { writeFileSync } from 'fs';
 import buble from 'rollup-plugin-buble';
-import ignore from 'rollup-plugin-ignore';
 import builtins from 'rollup-plugin-node-builtins';
 import commonjs from 'rollup-plugin-commonjs';
 import css from 'rollup-plugin-css-only';
+import ignore from 'rollup-plugin-ignore';
 import json from 'rollup-plugin-json';
 import resolve from 'rollup-plugin-node-resolve';
 
