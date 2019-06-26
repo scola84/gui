@@ -24,6 +24,10 @@ export class Dummy {
     return this;
   }
 
+  style() {
+    return this;
+  }
+
   text() {
     return this;
   }

@@ -17,7 +17,8 @@ export class Snippet {
     const options = this.getOptions();
 
     options.list = options.list.map((snippet) => {
-      return snippet.clone();
+      return snippet instanceof Snippet ?
+        snippet.clone() : snippet;
     });
 
     return new this.constructor(options);

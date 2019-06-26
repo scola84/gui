@@ -10,7 +10,6 @@ export class Progress extends Node {
 
     this._node
       .classed('transition', true)
-      .style('width', (fraction * 100) + '%')
       .on('transitionend', () => {
         if (fraction === 1) {
           this._node
@@ -18,6 +17,9 @@ export class Progress extends Node {
             .style('width', null);
         }
       });
+
+    this._node
+      .style('width', (fraction * 100) + '%');
 
     return this._node;
   }
