@@ -1,9 +1,20 @@
 import { Node } from '../node';
 
 export class List extends Node {
-  constructor(options) {
+  constructor(options = {}) {
     super(options);
-    this._items = [];
+
+    this._items = null;
+    this.setItems(options.value);
+  }
+
+  getItems() {
+    return this._items;
+  }
+
+  setItems(value = []) {
+    this._items = value;
+    return this;
   }
 
   appendItems(box, data, items, item) {

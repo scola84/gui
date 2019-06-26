@@ -2,15 +2,15 @@ let id = 0;
 
 export class Snippet {
   constructor(options = {}) {
+    this._allow = null;
     this._builder = null;
     this._id = null;
     this._list = null;
-    this._permission = null;
 
+    this.setAllow(options.allow);
     this.setBuilder(options.builder);
     this.setId(options.id);
     this.setList(options.list);
-    this.setPermission(options.permission);
   }
 
   clone() {
@@ -25,11 +25,20 @@ export class Snippet {
 
   getOptions() {
     return {
+      allow: this._allow,
       builder: this._builder,
       id: this._id,
-      list: this._list,
-      permission: this._permission
+      list: this._list
     };
+  }
+
+  getAllow() {
+    return this._allow;
+  }
+
+  setAllow(value = null) {
+    this._allow = value;
+    return this;
   }
 
   getBuilder() {
@@ -75,25 +84,16 @@ export class Snippet {
     return this;
   }
 
-  getPermission() {
-    return this._permission;
-  }
-
-  setPermission(value = null) {
-    this._permission = value;
-    return this;
-  }
-
-  id(value) {
-    return this.setId(value);
-  }
-
-  permission(value) {
-    return this.setPermission(value);
+  allow(value) {
+    return this.setAllow(value);
   }
 
   append(...list) {
     return this.setList(this._list.concat(list));
+  }
+
+  id(value) {
+    return this.setId(value);
   }
 
   find(compare) {
@@ -112,7 +112,7 @@ export class Snippet {
     for (let i = 0; i < list.length; i += 1) {
       snippet = list[i];
 
-      if (snippet.find) {
+      if (snippet instanceof Snippet) {
         result = result.concat(snippet.find(compare));
       }
     }
@@ -120,8 +120,8 @@ export class Snippet {
     return result;
   }
 
-  isPermitted(box, data) {
-    return this.resolveValue(box, data, this._permission);
+  isAllowed(box, data) {
+    return this.resolveValue(box, data, this._allow);
   }
 
   remove() {
@@ -147,9 +147,9 @@ export class Snippet {
   }
 
   resolve(box, data) {
-    const isPermitted = this.isPermitted(box, data);
+    const isAllowed = this.isAllowed(box, data);
 
-    if (isPermitted === false) {
+    if (isAllowed === false) {
       return null;
     }
 

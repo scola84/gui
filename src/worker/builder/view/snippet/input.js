@@ -51,9 +51,9 @@ export class Input extends Node {
   }
 
   cleanInput(box, data, name, value) {
-    const isPermitted = this.isPermitted(box, data);
+    const isAllowed = this.isAllowed(box, data);
 
-    if (isPermitted === false) {
+    if (isAllowed === false) {
       value = '';
       this.setValue(data, name, value);
     }

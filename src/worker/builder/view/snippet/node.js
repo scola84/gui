@@ -153,9 +153,9 @@ export class Node extends Snippet {
   }
 
   resolve(box, data) {
-    const isPermitted = this.isPermitted(box, data);
+    const isAllowed = this.isAllowed(box, data);
 
-    if (isPermitted === false) {
+    if (isAllowed === false) {
       return null;
     }
 
