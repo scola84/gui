@@ -1,14 +1,22 @@
 .group {
-  margin: 0 1em;
+  margin-left: 2em;
+  margin-right: 2em;
+  margin-top: 2em;
+}
+
+.group:last-child {
+  margin-bottom: 2em;
 }
 
 .panel.outset-x .group {
-  margin: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 /* Body */
 
 .group > .body {
+  border-top: 1px solid lightgrey;
   overflow: hidden;
 }
 
@@ -28,11 +36,10 @@
 
 /* Title */
 
-.group > .title {
+.group > .title:not(:empty) {
   color: darkgrey;
   display: flex;
   font-size: 0.9em;
-  margin-top: 2.222em;
   padding: 0 1.111em 0.555em;
   text-transform: uppercase;
 }
@@ -64,10 +71,6 @@
 
 .group.folded > .title.fold.some:after {
   content: '\f102';
-}
-
-.panel.outset-x .group > .title {
-  border-bottom: 1px solid lightgrey;
 }
 
 .panel.outset-y .group > .title {
