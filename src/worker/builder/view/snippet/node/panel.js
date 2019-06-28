@@ -12,8 +12,6 @@ export class Panel extends Node {
   }
 
   resolveAfter(box) {
-    box.base.appendChild(this._node.node());
-
     const effect = ['rtl', 'ltr', 'ins']
       .find((name) => box.options[name] === true) || 'none';
 

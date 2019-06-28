@@ -1,0 +1,56 @@
+.graph {
+  background: white;
+  border-radius: 1em;
+  display: flex;
+  flex-flow: row wrap;
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-top: 2em;
+  padding: 1em;
+}
+
+.outset-x .graph {
+  border-bottom: 1px solid lightgrey;
+  border-radius: 0;
+  border-top: 1px solid lightgrey;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.graph > .bottom {
+  border-top: 1px solid lightgrey;
+  flex: 1 1 100%;
+  order: 5;
+}
+
+.graph > .top {
+  border-bottom: 1px solid lightgrey;
+  flex: 1 1 100%;
+  order: 1;
+}
+
+.graph > .left {
+  border-right: 1px solid lightgrey;
+  order: 2;
+}
+
+.graph > .right {
+  border-left: 1px solid lightgrey;
+  order: 4;
+}
+
+.graph > svg {
+  height: 100%;
+  margin: -1px;
+  order: 3;
+  width: 100%;
+}
+
+.graph > svg path {
+  fill: none;
+  stroke: rgb(14, 122, 254);
+}
+
+.graph > svg rect {
+  fill: rgb(14, 122, 254);
+}

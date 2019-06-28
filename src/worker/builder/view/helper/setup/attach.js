@@ -23,4 +23,10 @@ export function attach() {
       name
     });
   });
+
+  token.svg.forEach((name) => {
+    ViewBuilder.attachFactory('svg', name, snippet.Node, {
+      name
+    });
+  });
 }

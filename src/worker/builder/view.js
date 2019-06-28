@@ -1,4 +1,5 @@
 import { Worker } from '@scola/worker';
+import { select } from 'd3';
 import camel from 'lodash-es/camelCase';
 import * as setup from './view/helper/setup';
 
@@ -36,6 +37,10 @@ export class ViewBuilder extends Worker {
     return this;
   }
 
+  node() {
+    return select(this._parent.getBase());
+  }
+
   act(box, data, callback) {
     data = this.filter(box, data);
     this._view.resolve(box, data);
@@ -43,6 +48,6 @@ export class ViewBuilder extends Worker {
   }
 
   build(view) {
-    return this.setView(view);
+    return this.setView(view.setParent(this));
   }
 }

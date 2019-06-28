@@ -10,12 +10,16 @@ export class Clip extends Node {
     fragment.snippet = this;
 
     this.setNode(select(fragment));
+
+    this._parent
+      .node()
+      .insert(() => this._node.node());
   }
 
   resolveInner(box, data) {
     for (let i = 0; i < this._list.length; i += 1) {
       if (i === box.tab) {
-        this.resolveSnippet(box, data, this._list[i]);
+        this.resolveValue(box, data, this._list[i]);
       } else {
         this._list[i].remove();
       }
@@ -23,8 +27,7 @@ export class Clip extends Node {
 
     this._parent
       .node()
-      .node()
-      .appendChild(this._node.node());
+      .insert(() => this._node.node());
 
     return this.resolveAfter(box, data);
   }

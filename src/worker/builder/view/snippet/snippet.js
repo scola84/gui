@@ -6,11 +6,13 @@ export class Snippet {
     this._builder = null;
     this._id = null;
     this._list = null;
+    this._parent = null;
 
     this.setAllow(options.allow);
     this.setBuilder(options.builder);
     this.setId(options.id);
     this.setList(options.list);
+    this.setParent(options.parent);
   }
 
   clone() {
@@ -68,7 +70,7 @@ export class Snippet {
     this._list = value;
 
     for (let i = 0; i < this._list.length; i += 1) {
-      if (this._list[i].setParent) {
+      if (this._list[i] instanceof Snippet) {
         this._list[i].setParent(this);
       }
     }
@@ -180,7 +182,7 @@ export class Snippet {
       return this.resolveValue(box, data, value(box, data));
     }
 
-    if (typeof value.resolve === 'function') {
+    if (value instanceof Snippet) {
       return this.resolveValue(box, data, value.resolve(box, data));
     }
 

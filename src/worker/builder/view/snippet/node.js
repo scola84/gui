@@ -117,13 +117,8 @@ export class Node extends Snippet {
   }
 
   createNode() {
-    const element = document.createElement(this._name);
-    element.snippet = this;
-    this.setNode(select(element));
-  }
-
-  insertNode(node) {
-    this._node.insert(() => node);
+    this.setNode(this._parent.node().append(this._name));
+    this._node.node().snippet = this;
   }
 
   removeNode() {
@@ -198,7 +193,7 @@ export class Node extends Snippet {
 
   resolveInner(box, data) {
     for (let i = 0; i < this._list.length; i += 1) {
-      this.resolveSnippet(box, data, this._list[i]);
+      this.resolveValue(box, data, this._list[i]);
     }
 
     return this.resolveAfter(box, data);
@@ -207,19 +202,6 @@ export class Node extends Snippet {
   resolveOuter(box, data) {
     this.resolveTransform(box, data, this._node);
     return this.resolveInner(box, data);
-  }
-
-  resolveSnippet(box, data, snippet) {
-    let nodes = null;
-
-    nodes = this.resolveValue(box, data, snippet);
-    nodes = Array.isArray(nodes) ? nodes : [nodes];
-
-    for (let j = 0; j < nodes.length; j += 1) {
-      if (nodes[j]) {
-        this.insertNode(nodes[j].node());
-      }
-    }
   }
 
   resolveTransform(box, data, node) {
