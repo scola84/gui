@@ -110,17 +110,21 @@ export class Plot extends Node {
     return this.class('top');
   }
 
-  resolveData(box, data) {
+  resolveData(data) {
     data = data.filter(this._filter);
 
     const result = {
       data: {},
       keys: [],
       size: 0,
-      maxX: -Infinity,
-      minX: Infinity,
-      maxY: -Infinity,
-      minY: Infinity,
+      x: {
+        max: -Infinity,
+        min: Infinity
+      },
+      y: {
+        max: -Infinity,
+        min: Infinity
+      }
     };
 
     let x = null;
@@ -143,6 +147,7 @@ export class Plot extends Node {
       if (next === 0) {
         base[next] = [0, y];
       } else if (this._stack) {
+        result.stack = true;
         base[next] = [
           base[next - 1][1],
           base[next - 1][1] + y
@@ -154,10 +159,10 @@ export class Plot extends Node {
         base[next] = [0, y];
       }
 
-      result.maxX = Math.max(result.maxX, x);
-      result.minX = Math.min(result.minX, x);
-      result.maxY = Math.max(result.maxY, base[next][1]);
-      result.minY = Math.min(result.minY, base[next][1]);
+      result.x.max = Math.max(result.x.max, x);
+      result.x.min = Math.min(result.x.min, x);
+      result.y.max = Math.max(result.y.max, base[next][1]);
+      result.y.min = Math.min(result.y.min, base[next][1]);
     }
 
     result.keys = Object.keys(result.data);

@@ -1,11 +1,43 @@
 import { Node } from '../node';
 
+import {
+  BandCalculator,
+  LinearCalculator
+} from '../../object';
+
 export class Axis extends Node {
   constructor(options = {}) {
     super(options);
 
+    this._calculator = null;
+    this._orientation = null;
     this._type = null;
+
+    this.setCalculator(options.calculator);
+    this.setOrientation(options.orientation);
     this.setType(options.type);
+  }
+
+  getCalculator() {
+    return this._calculator;
+  }
+
+  setCalculator(value = null) {
+    this._calculator = value;
+    return this;
+  }
+
+  getOrientation() {
+    return this._orientation;
+  }
+
+  setOrientation(value = null) {
+    this._orientation = value;
+    return this;
+  }
+
+  calculator(value) {
+    return this.setCalculator(value);
   }
 
   getType() {
@@ -17,49 +49,47 @@ export class Axis extends Node {
     return this;
   }
 
+  band() {
+    return this.setCalculator(new BandCalculator());
+  }
+
+  linear() {
+    return this.setCalculator(new LinearCalculator());
+  }
+
   bottom() {
+    this.setOrientation('x');
     this.setType('bottom');
     return this.class('bottom');
   }
 
   left() {
+    this.setOrientation('y');
     this.setType('left');
     return this.class('left');
   }
 
   right() {
+    this.setOrientation('y');
     this.setType('right');
     return this.class('right');
   }
 
   top() {
+    this.setOrientation('x');
     this.setType('top');
     return this.class('top');
   }
 
-  getMaxMin(box, data) {
-    const plots = this._builder
-      .selector('.plot.' + this._type)
-      .resolve();
+  resolveBefore(box, data) {
+    this._calculator
+      .setBuilder(this._builder)
+      .setOrientation(this._orientation)
+      .setParent(this._parent)
+      .setType(this._type)
+      .setData(data)
+      .setup();
 
-    const result = {
-      maxX: -Infinity,
-      minX: Infinity,
-      maxY: -Infinity,
-      minY: Infinity,
-    };
-
-    let plotData = null;
-
-    for (let i = 0; i < plots.length; i += 1) {
-      plotData = plots[i].resolveData(box, data);
-
-      result.maxX = Math.max(result.maxX, plotData.maxX);
-      result.minX = Math.min(result.minX, plotData.minX);
-      result.maxY = Math.max(result.maxY, plotData.maxY);
-      result.minY = Math.min(result.minY, plotData.minY);
-    }
-
-    return result;
+    return this.resolveOuter(box, data);
   }
 }

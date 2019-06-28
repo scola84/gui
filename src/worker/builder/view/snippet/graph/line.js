@@ -25,13 +25,6 @@ export class Line extends Plot {
     return this.setArea(true);
   }
 
-  calculate(mmx, mmy, dim, dist, x, y) {
-    return [
-      (x - mmx.minX) * dist.x,
-      dim.height - ((y - mmy.minY) * dist.y)
-    ].join(' ');
-  }
-
   resolveAfter(box, data) {
     const [
       xaxis,
@@ -40,16 +33,10 @@ export class Line extends Plot {
       .selector(`.axis.${this._xtype}, .axis.${this._ytype}`)
       .resolve();
 
-    const mmx = xaxis.getMaxMin(box, data);
-    const mmy = yaxis.getMaxMin(box, data);
+    const xcalc = xaxis.getCalculator();
+    const ycalc = yaxis.getCalculator();
 
-    const svg = this._parent.node().node();
-    const dim = svg.getBoundingClientRect();
-
-    const dist = {
-      x: dim.width / (mmx.maxX - mmx.minX),
-      y: dim.height / (mmy.maxY - mmy.minY)
-    };
+    const ymin = ycalc.getRange().min;
 
     let key = null;
     let set = null;
@@ -59,7 +46,7 @@ export class Line extends Plot {
     const area = [];
     const line = [];
 
-    data = this.resolveData(box, data);
+    data = this.resolveData(data);
 
     for (let i = 0; i < data.keys.length; i += 1) {
       key = data.keys[i];
@@ -77,25 +64,30 @@ export class Line extends Plot {
         if (i === 0) {
           if (this._area) {
             area[j] += area[j] + 'M ' +
-              this.calculate(mmx, mmy, dim, dist, key, mmy.minY);
+              xcalc.calculate(key) + ' ' +
+              ycalc.height - ycalc.calculate(ymin);
           }
 
           line[j] = line[j] + 'M ' +
-            this.calculate(mmx, mmy, dim, dist, key, to);
+            xcalc.calculate(key) + ' ' +
+            ycalc.height - ycalc.calculate(to);
         }
 
         if (this._area) {
           area[j] = area[j] + ' L ' +
-            this.calculate(mmx, mmy, dim, dist, key, to);
+            xcalc.calculate(key) + ' ' +
+            ycalc.height - ycalc.calculate(to);
         }
 
         line[j] = line[j] + ' L ' +
-          this.calculate(mmx, mmy, dim, dist, key, to);
+          xcalc.calculate(key) + ' ' +
+          ycalc.height - ycalc.calculate(to);
 
         if (i === data.keys.length - 1) {
           if (this._area) {
             area[j] = area[j] + ' L ' +
-              this.calculate(mmx, mmy, dim, dist, key, mmy.minY);
+              xcalc.calculate(key) + ' ' +
+              ycalc.height - ycalc.calculate(ymin);
           }
         }
       }
