@@ -5,12 +5,16 @@ export class BandCalculator extends LinearCalculator {
     return [];
   }
 
-  prepareStep() {
+  prepareDomain() {
+    super.prepareDomain();
     this._domain.min -= 1;
+    return this.prepareRange();
+  }
 
+  prepareStep() {
     super.prepareStep();
 
-    if (this._domain.stack === false) {
+    if (this._domain.type !== 'stack') {
       this._step = this._step / this._domain.size;
     }
 

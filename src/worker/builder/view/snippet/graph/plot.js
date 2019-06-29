@@ -1,18 +1,23 @@
 import { Node } from '../node';
 
+import {
+  DefaultPreparer,
+  StackPreparer,
+  SumPreparer
+} from './plot/';
+
 export class Plot extends Node {
   constructor(options = {}) {
     super(options);
 
     this._filter = null;
+    this._preparer = null;
     this._type = null;
     this._x = null;
     this._y = null;
 
-    this._stack = null;
-    this._sum = null;
-
     this.setFilter(options.filter);
+    this.setPreparer(options.preparer);
     this.setType(options.type);
     this.setX(options.x);
     this.setY(options.y);
@@ -41,6 +46,15 @@ export class Plot extends Node {
     return this;
   }
 
+  getPreparer() {
+    return this._preparer;
+  }
+
+  setPreparer(value = new DefaultPreparer()) {
+    this._preparer = value;
+    return this;
+  }
+
   getX() {
     return this._x;
   }
@@ -64,6 +78,10 @@ export class Plot extends Node {
     return this.class('bottom');
   }
 
+  default () {
+    return this.setPreparer(new DefaultPreparer());
+  }
+
   filter(value) {
     return this.setFilter(value);
   }
@@ -84,13 +102,11 @@ export class Plot extends Node {
   }
 
   stack() {
-    this._stack = true;
-    return this;
+    return this.setPreparer(new StackPreparer());
   }
 
   sum() {
-    this._sum = true;
-    return this;
+    return this.setPreparer(new SumPreparer());
   }
 
   x(value) {
@@ -101,64 +117,13 @@ export class Plot extends Node {
     return this.setY(value);
   }
 
-  resolveData(data) {
-    data = data.filter(this._filter);
+  prepareData(data) {
+    data = this._preparer
+      .setFilter(this._filter)
+      .setX(this._x)
+      .setY(this._y)
+      .prepare(data);
 
-    const result = {
-      data: {},
-      keys: [],
-      size: 0,
-      stack: false,
-      x: {
-        max: -Infinity,
-        min: Infinity
-      },
-      y: {
-        max: -Infinity,
-        min: Infinity
-      }
-    };
-
-    let x = null;
-    let y = null;
-
-    let base = null;
-    let next = null;
-
-    for (let i = 0; i < data.length; i += 1) {
-      x = this._x(data[i]);
-      y = this._y(data[i]);
-
-      result.data[x] = result.data[x] || [];
-
-      base = result.data[x];
-      next = base.length;
-
-      result.size = next + 1;
-
-      if (next === 0) {
-        base[next] = [0, y];
-      } else if (this._stack) {
-        result.stack = true;
-        base[next] = [
-          base[next - 1][1],
-          base[next - 1][1] + y
-        ];
-      } else if (this._sum) {
-        next = next - 1;
-        base[next] = [0, base[next][1] + y];
-      } else {
-        base[next] = [0, y];
-      }
-
-      result.x.max = Math.max(result.x.max, x);
-      result.x.min = Math.min(result.x.min, x);
-      result.y.max = Math.max(result.y.max, base[next][1]);
-      result.y.min = Math.min(result.y.min, base[next][1]);
-    }
-
-    result.keys = Object.keys(result.data);
-
-    return result;
+    return data;
   }
 }

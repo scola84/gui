@@ -46,7 +46,7 @@ export class Line extends Plot {
     const area = [];
     const line = [];
 
-    data = this.resolveData(data);
+    data = this.prepareData(data);
 
     for (let i = 0; i < data.keys.length; i += 1) {
       key = data.keys[i];

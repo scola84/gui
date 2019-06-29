@@ -3,7 +3,7 @@ import { Node } from '../node';
 import {
   BandCalculator,
   LinearCalculator
-} from '../../object';
+} from './axis/';
 
 export class Axis extends Node {
   constructor(options = {}) {
@@ -20,7 +20,7 @@ export class Axis extends Node {
     return this._calculator;
   }
 
-  setCalculator(value = null) {
+  setCalculator(value = new LinearCalculator()) {
     this._calculator = value;
     return this;
   }
@@ -71,7 +71,6 @@ export class Axis extends Node {
   }
 
   resolveBefore(box, data) {
-
     this._calculator
       .setBuilder(this._builder)
       .setType(this._type)

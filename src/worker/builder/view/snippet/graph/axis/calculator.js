@@ -1,4 +1,4 @@
-import { Axis, Plot } from '../../snippet';
+import { Axis, Plot } from '../';
 
 export class Calculator {
   constructor(options = {}) {
@@ -113,7 +113,7 @@ export class Calculator {
       max: -Infinity,
       min: Infinity,
       size: 1,
-      stack: false
+      type: null
     };
 
     const plots = this._builder
@@ -129,13 +129,13 @@ export class Calculator {
     let domain = null;
 
     for (let i = 0; i < plots.length; i += 1) {
-      plotData = plots[i].resolveData(this._data);
+      plotData = plots[i].prepareData(this._data);
       domain = plotData[name];
 
       this._domain.max = Math.max(this._domain.max, domain.max);
       this._domain.min = Math.min(this._domain.min, domain.min);
       this._domain.size = plotData.size;
-      this._domain.stack = plotData.stack;
+      this._domain.type = plotData.type;
     }
 
     return this.prepareRange();

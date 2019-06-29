@@ -39,7 +39,7 @@ export class Column extends Plot {
     let key = null;
     let set = null;
 
-    data = this.resolveData(data);
+    data = this.prepareData(data);
 
     for (let i = 0; i < data.keys.length; i += 1) {
       key = data.keys[i];
@@ -59,7 +59,7 @@ export class Column extends Plot {
     const negative = to < 0;
     const rangeHeight = ycalc.getRange().height;
 
-    const xValue = data.stack ? i : (i * set.length) + j;
+    const xValue = data.type !== 'stack' ? (i * set.length) + j : i;
 
     const yBegin = ycalc.calculateValue(from);
     const yEnd = ycalc.calculateValue(to);
