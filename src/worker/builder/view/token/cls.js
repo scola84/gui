@@ -3,6 +3,8 @@ export const cls = [
   'center',
   'comment',
   'footer',
+  'graph',
+  'grid',
   'group',
   'header',
   'icon',

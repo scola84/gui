@@ -1,20 +1,20 @@
+import { Axis, Plot } from '../../snippet';
+
 export class Calculator {
   constructor(options = {}) {
     this._builder = null;
     this._data = null;
-    this._dimension = null;
-    this._orientation = null;
-    this._parent = null;
-    this._ppu = null;
+    this._domain = null;
     this._range = null;
+    this._step = null;
+    this._type = null;
 
     this.setBuilder(options.builder);
     this.setData(options.data);
-    this.setDimension(options.dimension);
-    this.setOrientation(options.orientation);
-    this.setParent(options.parent);
-    this.setPpu(options.ppu);
+    this.setDomain(options.domain);
     this.setRange(options.range);
+    this.setStep(options.step);
+    this.setType(options.type);
   }
 
   getBuilder() {
@@ -35,39 +35,12 @@ export class Calculator {
     return this;
   }
 
-  getDimension() {
-    return this._dimension;
+  getDomain() {
+    return this._domain;
   }
 
-  setDimension(value = null) {
-    this._dimension = value;
-    return this;
-  }
-
-  getOrientation() {
-    return this._orientation;
-  }
-
-  setOrientation(value = null) {
-    this._orientation = value;
-    return this;
-  }
-
-  getParent() {
-    return this._parent;
-  }
-
-  setParent(value = null) {
-    this._parent = value;
-    return this;
-  }
-
-  getPpu() {
-    return this._ppu;
-  }
-
-  setPpu(value = null) {
-    this._ppu = value;
+  setDomain(value = null) {
+    this._domain = value;
     return this;
   }
 
@@ -80,6 +53,15 @@ export class Calculator {
     return this;
   }
 
+  getStep() {
+    return this._step;
+  }
+
+  setStep(value = null) {
+    this._step = value;
+    return this;
+  }
+
   getType() {
     return this._type;
   }
@@ -89,53 +71,106 @@ export class Calculator {
     return this;
   }
 
-  calculateDimension() {
-    this._dimension = this._parent
-      .node()
-      .node()
-      .getBoundingClientRect();
+  mapDimensionName() {
+    return {
+      bottom: 'width',
+      left: 'height',
+      right: 'height',
+      top: 'width'
+    } [this._type];
   }
 
-  calculatePpu() {}
+  mapOrientationName() {
+    return {
+      bottom: 'x',
+      left: 'y',
+      right: 'y',
+      top: 'x'
+    } [this._type];
+  }
 
-  calculateRange() {
-    this._range = {
+  mapPositionName() {
+    return {
+      bottom: 'left',
+      left: 'top',
+      right: 'top',
+      top: 'left'
+    } [this._type];
+  }
+
+  calculateTicks() {}
+
+  calculateValue(value) {
+    return (value - this._domain.min) * this._step;
+  }
+
+  prepare() {
+    return this.prepareDomain();
+  }
+
+  prepareDomain() {
+    this._domain = {
       max: -Infinity,
-      min: Infinity
+      min: Infinity,
+      size: 1,
+      stack: false
     };
 
     const plots = this._builder
-      .selector((s) => {
-        return s.getXtype && (
-          s.getXtype() === this._type ||
-          s.getYtype() === this._type
-        );
+      .selector((snippet) => {
+        return snippet instanceof Plot &&
+          snippet.getType().indexOf(this._type) > -1;
       })
       .resolve();
 
+    const name = this.mapOrientationName();
+
     let plotData = null;
-    let range = null;
+    let domain = null;
 
     for (let i = 0; i < plots.length; i += 1) {
       plotData = plots[i].resolveData(this._data);
-      range = plotData[this._orientation];
+      domain = plotData[name];
 
-      this._range.max = Math.max(this._range.max, range.max);
-      this._range.min = Math.min(this._range.min, range.min);
+      this._domain.max = Math.max(this._domain.max, domain.max);
+      this._domain.min = Math.min(this._domain.min, domain.min);
+      this._domain.size = plotData.size;
+      this._domain.stack = plotData.stack;
     }
+
+    return this.prepareRange();
   }
 
-  setup() {
-    if (this._range === null) {
-      this.calculateRange();
-    }
+  prepareStep() {
+    return this;
+  }
 
-    if (this._dimension === null) {
-      this.calculateDimension();
-    }
+  prepareRange() {
+    const [axis] = this._builder.selector((snippet) => {
+      return snippet instanceof Axis &&
+        snippet.getType() === this._type;
+    }).resolve();
 
-    if (this._ppu === null) {
-      this.calculatePpu();
-    }
+    const style = window.getComputedStyle(axis.node().node());
+
+    this._range = {
+      height: this.prepareRangeFrom(
+        style,
+        ['height', 'padding-top', 'padding-bottom']
+      ),
+      width: this.prepareRangeFrom(
+        style,
+        ['width', 'padding-left', 'padding-right']
+      )
+    };
+
+    return this.prepareStep();
+  }
+
+  prepareRangeFrom(style, names) {
+    return names.reduce((result, name) => {
+      const value = parseFloat(style[name]);
+      return result === 0 ? value : result - value;
+    }, 0);
   }
 }

@@ -2,55 +2,91 @@
   background: white;
   border-radius: 1em;
   display: flex;
-  flex-flow: row wrap;
   margin-left: 1em;
   margin-right: 1em;
   margin-top: 2em;
   padding: 1em;
 }
 
-.outset-x .graph {
-  border-bottom: 1px solid lightgrey;
-  border-radius: 0;
-  border-top: 1px solid lightgrey;
-  margin-left: 0;
-  margin-right: 0;
+.graph:after {
+  content: '';
+  padding-bottom: 66.6%;
 }
 
-.graph > .bottom {
-  border-top: 1px solid lightgrey;
-  flex: 1 1 100%;
-  order: 5;
+.graph > * {
+  display: flex;
 }
 
-.graph > .top {
-  border-bottom: 1px solid lightgrey;
-  flex: 1 1 100%;
-  order: 1;
-}
-
-.graph > .left {
-  border-right: 1px solid lightgrey;
+.graph > .center {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   order: 2;
 }
 
-.graph > .right {
-  border-left: 1px solid lightgrey;
-  order: 4;
+.graph > .center > .axis.bottom {
+  border-top: 1px solid lightgrey;
+  height: 2em;
+  order: 3;
 }
 
-.graph > svg {
+.graph > .center > .axis.top {
+  border-bottom: 1px solid lightgrey;
+  height: 2em;
+  order: 1;
+}
+
+.graph > .center > .grid {
+  order: 2;
+  flex: 1;
+  position: relative;
+}
+
+.graph > .center > .grid > svg {
   height: 100%;
-  margin: -1px;
-  order: 3;
+  position: absolute;
   width: 100%;
 }
 
-.graph > svg path {
+.graph > .center > .grid > svg path {
   fill: none;
   stroke: rgb(14, 122, 254);
 }
 
-.graph > svg rect {
+.graph > .center > .grid > svg rect {
   fill: rgb(14, 122, 254);
+}
+
+.graph > .left {
+  order: 1;
+}
+
+.graph.top > .left {
+  padding-top: 2em;
+}
+
+.graph.bottom > .left {
+  padding-bottom: 2em;
+}
+
+.graph > .left > .axis.left {
+  border-right: 1px solid lightgrey;
+  margin: -1px 0;
+}
+
+.graph > .right {
+  order: 3;
+}
+
+.graph.top > .right {
+  padding-top: 2em;
+}
+
+.graph.bottom > .right {
+  padding-bottom: 2em;
+}
+
+.graph > .right > .axis.right {
+  border-left: 1px solid lightgrey;
+  margin: -1px 0;
 }

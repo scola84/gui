@@ -27,35 +27,17 @@ export class Column extends Plot {
 
   resolveAfter(box, data) {
     const [
-      xaxis,
-      yaxis
+      yaxis,
+      xaxis
     ] = this._builder
-      .selector(`.axis.${this._xtype}, .axis.${this._ytype}`)
+      .selector(this._type.map((type) => `.axis.${type}`))
       .resolve();
 
     const xcalc = xaxis.getCalculator();
     const ycalc = yaxis.getCalculator();
 
-    const dimHeight = ycalc.getDimension().height;
-
     let key = null;
     let set = null;
-
-    let from = null;
-    let to = null;
-
-    let negative = null;
-
-    let height = null;
-    let width = null;
-
-    let x = null;
-    let y = null;
-
-    let yBegin = null;
-    let yEnd = null;
-
-    let rect = null;
 
     data = this.resolveData(data);
 
@@ -64,35 +46,42 @@ export class Column extends Plot {
       set = data.data[key];
 
       for (let j = 0; j < set.length; j += 1) {
-        [from, to] = set[j];
-
-        negative = to < 0;
-
-        yBegin = ycalc.calculate(from);
-        yEnd = ycalc.calculate(to);
-
-        [x, width] = xcalc.calculate(i, j,
-          set.length, data.stack, this._padding);
-
-        y = negative ? dimHeight - yBegin : dimHeight - yEnd;
-        height = negative ? yBegin - yEnd : yEnd - yBegin;
-
-        rect = this._node
-          .append('rect')
-          .attr('x', x)
-          .attr('width', width)
-          .attr('y', y)
-          .attr('height', height);
-
-        rect.style('left');
-
-        rect
-          .classed('negative', negative)
-          .classed('transition', true)
-          .classed('in', true);
+        this.resolveColumn(i, j, set, data, xcalc, ycalc);
       }
     }
 
     return this._node;
+  }
+
+  resolveColumn(i, j, set, data, xcalc, ycalc) {
+    const [from, to] = set[j];
+
+    const negative = to < 0;
+    const rangeHeight = ycalc.getRange().height;
+
+    const xValue = data.stack ? i : (i * set.length) + j;
+
+    const yBegin = ycalc.calculateValue(from);
+    const yEnd = ycalc.calculateValue(to);
+
+    const x = xcalc.calculateValue(xValue);
+    const width = xcalc.getStep();
+
+    const y = negative ? rangeHeight - yBegin : rangeHeight - yEnd;
+    const height = negative ? yBegin - yEnd : yEnd - yBegin;
+
+    const rect = this._node
+      .append('rect')
+      .attr('x', x + width * this._padding)
+      .attr('width', width - width * this._padding * 2)
+      .attr('y', y)
+      .attr('height', height);
+
+    rect.style('left');
+
+    rect
+      .classed('negative', negative)
+      .classed('transition', true)
+      .classed('in', true);
   }
 }

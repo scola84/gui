@@ -1,15 +1,16 @@
 import { Calculator } from './calculator';
 
 export class LinearCalculator extends Calculator {
-  calculate(value) {
-    return (value - this._range.min) * this._ppu;
+  calculateTicks() {
+    return [];
   }
 
-  calculatePpu() {
-    const base = this._orientation === 'x' ?
-      this._dimension.width :
-      this._dimension.height;
+  prepareStep() {
+    const name = this.mapDimensionName();
+    const base = this._range[name];
 
-    this._ppu = base / (this._range.max - this._range.min);
+    this._step = base / (this._domain.max - this._domain.min);
+
+    return this;
   }
 }

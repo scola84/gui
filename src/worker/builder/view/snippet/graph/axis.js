@@ -10,11 +10,9 @@ export class Axis extends Node {
     super(options);
 
     this._calculator = null;
-    this._orientation = null;
     this._type = null;
 
     this.setCalculator(options.calculator);
-    this.setOrientation(options.orientation);
     this.setType(options.type);
   }
 
@@ -27,19 +25,6 @@ export class Axis extends Node {
     return this;
   }
 
-  getOrientation() {
-    return this._orientation;
-  }
-
-  setOrientation(value = null) {
-    this._orientation = value;
-    return this;
-  }
-
-  calculator(value) {
-    return this.setCalculator(value);
-  }
-
   getType() {
     return this._type;
   }
@@ -47,6 +32,14 @@ export class Axis extends Node {
   setType(value = null) {
     this._type = value;
     return this;
+  }
+
+  calculator(value) {
+    return this.setCalculator(value);
+  }
+
+  type(value) {
+    return this.setType(value);
   }
 
   band() {
@@ -58,37 +51,47 @@ export class Axis extends Node {
   }
 
   bottom() {
-    this.setOrientation('x');
     this.setType('bottom');
     return this.class('bottom');
   }
 
   left() {
-    this.setOrientation('y');
     this.setType('left');
     return this.class('left');
   }
 
   right() {
-    this.setOrientation('y');
     this.setType('right');
     return this.class('right');
   }
 
   top() {
-    this.setOrientation('x');
     this.setType('top');
     return this.class('top');
   }
 
   resolveBefore(box, data) {
+
     this._calculator
       .setBuilder(this._builder)
-      .setOrientation(this._orientation)
-      .setParent(this._parent)
       .setType(this._type)
       .setData(data)
-      .setup();
+      .prepare();
+
+    const ticks = this._calculator.calculateTicks();
+    const name = this._calculator.mapPositionName();
+
+    let style = null;
+    let text = null;
+
+    for (let i = 0; i < ticks.length; i += 1) {
+      [style, text] = ticks[i];
+
+      this._node
+        .append('div')
+        .style(name, style)
+        .text(this._format(text));
+    }
 
     return this.resolveOuter(box, data);
   }

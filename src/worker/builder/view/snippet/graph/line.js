@@ -27,16 +27,16 @@ export class Line extends Plot {
 
   resolveAfter(box, data) {
     const [
+      yaxis,
       xaxis,
-      yaxis
     ] = this._builder
-      .selector(`.axis.${this._xtype}, .axis.${this._ytype}`)
+      .selector(this._type.map((type) => `.axis.${type}`))
       .resolve();
 
     const xcalc = xaxis.getCalculator();
     const ycalc = yaxis.getCalculator();
 
-    const ymin = ycalc.getRange().min;
+    const ymin = ycalc.getDomain().min;
 
     let key = null;
     let set = null;
@@ -55,57 +55,61 @@ export class Line extends Plot {
       for (let j = 0; j < set.length; j += 1) {
         [, to] = set[j];
 
+        line[j] = line[j] || '';
+
         if (this._area) {
           area[j] = area[j] || '';
         }
 
-        line[j] = line[j] || '';
-
         if (i === 0) {
-          if (this._area) {
-            area[j] += area[j] + 'M ' +
-              xcalc.calculate(key) + ' ' +
-              ycalc.height - ycalc.calculate(ymin);
-          }
+          line[j] += this.resolveMove(key, to, xcalc, ycalc);
 
-          line[j] = line[j] + 'M ' +
-            xcalc.calculate(key) + ' ' +
-            ycalc.height - ycalc.calculate(to);
+          if (this._area) {
+            area[j] += this.resolveMove(key, ymin, xcalc, ycalc);
+          }
         }
+
+        line[j] += this.resolveLine(key, to, xcalc, ycalc);
 
         if (this._area) {
-          area[j] = area[j] + ' L ' +
-            xcalc.calculate(key) + ' ' +
-            ycalc.height - ycalc.calculate(to);
+          area[j] += this.resolveLine(key, to, xcalc, ycalc);
         }
-
-        line[j] = line[j] + ' L ' +
-          xcalc.calculate(key) + ' ' +
-          ycalc.height - ycalc.calculate(to);
 
         if (i === data.keys.length - 1) {
           if (this._area) {
-            area[j] = area[j] + ' L ' +
-              xcalc.calculate(key) + ' ' +
-              ycalc.height - ycalc.calculate(ymin);
+            area[j] += this.resolveMove(key, ymin, xcalc, ycalc);
           }
         }
       }
     }
 
     for (let i = line.length - 1; i >= 0; i -= 1) {
-      if (this._area) {
-        this._node
-          .append('path')
-          .classed('area', true)
-          .attr('d', area[i]);
-      }
+      this.resolvePath(line[i], 'line');
 
-      this._node
-        .append('path')
-        .attr('d', line[i]);
+      if (this._area) {
+        this.resolvePath(area[i], 'area');
+      }
     }
 
     return this._node;
+  }
+
+  resolveLine(key, to, xcalc, ycalc) {
+    return ' L ' +
+      xcalc.calculateValue(key) + ' ' +
+      (ycalc.getRange().height - ycalc.calculateValue(to));
+  }
+
+  resolveMove(key, to, xcalc, ycalc) {
+    return 'M ' +
+      xcalc.calculateValue(key) + ' ' +
+      (ycalc.getRange().height - ycalc.calculateValue(to));
+  }
+
+  resolvePath(d, classed) {
+    this._node
+      .append('path')
+      .classed(classed, true)
+      .attr('d', d);
   }
 }

@@ -5,19 +5,31 @@ export class Plot extends Node {
     super(options);
 
     this._filter = null;
+    this._type = null;
     this._x = null;
-    this._xtype = null;
     this._y = null;
-    this._ytype = null;
 
     this._stack = null;
     this._sum = null;
 
     this.setFilter(options.filter);
+    this.setType(options.type);
     this.setX(options.x);
-    this.setXtype(options.xtype);
     this.setY(options.y);
-    this.setYtype(options.ytype);
+  }
+
+  getType() {
+    return this._type;
+  }
+
+  setType(value = []) {
+    this._type = value;
+    return this._type;
+  }
+
+  addType(value) {
+    this._type[this._type.length] = value;
+    return this;
   }
 
   getFilter() {
@@ -38,15 +50,6 @@ export class Plot extends Node {
     return this;
   }
 
-  getXtype() {
-    return this._xtype;
-  }
-
-  setXtype(value = null) {
-    this._xtype = value;
-    return this;
-  }
-
   getY() {
     return this._y;
   }
@@ -56,28 +59,28 @@ export class Plot extends Node {
     return this;
   }
 
-  getYtype() {
-    return this._ytype;
-  }
-
-  setYtype(value = null) {
-    this._ytype = value;
-    return this;
+  bottom() {
+    this.addType('bottom');
+    return this.class('bottom');
   }
 
   filter(value) {
-    this._filter = value;
-    return this;
+    return this.setFilter(value);
   }
 
-  x(value) {
-    this._x = value;
-    return this;
+  left() {
+    this.addType('left');
+    return this.class('left');
   }
 
-  y(value) {
-    this._y = value;
-    return this;
+  right() {
+    this.addType('right');
+    return this.class('right');
+  }
+
+  top() {
+    this.addType('top');
+    return this.class('top');
   }
 
   stack() {
@@ -90,24 +93,12 @@ export class Plot extends Node {
     return this;
   }
 
-  bottom() {
-    this.setXtype('bottom');
-    return this.class('bottom');
+  x(value) {
+    return this.setX(value);
   }
 
-  left() {
-    this.setYtype('left');
-    return this.class('left');
-  }
-
-  right() {
-    this.setYtype('right');
-    return this.class('right');
-  }
-
-  top() {
-    this.setXtype('top');
-    return this.class('top');
+  y(value) {
+    return this.setY(value);
   }
 
   resolveData(data) {
@@ -117,6 +108,7 @@ export class Plot extends Node {
       data: {},
       keys: [],
       size: 0,
+      stack: false,
       x: {
         max: -Infinity,
         min: Infinity
