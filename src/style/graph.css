@@ -13,15 +13,26 @@
   padding-bottom: 66.6%;
 }
 
+/* Children */
+
 .graph > * {
   display: flex;
 }
+
+/* Center */
 
 .graph > .center {
   display: flex;
   flex-direction: column;
   flex: 1;
   order: 2;
+}
+
+/* Center axis */
+
+.graph > .center > .axis {
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 .graph > .center > .axis.bottom {
@@ -35,6 +46,8 @@
   height: 2em;
   order: 1;
 }
+
+/* Center grid */
 
 .graph > .center > .grid {
   order: 2;
@@ -57,6 +70,8 @@
   fill: rgb(14, 122, 254);
 }
 
+/* Left */
+
 .graph > .left {
   order: 1;
 }
@@ -71,8 +86,9 @@
 
 .graph > .left > .axis.left {
   border-right: 1px solid lightgrey;
-  margin: -1px 0;
 }
+
+/* Right */
 
 .graph > .right {
   order: 3;
@@ -88,5 +104,99 @@
 
 .graph > .right > .axis.right {
   border-left: 1px solid lightgrey;
-  margin: -1px 0;
+}
+
+/* Tick */
+
+.graph > * > .axis > .tick {
+  position: relative;
+}
+
+.graph > * > .axis > .tick > .text {
+  font-size: 0.9em;
+  position: relative;
+}
+
+/* Tick x-axis */
+
+.graph > * > .axis.x > .tick {
+  width: 0;
+}
+
+.graph > * > .axis.x > .tick > .mark {
+  border-left: 1px solid lightgrey;
+  height: 0.5em;
+  position: absolute;
+  left: 50%;
+}
+
+.graph.left > * > .axis.x > .tick:last-child > .mark {
+  display: none;
+}
+
+.graph.right > * > .axis.x > .tick:first-child > .mark {
+  display: none;
+}
+
+.graph > * > .axis.x > .tick > .text {
+  position: absolute;
+  transform: translateX(-50%);
+}
+
+.graph > * > .axis.bottom > .tick > .mark {
+  bottom: 100%;
+}
+
+.graph > * > .axis.bottom > .tick > .text {
+  padding-top: 0.25em;
+}
+
+.graph > * > .axis.top > .tick > .mark {
+  top: 100%;
+}
+
+.graph > * > .axis.top > .tick > .text {
+  bottom: 0;
+  padding-bottom: 0.25em;
+}
+
+/* Tick y-axis */
+
+.graph > * > .axis.y > .tick {
+  height: 0;
+}
+
+.graph > * > .axis.y > .tick > .mark {
+  border-top: 1px solid lightgrey;
+  width: 0.5em;
+  position: absolute;
+  top: 50%;
+}
+
+.graph.top > * > .axis.y > .tick:first-child > .mark {
+  display: none;
+}
+
+.graph.bottom > * > .axis.y > .tick:last-child > .mark {
+  display: none;
+}
+
+.graph > * > .axis.y > .tick > .text {
+  transform: translateY(-50%);
+}
+
+.graph > * > .axis.left > .tick > .mark {
+  left: 100%;
+}
+
+.graph > * > .axis.left > .tick > .text {
+  padding-right: 0.25em;
+}
+
+.graph > * > .axis.right > .tick > .mark {
+  right: 100%;
+}
+
+.graph > * > .axis.right > .tick > .text {
+  padding-left: 0.25em;
 }

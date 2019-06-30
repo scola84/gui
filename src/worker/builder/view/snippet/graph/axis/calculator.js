@@ -5,6 +5,8 @@ export class Calculator {
     this._builder = null;
     this._data = null;
     this._domain = null;
+    this._max = null;
+    this._min = null;
     this._range = null;
     this._step = null;
     this._type = null;
@@ -12,6 +14,8 @@ export class Calculator {
     this.setBuilder(options.builder);
     this.setData(options.data);
     this.setDomain(options.domain);
+    this.setMax(options.max);
+    this.setMin(options.min);
     this.setRange(options.range);
     this.setStep(options.step);
     this.setType(options.type);
@@ -44,6 +48,24 @@ export class Calculator {
     return this;
   }
 
+  getMax() {
+    return this._max;
+  }
+
+  setMax(value = null) {
+    this._max = value;
+    return this;
+  }
+
+  getMin() {
+    return this._min;
+  }
+
+  setMin(value = null) {
+    this._min = value;
+    return this;
+  }
+
   getRange() {
     return this._range;
   }
@@ -71,7 +93,7 @@ export class Calculator {
     return this;
   }
 
-  mapDimensionName() {
+  mapRangeName() {
     return {
       bottom: 'width',
       left: 'height',
@@ -91,17 +113,37 @@ export class Calculator {
 
   mapPositionName() {
     return {
-      bottom: 'left',
+      bottom: 'right',
       left: 'top',
       right: 'top',
-      top: 'left'
+      top: 'right'
     } [this._type];
   }
 
   calculateTicks() {}
 
-  calculateValue(value) {
+  calculateDistance(value) {
     return (value - this._domain.min) * this._step;
+  }
+
+  changeMax(object, value) {
+    if (this._max === 'auto') {
+      value = value < 0 ? 0 : value;
+    } else if (Number.isFinite(this._max)) {
+      value = value < this._max ? this._max : value;
+    }
+
+    object.max = Math.max(object.max, value);
+  }
+
+  changeMin(object, value) {
+    if (this._min === 'auto') {
+      value = value > 0 ? 0 : value;
+    } else if (Number.isFinite(this._min)) {
+      value = value > this._min ? this._min : value;
+    }
+
+    object.min = Math.min(object.min, value);
   }
 
   prepare() {
@@ -132,8 +174,9 @@ export class Calculator {
       plotData = plots[i].prepareData(this._data);
       domain = plotData[name];
 
-      this._domain.max = Math.max(this._domain.max, domain.max);
-      this._domain.min = Math.min(this._domain.min, domain.min);
+      this.changeMax(this._domain, domain.max);
+      this.changeMin(this._domain, domain.min);
+
       this._domain.size = plotData.size;
       this._domain.type = plotData.type;
     }

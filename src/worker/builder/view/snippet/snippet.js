@@ -31,7 +31,8 @@ export class Snippet {
       allow: this._allow,
       builder: this._builder,
       id: this._id,
-      list: this._list
+      list: this._list,
+      parent: this._parent
     };
   }
 

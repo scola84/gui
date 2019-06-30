@@ -96,14 +96,14 @@ export class Line extends Plot {
 
   resolveLine(key, to, xcalc, ycalc) {
     return ' L ' +
-      xcalc.calculateValue(key) + ' ' +
-      (ycalc.getRange().height - ycalc.calculateValue(to));
+      xcalc.calculateDistance(key) + ' ' +
+      (ycalc.getRange().height - ycalc.calculateDistance(to));
   }
 
   resolveMove(key, to, xcalc, ycalc) {
     return 'M ' +
-      xcalc.calculateValue(key) + ' ' +
-      (ycalc.getRange().height - ycalc.calculateValue(to));
+      xcalc.calculateDistance(key) + ' ' +
+      (ycalc.getRange().height - ycalc.calculateDistance(to));
   }
 
   resolvePath(d, classed) {

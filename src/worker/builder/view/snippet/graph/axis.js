@@ -10,9 +10,13 @@ export class Axis extends Node {
     super(options);
 
     this._calculator = null;
+    this._max = null;
+    this._min = null;
     this._type = null;
 
     this.setCalculator(options.calculator);
+    this.setMax(options.max);
+    this.setMin(options.min);
     this.setType(options.type);
   }
 
@@ -22,6 +26,24 @@ export class Axis extends Node {
 
   setCalculator(value = new LinearCalculator()) {
     this._calculator = value;
+    return this;
+  }
+
+  getMax() {
+    return this._max;
+  }
+
+  setMax(value = null) {
+    this._max = value;
+    return this;
+  }
+
+  getMin() {
+    return this._min;
+  }
+
+  setMin(value = null) {
+    this._min = value;
     return this;
   }
 
@@ -50,48 +72,84 @@ export class Axis extends Node {
     return this.setCalculator(new LinearCalculator());
   }
 
+  max(value) {
+    return this.setMax(value);
+  }
+
+  min(value) {
+    return this.setMin(value);
+  }
+
   bottom() {
-    this.setType('bottom');
-    return this.class('bottom');
+    return this
+      .setType('bottom')
+      .class('x bottom');
   }
 
   left() {
-    this.setType('left');
-    return this.class('left');
+    return this
+      .setMax('auto')
+      .setMin('auto')
+      .setType('left')
+      .class('y left');
   }
 
   right() {
-    this.setType('right');
-    return this.class('right');
+    return this
+      .setMax('auto')
+      .setMin('auto')
+      .setType('right')
+      .class('y right');
   }
 
   top() {
-    this.setType('top');
-    return this.class('top');
+    return this
+      .setType('top')
+      .class('x top');
   }
 
   resolveBefore(box, data) {
     this._calculator
       .setBuilder(this._builder)
+      .setMax(this._max)
+      .setMin(this._min)
       .setType(this._type)
       .setData(data)
       .prepare();
 
-    const ticks = this._calculator.calculateTicks();
-    const name = this._calculator.mapPositionName();
+    return this.resolveOuter(box, data);
+  }
 
-    let style = null;
-    let text = null;
+  resolveInner(box, data) {
+    const [tick] = this._list;
 
-    for (let i = 0; i < ticks.length; i += 1) {
-      [style, text] = ticks[i];
-
-      this._node
-        .append('div')
-        .style(name, style)
-        .text(this._format(text));
+    if (typeof tick === 'undefined') {
+      return this._node;
     }
 
-    return this.resolveOuter(box, data);
+    const ticks = this._calculator.calculateTicks(
+      tick.getStep(),
+      tick.getCount()
+    );
+
+    const rangeName = this._calculator.mapRangeName();
+    const positionName = this._calculator.mapPositionName();
+    const start = this._calculator.getRange()[rangeName];
+
+    let distance = null;
+    let value = null;
+
+    for (let i = 0; i < ticks.length; i += 1) {
+      [value, distance] = ticks[i];
+
+      tick
+        .clone()
+        .styles({
+          [positionName]: start - distance
+        })
+        .resolve(box, value);
+    }
+
+    return this.resolveAfter(box, data);
   }
 }

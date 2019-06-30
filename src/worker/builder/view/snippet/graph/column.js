@@ -61,10 +61,10 @@ export class Column extends Plot {
 
     const xValue = data.type !== 'stack' ? (i * set.length) + j : i;
 
-    const yBegin = ycalc.calculateValue(from);
-    const yEnd = ycalc.calculateValue(to);
+    const yBegin = ycalc.calculateDistance(from);
+    const yEnd = ycalc.calculateDistance(to);
 
-    const x = xcalc.calculateValue(xValue);
+    const x = xcalc.calculateDistance(xValue);
     const width = xcalc.getStep();
 
     const y = negative ? rangeHeight - yBegin : rangeHeight - yEnd;

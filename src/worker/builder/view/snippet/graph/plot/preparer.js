@@ -36,11 +36,11 @@ export class Preparer {
     return this;
   }
 
-  max(object, value) {
+  changeMax(object, value) {
     object.max = Math.max(object.max, value);
   }
 
-  min(object, value) {
+  changeMin(object, value) {
     object.min = Math.min(object.min, value);
   }
 
@@ -78,16 +78,16 @@ export class Preparer {
       result.size = index + 1;
       result.type = type;
 
-      this.max(result.y, result.data[x][index][1]);
-      this.min(result.y, result.data[x][index][1]);
+      this.changeMax(result.y, result.data[x][index][1]);
+      this.changeMin(result.y, result.data[x][index][1]);
     }
 
     for (let i = 0; i < result.keys.length; i += 1) {
       key = result.keys[i];
       key = typeof key === 'string' ? i + 1 : key;
 
-      this.max(result.x, key);
-      this.min(result.x, key);
+      this.changeMax(result.x, key);
+      this.changeMin(result.x, key);
     }
 
     return result;
