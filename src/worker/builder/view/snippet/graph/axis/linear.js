@@ -5,12 +5,16 @@ export class LinearCalculator extends Calculator {
     step = step || this._domain.max / (count - 1);
 
     const ticks = [];
+
+    let distance = null;
     let value = this._domain.max;
 
     for (; value >= this._domain.min; value -= step) {
+      distance = this.calculateDistance(value);
+
       ticks[ticks.length] = [
         value,
-        this.calculateDistance(value),
+        distance
       ];
     }
 

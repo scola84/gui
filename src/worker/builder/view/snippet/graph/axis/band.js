@@ -1,8 +1,29 @@
 import { LinearCalculator } from './linear';
 
 export class BandCalculator extends LinearCalculator {
-  calculateTicks() {
-    return [];
+  calculateTicks(step, count = 1) {
+    step = step || this._domain.max / (count - 1);
+
+    const halfStep = this._step / 2;
+    const ticks = [];
+
+    let distance = null;
+    let value = this._domain.max - 1;
+
+    for (; value >= this._domain.min; value -= step) {
+      distance = this.calculateDistance(value) + halfStep;
+
+      if (this._domain.type !== 'stack') {
+        distance = distance * this._domain.size;
+      }
+
+      ticks[ticks.length] = [
+        this._domain.keys[value],
+        distance
+      ];
+    }
+
+    return ticks;
   }
 
   prepareDomain() {

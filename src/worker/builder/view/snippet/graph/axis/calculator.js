@@ -152,6 +152,7 @@ export class Calculator {
 
   prepareDomain() {
     this._domain = {
+      keys: [],
       max: -Infinity,
       min: Infinity,
       size: 1,
@@ -177,6 +178,7 @@ export class Calculator {
       this.changeMax(this._domain, domain.max);
       this.changeMin(this._domain, domain.min);
 
+      this._domain.keys = plotData.keys;
       this._domain.size = plotData.size;
       this._domain.type = plotData.type;
     }
