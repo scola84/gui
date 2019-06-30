@@ -1,8 +1,8 @@
 import { Node } from '../node';
 
 import {
-  BandCalculator,
-  LinearCalculator
+  LinearCalculator,
+  OrdinalCalculator
 } from './axis/';
 
 export class Axis extends Node {
@@ -64,12 +64,12 @@ export class Axis extends Node {
     return this.setType(value);
   }
 
-  band() {
-    return this.setCalculator(new BandCalculator());
-  }
-
   linear() {
     return this.setCalculator(new LinearCalculator());
+  }
+
+  ordinal() {
+    return this.setCalculator(new OrdinalCalculator());
   }
 
   max(value) {

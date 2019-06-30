@@ -1,6 +1,6 @@
 import { LinearCalculator } from './linear';
 
-export class BandCalculator extends LinearCalculator {
+export class OrdinalCalculator extends LinearCalculator {
   calculateTicks(step, count = 1) {
     step = step || this._domain.max / (count - 1);
 
