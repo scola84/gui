@@ -30,11 +30,13 @@ export class Line extends Plot {
       yaxis,
       xaxis,
     ] = this._builder
-      .selector(this._type.map((type) => `.axis.${type}`))
+      .selector(this._data.getType().map((type) => {
+        return `.axis.${type}`;
+      }))
       .resolve();
 
-    const xcalc = xaxis.getCalculator();
-    const ycalc = yaxis.getCalculator();
+    const xcalc = xaxis.getScale();
+    const ycalc = yaxis.getScale();
 
     const ymin = ycalc.getDomain().min;
 

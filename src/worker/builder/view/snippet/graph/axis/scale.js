@@ -1,9 +1,8 @@
 import { Axis, Plot } from '../';
 
-export class Calculator {
+export class Scale {
   constructor(options = {}) {
     this._builder = null;
-    this._data = null;
     this._domain = null;
     this._max = null;
     this._min = null;
@@ -12,7 +11,6 @@ export class Calculator {
     this._type = null;
 
     this.setBuilder(options.builder);
-    this.setData(options.data);
     this.setDomain(options.domain);
     this.setMax(options.max);
     this.setMin(options.min);
@@ -27,15 +25,6 @@ export class Calculator {
 
   setBuilder(value = null) {
     this._builder = value;
-    return this;
-  }
-
-  getData() {
-    return this._data;
-  }
-
-  setData(value = null) {
-    this._data = value;
     return this;
   }
 
@@ -93,38 +82,39 @@ export class Calculator {
     return this;
   }
 
-  mapRangeName() {
-    return {
-      bottom: 'width',
-      left: 'height',
-      right: 'height',
-      top: 'width'
-    } [this._type];
+  bottom() {
+    return this.setType('bottom');
   }
 
-  mapOrientationName() {
-    return {
-      bottom: 'x',
-      left: 'y',
-      right: 'y',
-      top: 'x'
-    } [this._type];
+  left() {
+    return this.setType('left');
   }
 
-  mapPositionName() {
-    return {
-      bottom: 'right',
-      left: 'top',
-      right: 'top',
-      top: 'right'
-    } [this._type];
+  max(value) {
+    return this.setMax(value);
   }
 
-  calculateTicks() {}
+  min(value) {
+    return this.setMin(value);
+  }
+
+  right() {
+    return this.setType('right');
+  }
+
+  top() {
+    return this.setType('top');
+  }
+
+  type(value) {
+    return this.setType(value);
+  }
 
   calculateDistance(value) {
     return (value - this._domain.min) * this._step;
   }
+
+  calculateTicks() {}
 
   changeMax(object, value) {
     if (this._max === 'auto') {
@@ -146,11 +136,38 @@ export class Calculator {
     object.min = Math.min(object.min, value);
   }
 
-  prepare() {
-    return this.prepareDomain();
+  mapOrientationName() {
+    return {
+      bottom: 'x',
+      left: 'y',
+      right: 'y',
+      top: 'x'
+    } [this._type];
   }
 
-  prepareDomain() {
+  mapPositionName() {
+    return {
+      bottom: 'right',
+      left: 'top',
+      right: 'top',
+      top: 'right'
+    } [this._type];
+  }
+
+  mapRangeName() {
+    return {
+      bottom: 'width',
+      left: 'height',
+      right: 'height',
+      top: 'width'
+    } [this._type];
+  }
+
+  prepare(data) {
+    return this.prepareDomain(data);
+  }
+
+  prepareDomain(data) {
     this._domain = {
       keys: [],
       max: -Infinity,
@@ -162,7 +179,7 @@ export class Calculator {
     const plots = this._builder
       .selector((snippet) => {
         return snippet instanceof Plot &&
-          snippet.getType().indexOf(this._type) > -1;
+          snippet.getData().getType().indexOf(this._type) > -1;
       })
       .resolve();
 
@@ -172,7 +189,7 @@ export class Calculator {
     let domain = null;
 
     for (let i = 0; i < plots.length; i += 1) {
-      plotData = plots[i].prepareData(this._data);
+      plotData = plots[i].prepareData(data);
       domain = plotData[name];
 
       this.changeMax(this._domain, domain.max);
@@ -186,14 +203,10 @@ export class Calculator {
     return this.prepareRange();
   }
 
-  prepareStep() {
-    return this;
-  }
-
   prepareRange() {
     const [axis] = this._builder.selector((snippet) => {
       return snippet instanceof Axis &&
-        snippet.getType() === this._type;
+        snippet.getScale().getType() === this._type;
     }).resolve();
 
     const style = window.getComputedStyle(axis.node().node());
@@ -217,5 +230,9 @@ export class Calculator {
       const value = parseFloat(style[name]);
       return result === 0 ? value : result - value;
     }, 0);
+  }
+
+  prepareStep() {
+    return this;
   }
 }

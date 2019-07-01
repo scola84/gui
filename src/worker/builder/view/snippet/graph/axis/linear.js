@@ -1,6 +1,6 @@
-import { Calculator } from './calculator';
+import { Scale } from './scale';
 
-export class LinearCalculator extends Calculator {
+export class Linear extends Scale {
   calculateTicks(step, count = 1) {
     step = step || this._domain.max / (count - 1);
 

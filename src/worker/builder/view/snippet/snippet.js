@@ -1,6 +1,14 @@
+import camel from 'lodash-es/camelCase';
+
 let id = 0;
 
 export class Snippet {
+  static attachFactory(to, name, object, options = {}) {
+    to.prototype[camel(name)] = function create() {
+      return new object(Object.assign({}, options));
+    };
+  }
+
   constructor(options = {}) {
     this._allow = null;
     this._builder = null;

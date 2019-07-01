@@ -1,32 +1,8 @@
-import camel from 'lodash-es/camelCase';
 import { ViewBuilder } from '../../../view';
-import * as snippet from '../../snippet';
-import * as token from '../../token';
+import { Axis, Plot } from '../../../view/snippet';
 
 export function attach() {
-  Object.keys(snippet).forEach((group) => {
-    Object.keys(snippet[group]).forEach((name) => {
-      ViewBuilder.attachFactory('', name, snippet[group][name], {
-        class: camel(name)
-      });
-    });
-  });
-
-  token.cls.forEach((name) => {
-    ViewBuilder.attachFactory('cls', name, snippet.Node, {
-      class: camel(name)
-    });
-  });
-
-  token.dom.forEach((name) => {
-    ViewBuilder.attachFactory('dom', name, snippet.Node, {
-      name
-    });
-  });
-
-  token.svg.forEach((name) => {
-    ViewBuilder.attachFactory('svg', name, snippet.Node, {
-      name
-    });
-  });
+  ViewBuilder.attach();
+  Axis.attach();
+  Plot.attach();
 }

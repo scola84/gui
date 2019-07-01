@@ -1,6 +1,6 @@
-import { Preparer } from './preparer';
+import { Data } from './data';
 
-export class SumPreparer extends Preparer {
+export class Sum extends Data {
   prepareValue(result, x, y) {
     if (typeof result.data[x] === 'undefined') {
       result.data[x] = [];

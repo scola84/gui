@@ -1,4 +1,4 @@
 export * from './default';
-export * from './preparer';
+export * from './group';
 export * from './stack';
 export * from './sum';

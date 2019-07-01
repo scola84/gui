@@ -20,10 +20,6 @@ export class Tick extends Node {
     return this;
   }
 
-  count(value) {
-    return this.setCount(value);
-  }
-
   getStep() {
     return this._step;
   }
@@ -31,6 +27,10 @@ export class Tick extends Node {
   setStep(value = null) {
     this._step = value;
     return this;
+  }
+
+  count(value) {
+    return this.setCount(value);
   }
 
   step(value) {

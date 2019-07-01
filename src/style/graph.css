@@ -70,6 +70,10 @@
   fill: rgb(14, 122, 254);
 }
 
+.graph > .center > .grid > svg rect.zero {
+  fill: lightgrey;
+}
+
 /* Left */
 
 .graph > .left {
@@ -130,11 +134,11 @@
   left: 50%;
 }
 
-.graph.left > * > .axis.x > .tick:last-child > .mark {
+.graph.left > * > .axis.x.linear > .tick:last-child > .mark {
   display: none;
 }
 
-.graph.right > * > .axis.x > .tick:first-child > .mark {
+.graph.right > * > .axis.x.linear > .tick:first-child > .mark {
   display: none;
 }
 
@@ -173,11 +177,11 @@
   top: 50%;
 }
 
-.graph.top > * > .axis.y > .tick:first-child > .mark {
+.graph.top > * > .axis.y.linear > .tick:first-child > .mark {
   display: none;
 }
 
-.graph.bottom > * > .axis.y > .tick:last-child > .mark {
+.graph.bottom > * > .axis.y.linear > .tick:last-child > .mark {
   display: none;
 }
 
@@ -191,6 +195,7 @@
 
 .graph > * > .axis.left > .tick > .text {
   padding-right: 0.25em;
+  text-align: end;
 }
 
 .graph > * > .axis.right > .tick > .mark {

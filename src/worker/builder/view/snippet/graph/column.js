@@ -30,11 +30,13 @@ export class Column extends Plot {
       yaxis,
       xaxis
     ] = this._builder
-      .selector(this._type.map((type) => `.axis.${type}`))
+      .selector(this._data.getType().map((type) => {
+        return `.axis.${type}`;
+      }))
       .resolve();
 
-    const xcalc = xaxis.getCalculator();
-    const ycalc = yaxis.getCalculator();
+    const xcalc = xaxis.getScale();
+    const ycalc = yaxis.getScale();
 
     let key = null;
     let set = null;
@@ -54,12 +56,15 @@ export class Column extends Plot {
   }
 
   resolveColumn(i, j, set, data, xcalc, ycalc) {
-    const [from, to] = set[j];
+    const [from, to] = set[j] || [0, 0];
 
-    const negative = to < 0;
+    const isNegative = to < 0;
+    const isZero = to === 0;
+
     const rangeHeight = ycalc.getRange().height;
 
-    const xValue = data.type !== 'stack' ? (i * set.length) + j : i;
+    const xValue = data.type !== 'stack' ?
+      (i * set.length) + j : i;
 
     const yBegin = ycalc.calculateDistance(from);
     const yEnd = ycalc.calculateDistance(to);
@@ -67,11 +72,19 @@ export class Column extends Plot {
     const x = xcalc.calculateDistance(xValue);
     const width = xcalc.getStep();
 
-    const y = negative ? rangeHeight - yBegin : rangeHeight - yEnd;
-    const height = negative ? yBegin - yEnd : yEnd - yBegin;
+    let y = rangeHeight - yEnd;
+    let height = yEnd - yBegin;
+
+    y = isNegative ? rangeHeight - yBegin : y;
+    height = isNegative ? yBegin - yEnd : height;
+
+    y = isZero ? y - 3 : y;
+    height = isZero ? 3 : height;
 
     const rect = this._node
       .append('rect')
+      .classed('negative', isNegative)
+      .classed('zero', isZero)
       .attr('x', x + width * this._padding)
       .attr('width', width - width * this._padding * 2)
       .attr('y', y)
@@ -80,7 +93,6 @@ export class Column extends Plot {
     rect.style('left');
 
     rect
-      .classed('negative', negative)
       .classed('transition', true)
       .classed('in', true);
   }

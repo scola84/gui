@@ -1,6 +1,6 @@
-import { LinearCalculator } from './linear';
+import { Linear } from './linear';
 
-export class OrdinalCalculator extends LinearCalculator {
+export class Ordinal extends Linear {
   calculateTicks(step, count = 1) {
     step = step || this._domain.max / (count - 1);
 
@@ -26,8 +26,8 @@ export class OrdinalCalculator extends LinearCalculator {
     return ticks;
   }
 
-  prepareDomain() {
-    super.prepareDomain();
+  prepareDomain(data) {
+    super.prepareDomain(data);
     this._domain.min -= 1;
     return this.prepareRange();
   }

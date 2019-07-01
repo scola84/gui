@@ -1,10 +1,12 @@
-export class Preparer {
+export class Data {
   constructor(options = {}) {
     this._filter = null;
+    this._type = null;
     this._x = null;
     this._y = null;
 
     this.setFilter(options.filter);
+    this.setType(options.type);
     this.setX(options.x);
     this.setY(options.y);
   }
@@ -15,6 +17,20 @@ export class Preparer {
 
   setFilter(value = null) {
     this._filter = value;
+    return this;
+  }
+
+  getType() {
+    return this._type;
+  }
+
+  setType(value = []) {
+    this._type = value;
+    return this;
+  }
+
+  addType(value) {
+    this._type[this._type.length] = value;
     return this;
   }
 
@@ -34,6 +50,34 @@ export class Preparer {
   setY(value = null) {
     this._y = value;
     return this;
+  }
+
+  bottom() {
+    return this.addType('bottom');
+  }
+
+  filter(value) {
+    return this.setFilter(value);
+  }
+
+  left() {
+    return this.addType('left');
+  }
+
+  right() {
+    return this.addType('right');
+  }
+
+  top() {
+    return this.addType('top');
+  }
+
+  x(value) {
+    return this.setX(value);
+  }
+
+  y(value) {
+    return this.setY(value);
   }
 
   changeMax(object, value) {
@@ -60,6 +104,7 @@ export class Preparer {
       }
     };
 
+    let datum = null;
     let index = null;
     let key = null;
     let type = null;
@@ -70,10 +115,12 @@ export class Preparer {
     data = data.filter(this._filter);
 
     for (let i = 0; i < data.length; i += 1) {
-      x = this._x(data[i]);
-      y = this._y(data[i]);
+      datum = data[i];
 
-      [index, type] = this.prepareValue(result, x, y);
+      x = this._x(datum);
+      y = this._y(datum);
+
+      [index, type] = this.prepareValue(result, x, y, datum);
 
       result.size = index + 1;
       result.type = type;

@@ -1,3 +1,3 @@
 export * from './cls';
 export * from './dom';
-export * from './svg';
+export * from './snippet';

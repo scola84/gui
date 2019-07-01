@@ -1,122 +1,47 @@
 import { Node } from '../node';
-
-import {
-  LinearCalculator,
-  OrdinalCalculator
-} from './axis/';
+import * as axis from './axis/';
 
 export class Axis extends Node {
+  static attach() {
+    Object.keys(axis).forEach((name) => {
+      Axis.attachFactory(Axis, name, axis[name]);
+    });
+  }
+
   constructor(options = {}) {
     super(options);
 
-    this._calculator = null;
-    this._max = null;
-    this._min = null;
-    this._type = null;
-
-    this.setCalculator(options.calculator);
-    this.setMax(options.max);
-    this.setMin(options.min);
-    this.setType(options.type);
+    this._scale = null;
+    this.setScale(options.scale);
   }
 
-  getCalculator() {
-    return this._calculator;
+  getScale() {
+    return this._scale;
   }
 
-  setCalculator(value = new LinearCalculator()) {
-    this._calculator = value;
+  setScale(value = null) {
+    this._scale = value;
+
+    if (value) {
+      value.setBuilder(this._builder);
+    }
+
     return this;
   }
 
-  getMax() {
-    return this._max;
+  scale(value) {
+    return this.setScale(value(this));
   }
 
-  setMax(value = null) {
-    this._max = value;
-    return this;
-  }
-
-  getMin() {
-    return this._min;
-  }
-
-  setMin(value = null) {
-    this._min = value;
-    return this;
-  }
-
-  getType() {
-    return this._type;
-  }
-
-  setType(value = null) {
-    this._type = value;
-    return this;
-  }
-
-  calculator(value) {
-    return this.setCalculator(value);
-  }
-
-  type(value) {
-    return this.setType(value);
-  }
-
-  linear() {
-    return this.setCalculator(new LinearCalculator());
-  }
-
-  ordinal() {
-    return this.setCalculator(new OrdinalCalculator());
-  }
-
-  max(value) {
-    return this.setMax(value);
-  }
-
-  min(value) {
-    return this.setMin(value);
-  }
-
-  bottom() {
-    return this
-      .setType('bottom')
-      .class('x bottom');
-  }
-
-  left() {
-    return this
-      .setMax('auto')
-      .setMin('auto')
-      .setType('left')
-      .class('y left');
-  }
-
-  right() {
-    return this
-      .setMax('auto')
-      .setMin('auto')
-      .setType('right')
-      .class('y right');
-  }
-
-  top() {
-    return this
-      .setType('top')
-      .class('x top');
+  resolveAfter() {
+    this._node
+      .classed(this._scale.constructor.name.toLowerCase(), true)
+      .classed(this._scale.mapOrientationName(), true)
+      .classed(this._scale.getType(), true);
   }
 
   resolveBefore(box, data) {
-    this._calculator
-      .setBuilder(this._builder)
-      .setMax(this._max)
-      .setMin(this._min)
-      .setType(this._type)
-      .setData(data)
-      .prepare();
-
+    this._scale.prepare(data);
     return this.resolveOuter(box, data);
   }
 
@@ -127,14 +52,14 @@ export class Axis extends Node {
       return this._node;
     }
 
-    const ticks = this._calculator.calculateTicks(
+    const ticks = this._scale.calculateTicks(
       tick.getStep(),
       tick.getCount()
     );
 
-    const rangeName = this._calculator.mapRangeName();
-    const positionName = this._calculator.mapPositionName();
-    const start = this._calculator.getRange()[rangeName];
+    const rangeName = this._scale.mapRangeName();
+    const positionName = this._scale.mapPositionName();
+    const start = this._scale.getRange()[rangeName];
 
     let distance = null;
     let value = null;
