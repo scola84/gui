@@ -19,13 +19,8 @@ export class Axis extends Node {
     return this._scale;
   }
 
-  setScale(value = null) {
-    this._scale = value;
-
-    if (value) {
-      value.setBuilder(this._builder);
-    }
-
+  setScale(value = new axis.Linear()) {
+    this._scale = value.setAxis(this);
     return this;
   }
 
@@ -35,9 +30,9 @@ export class Axis extends Node {
 
   resolveAfter() {
     this._node
-      .classed(this._scale.constructor.name.toLowerCase(), true)
-      .classed(this._scale.mapOrientationName(), true)
-      .classed(this._scale.getType(), true);
+      .classed(this._scale.mapOrientation(), true)
+      .classed(this._scale.getName(), true)
+      .classed(this._scale.getPosition(), true);
   }
 
   resolveBefore(box, data) {
@@ -52,14 +47,8 @@ export class Axis extends Node {
       return this._node;
     }
 
-    const ticks = this._scale.calculateTicks(
-      tick.getStep(),
-      tick.getCount()
-    );
-
-    const rangeName = this._scale.mapRangeName();
-    const positionName = this._scale.mapPositionName();
-    const start = this._scale.getRange()[rangeName];
+    const ticks = this._scale.calculateTicks();
+    const position = this._scale.mapPosition();
 
     let distance = null;
     let value = null;
@@ -67,10 +56,12 @@ export class Axis extends Node {
     for (let i = 0; i < ticks.length; i += 1) {
       [value, distance] = ticks[i];
 
+      distance = this._scale.normalizeDistance(distance, true);
+
       tick
         .clone()
         .styles({
-          [positionName]: start - distance
+          [position]: distance
         })
         .resolve(box, value);
     }

@@ -21,17 +21,20 @@ export class Group extends Data {
     return this.setIndex(value);
   }
 
-  prepareValue(result, x, y, datum) {
-    if (typeof result.data[x] === 'undefined') {
-      result.data[x] = [];
-      result.keys[result.keys.length] = x;
+  prepareValue(result, datum) {
+    const exogenous = this._exogenous(datum);
+    const endogenous = this._endogenous(datum);
+
+    if (typeof result.data[exogenous] === 'undefined') {
+      result.data[exogenous] = [];
+      result.keys[result.keys.length] = exogenous;
+      result.type = 'group';
     }
 
-    const set = result.data[x];
+    const set = result.data[exogenous];
     const index = this._index ? this._index(datum) : set.length;
 
-    set[index] = [0, y];
-
-    return [index, 'group'];
+    set[index] = [0, endogenous];
+    result.size = set.length;
   }
 }

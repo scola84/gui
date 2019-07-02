@@ -26,17 +26,8 @@ export class Column extends Plot {
   }
 
   resolveAfter(box, data) {
-    const [
-      yaxis,
-      xaxis
-    ] = this._builder
-      .selector(this._data.getType().map((type) => {
-        return `.axis.${type}`;
-      }))
-      .resolve();
-
-    const xcalc = xaxis.getScale();
-    const ycalc = yaxis.getScale();
+    const endogenous = this.findScale('endogenous');
+    const exogenous = this.findScale('exogenous');
 
     let key = null;
     let set = null;
@@ -48,47 +39,62 @@ export class Column extends Plot {
       set = data.data[key];
 
       for (let j = 0; j < set.length; j += 1) {
-        this.resolveColumn(i, j, set, data, xcalc, ycalc);
+        this.resolveColumn(key, j, set, data, endogenous, exogenous);
       }
     }
 
     return this._node;
   }
 
-  resolveColumn(i, j, set, data, xcalc, ycalc) {
+  resolveColumn(key, j, set, data, endogenous, exogenous) {
     const [from, to] = set[j] || [0, 0];
 
     const isNegative = to < 0;
     const isZero = to === 0;
 
-    const rangeHeight = ycalc.getRange().height;
+    const endogenousRange = endogenous.mapRange();
+    const endogenousOrientation = endogenous.mapOrientation();
 
-    const xValue = data.type !== 'stack' ?
-      (i * set.length) + j : i;
+    const begin = endogenous.calculateDistance(from);
+    const end = endogenous.calculateDistance(to);
 
-    const yBegin = ycalc.calculateDistance(from);
-    const yEnd = ycalc.calculateDistance(to);
+    let endogenousDistance = endogenous.normalizeDistance(end);
+    let endogenousSize = end - begin;
 
-    const x = xcalc.calculateDistance(xValue);
-    const width = xcalc.getStep();
+    if (isNegative) {
+      endogenousDistance = endogenous.normalizeDistance(begin);
+      endogenousSize = begin - end;
+    }
 
-    let y = rangeHeight - yEnd;
-    let height = yEnd - yBegin;
+    if (isZero) {
+      endogenousDistance -= 3;
+      endogenousSize = 3;
+    }
 
-    y = isNegative ? rangeHeight - yBegin : y;
-    height = isNegative ? yBegin - yEnd : height;
+    const exogenousRange = exogenous.mapRange();
+    const exogenousOrientation = exogenous.mapOrientation();
 
-    y = isZero ? y - 3 : y;
-    height = isZero ? 3 : height;
+    let exogenousDistance = exogenous.calculateDistance(key);
+    // console.log(value, exogenousDistance);
+    let exogenousSize = exogenous.getPpu();
+
+    if (data.type === 'group') {
+      exogenousDistance += j * exogenousSize;
+    }
+
+    exogenousDistance += exogenousSize * this._padding;
+    exogenousSize -= exogenousSize * this._padding * 2;
 
     const rect = this._node
       .append('rect')
       .classed('negative', isNegative)
-      .classed('zero', isZero)
-      .attr('x', x + width * this._padding)
-      .attr('width', width - width * this._padding * 2)
-      .attr('y', y)
-      .attr('height', height);
+      .classed('zero', isZero);
+
+    rect
+      .attr(endogenousOrientation, endogenousDistance)
+      .attr(endogenousRange, endogenousSize)
+      .attr(exogenousOrientation, exogenousDistance)
+      .attr(exogenousRange, exogenousSize);
 
     rect.style('left');
 

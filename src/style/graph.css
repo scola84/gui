@@ -61,7 +61,11 @@
   width: 100%;
 }
 
-.graph > .center > .grid > svg path {
+.graph > .center > .grid > svg path.area {
+  fill: lightgrey;
+}
+
+.graph > .center > .grid > svg path.line {
   fill: none;
   stroke: rgb(14, 122, 254);
 }

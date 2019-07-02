@@ -1,30 +1,45 @@
-import { Axis, Plot } from '../';
+import { Plot } from '../plot';
 
 export class Scale {
   constructor(options = {}) {
-    this._builder = null;
+    this._axis = null;
+    this._count = null;
     this._domain = null;
     this._max = null;
     this._min = null;
+    this._name = null;
+    this._position = null;
+    this._ppu = null;
     this._range = null;
     this._step = null;
-    this._type = null;
 
-    this.setBuilder(options.builder);
+    this.setAxis(options.axis);
+    this.setCount(options.count);
     this.setDomain(options.domain);
     this.setMax(options.max);
     this.setMin(options.min);
+    this.setName(options.name);
+    this.setPosition(options.type);
+    this.setPpu(options.ppu);
     this.setRange(options.range);
     this.setStep(options.step);
-    this.setType(options.type);
   }
 
-  getBuilder() {
-    return this._builder;
+  getAxis() {
+    return this._axis;
   }
 
-  setBuilder(value = null) {
-    this._builder = value;
+  setAxis(value = null) {
+    this._axis = value;
+    return this;
+  }
+
+  getCount() {
+    return this._count;
+  }
+
+  setCount(value = null) {
+    this._count = value;
     return this;
   }
 
@@ -55,6 +70,33 @@ export class Scale {
     return this;
   }
 
+  getName() {
+    return this._name;
+  }
+
+  setName(value = null) {
+    this._name = value;
+    return this;
+  }
+
+  getPosition() {
+    return this._position;
+  }
+
+  setPosition(value = null) {
+    this._position = value;
+    return this;
+  }
+
+  getPpu() {
+    return this._ppu;
+  }
+
+  setPpu(value = null) {
+    this._ppu = value;
+    return this;
+  }
+
   getRange() {
     return this._range;
   }
@@ -82,12 +124,28 @@ export class Scale {
     return this;
   }
 
+  axis(value) {
+    return this.setAxis(value);
+  }
+
+  count(value) {
+    return this.setCount(value);
+  }
+
   bottom() {
-    return this.setType('bottom');
+    return this.setPosition('bottom');
+  }
+
+  endogenous() {
+    return this.setType('endogenous');
+  }
+
+  exogenous() {
+    return this.setType('exogenous');
   }
 
   left() {
-    return this.setType('left');
+    return this.setPosition('left');
   }
 
   max(value) {
@@ -98,69 +156,65 @@ export class Scale {
     return this.setMin(value);
   }
 
+  position(value) {
+    return this.setPosition(value);
+  }
+
   right() {
-    return this.setType('right');
+    return this.setPosition('right');
+  }
+
+  step(value) {
+    return this.setStep(value);
   }
 
   top() {
-    return this.setType('top');
+    return this.setPosition('top');
   }
 
   type(value) {
     return this.setType(value);
   }
 
-  calculateDistance(value) {
-    return (value - this._domain.min) * this._step;
-  }
+  calculateDistance() {}
 
   calculateTicks() {}
 
-  changeMax(object, value) {
-    if (this._max === 'auto') {
-      value = value < 0 ? 0 : value;
-    } else if (Number.isFinite(this._max)) {
-      value = value < this._max ? this._max : value;
-    }
-
-    object.max = Math.max(object.max, value);
-  }
-
-  changeMin(object, value) {
-    if (this._min === 'auto') {
-      value = value > 0 ? 0 : value;
-    } else if (Number.isFinite(this._min)) {
-      value = value > this._min ? this._min : value;
-    }
-
-    object.min = Math.min(object.min, value);
-  }
-
-  mapOrientationName() {
+  mapOrientation() {
     return {
       bottom: 'x',
       left: 'y',
       right: 'y',
       top: 'x'
-    } [this._type];
+    } [this._position];
   }
 
-  mapPositionName() {
+  mapPosition() {
     return {
       bottom: 'right',
       left: 'top',
       right: 'top',
       top: 'right'
-    } [this._type];
+    } [this._position];
   }
 
-  mapRangeName() {
+  mapRange() {
     return {
       bottom: 'width',
       left: 'height',
       right: 'height',
       top: 'width'
-    } [this._type];
+    } [this._position];
+  }
+
+  normalizeDistance(distance, force = false) {
+    const range = this.mapRange();
+
+    if (force === false && range === 'width') {
+      return distance;
+    }
+
+    return this._range[range] - distance;
   }
 
   prepare(data) {
@@ -176,40 +230,91 @@ export class Scale {
       type: null
     };
 
-    const plots = this._builder
-      .selector((snippet) => {
-        return snippet instanceof Plot &&
-          snippet.getData().getType().indexOf(this._type) > -1;
-      })
-      .resolve();
-
-    const name = this.mapOrientationName();
+    const plots = this._axis.getBuilder().selector((snippet) => {
+      return snippet instanceof Plot &&
+        snippet.getData().getPosition().indexOf(this._position) > -1;
+    }).resolve();
 
     let plotData = null;
-    let domain = null;
 
     for (let i = 0; i < plots.length; i += 1) {
       plotData = plots[i].prepareData(data);
-      domain = plotData[name];
 
-      this.changeMax(this._domain, domain.max);
-      this.changeMin(this._domain, domain.min);
-
-      this._domain.keys = plotData.keys;
       this._domain.size = plotData.size;
       this._domain.type = plotData.type;
+
+      this.prepareDomainKeys(plotData);
+
+      if (this._type === 'endogenous') {
+        this.prepareDomainEndogenous(plotData);
+      } else {
+        this.prepareDomainExogenous(plotData);
+      }
     }
 
     return this.prepareRange();
   }
 
-  prepareRange() {
-    const [axis] = this._builder.selector((snippet) => {
-      return snippet instanceof Axis &&
-        snippet.getScale().getType() === this._type;
-    }).resolve();
+  prepareDomainEndogenous(data) {
+    let key = null;
+    let set = null;
 
-    const style = window.getComputedStyle(axis.node().node());
+    const values = [];
+
+    for (let i = 0; i < data.keys.length; i += 1) {
+      key = data.keys[i];
+      set = data.data[key];
+
+      for (let j = 0; j < set.length; j += 1) {
+        values[values.length] = set[j][1];
+      }
+    }
+
+    this.prepareDomainMax(values);
+    this.prepareDomainMin(values);
+  }
+
+  prepareDomainExogenous() {}
+
+  prepareDomainKeys(data) {
+    let key = null;
+
+    for (let i = 0; i < data.keys.length; i += 1) {
+      key = data.keys[i];
+
+      if (this._domain.keys.indexOf(key) === -1) {
+        this._domain.keys[this._domain.keys.length] = key;
+      }
+    }
+  }
+
+  prepareDomainMax(values) {
+    let max = Math.max(this._domain.max, ...values);
+
+    if (this._max === 'auto') {
+      max = max < 0 ? 0 : max;
+    } else if (typeof this._max === 'number') {
+      max = max < this._max ? this._max : max;
+    }
+
+    this._domain.max = max;
+  }
+
+  prepareDomainMin(values) {
+    let min = Math.min(this._domain.min, ...values);
+
+    if (this._min === 'auto') {
+      min = min > 0 ? 0 : min;
+    } else if (typeof this._min === 'number') {
+      min = min > this._min ? this._min : min;
+    }
+
+    this._domain.min = min;
+  }
+
+  prepareRange() {
+    const node = this._axis.node().node();
+    const style = window.getComputedStyle(node);
 
     this._range = {
       height: this.prepareRangeFrom(
@@ -222,7 +327,7 @@ export class Scale {
       )
     };
 
-    return this.prepareStep();
+    return this.preparePpu();
   }
 
   prepareRangeFrom(style, names) {
@@ -232,7 +337,7 @@ export class Scale {
     }, 0);
   }
 
-  prepareStep() {
+  preparePpu() {
     return this;
   }
 }

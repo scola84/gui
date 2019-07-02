@@ -1,14 +1,14 @@
 export class Data {
   constructor(options = {}) {
     this._filter = null;
-    this._type = null;
-    this._x = null;
-    this._y = null;
+    this._exogenous = null;
+    this._endogenous = null;
+    this._position = null;
 
     this.setFilter(options.filter);
-    this.setType(options.type);
-    this.setX(options.x);
-    this.setY(options.y);
+    this.setExogenous(options.exogenous);
+    this.setEndogenous(options.endogenous);
+    this.setPosition(options.position);
   }
 
   getFilter() {
@@ -20,40 +20,40 @@ export class Data {
     return this;
   }
 
-  getType() {
-    return this._type;
+  getExogenous() {
+    return this._exogenous;
   }
 
-  setType(value = []) {
-    this._type = value;
+  setExogenous(value = null) {
+    this._exogenous = value;
     return this;
   }
 
-  addType(value) {
-    this._type[this._type.length] = value;
+  getEndogenous() {
+    return this._endogenous;
+  }
+
+  setEndogenous(value = null) {
+    this._endogenous = value;
     return this;
   }
 
-  getX() {
-    return this._x;
+  getPosition() {
+    return this._position;
   }
 
-  setX(value = null) {
-    this._x = value;
+  setPosition(value = []) {
+    this._position = value;
     return this;
   }
 
-  getY() {
-    return this._y;
-  }
-
-  setY(value = null) {
-    this._y = value;
+  addPosition(value) {
+    this._position[this._position.length] = value;
     return this;
   }
 
   bottom() {
-    return this.addType('bottom');
+    return this.addPosition('bottom');
   }
 
   filter(value) {
@@ -61,80 +61,36 @@ export class Data {
   }
 
   left() {
-    return this.addType('left');
+    return this.addPosition('left');
   }
 
   right() {
-    return this.addType('right');
+    return this.addPosition('right');
   }
 
   top() {
-    return this.addType('top');
+    return this.addPosition('top');
   }
 
-  x(value) {
-    return this.setX(value);
+  exogenous(value) {
+    return this.setExogenous(value);
   }
 
-  y(value) {
-    return this.setY(value);
-  }
-
-  changeMax(object, value) {
-    object.max = Math.max(object.max, value);
-  }
-
-  changeMin(object, value) {
-    object.min = Math.min(object.min, value);
+  endogenous(value) {
+    return this.setEndogenous(value);
   }
 
   prepare(data) {
     const result = {
       data: {},
       keys: [],
-      size: 0,
-      type: null,
-      x: {
-        max: -Infinity,
-        min: Infinity
-      },
-      y: {
-        max: -Infinity,
-        min: Infinity
-      }
+      type: null
     };
-
-    let datum = null;
-    let index = null;
-    let key = null;
-    let type = null;
-
-    let x = null;
-    let y = null;
 
     data = data.filter(this._filter);
 
     for (let i = 0; i < data.length; i += 1) {
-      datum = data[i];
-
-      x = this._x(datum);
-      y = this._y(datum);
-
-      [index, type] = this.prepareValue(result, x, y, datum);
-
-      result.size = index + 1;
-      result.type = type;
-
-      this.changeMax(result.y, result.data[x][index][1]);
-      this.changeMin(result.y, result.data[x][index][1]);
-    }
-
-    for (let i = 0; i < result.keys.length; i += 1) {
-      key = result.keys[i];
-      key = typeof key === 'string' ? i + 1 : key;
-
-      this.changeMax(result.x, key);
-      this.changeMin(result.x, key);
+      this.prepareValue(result, data[i]);
     }
 
     return result;

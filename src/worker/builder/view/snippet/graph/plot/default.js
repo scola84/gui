@@ -1,17 +1,20 @@
 import { Data } from './data';
 
 export class Default extends Data {
-  prepareValue(result, x, y) {
-    if (typeof result.data[x] === 'undefined') {
-      result.data[x] = [];
-      result.keys[result.keys.length] = x;
+  prepareValue(result, datum) {
+    const exogenous = this._exogenous(datum);
+    const endogenous = this._endogenous(datum);
+
+    if (typeof result.data[exogenous] === 'undefined') {
+      result.data[exogenous] = [];
+      result.keys[result.keys.length] = exogenous;
+      result.type = 'default';
     }
 
-    const set = result.data[x];
+    const set = result.data[exogenous];
     const index = set.length;
 
-    set[index] = [0, y];
-
-    return [index, 'default'];
+    set[index] = [0, endogenous];
+    result.size = set.length;
   }
 }

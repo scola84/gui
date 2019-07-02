@@ -1,3 +1,4 @@
+import { Axis } from './axis';
 import { Node } from '../node';
 import * as plot from './plot/';
 
@@ -26,6 +27,18 @@ export class Plot extends Node {
 
   data(value) {
     return this.setData(value(this));
+  }
+
+  findScale(type) {
+    const position = this._data.getPosition();
+
+    const [axis] = this._builder.selector((snippet) => {
+      return snippet instanceof Axis &&
+        position.indexOf(snippet.getScale().getPosition()) > -1 &&
+        snippet.getScale().getType() === type;
+    }).resolve();
+
+    return axis.getScale();
   }
 
   prepareData(data) {

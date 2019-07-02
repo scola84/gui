@@ -1,13 +1,17 @@
 import { Data } from './data';
 
 export class Sum extends Data {
-  prepareValue(result, x, y) {
-    if (typeof result.data[x] === 'undefined') {
-      result.data[x] = [];
-      result.keys[result.keys.length] = x;
+  prepareValue(result, datum) {
+    const exogenous = this._exogenous(datum);
+    const endogenous = this._endogenous(datum);
+
+    if (typeof result.data[exogenous] === 'undefined') {
+      result.data[exogenous] = [];
+      result.keys[result.keys.length] = exogenous;
+      result.type = 'sum';
     }
 
-    const set = result.data[x];
+    const set = result.data[exogenous];
     const index = set.length;
 
     const previous = index > 0 ?
@@ -15,9 +19,9 @@ export class Sum extends Data {
 
     set[0] = [
       0,
-      previous[1] + y
+      previous[1] + endogenous
     ];
 
-    return [0, 'sum'];
+    result.size = set.length;
   }
 }

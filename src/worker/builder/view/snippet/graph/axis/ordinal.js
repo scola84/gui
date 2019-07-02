@@ -1,24 +1,34 @@
-import { Linear } from './linear';
+import { Scale } from './scale';
 
-export class Ordinal extends Linear {
-  calculateTicks(step, count = 1) {
-    step = step || this._domain.max / (count - 1);
+export class Ordinal extends Scale {
+  setName(value = 'ordinal') {
+    return super.setName(value);
+  }
 
-    const halfStep = this._step / 2;
+  calculateDistance(value) {
+    value = this._domain.keys.indexOf(value);
+
+    let distance = (value - this._domain.min) * this._ppu;
+
+    if (this._domain.type === 'group') {
+      distance = distance * this._domain.size;
+    }
+
+    return distance;
+  }
+
+  calculateTicks() {
     const ticks = [];
 
     let distance = null;
-    let value = this._domain.max - 1;
+    let key = null;
 
-    for (; value >= this._domain.min; value -= step) {
-      distance = this.calculateDistance(value) + halfStep;
-
-      if (this._domain.type !== 'stack') {
-        distance = distance * this._domain.size;
-      }
+    for (let i = this._domain.keys.length - 1; i >= 0; i -= 1) {
+      key = this._domain.keys[i];
+      distance = this.calculateDistance(key);
 
       ticks[ticks.length] = [
-        this._domain.keys[value],
+        key,
         distance
       ];
     }
@@ -26,17 +36,31 @@ export class Ordinal extends Linear {
     return ticks;
   }
 
-  prepareDomain(data) {
-    super.prepareDomain(data);
-    this._domain.min -= 1;
-    return this.prepareRange();
+  normalizeDistance(distance, force) {
+    let center = this._ppu / 2;
+
+    if (this._domain.type === 'group') {
+      center = center * this._domain.size;
+    }
+
+    distance += center;
+
+    return super.normalizeDistance(distance, force);
   }
 
-  prepareStep() {
-    super.prepareStep();
+  prepareDomainExogenous() {
+    this.prepareDomainMax([this._domain.keys.length]);
+    this.prepareDomainMin([0]);
+  }
 
-    if (this._domain.type !== 'stack') {
-      this._step = this._step / this._domain.size;
+  preparePpu() {
+    const name = this.mapRange();
+
+    this._ppu = this._range[name] /
+      (this._domain.max - this._domain.min);
+
+    if (this._domain.type === 'group') {
+      this._ppu = this._ppu / this._domain.size;
     }
 
     return this;

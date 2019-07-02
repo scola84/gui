@@ -1,8 +1,18 @@
 import { Scale } from './scale';
 
 export class Linear extends Scale {
-  calculateTicks(step, count = 1) {
-    step = step || this._domain.max / (count - 1);
+  setName(value = 'linear') {
+    return super.setName(value);
+  }
+
+  calculateDistance(value) {
+    return (value - this._domain.min) * this._ppu;
+  }
+
+  calculateTicks() {
+    const step = this._step === null ?
+      this._domain.max / (this._count - 1) :
+      this._step;
 
     const ticks = [];
 
@@ -21,11 +31,16 @@ export class Linear extends Scale {
     return ticks;
   }
 
-  prepareStep() {
-    const name = this.mapRangeName();
-    const base = this._range[name];
+  prepareDomainExogenous() {
+    this.prepareDomainMax(this._domain.keys);
+    this.prepareDomainMin(this._domain.keys);
+  }
 
-    this._step = base / (this._domain.max - this._domain.min);
+  preparePpu() {
+    const name = this.mapRange();
+
+    this._ppu = this._range[name] /
+      (this._domain.max - this._domain.min);
 
     return this;
   }

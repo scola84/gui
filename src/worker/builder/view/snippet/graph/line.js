@@ -25,20 +25,39 @@ export class Line extends Plot {
     return this.setArea(true);
   }
 
+  createValue(index1, value1, index2, value2) {
+    const value = [];
+
+    value[index1] = value1;
+    value[index2] = value2;
+
+    return value.join(' ');
+  }
+
+  mapIndex(orientation) {
+    return {
+      x: 0,
+      y: 1
+    } [orientation];
+  }
+
   resolveAfter(box, data) {
-    const [
-      yaxis,
-      xaxis,
-    ] = this._builder
-      .selector(this._data.getType().map((type) => {
-        return `.axis.${type}`;
-      }))
-      .resolve();
+    const endogenous = this.findScale('endogenous');
+    const exogenous = this.findScale('exogenous');
 
-    const xcalc = xaxis.getScale();
-    const ycalc = yaxis.getScale();
+    const endogenousIndex = this.mapIndex(
+      endogenous.mapOrientation()
+    );
 
-    const ymin = ycalc.getDomain().min;
+    const exogenousIndex = this.mapIndex(
+      exogenous.mapOrientation()
+    );
+
+    const endogenousMin = endogenous.normalizeDistance(
+      endogenous.calculateDistance(
+        endogenous.getDomain().min
+      )
+    );
 
     let key = null;
     let set = null;
@@ -47,6 +66,12 @@ export class Line extends Plot {
 
     const area = [];
     const line = [];
+
+    let endogenousDistance = null;
+    let exogenousDistance = null;
+
+    let min = null;
+    let value = null;
 
     data = this.prepareData(data);
 
@@ -58,60 +83,58 @@ export class Line extends Plot {
         [, to] = set[j];
 
         line[j] = line[j] || '';
+        area[j] = area[j] || '';
 
-        if (this._area) {
-          area[j] = area[j] || '';
-        }
+        endogenousDistance = endogenous.normalizeDistance(
+          endogenous.calculateDistance(to)
+        );
+
+        exogenousDistance = exogenous.normalizeDistance(
+          exogenous.calculateDistance(key)
+        );
+
+        value = this.createValue(
+          endogenousIndex,
+          endogenousDistance,
+          exogenousIndex,
+          exogenousDistance
+        );
+
+        min = this.createValue(
+          endogenousIndex,
+          endogenousMin,
+          exogenousIndex,
+          exogenousDistance
+        );
 
         if (i === 0) {
-          line[j] += this.resolveMove(key, to, xcalc, ycalc);
-
-          if (this._area) {
-            area[j] += this.resolveMove(key, ymin, xcalc, ycalc);
-          }
+          line[j] += 'M ' + value;
+          area[j] += 'M ' + min;
         }
 
-        line[j] += this.resolveLine(key, to, xcalc, ycalc);
-
-        if (this._area) {
-          area[j] += this.resolveLine(key, to, xcalc, ycalc);
-        }
+        line[j] += ' L ' + value;
+        area[j] += ' L ' + value;
 
         if (i === data.keys.length - 1) {
-          if (this._area) {
-            area[j] += this.resolveMove(key, ymin, xcalc, ycalc);
-          }
+          area[j] += ' L ' + min;
         }
       }
     }
 
     for (let i = line.length - 1; i >= 0; i -= 1) {
-      this.resolvePath(line[i], 'line');
-
       if (this._area) {
-        this.resolvePath(area[i], 'area');
+        this._node
+          .append('path')
+          .classed('area', true)
+          .attr('d', area[i]);
       }
+
+      this._node
+        .append('path')
+        .classed('line', true)
+        .attr('d', line[i]);
     }
 
     return this._node;
-  }
-
-  resolveLine(key, to, xcalc, ycalc) {
-    return ' L ' +
-      xcalc.calculateDistance(key) + ' ' +
-      (ycalc.getRange().height - ycalc.calculateDistance(to));
-  }
-
-  resolveMove(key, to, xcalc, ycalc) {
-    return 'M ' +
-      xcalc.calculateDistance(key) + ' ' +
-      (ycalc.getRange().height - ycalc.calculateDistance(to));
-  }
-
-  resolvePath(d, classed) {
-    this._node
-      .append('path')
-      .classed(classed, true)
-      .attr('d', d);
   }
 }
