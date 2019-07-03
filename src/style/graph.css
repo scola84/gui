@@ -167,6 +167,11 @@
   stroke: rgb(14, 122, 254);
 }
 
+.graph > * > .body > svg > .plot > .scatter {
+  fill: none;
+  stroke: rgb(14, 122, 254);
+}
+
 /* Title */
 
 .graph > .left > .title {

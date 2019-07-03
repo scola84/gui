@@ -3,4 +3,5 @@ export * from './column';
 export * from './grid';
 export * from './line';
 export * from './plot';
+export * from './scatter';
 export * from './tick';
