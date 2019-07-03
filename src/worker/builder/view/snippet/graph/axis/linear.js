@@ -12,7 +12,7 @@ export class Linear extends Scale {
       distance = this._range.height - distance;
     }
 
-    return distance;
+    return Math.round(distance);
   }
 
   calculateTicks() {

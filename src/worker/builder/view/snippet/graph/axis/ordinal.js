@@ -6,8 +6,12 @@ export class Ordinal extends Scale {
   }
 
   calculateDistance(value) {
-    value = this._domain.keys.indexOf(value);
-    return (value - this._domain.min + 0.5) * this._ppu;
+    let distance = this._domain.keys.indexOf(value);
+
+    distance = (distance - this._domain.min + 0.5) *
+      this._ppu;
+
+    return Math.round(distance);
   }
 
   calculateTicks() {

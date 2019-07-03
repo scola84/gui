@@ -42,8 +42,8 @@ export class Grid extends Node {
           .classed('line', true)
           .classed(orientation, true)
           .classed(position, true)
-          .attr(orientation + '1', Math.round(distance))
-          .attr(orientation + '2', Math.round(distance))
+          .attr(orientation + '1', distance)
+          .attr(orientation + '2', distance)
           .attr(this.mapOpposite(orientation) + '1', 0)
           .attr(this.mapOpposite(orientation) + '2', '100%');
       }

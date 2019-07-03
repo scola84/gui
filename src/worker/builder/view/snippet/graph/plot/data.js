@@ -15,7 +15,7 @@ export class Data {
     return this._filter;
   }
 
-  setFilter(value = null) {
+  setFilter(value = () => true) {
     this._filter = value;
     return this;
   }

@@ -13,9 +13,7 @@ export class Stack extends Data {
 
     const set = result.data[exogenous];
     const index = set.length;
-
-    const previous = index > 0 ?
-      set[index - 1] : [0, 0];
+    const previous = index > 0 ? set[index - 1] : [0, 0];
 
     set[index] = [
       previous[1],

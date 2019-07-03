@@ -150,6 +150,18 @@
 
 /* Body plot */
 
+.graph.left > * > .body > svg > .plot {
+  transform: translateX(-1px);
+}
+
+.graph.top > * > .body > svg > .plot {
+  transform: translateY(-1px);
+}
+
+.graph.left.top > * > .body > svg > .plot {
+  transform: translateX(-1px) translateY(-1px);
+}
+
 .graph > * > .body > svg > .plot > .area {
   fill: lightgrey;
 }

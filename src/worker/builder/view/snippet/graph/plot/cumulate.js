@@ -1,6 +1,6 @@
 import { Data } from './data';
 
-export class Sum extends Data {
+export class Cumulate extends Data {
   prepareValue(result, datum) {
     const exogenous = this._exogenous(datum);
     const endogenous = this._endogenous(datum);
@@ -8,14 +8,16 @@ export class Sum extends Data {
     if (typeof result.data[exogenous] === 'undefined') {
       result.data[exogenous] = [];
       result.keys[result.keys.length] = exogenous;
-      result.type = 'sum';
+      result.type = 'cumulate';
     }
 
     const set = result.data[exogenous];
     const index = set.length;
-    const previous = index > 0 ? set[index - 1] : [0, 0];
+    const previousKey = result.keys[result.keys.length - 2];
+    const previous = typeof previousKey !== 'undefined' ?
+      result.data[previousKey][index] : [0, 0];
 
-    set[0] = [
+    set[index] = [
       0,
       previous[1] + endogenous
     ];
