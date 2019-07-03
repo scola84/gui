@@ -14,7 +14,12 @@ export class Default extends Data {
     const set = result.data[exogenous];
     const index = set.length;
 
-    set[index] = [0, endogenous];
+    set[index] = [
+      0,
+      endogenous,
+      datum
+    ];
+
     result.size = set.length;
   }
 }

@@ -13,10 +13,19 @@
   padding-bottom: 66.6%;
 }
 
-/* Children */
-
 .graph > * {
   display: flex;
+}
+
+/* Tip */
+
+.graph-tip {
+  background: rgb(14, 122, 254);
+  border-radius: 0.3em;
+  color: white;
+  margin: -0.5em 0 0;
+  padding: 0.5em;
+  position: absolute;
 }
 
 /* Center */
@@ -180,7 +189,7 @@
 }
 
 .graph > * > .body > svg > .plot > .scatter {
-  fill: none;
+  fill: transparent;
   stroke: rgb(14, 122, 254);
 }
 

@@ -1,3 +1,4 @@
+import { event } from 'd3';
 import { Plot } from './plot';
 
 export class Scatter extends Plot {
@@ -29,18 +30,8 @@ export class Scatter extends Plot {
     const endogenous = this.findScale('endogenous');
     const exogenous = this.findScale('exogenous');
 
-    const endogenousOrientation = endogenous.mapOrientation();
-    const exogenousOrientation = exogenous.mapOrientation();
-
-    const radius = this._radius;
-
     let key = null;
     let set = null;
-
-    let to = null;
-
-    let endogenousDistance = null;
-    let exogenousDistance = null;
 
     data = this.prepare(data);
 
@@ -49,20 +40,49 @@ export class Scatter extends Plot {
       set = data.data[key];
 
       for (let j = 0; j < set.length; j += 1) {
-        [, to] = set[j];
-
-        endogenousDistance = endogenous.calculateDistance(to);
-        exogenousDistance = exogenous.calculateDistance(key);
-
-        this._node
-          .append('circle')
-          .classed('scatter', true)
-          .attr('c' + endogenousOrientation, endogenousDistance)
-          .attr('c' + exogenousOrientation, exogenousDistance)
-          .attr('r', radius);
+        this.resolveScatter(key, j, set, box, endogenous, exogenous);
       }
     }
 
     return this._node;
+  }
+
+  resolveBefore(box, data) {
+    const [tip] = this._list;
+
+    if (typeof tip !== 'undefined') {
+      tip.setParent(null);
+    }
+
+    return this.resolveOuter(box, data);
+  }
+
+  resolveInner(box, data) {
+    return this.resolveAfter(box, data);
+  }
+
+  resolveScatter(key, j, set, box, endogenous, exogenous) {
+    const [, to] = set[j] || [0, 0];
+
+    const endogenousOrientation = endogenous.mapOrientation();
+    const exogenousOrientation = exogenous.mapOrientation();
+
+    const endogenousDistance = endogenous.calculateDistance(to);
+    const exogenousDistance = exogenous.calculateDistance(key);
+
+    const radius = this._radius;
+
+    this._node
+      .append('circle')
+      .classed('scatter', true)
+      .attr('c' + endogenousOrientation, endogenousDistance)
+      .attr('c' + exogenousOrientation, exogenousDistance)
+      .attr('r', radius)
+      .on('mouseover.scola-graph', () => {
+        this.showTip(key, j, set, box, event.target);
+      })
+      .on('mouseout.scola-graph', () => {
+        this.hideTip();
+      });
   }
 }

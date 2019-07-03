@@ -34,7 +34,12 @@ export class Group extends Data {
     const set = result.data[exogenous];
     const index = this._index ? this._index(datum) : set.length;
 
-    set[index] = [0, endogenous];
+    set[index] = [
+      0,
+      endogenous,
+      datum
+    ];
+
     result.size = set.length;
   }
 }

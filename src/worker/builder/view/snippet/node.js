@@ -117,7 +117,10 @@ export class Node extends Snippet {
   }
 
   createNode() {
-    this.setNode(this._parent.node().append(this._name));
+    this._node = this._parent === null ?
+      select('body').append(this._name).remove() :
+      this._parent.node().append(this._name);
+
     this._node.node().snippet = this;
   }
 

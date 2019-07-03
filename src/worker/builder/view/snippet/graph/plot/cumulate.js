@@ -19,7 +19,8 @@ export class Cumulate extends Data {
 
     set[index] = [
       0,
-      previous[1] + endogenous
+      previous[1] + endogenous,
+      datum
     ];
 
     result.size = set.length;

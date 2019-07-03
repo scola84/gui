@@ -17,7 +17,8 @@ export class Sum extends Data {
 
     set[0] = [
       0,
-      previous[1] + endogenous
+      previous[1] + endogenous,
+      datum
     ];
 
     result.size = set.length;

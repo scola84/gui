@@ -17,7 +17,8 @@ export class Stack extends Data {
 
     set[index] = [
       previous[1],
-      previous[1] + endogenous
+      previous[1] + endogenous,
+      datum
     ];
 
     result.size = set.length;
