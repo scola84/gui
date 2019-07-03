@@ -49,46 +49,44 @@ export class Column extends Plot {
   resolveColumn(key, j, set, data, endogenous, exogenous) {
     const [from, to] = set[j] || [0, 0];
 
-    const isNegative = to < 0;
-    const isZero = to === 0;
-
     const endogenousRange = endogenous.mapRange();
     const endogenousOrientation = endogenous.mapOrientation();
 
     const begin = endogenous.calculateDistance(from);
-    const end = endogenous.calculateDistance(to);
+    let end = endogenous.calculateDistance(to);
 
-    let endogenousDistance = endogenous.normalizeDistance(end);
-    let endogenousSize = end - begin;
-
-    if (isNegative) {
-      endogenousDistance = endogenous.normalizeDistance(begin);
-      endogenousSize = begin - end;
+    if (begin === end) {
+      end = endogenous.calculateDistance(3 / endogenous.getPpu());
     }
 
-    if (isZero) {
-      endogenousDistance -= 3;
-      endogenousSize = 3;
+    let endogenousDistance = end;
+    let endogenousSize = begin - end;
+
+    if (begin < end) {
+      endogenousDistance = begin;
+      endogenousSize = end - begin;
     }
 
     const exogenousRange = exogenous.mapRange();
     const exogenousOrientation = exogenous.mapOrientation();
 
     let exogenousDistance = exogenous.calculateDistance(key);
-    // console.log(value, exogenousDistance);
     let exogenousSize = exogenous.getPpu();
 
-    if (data.type === 'group') {
+    if (exogenous.getDomain().type === 'group') {
+      exogenousSize /= exogenous.getDomain().size;
       exogenousDistance += j * exogenousSize;
+      exogenousDistance -= exogenousSize;
     }
 
+    exogenousDistance -= exogenousSize * 0.5;
     exogenousDistance += exogenousSize * this._padding;
     exogenousSize -= exogenousSize * this._padding * 2;
 
     const rect = this._node
       .append('rect')
-      .classed('negative', isNegative)
-      .classed('zero', isZero);
+      .classed('negative', to < 0)
+      .classed('zero', to === 0);
 
     rect
       .attr(endogenousOrientation, endogenousDistance)

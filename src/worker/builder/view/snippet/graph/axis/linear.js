@@ -6,10 +6,18 @@ export class Linear extends Scale {
   }
 
   calculateDistance(value) {
-    return (value - this._domain.min) * this._ppu;
+    let distance = (value - this._domain.min) * this._ppu;
+
+    if (this.mapOrientation() === 'y') {
+      distance = this._range.height - distance;
+    }
+
+    return distance;
   }
 
   calculateTicks() {
+    const { max, min } = this._domain;
+
     const step = this._step === null ?
       this._domain.max / (this._count - 1) :
       this._step;
@@ -17,9 +25,8 @@ export class Linear extends Scale {
     const ticks = [];
 
     let distance = null;
-    let value = this._domain.max;
 
-    for (; value >= this._domain.min; value -= step) {
+    for (let value = max; value >= min; value -= step) {
       distance = this.calculateDistance(value);
 
       ticks[ticks.length] = [
@@ -34,14 +41,5 @@ export class Linear extends Scale {
   prepareDomainExogenous() {
     this.prepareDomainMax(this._domain.keys);
     this.prepareDomainMin(this._domain.keys);
-  }
-
-  preparePpu() {
-    const name = this.mapRange();
-
-    this._ppu = this._range[name] /
-      (this._domain.max - this._domain.min);
-
-    return this;
   }
 }

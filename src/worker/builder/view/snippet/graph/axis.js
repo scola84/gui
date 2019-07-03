@@ -56,8 +56,6 @@ export class Axis extends Node {
     for (let i = 0; i < ticks.length; i += 1) {
       [value, distance] = ticks[i];
 
-      distance = this._scale.normalizeDistance(distance, true);
-
       tick
         .clone()
         .styles({

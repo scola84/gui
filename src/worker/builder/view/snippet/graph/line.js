@@ -45,18 +45,14 @@ export class Line extends Plot {
     const endogenous = this.findScale('endogenous');
     const exogenous = this.findScale('exogenous');
 
-    const endogenousIndex = this.mapIndex(
-      endogenous.mapOrientation()
-    );
+    const endogenousOrientation = endogenous.mapOrientation();
+    const endogenousIndex = this.mapIndex(endogenousOrientation);
 
-    const exogenousIndex = this.mapIndex(
-      exogenous.mapOrientation()
-    );
+    const exogenousOrientation = exogenous.mapOrientation();
+    const exogenousIndex = this.mapIndex(exogenousOrientation);
 
-    const endogenousMin = endogenous.normalizeDistance(
-      endogenous.calculateDistance(
-        endogenous.getDomain().min
-      )
+    const endogenousMin = endogenous.calculateDistance(
+      endogenous.getDomain().min
     );
 
     let key = null;
@@ -85,13 +81,8 @@ export class Line extends Plot {
         line[j] = line[j] || '';
         area[j] = area[j] || '';
 
-        endogenousDistance = endogenous.normalizeDistance(
-          endogenous.calculateDistance(to)
-        );
-
-        exogenousDistance = exogenous.normalizeDistance(
-          exogenous.calculateDistance(key)
-        );
+        endogenousDistance = endogenous.calculateDistance(to);
+        exogenousDistance = exogenous.calculateDistance(key);
 
         value = this.createValue(
           endogenousIndex,

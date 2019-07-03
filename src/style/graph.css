@@ -19,6 +19,10 @@
   display: flex;
 }
 
+.graph > * > .axis {
+  z-index: 1;
+}
+
 /* Center */
 
 .graph > .center {
@@ -32,7 +36,6 @@
 
 .graph > .center > .axis {
   display: flex;
-  flex-direction: row-reverse;
 }
 
 .graph > .center > .axis.bottom {

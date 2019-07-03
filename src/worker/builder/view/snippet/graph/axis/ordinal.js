@@ -7,14 +7,7 @@ export class Ordinal extends Scale {
 
   calculateDistance(value) {
     value = this._domain.keys.indexOf(value);
-
-    let distance = (value - this._domain.min) * this._ppu;
-
-    if (this._domain.type === 'group') {
-      distance = distance * this._domain.size;
-    }
-
-    return distance;
+    return (value - this._domain.min + 0.5) * this._ppu;
   }
 
   calculateTicks() {
@@ -36,33 +29,8 @@ export class Ordinal extends Scale {
     return ticks;
   }
 
-  normalizeDistance(distance, force) {
-    let center = this._ppu / 2;
-
-    if (this._domain.type === 'group') {
-      center = center * this._domain.size;
-    }
-
-    distance += center;
-
-    return super.normalizeDistance(distance, force);
-  }
-
   prepareDomainExogenous() {
     this.prepareDomainMax([this._domain.keys.length]);
     this.prepareDomainMin([0]);
-  }
-
-  preparePpu() {
-    const name = this.mapRange();
-
-    this._ppu = this._range[name] /
-      (this._domain.max - this._domain.min);
-
-    if (this._domain.type === 'group') {
-      this._ppu = this._ppu / this._domain.size;
-    }
-
-    return this;
   }
 }

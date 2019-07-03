@@ -191,10 +191,10 @@ export class Scale {
 
   mapPosition() {
     return {
-      bottom: 'right',
+      bottom: 'left',
       left: 'top',
       right: 'top',
-      top: 'right'
+      top: 'left'
     } [this._position];
   }
 
@@ -205,16 +205,6 @@ export class Scale {
       right: 'height',
       top: 'width'
     } [this._position];
-  }
-
-  normalizeDistance(distance, force = false) {
-    const range = this.mapRange();
-
-    if (force === false && range === 'width') {
-      return distance;
-    }
-
-    return this._range[range] - distance;
   }
 
   prepare(data) {
@@ -338,6 +328,11 @@ export class Scale {
   }
 
   preparePpu() {
+    const name = this.mapRange();
+
+    this._ppu = this._range[name] /
+      (this._domain.max - this._domain.min);
+
     return this;
   }
 }
