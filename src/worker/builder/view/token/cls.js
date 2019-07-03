@@ -6,7 +6,6 @@ export const cls = {
   'comment': Node,
   'footer': Node,
   'graph': Node,
-  'grid': Node,
   'group': Node,
   'header': Node,
   'icon': Node,

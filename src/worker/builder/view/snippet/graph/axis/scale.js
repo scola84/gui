@@ -38,7 +38,7 @@ export class Scale {
     return this._count;
   }
 
-  setCount(value = null) {
+  setCount(value = 1) {
     this._count = value;
     return this;
   }

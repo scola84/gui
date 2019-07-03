@@ -85,6 +85,7 @@ export class Column extends Plot {
 
     const rect = this._node
       .append('rect')
+      .classed('column', true)
       .classed('negative', to < 0)
       .classed('zero', to === 0);
 

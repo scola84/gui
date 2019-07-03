@@ -46,37 +46,6 @@
   order: 1;
 }
 
-/* Center grid */
-
-.graph > .center > .grid {
-  order: 2;
-  flex: 1;
-  position: relative;
-}
-
-.graph > .center > .grid > svg {
-  height: 100%;
-  position: absolute;
-  width: 100%;
-}
-
-.graph > .center > .grid > svg path.area {
-  fill: lightgrey;
-}
-
-.graph > .center > .grid > svg path.line {
-  fill: none;
-  stroke: rgb(14, 122, 254);
-}
-
-.graph > .center > .grid > svg rect {
-  fill: rgb(14, 122, 254);
-}
-
-.graph > .center > .grid > svg rect.zero {
-  fill: lightgrey;
-}
-
 /* Left */
 
 .graph > .left {
@@ -195,4 +164,53 @@
 
 .graph > * > .axis.y.right > .tick > .text {
   padding-left: 0.75em;
+}
+
+/* Body */
+
+.graph > * > .body {
+  order: 2;
+  flex: 1;
+  position: relative;
+}
+
+.graph > * > .body > svg {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+/* Body grid */
+
+.graph > * > .body > svg > .grid > .line {
+  shape-rendering: crispEdges;
+  stroke: lightgrey;
+  stroke-width: 1px;
+}
+
+.graph.left > * > .body > svg > .grid > .line.x {
+  transform: translateX(-1px);
+}
+
+.graph.top > * > .body > svg > .grid > .line.y {
+  transform: translateY(-1px);
+}
+
+/* Body plot */
+
+.graph > * > .body > svg > .plot > .area {
+  fill: lightgrey;
+}
+
+.graph > * > .body > svg > .plot > .column {
+  fill: rgb(14, 122, 254);
+}
+
+.graph > * > .body > svg > .plot > .column.zero {
+  fill: lightgrey;
+}
+
+.graph > * > .body > svg > .plot > .line {
+  fill: none;
+  stroke: rgb(14, 122, 254);
 }
