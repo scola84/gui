@@ -41,7 +41,7 @@ export class Plot extends Node {
     return axis.getScale();
   }
 
-  prepareData(data) {
+  prepare(data) {
     return this._data.prepare(data);
   }
 }

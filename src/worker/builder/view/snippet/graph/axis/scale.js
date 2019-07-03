@@ -228,7 +228,7 @@ export class Scale {
     let plotData = null;
 
     for (let i = 0; i < plots.length; i += 1) {
-      plotData = plots[i].prepareData(data);
+      plotData = plots[i].prepare(data);
 
       this._domain.size = plotData.size;
       this._domain.type = plotData.type;

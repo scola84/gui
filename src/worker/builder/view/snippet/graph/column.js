@@ -32,7 +32,7 @@ export class Column extends Plot {
     let key = null;
     let set = null;
 
-    data = this.prepareData(data);
+    data = this.prepare(data);
 
     for (let i = 0; i < data.keys.length; i += 1) {
       key = data.keys[i];

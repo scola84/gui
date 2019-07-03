@@ -69,7 +69,7 @@ export class Line extends Plot {
     let min = null;
     let value = null;
 
-    data = this.prepareData(data);
+    data = this.prepare(data);
 
     for (let i = 0; i < data.keys.length; i += 1) {
       key = data.keys[i];
