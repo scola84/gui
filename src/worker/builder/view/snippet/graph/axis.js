@@ -33,6 +33,8 @@ export class Axis extends Node {
       .classed(this._scale.mapOrientation(), true)
       .classed(this._scale.getName(), true)
       .classed(this._scale.getPosition(), true);
+
+    return this._node;
   }
 
   resolveBefore(box, data) {

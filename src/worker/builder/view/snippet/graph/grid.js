@@ -48,5 +48,7 @@ export class Grid extends Node {
           .attr(this.mapOpposite(orientation) + '2', '100%');
       }
     }
+
+    return this._node;
   }
 }

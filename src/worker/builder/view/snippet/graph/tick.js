@@ -14,5 +14,7 @@ export class Tick extends Node {
     this._node
       .append('div')
       .classed('mark', true);
+
+    return this._node;
   }
 }
