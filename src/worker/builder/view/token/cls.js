@@ -2,6 +2,7 @@ import { Node } from '../snippet/node';
 
 export const cls = {
   'body': Node,
+  'bottom': Node,
   'center': Node,
   'comment': Node,
   'footer': Node,
@@ -13,5 +14,6 @@ export const cls = {
   'label': Node,
   'left': Node,
   'right': Node,
-  'title': Node
+  'title': Node,
+  'top': Node
 };
