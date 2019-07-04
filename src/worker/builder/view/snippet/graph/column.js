@@ -39,15 +39,15 @@ export class Column extends Plot {
       set = data.data[key];
 
       for (let j = 0; j < set.length; j += 1) {
-        this.resolveColumn(key, j, set, data, endogenous, exogenous);
+        this.resolveColumn(box, key, j, set, endogenous, exogenous);
       }
     }
 
     return this._node;
   }
 
-  resolveColumn(key, j, set, data, endogenous, exogenous) {
-    const [from, to] = set[j] || [0, 0];
+  resolveColumn(box, key, j, set, endogenous, exogenous) {
+    const [from, to, datum] = set[j] || [0, 0, {}];
 
     const endogenousRange = endogenous.mapRange();
     const endogenousOrientation = endogenous.mapOrientation();
@@ -83,21 +83,28 @@ export class Column extends Plot {
     exogenousDistance += exogenousSize * this._padding;
     exogenousSize -= exogenousSize * this._padding * 2;
 
-    const rect = this._node
+    const column = this._node
       .append('rect')
       .classed('column', true)
       .classed('negative', to < 0)
-      .classed('zero', to === 0);
+      .classed('zero', to === 0)
+      .on('mouseover.scola-graph', () => {
+        const data = { datum, from, key, target: event.target, to };
+        this.resolveValue(box, data, this._list[0]);
+      })
+      .on('mouseout.scola-graph', () => {
+        return this._list[0] ? this._list[0].remove() : null;
+      });
 
-    rect
+    column
       .attr(endogenousOrientation, endogenousDistance)
       .attr(endogenousRange, endogenousSize)
       .attr(exogenousOrientation, exogenousDistance)
       .attr(exogenousRange, exogenousSize);
 
-    rect.style('left');
+    column.style('left');
 
-    rect
+    column
       .classed('transition', true)
       .classed('in', true);
   }

@@ -10,3 +10,4 @@ export * from './message';
 export * from './panel';
 export * from './progress';
 export * from './search';
+export * from './tip';

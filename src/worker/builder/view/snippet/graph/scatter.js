@@ -40,29 +40,15 @@ export class Scatter extends Plot {
       set = data.data[key];
 
       for (let j = 0; j < set.length; j += 1) {
-        this.resolveScatter(key, j, set, box, endogenous, exogenous);
+        this.resolveScatter(box, key, j, set, endogenous, exogenous);
       }
     }
 
     return this._node;
   }
 
-  resolveBefore(box, data) {
-    const [tip] = this._list;
-
-    if (typeof tip !== 'undefined') {
-      tip.setParent(null);
-    }
-
-    return this.resolveOuter(box, data);
-  }
-
-  resolveInner(box, data) {
-    return this.resolveAfter(box, data);
-  }
-
-  resolveScatter(key, j, set, box, endogenous, exogenous) {
-    const [, to] = set[j] || [0, 0];
+  resolveScatter(box, key, j, set, endogenous, exogenous) {
+    const [from, to, datum] = set[j] || [0, 0, {}];
 
     const endogenousOrientation = endogenous.mapOrientation();
     const exogenousOrientation = exogenous.mapOrientation();
@@ -79,10 +65,11 @@ export class Scatter extends Plot {
       .attr('c' + exogenousOrientation, exogenousDistance)
       .attr('r', radius)
       .on('mouseover.scola-graph', () => {
-        this.showTip(key, j, set, box, event.target);
+        const data = { datum, from, key, target: event.target, to };
+        this.resolveValue(box, data, this._list[0]);
       })
       .on('mouseout.scola-graph', () => {
-        this.hideTip();
+        return this._list[0] ? this._list[0].remove() : null;
       });
   }
 }
