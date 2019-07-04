@@ -61,7 +61,7 @@ export class Axis extends Node {
       tick
         .clone()
         .styles({
-          [position]: Math.floor(distance)
+          [position]: Math.floor(distance) + 'px'
         })
         .resolve(box, value);
     }

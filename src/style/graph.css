@@ -26,15 +26,6 @@
   order: 2;
 }
 
-.graph > .center > * > .axis {
-  display: flex;
-}
-
-.graph > .center > * > .bottom {
-  border-top: 1px solid lightgrey;
-  height: 2em;
-}
-
 .graph > .center > .bottom {
   order: 3;
 }
@@ -43,9 +34,42 @@
   order: 1;
 }
 
-.graph > .center > * > .top {
-  border-bottom: 1px solid lightgrey;
+.graph > .center > * > .axis {
+  display: flex;
+  position: relative;
+}
+
+.graph > .center > * > .axis.bottom {
   height: 2em;
+}
+
+.graph > .center > * > .axis.bottom:after {
+  border-top: 1px solid lightgrey;
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.graph > .center > * > .axis.top {
+  height: 2em;
+}
+
+.graph > .center > * > .axis.top:after {
+  border-bottom: 1px solid lightgrey;
+  bottom: -1px;
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+/* Left / right */
+
+.graph > .left > .axis,
+.graph > .right > .axis {
+  position: relative;
 }
 
 /* Left */
@@ -70,16 +94,13 @@
   padding-bottom: 3.5em;
 }
 
-.graph > .left > .axis.left {
+.graph > .left > .axis.left:after {
   border-right: 1px solid lightgrey;
-}
-
-.graph.bottom > .left > .axis.left {
-  margin-bottom: -1px;
-}
-
-.graph.top > .left > .axis.left {
-  margin-top: -1px;
+  bottom: 0;
+  content: '';
+  position: absolute;
+  right: -1px;
+  top: 0;
 }
 
 /* Right */
@@ -104,16 +125,13 @@
   padding-bottom: 3.5em;
 }
 
-.graph > .right > .axis.right {
+.graph > .right > .axis.right:after {
   border-left: 1px solid lightgrey;
-}
-
-.graph.bottom > .right > .axis.right {
-  margin-bottom: -1px;
-}
-
-.graph.top > .right > .axis.right {
-  margin-top: -1px;
+  bottom: 0;
+  content: '';
+  left: -1px;
+  position: absolute;
+  top: 0;
 }
 
 /* Body */
@@ -132,32 +150,27 @@
 
 /* Body grid */
 
-.graph > * > .body > svg > .grid > .line {
-  stroke: lightgrey;
-  stroke-width: 1px;
+.graph > * > .body > .grid {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
-.graph.left > * > .body > svg > .grid > .line.x {
-  transform: translateX(-1px);
+.graph > * > .body > .grid > .line {
+  position: absolute;
 }
 
-.graph.top > * > .body > svg > .grid > .line.y {
-  transform: translateY(-1px);
+.graph > * > .body > .grid > .line.x {
+  border-left: 1px solid lightgrey;
+  height: 100%;
+}
+
+.graph > * > .body > .grid > .line.y {
+  border-top: 1px solid lightgrey;
+  width: 100%;
 }
 
 /* Body plot */
-
-.graph.left > * > .body > svg > .plot {
-  transform: translateX(-1px);
-}
-
-.graph.top > * > .body > svg > .plot {
-  transform: translateY(-1px);
-}
-
-.graph.left.top > * > .body > svg > .plot {
-  transform: translateX(-1px) translateY(-1px);
-}
 
 .graph > * > .body > svg > .plot > .area {
   fill: lightgrey;
@@ -239,10 +252,6 @@
   height: 0.5em;
   position: absolute;
   left: 50%;
-}
-
-.graph.left > .center > * > .axis.x > .tick > .mark {
-  transform: translateX(-1px);
 }
 
 .graph > .center > * > .axis.x > .tick > .text {

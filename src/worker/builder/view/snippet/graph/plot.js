@@ -1,11 +1,11 @@
 import { Axis } from './axis';
 import { Node } from '../node';
-import * as data from './plot/';
+import * as dat from './plot/';
 
 export class Plot extends Node {
   static attach() {
-    Object.keys(data).forEach((name) => {
-      Plot.attachFactory(Plot, name, data[name]);
+    Object.keys(dat).forEach((name) => {
+      Plot.attachFactory(Plot, name, dat[name]);
     });
   }
 
