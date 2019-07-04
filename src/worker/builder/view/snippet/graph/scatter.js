@@ -64,11 +64,11 @@ export class Scatter extends Plot {
       .attr('c' + endogenousOrientation, endogenousDistance)
       .attr('c' + exogenousOrientation, exogenousDistance)
       .attr('r', radius)
-      .on('mouseover.scola-graph', () => {
+      .on('mouseover.scola-scatter', () => {
         const data = { datum, from, key, target: event.target, to };
         this.resolveValue(box, data, this._list[0]);
       })
-      .on('mouseout.scola-graph', () => {
+      .on('mouseout.scola-scatter', () => {
         return this._list[0] ? this._list[0].remove() : null;
       });
   }

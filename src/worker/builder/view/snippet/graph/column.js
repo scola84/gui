@@ -88,11 +88,11 @@ export class Column extends Plot {
       .classed('column', true)
       .classed('negative', to < 0)
       .classed('zero', to === 0)
-      .on('mouseover.scola-graph', () => {
+      .on('mouseover.scola-column', () => {
         const data = { datum, from, key, target: event.target, to };
         this.resolveValue(box, data, this._list[0]);
       })
-      .on('mouseout.scola-graph', () => {
+      .on('mouseout.scola-column', () => {
         return this._list[0] ? this._list[0].remove() : null;
       });
 
