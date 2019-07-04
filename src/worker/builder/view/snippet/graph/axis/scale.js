@@ -3,7 +3,6 @@ import { Plot } from '../plot';
 export class Scale {
   constructor(options = {}) {
     this._axis = null;
-    this._count = null;
     this._domain = null;
     this._max = null;
     this._min = null;
@@ -11,10 +10,8 @@ export class Scale {
     this._position = null;
     this._ppu = null;
     this._range = null;
-    this._step = null;
 
     this.setAxis(options.axis);
-    this.setCount(options.count);
     this.setDomain(options.domain);
     this.setMax(options.max);
     this.setMin(options.min);
@@ -22,7 +19,6 @@ export class Scale {
     this.setPosition(options.type);
     this.setPpu(options.ppu);
     this.setRange(options.range);
-    this.setStep(options.step);
   }
 
   getAxis() {
@@ -31,15 +27,6 @@ export class Scale {
 
   setAxis(value = null) {
     this._axis = value;
-    return this;
-  }
-
-  getCount() {
-    return this._count;
-  }
-
-  setCount(value = 1) {
-    this._count = value;
     return this;
   }
 
@@ -56,7 +43,7 @@ export class Scale {
     return this._max;
   }
 
-  setMax(value = null) {
+  setMax(value = 'auto') {
     this._max = value;
     return this;
   }
@@ -65,7 +52,7 @@ export class Scale {
     return this._min;
   }
 
-  setMin(value = null) {
+  setMin(value = 'auto') {
     this._min = value;
     return this;
   }
@@ -106,15 +93,6 @@ export class Scale {
     return this;
   }
 
-  getStep() {
-    return this._step;
-  }
-
-  setStep(value = null) {
-    this._step = value;
-    return this;
-  }
-
   getType() {
     return this._type;
   }
@@ -126,10 +104,6 @@ export class Scale {
 
   axis(value) {
     return this.setAxis(value);
-  }
-
-  count(value) {
-    return this.setCount(value);
   }
 
   bottom() {
@@ -162,10 +136,6 @@ export class Scale {
 
   right() {
     return this.setPosition('right');
-  }
-
-  step(value) {
-    return this.setStep(value);
   }
 
   top() {
@@ -280,11 +250,12 @@ export class Scale {
 
   prepareDomainMax(values) {
     let max = Math.max(this._domain.max, ...values);
+    const modifier = this.resolveValue(max, this._max);
 
-    if (this._max === 'auto') {
+    if (modifier === 'auto') {
       max = max < 0 ? 0 : max;
-    } else if (typeof this._max === 'number') {
-      max = max < this._max ? this._max : max;
+    } else if (modifier !== null) {
+      max = modifier;
     }
 
     this._domain.max = max;
@@ -292,11 +263,12 @@ export class Scale {
 
   prepareDomainMin(values) {
     let min = Math.min(this._domain.min, ...values);
+    const modifier = this.resolveValue(min, this._min);
 
-    if (this._min === 'auto') {
+    if (modifier === 'auto') {
       min = min > 0 ? 0 : min;
-    } else if (typeof this._min === 'number') {
-      min = min > this._min ? this._min : min;
+    } else if (modifier !== null) {
+      min = modifier;
     }
 
     this._domain.min = min;
@@ -334,5 +306,13 @@ export class Scale {
       (this._domain.max - this._domain.min);
 
     return this;
+  }
+
+  resolveValue(arg, value) {
+    if (typeof value === 'function') {
+      return this.resolveValue(arg, value(arg));
+    }
+
+    return value;
   }
 }

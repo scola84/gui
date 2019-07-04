@@ -1,10 +1,10 @@
 import { Node } from '../node';
-import * as axis from './axis/';
+import * as scale from './axis/';
 
 export class Axis extends Node {
   static attach() {
-    Object.keys(axis).forEach((name) => {
-      Axis.attachFactory(Axis, name, axis[name]);
+    Object.keys(scale).forEach((name) => {
+      Axis.attachFactory(Axis, name, scale[name]);
     });
   }
 
@@ -19,7 +19,7 @@ export class Axis extends Node {
     return this._scale;
   }
 
-  setScale(value = new axis.Linear()) {
+  setScale(value = new scale.Linear()) {
     this._scale = value.setAxis(this);
     return this;
   }

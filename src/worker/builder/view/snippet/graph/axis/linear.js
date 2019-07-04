@@ -1,8 +1,44 @@
 import { Scale } from './scale';
 
 export class Linear extends Scale {
+  constructor(options = {}) {
+    super(options);
+
+    this._count = null;
+    this._step = null;
+
+    this.setCount(options.count);
+    this.setStep(options.step);
+  }
+
+  getCount() {
+    return this._count;
+  }
+
+  setCount(value = null) {
+    this._count = value;
+    return this;
+  }
+
   setName(value = 'linear') {
     return super.setName(value);
+  }
+
+  getStep() {
+    return this._step;
+  }
+
+  setStep(value = 1) {
+    this._step = value;
+    return this;
+  }
+
+  count(value) {
+    return this.setCount(value);
+  }
+
+  step(value) {
+    return this.setStep(value);
   }
 
   calculateDistance(value) {
@@ -16,12 +52,14 @@ export class Linear extends Scale {
   }
 
   calculateTicks() {
+    const count = this.resolveValue(this._domain, this._count);
+    let step = this.resolveValue(this._domain, this._step);
+
+    step = count !== null ?
+      this._domain.max / (count - 1) :
+      step;
+
     const { max, min } = this._domain;
-
-    const step = this._step === null ?
-      this._domain.max / (this._count - 1) :
-      this._step;
-
     const ticks = [];
 
     let distance = null;

@@ -16,7 +16,7 @@ export class Column extends Plot {
     return this._padding;
   }
 
-  setPadding(value = 0) {
+  setPadding(value = 0.1) {
     this._padding = value;
     return this;
   }
@@ -49,6 +49,15 @@ export class Column extends Plot {
   resolveColumn(box, key, j, set, endogenous, exogenous) {
     const [from, to, datum] = set[j] || [0, 0, {}];
 
+    const data = {
+      datum,
+      from,
+      key,
+      to
+    };
+
+    const padding = this.resolveValue(box, data, this._padding);
+
     const endogenousRange = endogenous.mapRange();
     const endogenousOrientation = endogenous.mapOrientation();
 
@@ -80,8 +89,8 @@ export class Column extends Plot {
     }
 
     exogenousDistance -= exogenousSize * 0.5;
-    exogenousDistance += exogenousSize * this._padding;
-    exogenousSize -= exogenousSize * this._padding * 2;
+    exogenousDistance += exogenousSize * padding;
+    exogenousSize -= exogenousSize * padding * 2;
 
     const column = this._node
       .append('rect')
@@ -89,7 +98,7 @@ export class Column extends Plot {
       .classed('negative', to < 0)
       .classed('zero', to === 0)
       .on('mouseover.scola-column', () => {
-        const data = { datum, from, key, target: event.target, to };
+        data.target = event.target;
         this.resolveValue(box, data, this._list[0]);
       })
       .on('mouseout.scola-column', () => {

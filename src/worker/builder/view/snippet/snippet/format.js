@@ -85,8 +85,8 @@ export class Format extends Snippet {
 
       try {
         string = vsprintf(string, args, flocale);
-      } catch (e) {
-        console.warn(e);
+      } catch (error) {
+        string = error.message;
       }
 
       result[result.length] = string;

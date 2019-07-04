@@ -50,13 +50,20 @@ export class Scatter extends Plot {
   resolveScatter(box, key, j, set, endogenous, exogenous) {
     const [from, to, datum] = set[j] || [0, 0, {}];
 
+    const data = {
+      datum,
+      from,
+      key,
+      to
+    };
+
+    const radius = this.resolveValue(box, data, this._radius);
+
     const endogenousOrientation = endogenous.mapOrientation();
     const exogenousOrientation = exogenous.mapOrientation();
 
     const endogenousDistance = endogenous.calculateDistance(to);
     const exogenousDistance = exogenous.calculateDistance(key);
-
-    const radius = this._radius;
 
     this._node
       .append('circle')
@@ -65,7 +72,7 @@ export class Scatter extends Plot {
       .attr('c' + exogenousOrientation, exogenousDistance)
       .attr('r', radius)
       .on('mouseover.scola-scatter', () => {
-        const data = { datum, from, key, target: event.target, to };
+        data.target = event.target;
         this.resolveValue(box, data, this._list[0]);
       })
       .on('mouseout.scola-scatter', () => {
