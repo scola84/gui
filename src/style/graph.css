@@ -133,7 +133,6 @@
 /* Body grid */
 
 .graph > * > .body > svg > .grid > .line {
-  shape-rendering: crispEdges;
   stroke: lightgrey;
   stroke-width: 1px;
 }

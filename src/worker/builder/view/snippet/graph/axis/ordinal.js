@@ -11,7 +11,7 @@ export class Ordinal extends Scale {
     distance = (distance - this._domain.min + 0.5) *
       this._ppu;
 
-    return Math.round(distance);
+    return Math.round(distance) + 0.5;
   }
 
   calculateTicks() {
