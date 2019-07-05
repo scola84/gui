@@ -1,6 +1,7 @@
+import { select } from 'd3';
 import { Plot } from './plot';
 
-export class Column extends Plot {
+export class Rect extends Plot {
   constructor(options = {}) {
     super(options);
 
@@ -39,14 +40,28 @@ export class Column extends Plot {
       set = data.data[key];
 
       for (let j = 0; j < set.length; j += 1) {
-        this.resolveColumn(box, key, j, set, endogenous, exogenous);
+        this.resolveRect(box, key, j, set, endogenous, exogenous);
       }
     }
 
     return this._node;
   }
 
-  resolveColumn(box, key, j, set, endogenous, exogenous) {
+  resolveBefore(box, data) {
+    this._node
+      .selectAll('rect')
+      .classed('transition', true)
+      .classed('out', true)
+      .on('transitionend.scola-rect', (datum, index, nodes) => {
+        select(nodes[index])
+          .on('.scola-rect', null)
+          .remove();
+      });
+
+    this.resolveOuter(box, data);
+  }
+
+  resolveRect(box, key, j, set, endogenous, exogenous) {
     const [from, to, datum] = set[j] || [0, 0, {}];
 
     const data = {
@@ -92,29 +107,26 @@ export class Column extends Plot {
     exogenousDistance += exogenousSize * padding;
     exogenousSize -= exogenousSize * padding * 2;
 
-    const column = this._node
+    const rect = this._node
       .append('rect')
-      .classed('column', true)
-      .classed('negative', to < 0)
-      .classed('zero', to === 0)
-      .on('mouseover.scola-column', () => {
-        data.target = event.target;
-        this.resolveValue(box, data, this._list[0]);
-      })
-      .on('mouseout.scola-column', () => {
-        return this._list[0] ? this._list[0].remove() : null;
-      });
-
-    column
       .attr(endogenousOrientation, endogenousDistance)
       .attr(endogenousRange, endogenousSize)
       .attr(exogenousOrientation, exogenousDistance)
-      .attr(exogenousRange, exogenousSize);
-
-    column.style('left');
-
-    column
+      .attr(exogenousRange, exogenousSize)
+      .classed('negative', to < 0)
       .classed('transition', true)
-      .classed('in', true);
+      .classed('zero', to === 0);
+
+    rect
+      .on('mouseover.scola-rect', () => {
+        data.target = event.target;
+        this.resolveValue(box, data, this._list[0]);
+      })
+      .on('mouseout.scola-rect', () => {
+        return this._list[0] ? this._list[0].remove() : null;
+      });
+
+    rect.style('width');
+    rect.classed('in', true);
   }
 }

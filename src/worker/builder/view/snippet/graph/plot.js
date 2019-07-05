@@ -1,6 +1,6 @@
 import { Axis } from './axis';
 import { Node } from '../node';
-import * as dat from './plot/';
+import * as dat from './data/';
 
 export class Plot extends Node {
   static attach() {

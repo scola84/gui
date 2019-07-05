@@ -73,8 +73,17 @@ textarea {
   border-radius: 0.3em;
   color: white;
   margin: -0.5em 0 0;
+  opacity: 0;
   padding: 0.5em;
   position: absolute;
+}
+
+.tip.transition.in {
+  opacity: 1;
+}
+
+.tip.transition.out {
+  opacity: 0;
 }
 
 .transition {

@@ -1,3 +1,4 @@
+import { select } from 'd3';
 import { Axis } from './axis';
 import { Node } from '../node';
 
@@ -8,6 +9,7 @@ export class Grid extends Node {
     }).resolve();
 
     let distance = null;
+    let line = null;
     let orientation = null;
     let position = null;
     let property = null;
@@ -24,15 +26,33 @@ export class Grid extends Node {
       for (let j = 0; j < ticks.length; j += 1) {
         [, distance] = ticks[j];
 
-        this._node
+        line = this._node
           .append('div')
           .classed('line', true)
+          .classed('transition', true)
           .classed(orientation, true)
           .classed(position, true)
           .style(property, Math.floor(distance) + 'px');
+
+        line.style('width');
+        line.classed('in', true);
       }
     }
 
     return this._node;
+  }
+
+  resolveBefore(box, data) {
+    this._node
+      .selectAll('.line')
+      .classed('transition', true)
+      .classed('out', true)
+      .on('transitionend.scola-grid', (datum, index, nodes) => {
+        select(nodes[index])
+          .on('.scola-grid', null)
+          .remove();
+      });
+
+    this.resolveOuter(box, data);
   }
 }

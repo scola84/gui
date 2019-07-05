@@ -1,28 +1,29 @@
+import { select } from 'd3';
 import { Plot } from './plot';
 
-export class Line extends Plot {
+export class Path extends Plot {
   constructor(options = {}) {
     super(options);
 
-    this._area = null;
-    this.setArea(options.area);
+    this._fill = null;
+    this.setFill(options.fill);
 
     this
       .name('g')
       .class('plot');
   }
 
-  getArea() {
-    return this._area;
+  getFill() {
+    return this._fill;
   }
 
-  setArea(value = false) {
-    this._area = value;
+  setFill(value = false) {
+    this._fill = value;
     return this;
   }
 
-  area() {
-    return this.setArea(true);
+  fill() {
+    return this.setFill(true);
   }
 
   createValue(index1, value1, index2, value2) {
@@ -60,8 +61,8 @@ export class Line extends Plot {
 
     let to = null;
 
-    const area = [];
-    const line = [];
+    const fill = [];
+    const stroke = [];
 
     let endogenousDistance = null;
     let exogenousDistance = null;
@@ -78,8 +79,8 @@ export class Line extends Plot {
       for (let j = 0; j < set.length; j += 1) {
         [, to] = set[j];
 
-        line[j] = line[j] || '';
-        area[j] = area[j] || '';
+        fill[j] = fill[j] || '';
+        stroke[j] = stroke[j] || '';
 
         endogenousDistance = endogenous.calculateDistance(to);
         exogenousDistance = exogenous.calculateDistance(key);
@@ -99,33 +100,57 @@ export class Line extends Plot {
         );
 
         if (i === 0) {
-          line[j] += 'M ' + value;
-          area[j] += 'M ' + min;
+          fill[j] += 'M ' + min;
+          stroke[j] += 'M ' + value;
         }
 
-        line[j] += ' L ' + value;
-        area[j] += ' L ' + value;
+        fill[j] += ' L ' + value;
+        stroke[j] += ' L ' + value;
 
         if (i === data.keys.length - 1) {
-          area[j] += ' L ' + min;
+          fill[j] += ' L ' + min;
         }
       }
     }
 
-    for (let i = line.length - 1; i >= 0; i -= 1) {
-      if (this._area) {
-        this._node
+    let node = null;
+
+    for (let i = stroke.length - 1; i >= 0; i -= 1) {
+      if (this._fill) {
+        node = this._node
           .append('path')
-          .classed('area', true)
-          .attr('d', area[i]);
+          .attr('d', fill[i])
+          .classed('fill', true)
+          .classed('transition', true);
+
+        node.style('width');
+        node.classed('in', true);
       }
 
-      this._node
+      node = this._node
         .append('path')
-        .classed('line', true)
-        .attr('d', line[i]);
+        .attr('d', stroke[i])
+        .classed('stroke', true)
+        .classed('transition', true);
+
+      node.style('width');
+      node.classed('in', true);
     }
 
     return this._node;
+  }
+
+  resolveBefore(box, data) {
+    this._node
+      .selectAll('path')
+      .classed('transition', true)
+      .classed('out', true)
+      .on('transitionend.scola-path', (datum, index, nodes) => {
+        select(nodes[index])
+          .on('.scola-path', null)
+          .remove();
+      });
+
+    this.resolveOuter(box, data);
   }
 }

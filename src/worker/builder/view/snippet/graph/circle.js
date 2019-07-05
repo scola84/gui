@@ -1,7 +1,7 @@
-import { event } from 'd3';
+import { event, select } from 'd3';
 import { Plot } from './plot';
 
-export class Scatter extends Plot {
+export class Circle extends Plot {
   constructor(options = {}) {
     super(options);
 
@@ -40,14 +40,28 @@ export class Scatter extends Plot {
       set = data.data[key];
 
       for (let j = 0; j < set.length; j += 1) {
-        this.resolveScatter(box, key, j, set, endogenous, exogenous);
+        this.resolveCircle(box, key, j, set, endogenous, exogenous);
       }
     }
 
     return this._node;
   }
 
-  resolveScatter(box, key, j, set, endogenous, exogenous) {
+  resolveBefore(box, data) {
+    this._node
+      .selectAll('circle')
+      .classed('transition', true)
+      .classed('out', true)
+      .on('transitionend.scola-circle', (datum, index, nodes) => {
+        select(nodes[index])
+          .on('.scola-circle', null)
+          .remove();
+      });
+
+    this.resolveOuter(box, data);
+  }
+
+  resolveCircle(box, key, j, set, endogenous, exogenous) {
     const [from, to, datum] = set[j] || [0, 0, {}];
 
     const data = {
@@ -65,18 +79,23 @@ export class Scatter extends Plot {
     const endogenousDistance = endogenous.calculateDistance(to);
     const exogenousDistance = exogenous.calculateDistance(key);
 
-    this._node
+    const circle = this._node
       .append('circle')
-      .classed('scatter', true)
       .attr('c' + endogenousOrientation, endogenousDistance)
       .attr('c' + exogenousOrientation, exogenousDistance)
       .attr('r', radius)
-      .on('mouseover.scola-scatter', () => {
+      .classed('transition', true);
+
+    circle
+      .on('mouseover.scola-circle', () => {
         data.target = event.target;
         this.resolveValue(box, data, this._list[0]);
       })
-      .on('mouseout.scola-scatter', () => {
+      .on('mouseout.scola-circle', () => {
         return this._list[0] ? this._list[0].remove() : null;
       });
+
+    circle.style('width');
+    circle.classed('in', true);
   }
 }

@@ -1,5 +1,6 @@
+import { select } from 'd3';
 import { Node } from '../node';
-import * as scale from './axis/';
+import * as scale from './scale/';
 
 export class Axis extends Node {
   static attach() {
@@ -38,6 +39,15 @@ export class Axis extends Node {
   }
 
   resolveBefore(box, data) {
+    this._node
+      .selectAll('.tick')
+      .classed('transition', true)
+      .classed('out', true)
+      .on('transitionend.scola-axis', (datum, index, nodes) => {
+        select(nodes[index]).on('.scola-axis', null);
+        nodes[index].snippet.remove();
+      });
+
     this._scale.prepare(data);
     return this.resolveOuter(box, data);
   }
@@ -53,17 +63,22 @@ export class Axis extends Node {
     const position = this._scale.mapPosition();
 
     let distance = null;
+    let node = null;
     let value = null;
 
     for (let i = 0; i < ticks.length; i += 1) {
       [value, distance] = ticks[i];
 
-      tick
+      node = tick
         .clone()
-        .styles({
-          [position]: Math.floor(distance) + 'px'
-        })
         .resolve(box, value);
+
+      node
+        .classed('transition', true)
+        .style(position, Math.floor(distance) + 'px');
+
+      node.style('width');
+      node.classed('in', true);
     }
 
     return this.resolveAfter(box, data);
