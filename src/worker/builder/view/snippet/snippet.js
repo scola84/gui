@@ -14,12 +14,14 @@ export class Snippet {
     this._builder = null;
     this._id = null;
     this._list = null;
+    this._node = null;
     this._parent = null;
 
     this.setAllow(options.allow);
     this.setBuilder(options.builder);
     this.setId(options.id);
     this.setList(options.list);
+    this.setNode(options.node);
     this.setParent(options.parent);
   }
 
@@ -87,6 +89,15 @@ export class Snippet {
     return this;
   }
 
+  getNode() {
+    return this._parent.getNode();
+  }
+
+  setNode(value = null) {
+    this._node = value;
+    return this;
+  }
+
   getParent() {
     return this._parent;
   }
@@ -106,6 +117,10 @@ export class Snippet {
 
   id(value) {
     return this.setId(value);
+  }
+
+  node() {
+    return this.getNode();
   }
 
   find(compare) {

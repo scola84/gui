@@ -87,7 +87,9 @@ export class Event extends Action {
   }
 
   handleBefore(box, data, snippet, newEvent) {
-    newEvent.preventDefault();
+    if (newEvent) {
+      newEvent.preventDefault();
+    }
 
     if (box.busy === true) {
       return;

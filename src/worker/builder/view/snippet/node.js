@@ -7,11 +7,9 @@ export class Node extends Snippet {
     super(options);
 
     this._name = null;
-    this._node = null;
     this._transform = [];
 
     this.setName(options.name);
-    this.setNode(options.node);
     this.setTransform(options.transform);
 
     if (options.class) {
@@ -30,17 +28,12 @@ export class Node extends Snippet {
     return this._name;
   }
 
-  setName(value = 'div') {
-    this._name = value;
-    return this;
-  }
-
   getNode() {
     return this._node;
   }
 
-  setNode(value = null) {
-    this._node = value;
+  setName(value = 'div') {
+    this._name = value;
     return this;
   }
 
@@ -105,10 +98,6 @@ export class Node extends Snippet {
 
   name(value) {
     return this.setName(value);
-  }
-
-  node() {
-    return this.getNode();
   }
 
   transform(...transform) {

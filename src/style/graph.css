@@ -5,6 +5,7 @@
   margin-left: 1em;
   margin-right: 1em;
   margin-top: 2em;
+  overflow: hidden;
   padding: 1em;
 }
 
@@ -137,8 +138,9 @@
 /* Body */
 
 .graph > * > .body {
-  order: 2;
   flex: 1;
+  order: 2;
+  overflow: hidden;
   position: relative;
 }
 
