@@ -162,6 +162,17 @@
   flex-direction: column;
 }
 
+.panel > .body:after {
+  content: '';
+  height: 2em;
+  position: absolute;
+  width: 2em;
+}
+
+.panel.outset-x.outset-y > .body:after {
+  display: none;
+}
+
 /* Body button */
 
 .panel > .body .button {
