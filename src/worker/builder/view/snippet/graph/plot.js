@@ -1,12 +1,10 @@
 import { Axis } from './axis';
 import { Node } from '../node';
-import * as dat from './data/';
+import { token } from './plot/';
 
 export class Plot extends Node {
-  static attach() {
-    Object.keys(dat).forEach((name) => {
-      Plot.attachFactory(Plot, name, dat[name]);
-    });
+  static setup() {
+    Plot.attach(Plot, { token });
   }
 
   constructor(options = {}) {

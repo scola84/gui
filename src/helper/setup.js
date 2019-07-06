@@ -1,5 +1,11 @@
-import { ViewBuilder } from '../worker';
+import {
+  bind,
+  shim,
+  worker
+} from './setup/';
 
 export function setup() {
-  ViewBuilder.setup();
+  bind();
+  shim();
+  worker();
 }

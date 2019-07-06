@@ -5,7 +5,7 @@ import * as input from '../snippet/input/';
 import * as node from '../snippet/node/';
 import * as snippet from '../snippet/snippet/';
 
-export {
+export default {
   action,
   event,
   graph,

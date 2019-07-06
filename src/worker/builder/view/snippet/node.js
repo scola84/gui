@@ -1,6 +1,6 @@
 import { select } from 'd3';
 import { Snippet } from './snippet';
-import { Dummy } from '../object/dummy';
+import { Dummy } from '../../../../object';
 
 export class Node extends Snippet {
   constructor(options = {}) {

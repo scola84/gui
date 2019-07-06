@@ -9,3 +9,4 @@ import './item.css';
 import './panel.css';
 import './pop.css';
 import './tab.css';
+import './tip.css';

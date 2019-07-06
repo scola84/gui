@@ -1,7 +1,7 @@
 import get from 'lodash-es/get';
 import merge from 'lodash-es/merge';
 import { Snippet } from '../snippet';
-import { vsprintf } from '../../helper';
+import { vsprintf } from '../../../../../helper';
 
 let locale = 'nl_NL';
 let strings = {};

@@ -4,10 +4,6 @@
   margin-top: 2em;
 }
 
-.group:last-child {
-  margin-bottom: 2em;
-}
-
 .panel.outset-x .group {
   margin-left: 0;
   margin-right: 0;

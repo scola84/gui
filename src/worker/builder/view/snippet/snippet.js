@@ -1,12 +1,9 @@
-import camel from 'lodash-es/camelCase';
-
+import { Worker } from '@scola/worker';
 let id = 0;
 
 export class Snippet {
-  static attachFactory(to, name, object, options = {}) {
-    to.prototype[camel(name)] = function create() {
-      return new object(Object.assign({}, options));
-    };
+  static attach(...args) {
+    Worker.attach(...args);
   }
 
   constructor(options = {}) {

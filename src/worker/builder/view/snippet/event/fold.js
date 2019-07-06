@@ -64,7 +64,10 @@ export class Fold extends Event {
   }
 
   handle(box, data, snippet, event) {
-    if (select(event.target).classed('fold handle') === true) {
+    const handle = select(event.target);
+    const mustFold = handle.classed('fold handle');
+
+    if (mustFold === true) {
       this.fold(box, data, snippet);
       this.save(box, data, snippet);
     }
@@ -72,97 +75,111 @@ export class Fold extends Event {
     return false;
   }
 
-  attach(node) {
-    node.style('left');
+  attach(item, immediate) {
+    item.style('width');
 
-    node
+    item
       .classed('transition', true)
       .classed('out', false)
+      .classed('immediate', immediate)
       .on('transitionend.scola-fold', () => {
-        node
+        item
           .classed('transition', false)
           .style('height', null)
           .on('transitionend.scola-fold', null);
       });
   }
 
-  detach(node) {
-    const height = node.node().getBoundingClientRect().height;
+  detach(item, immediate) {
+    const height = item.node().getBoundingClientRect().height;
 
-    node.style('height', height);
-    node.style('left');
+    item.style('height', height);
+    item.style('width');
 
-    node
+    item
       .classed('transition', true)
       .classed('out', true)
+      .classed('immediate', immediate)
       .on('transitionend.scola-fold', () => {
-        node
+        item
           .classed('transition', false)
           .on('transitionend.scola-fold', null)
           .remove();
       });
 
     if (height === 0) {
-      node.dispatch('transitionend');
+      item.dispatch('transitionend');
     }
   }
 
   fold(box, data, snippet) {
-    const node = snippet.node();
-    const classed = node.classed('folded');
+    const group = snippet.node();
+    const isFolded = group.classed('folded');
+    const immediate = group.classed('immediate');
     const snippets = this._filter(snippet);
 
-    node.classed('folded', !classed);
+    group.classed('folded', !isFolded);
+    group.classed('immediate', false);
 
-    if (classed) {
-      this.show(snippets);
+    if (isFolded) {
+      this.show(snippets, immediate);
     } else {
-      this.hide(snippets);
+      this.hide(snippets, immediate);
     }
   }
 
-  hide(snippets) {
-    let node = null;
+  hide(snippets, immediate) {
+    let item = null;
 
     for (let i = 0; i < snippets.length; i += 1) {
-      node = snippets[i].node();
+      item = snippets[i].node();
 
-      node.next = node.node().nextSibling;
-      node.parent = node.node().parentNode;
+      item.next = item.node().nextSibling;
+      item.parent = item.node().parentNode;
 
-      this.detach(node);
+      this.detach(item, immediate);
     }
   }
 
   load(box, data, snippet) {
-    const key = `fold-${this._id}`;
-    const folded = Boolean(Number(this._storage.getItem(key)));
+    const isFolded = Boolean(
+      Number(
+        this._storage.getItem(`fold-${this._id}`)
+      )
+    );
 
-    snippet.node().classed('folded', !folded);
+    snippet
+      .node()
+      .classed('immediate', true)
+      .classed('folded', !isFolded);
   }
 
   save(box, data, snippet) {
-    const key = `fold-${this._id}`;
-    const folded = snippet.node().classed('folded');
+    const isFolded = snippet
+      .node()
+      .classed('folded');
 
-    this._storage.setItem(key, Number(folded));
+    this._storage.setItem(
+      `fold-${this._id}`,
+      Number(isFolded)
+    );
   }
 
-  show(snippets) {
-    let node = null;
+  show(snippets, immediate) {
+    let item = null;
 
     for (let i = snippets.length - 1; i >= 0; i -= 1) {
-      node = snippets[i].node();
+      item = snippets[i].node();
 
-      if (node.parent) {
-        if (node.next) {
-          node.parent.insertBefore(node.node(), node.next);
+      if (item.parent) {
+        if (item.next) {
+          item.parent.insertBefore(item.node(), item.next);
         } else {
-          node.parent.appendChild(node.node());
+          item.parent.appendChild(item.node());
         }
       }
 
-      this.attach(node);
+      this.attach(item, immediate);
     }
   }
 }

@@ -1,5 +1,5 @@
 import { Router } from '@scola/worker';
-import { Route } from './view/object';
+import { Route } from '../../object';
 
 const routers = {};
 

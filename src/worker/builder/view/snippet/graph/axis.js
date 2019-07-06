@@ -1,12 +1,10 @@
 import { select } from 'd3';
 import { Node } from '../node';
-import * as scale from './scale/';
+import { Linear, token } from './axis/';
 
 export class Axis extends Node {
-  static attach() {
-    Object.keys(scale).forEach((name) => {
-      Axis.attachFactory(Axis, name, scale[name]);
-    });
+  static setup() {
+    Axis.attach(Axis, { token });
   }
 
   constructor(options = {}) {
@@ -20,7 +18,7 @@ export class Axis extends Node {
     return this._scale;
   }
 
-  setScale(value = new scale.Linear()) {
+  setScale(value = new Linear()) {
     this._scale = value.setAxis(this);
     return this;
   }

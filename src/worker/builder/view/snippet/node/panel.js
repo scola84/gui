@@ -22,9 +22,13 @@ export class Panel extends Node {
       });
 
     this._node
-      .classed('transition', true)
       .classed('new', true)
-      .classed(effect, true)
+      .classed(effect, true);
+
+    this._node.style('width');
+
+    this._node
+      .classed('transition', true)
       .on('transitionend.scola-panel', () => {
         this._node
           .classed('transition', false)
@@ -32,8 +36,6 @@ export class Panel extends Node {
 
         box.base.busy = false;
       });
-
-    this._node.style('left');
 
     old.classed('in', false);
     this._node.classed('in', true);

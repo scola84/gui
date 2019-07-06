@@ -68,22 +68,8 @@ textarea {
   -webkit-appearance: textfield;
 }
 
-.tip {
-  background: rgb(14, 122, 254);
-  border-radius: 0.3em;
-  color: white;
-  margin: -0.5em 0 0;
-  opacity: 0;
-  padding: 0.5em;
-  position: absolute;
-}
-
-.tip.transition.in {
-  opacity: 1;
-}
-
-.tip.transition.out {
-  opacity: 0;
+.immediate {
+  transition-duration: 0.001s !important;
 }
 
 .transition {
