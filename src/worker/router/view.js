@@ -110,9 +110,7 @@ export class ViewRouter extends Router {
 
     if (box.path === false) {
       box = this.processDelete(box, routes);
-    } else if (
-      typeof this._workers[box.path] === 'undefined'
-    ) {
+    } else if (typeof this._workers[box.path] === 'undefined') {
       box = this.processDefault(box, routes);
     } else {
       box = this.processRoute(box, routes, box);
