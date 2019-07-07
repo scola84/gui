@@ -1,8 +1,7 @@
-import { select } from 'd3';
-import { Node } from '../node';
+import { Generator } from '../generator';
 import { Linear, token } from './axis/';
 
-export class Axis extends Node {
+export class Axis extends Generator {
   static setup() {
     Axis.attach(Axis, { token });
   }
@@ -27,6 +26,11 @@ export class Axis extends Node {
     return this.setScale(value(this));
   }
 
+  removeInner() {
+    this.removeChildren();
+    this.removeAfter();
+  }
+
   resolveAfter() {
     this._node
       .classed(this._scale.mapOrientation(), true)
@@ -37,27 +41,16 @@ export class Axis extends Node {
   }
 
   resolveBefore(box, data) {
-    this._node
-      .selectAll('.tick')
-      .classed('transition', true)
-      .classed('out', true)
-      .on('transitionend.scola-axis', (datum, index, nodes) => {
-        select(nodes[index]).on('.scola-axis', null);
-        nodes[index].snippet.remove();
-      });
-
     this._scale.prepare(data);
+    this.removeChildren();
+
     return this.resolveOuter(box, data);
   }
 
   resolveInner(box, data) {
     const [tick] = this._list;
-
-    if (typeof tick === 'undefined') {
-      return this._node;
-    }
-
     const ticks = this._scale.calculateTicks();
+
     const position = this._scale.mapPosition();
 
     let distance = null;
@@ -66,17 +59,8 @@ export class Axis extends Node {
 
     for (let i = 0; i < ticks.length; i += 1) {
       [value, distance] = ticks[i];
-
-      node = tick
-        .clone()
-        .resolve(box, value);
-
-      node
-        .classed('transition', true)
-        .style(position, Math.floor(distance) + 'px');
-
-      node.style('width');
-      node.classed('in', true);
+      node = this.appendChild(box, value, tick);
+      node.style(position, Math.floor(distance) + 'px');
     }
 
     return this.resolveAfter(box, data);

@@ -1,4 +1,3 @@
-import { select } from 'd3';
 import { Plot } from './plot';
 
 export class Rect extends Plot {
@@ -26,42 +25,8 @@ export class Rect extends Plot {
     return this.setPadding(value);
   }
 
-  resolveAfter(box, data) {
-    const endogenous = this.findScale('endogenous');
-    const exogenous = this.findScale('exogenous');
-
-    let key = null;
-    let set = null;
-
-    data = this.prepare(data);
-
-    for (let i = 0; i < data.keys.length; i += 1) {
-      key = data.keys[i];
-      set = data.data[key];
-
-      for (let j = 0; j < set.length; j += 1) {
-        this.resolveRect(box, key, j, set, endogenous, exogenous);
-      }
-    }
-
-    return this._node;
-  }
-
-  resolveBefore(box, data) {
-    this._node
-      .selectAll('rect')
-      .classed('transition', true)
-      .classed('out', true)
-      .on('transitionend.scola-rect', (datum, index, nodes) => {
-        select(nodes[index])
-          .on('.scola-rect', null)
-          .remove();
-      });
-
-    this.resolveOuter(box, data);
-  }
-
-  resolveRect(box, key, j, set, endogenous, exogenous) {
+  appendRect(box, key, j, set, endogenous, exogenous) {
+    const [rect, tip] = this._list;
     const [from, to, datum] = set[j] || [0, 0, {}];
 
     const data = {
@@ -107,26 +72,35 @@ export class Rect extends Plot {
     exogenousDistance += exogenousSize * padding;
     exogenousSize -= exogenousSize * padding * 2;
 
-    const rect = this._node
-      .append('rect')
+    const node = this.appendChild(box, data, rect)
       .attr(endogenousOrientation, endogenousDistance)
       .attr(endogenousRange, endogenousSize)
       .attr(exogenousOrientation, exogenousDistance)
       .attr(exogenousRange, exogenousSize)
       .classed('negative', to < 0)
-      .classed('transition', true)
       .classed('zero', to === 0);
 
-    rect
-      .on('mouseover.scola-rect', () => {
-        data.target = event.target;
-        this.resolveValue(box, data, this._list[0]);
-      })
-      .on('mouseout.scola-rect', () => {
-        return this._list[0] ? this._list[0].remove() : null;
-      });
+    this.appendTip(box, data, node, tip);
+  }
 
-    rect.style('width');
-    rect.classed('in', true);
+  resolveInner(box, data) {
+    const endogenous = this.findScale('endogenous');
+    const exogenous = this.findScale('exogenous');
+
+    let key = null;
+    let set = null;
+
+    data = this.prepare(data);
+
+    for (let i = 0; i < data.keys.length; i += 1) {
+      key = data.keys[i];
+      set = data.data[key];
+
+      for (let j = 0; j < set.length; j += 1) {
+        this.appendRect(box, key, j, set, endogenous, exogenous);
+      }
+    }
+
+    return this.resolveAfter(box, data);
   }
 }

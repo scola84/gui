@@ -79,15 +79,19 @@ export class Fold extends Event {
     item.style('width');
 
     item
-      .classed('transition', true)
       .classed('out', false)
       .classed('immediate', immediate)
       .on('transitionend.scola-fold', () => {
         item
-          .classed('transition', false)
           .style('height', null)
-          .on('transitionend.scola-fold', null);
+          .on('.scola-fold', null);
       });
+
+    const duration = parseFloat(item.style('transition-duration'));
+
+    if (duration === 0) {
+      item.dispatch('transitionend');
+    }
   }
 
   detach(item, immediate) {
@@ -97,17 +101,17 @@ export class Fold extends Event {
     item.style('width');
 
     item
-      .classed('transition', true)
       .classed('out', true)
       .classed('immediate', immediate)
       .on('transitionend.scola-fold', () => {
         item
-          .classed('transition', false)
           .on('transitionend.scola-fold', null)
           .remove();
       });
 
-    if (height === 0) {
+    const duration = parseFloat(item.style('transition-duration'));
+
+    if (height === 0 || duration === 0) {
       item.dispatch('transitionend');
     }
   }

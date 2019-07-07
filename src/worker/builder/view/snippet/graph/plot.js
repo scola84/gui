@@ -1,8 +1,9 @@
+import { event } from 'd3';
 import { Axis } from './axis';
-import { Node } from '../node';
+import { Generator } from '../generator';
 import { token } from './plot/';
 
-export class Plot extends Node {
+export class Plot extends Generator {
   static setup() {
     Plot.attach(Plot, { token });
   }
@@ -27,14 +28,36 @@ export class Plot extends Node {
     return this.setData(value(this));
   }
 
+  appendTip(box, data, node, tip) {
+    if (tip === null) {
+      return;
+    }
+
+    node
+      .on('mouseover.scola-plot', () => {
+        data.target = event.target;
+        this.resolveValue(box, data, tip.setParent(null));
+      })
+      .on('mouseout.scola-plot', () => {
+        tip.remove();
+      });
+  }
+
   findScale(type) {
     const position = this._data.getPosition();
 
-    const [axis] = this._builder.selector((snippet) => {
-      return snippet instanceof Axis &&
-        position.indexOf(snippet.getScale().getPosition()) > -1 &&
-        snippet.getScale().getType() === type;
-    }).resolve();
+    const [axis] = this._builder
+      .selector((snippet) => {
+        if ((snippet instanceof Axis) === false) {
+          return false;
+        }
+
+        const scale = snippet.getScale();
+
+        return position.indexOf(scale.getPosition()) > -1 &&
+          scale.getType() === type;
+      })
+      .resolve();
 
     return axis.getScale();
   }
@@ -43,11 +66,13 @@ export class Plot extends Node {
     return this._data.prepare(data);
   }
 
-  resolveInner(box, data) {
-    for (let i = 0; i < this._list.length; i += 1) {
-      this._list[i].setParent(null);
-    }
+  removeInner() {
+    this.removeChildren();
+    this.removeAfter();
+  }
 
-    return this.resolveAfter(box, data);
+  resolveBefore(box, data) {
+    this.removeChildren();
+    return this.resolveOuter(box, data);
   }
 }

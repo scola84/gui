@@ -9,7 +9,7 @@ export class Progress extends Node {
     const fraction = data.loaded / data.total;
 
     this._node
-      .classed('transition', true)
+      .style('transition-duration', null)
       .style('width', (fraction * 100) + '%')
       .on('transitionend.scola-progress', () => {
         if (fraction < 1) {
@@ -17,9 +17,9 @@ export class Progress extends Node {
         }
 
         this._node
-          .classed('transition', false)
+          .style('transition-duration', '0s')
           .style('width', null)
-          .on('transitionend.scola-progress', null);
+          .on('.scola-progress', null);
       });
 
     return this._node;

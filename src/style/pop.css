@@ -15,7 +15,7 @@
   opacity: 1;
 }
 
-.pop.transition {
+.pop.open {
   display: flex;
   z-index: 3;
 }
@@ -25,11 +25,14 @@
   height: 34em;
   overflow: hidden;
   position: relative;
-  top: 100%;
   width: 34em;
 }
 
-.pop > .dialog.in {
+.pop > .dialog.move {
+  top: 100%;
+}
+
+.pop > .dialog.move.in {
   top: 0;
 }
 

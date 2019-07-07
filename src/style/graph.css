@@ -169,13 +169,14 @@
 .graph > * > .body > .grid > .line {
   opacity: 0;
   position: absolute;
+  transition-property: opacity;
 }
 
-.graph > * > .body > .grid > .line.transition.in {
+.graph > * > .body > .grid > .line.in {
   opacity: 1;
 }
 
-.graph > * > .body > .grid > .line.transition.out {
+.graph > * > .body > .grid > .line.out {
   opacity: 0;
 }
 
@@ -195,11 +196,11 @@
   opacity: 0;
 }
 
-.graph > * > .body > svg > .plot > *.transition.in {
+.graph > * > .body > svg > .plot > *.in {
   opacity: 1;
 }
 
-.graph > * > .body > svg > .plot > *.transition.out {
+.graph > * > .body > svg > .plot > *.out {
   opacity: 0;
 }
 
@@ -267,12 +268,12 @@
 }
 
 .graph > * > .axis > .tick.in,
-.graph > .center > * > .axis > .tick.transition.in {
+.graph > .center > * > .axis > .tick.in {
   opacity: 1;
 }
 
 .graph > * > .axis > .tick.out,
-.graph > .center > * > .axis > .tick.transition.out {
+.graph > .center > * > .axis > .tick.out {
   opacity: 0;
 }
 

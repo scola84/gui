@@ -8,10 +8,10 @@
   position: absolute;
 }
 
-.tip.transition.in {
+.tip.in {
   opacity: 1;
 }
 
-.tip.transition.out {
+.tip.out {
   opacity: 0;
 }

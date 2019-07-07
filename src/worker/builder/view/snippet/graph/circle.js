@@ -1,4 +1,4 @@
-import { event, select } from 'd3';
+import { event } from 'd3';
 import { Plot } from './plot';
 
 export class Circle extends Plot {
@@ -26,42 +26,8 @@ export class Circle extends Plot {
     return this.setRadius(value);
   }
 
-  resolveAfter(box, data) {
-    const endogenous = this.findScale('endogenous');
-    const exogenous = this.findScale('exogenous');
-
-    let key = null;
-    let set = null;
-
-    data = this.prepare(data);
-
-    for (let i = 0; i < data.keys.length; i += 1) {
-      key = data.keys[i];
-      set = data.data[key];
-
-      for (let j = 0; j < set.length; j += 1) {
-        this.resolveCircle(box, key, j, set, endogenous, exogenous);
-      }
-    }
-
-    return this._node;
-  }
-
-  resolveBefore(box, data) {
-    this._node
-      .selectAll('circle')
-      .classed('transition', true)
-      .classed('out', true)
-      .on('transitionend.scola-circle', (datum, index, nodes) => {
-        select(nodes[index])
-          .on('.scola-circle', null)
-          .remove();
-      });
-
-    this.resolveOuter(box, data);
-  }
-
-  resolveCircle(box, key, j, set, endogenous, exogenous) {
+  appendCircle(box, key, j, set, endogenous, exogenous) {
+    const [circle, tip] = this._list;
     const [from, to, datum] = set[j] || [0, 0, {}];
 
     const data = {
@@ -79,23 +45,32 @@ export class Circle extends Plot {
     const endogenousDistance = endogenous.calculateDistance(to);
     const exogenousDistance = exogenous.calculateDistance(key);
 
-    const circle = this._node
-      .append('circle')
+    const node = this.appendChild(box, data, circle)
       .attr('c' + endogenousOrientation, endogenousDistance)
       .attr('c' + exogenousOrientation, exogenousDistance)
-      .attr('r', radius)
-      .classed('transition', true);
+      .attr('r', radius);
 
-    circle
-      .on('mouseover.scola-circle', () => {
-        data.target = event.target;
-        this.resolveValue(box, data, this._list[0]);
-      })
-      .on('mouseout.scola-circle', () => {
-        return this._list[0] ? this._list[0].remove() : null;
-      });
+    this.appendTip(box, data, node, tip);
+  }
 
-    circle.style('width');
-    circle.classed('in', true);
+  resolveInner(box, data) {
+    const endogenous = this.findScale('endogenous');
+    const exogenous = this.findScale('exogenous');
+
+    let key = null;
+    let set = null;
+
+    data = this.prepare(data);
+
+    for (let i = 0; i < data.keys.length; i += 1) {
+      key = data.keys[i];
+      set = data.data[key];
+
+      for (let j = 0; j < set.length; j += 1) {
+        this.appendCircle(box, key, j, set, endogenous, exogenous);
+      }
+    }
+
+    return this.resolveAfter(box, data);
   }
 }

@@ -21,14 +21,7 @@ export class Message extends Node {
       this.resolveValue(box, data, text)
     );
 
-    this._node
-      .classed('transition', true)
-      .classed('in', true)
-      .on('transitionend.scola-message', () => {
-        this._node
-          .classed('transition', false)
-          .on('transitionend.scola-message', null);
-      });
+    this._node.classed('in', true);
 
     return this._node;
   }

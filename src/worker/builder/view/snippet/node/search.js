@@ -112,21 +112,16 @@ export class Search extends Node {
   }
 
   resolveToggle(box) {
-    if (box.toggle) {
+    const mustIn = !this._node.classed('in');
+
+    if (mustIn) {
       this._node
         .select('input')
         .node()
         .focus();
     }
 
-    this._node
-      .classed('transition', true)
-      .classed('in', box.toggle)
-      .on('transitionend.scola-search', () => {
-        this._node
-          .classed('transition', false)
-          .on('transitionend.scola-search', null);
-      });
+    this._node.classed('in', mustIn);
 
     delete box.toggle;
     return this._node;

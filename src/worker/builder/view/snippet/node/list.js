@@ -1,45 +1,26 @@
-import { select } from 'd3';
-import { Node } from '../node';
+import { Generator } from '../generator';
 
-export class List extends Node {
-  appendItems(box, data, item = null) {
-    if (item === null) {
-      return;
+export class List extends Generator {
+  prepareList(box, data) {
+    if (box.list.clear) {
+      delete box.list.clear;
+
+      box.list.offset = 0;
+      box.list.total = 0;
+
+      this.removeChildren();
     }
 
-    let node = null;
-
-    for (let i = 0; i < data.length; i += 1) {
-      node = item
-        .clone()
-        .resolve(box, data[i]);
-
-      node = Array.isArray(node) ? node[0] : node;
-
-      node.style('width');
-      node.classed('in', true);
+    if (box.list.offset === 0 && box.list.count > 0) {
+      this._node.node().parentNode.scrollTop = 0;
     }
+
+    box.list.total += data.length;
   }
 
   removeInner() {
-    this.removeItems();
+    this.removeChildren();
     this.removeAfter();
-  }
-
-  removeItems() {
-    const items = this._node
-      .selectAll('.item')
-      .classed('out', true)
-      .on('transitionend.scola-list', (datum, index, nodes) => {
-        select(nodes[index]).on('.scola-list', null);
-        nodes[index].snippet.remove();
-      });
-
-    const duration = parseFloat(items.style('transition-duration'));
-
-    if (duration === 0) {
-      items.dispatch('transitionend');
-    }
   }
 
   resolveInner(box, data) {
@@ -56,36 +37,21 @@ export class List extends Node {
     }
 
     if (box.list) {
-      this.resolveItems(box, listData);
+      this.prepareList(box, listData);
     }
 
-    this.appendItems(box, listData, item);
+    for (let i = 0; i < listData.length; i += 1) {
+      this.appendChild(box, listData[i], item);
+    }
 
     const size = this._node
       .select('.item:not(.out)')
       .size();
 
     if (hasData === true && size === 0) {
-      this.appendItems(box, [{}], empty);
+      this.appendChild(box, [{}], empty);
     }
 
     return this.resolveAfter(box, data);
-  }
-
-  resolveItems(box, data) {
-    if (box.list.clear) {
-      delete box.list.clear;
-
-      box.list.offset = 0;
-      box.list.total = 0;
-
-      this.removeItems();
-    }
-
-    if (box.list.offset === 0 && box.list.count > 0) {
-      this._node.node().parentNode.scrollTop = 0;
-    }
-
-    box.list.total += data.length;
   }
 }

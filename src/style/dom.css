@@ -69,7 +69,7 @@ textarea {
 }
 
 .immediate {
-  transition-duration: 0.001s !important;
+  transition-duration: 0s !important;
 }
 
 .transition {

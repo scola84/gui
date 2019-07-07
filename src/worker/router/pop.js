@@ -16,28 +16,33 @@ export class PopRouter extends ViewRouter {
 
     select(document).on('keydown.scola-pop', null);
 
+    parent.style('width');
+
     parent
-      .classed('transition', true)
       .classed('in', false)
       .on('click.scola-pop', null)
       .on('transitionend.scola-pop', () => {
         parent
-          .classed('transition', false)
-          .on('transitionend.scola-pop', null);
+          .classed('open', false)
+          .on('.scola-pop', null);
 
         box.path = false;
         this.act(box);
       });
 
+    base.style('width');
+
     base
-      .classed('transition', true)
       .classed('in', false)
-      .on('click.scola-pop', null)
-      .on('transitionend.scola-pop', () => {
-        base
-          .classed('transition', false)
-          .on('transitionend.scola-pop', null);
-      });
+      .on('click.scola-pop', null);
+
+    const duration = parseFloat(
+      parent.style('transition-duration')
+    );
+
+    if (duration === 0) {
+      parent.dispatch('transitionend');
+    }
   }
 
   open(box) {
@@ -50,8 +55,8 @@ export class PopRouter extends ViewRouter {
       }
     });
 
-    parent.classed('transition', true);
-    parent.style('left');
+    parent.classed('open', true);
+    parent.style('width');
 
     parent
       .classed('in', true)
@@ -59,23 +64,15 @@ export class PopRouter extends ViewRouter {
         if (box.lock !== true) {
           this.close(box);
         }
-      })
-      .on('transitionend.scola-pop', () => {
-        parent
-          .classed('transition', false)
-          .on('transitionend.scola-pop', null);
       });
 
+    base.classed('move', box.move !== false);
+    base.style('width');
+
     base
-      .classed('transition', box.move !== false)
       .classed('in', true)
       .on('click.scola-pop', () => {
         event.stopPropagation();
-      })
-      .on('transitionend.scola-pop', () => {
-        base
-          .classed('transition', false)
-          .on('transitionend.scola-pop', null);
       });
   }
 }
