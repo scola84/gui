@@ -37,7 +37,7 @@ export class Textarea extends Input {
 
   resolveAfter() {
     if (this._grow) {
-      setTimeout(() => this.resolveGrow());
+      this.resolveGrow();
     }
 
     return this._node;

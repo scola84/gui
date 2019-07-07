@@ -30,7 +30,7 @@ export class Scroll extends Event {
     const result = super.resolveAfter(box, data);
 
     for (let i = 0; i < result.length; i += 1) {
-      this.initialize(box, data, result[i]);
+      result[i].dispatch('scroll');
     }
 
     return result;
@@ -75,9 +75,5 @@ export class Scroll extends Event {
     }
 
     return false;
-  }
-
-  initialize(box, data, node) {
-    setTimeout(() => node.dispatch('scroll'));
   }
 }
