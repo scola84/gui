@@ -133,9 +133,8 @@ export class Node extends Snippet {
     return select(wrapper);
   }
 
-  removeOuter() {
+  removeAfter() {
     this.removeNode();
-    this.removeInner();
   }
 
   resolve(box, data) {

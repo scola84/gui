@@ -83,7 +83,7 @@
   right: 0;
 }
 
-.item.out {
+.item.fold.out {
   height: 0 !important;
   min-height: 0 !important;
   opacity: 0;

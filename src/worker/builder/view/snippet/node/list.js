@@ -1,49 +1,45 @@
+import { select } from 'd3';
 import { Node } from '../node';
 
 export class List extends Node {
-  constructor(options = {}) {
-    super(options);
+  appendItems(box, data, item = null) {
+    if (item === null) {
+      return;
+    }
 
-    this._items = null;
-    this.setItems(options.value);
-  }
+    let node = null;
 
-  getItems() {
-    return this._items;
-  }
+    for (let i = 0; i < data.length; i += 1) {
+      node = item
+        .clone()
+        .resolve(box, data[i]);
 
-  setItems(value = []) {
-    this._items = value;
-    return this;
-  }
+      node = Array.isArray(node) ? node[0] : node;
 
-  appendItems(box, data, items, item) {
-    return items
-      .data(data, (datum) => JSON.stringify(datum))
-      .enter()
-      .append((datum) => {
-        const clone = item.clone();
-
-        let node = clone.resolve(box, datum);
-        node = Array.isArray(node) ? node[0] : node;
-
-        if (node === null) {
-          return document.createDocumentFragment();
-        }
-
-        this._items[this._items.length] = clone;
-
-        return node.node();
-      });
+      node.style('width');
+      node.classed('in', true);
+    }
   }
 
   removeInner() {
-    for (let i = 0; i < this._items.length; i += 1) {
-      this._items[i].remove();
-    }
-
-    this._items = [];
+    this.removeItems();
     this.removeAfter();
+  }
+
+  removeItems() {
+    const items = this._node
+      .selectAll('.item')
+      .classed('out', true)
+      .on('transitionend.scola-list', (datum, index, nodes) => {
+        select(nodes[index]).on('.scola-list', null);
+        nodes[index].snippet.remove();
+      });
+
+    const duration = parseFloat(items.style('transition-duration'));
+
+    if (duration === 0) {
+      items.dispatch('transitionend');
+    }
   }
 
   resolveInner(box, data) {
@@ -55,35 +51,35 @@ export class List extends Node {
       empty
     ] = this._list;
 
-    let items = this._node
-      .selectAll('.item');
-
     if (box.busy === true) {
       delete box.busy;
     }
 
     if (box.list) {
-      items = this.resolveItems(box, listData, items);
+      this.resolveItems(box, listData);
     }
 
-    items = this.appendItems(box, listData, items, item);
+    this.appendItems(box, listData, item);
 
-    if (hasData === true && items.size() === 0) {
-      this.appendItems(box, [{}], items, empty);
+    const size = this._node
+      .select('.item:not(.out)')
+      .size();
+
+    if (hasData === true && size === 0) {
+      this.appendItems(box, [{}], empty);
     }
 
     return this.resolveAfter(box, data);
   }
 
-  resolveItems(box, data, items) {
+  resolveItems(box, data) {
     if (box.list.clear) {
       delete box.list.clear;
 
       box.list.offset = 0;
       box.list.total = 0;
 
-      items.remove();
-      items = this._node.selectAll('.item');
+      this.removeItems();
     }
 
     if (box.list.offset === 0 && box.list.count > 0) {
@@ -91,7 +87,5 @@ export class List extends Node {
     }
 
     box.list.total += data.length;
-
-    return items;
   }
 }
