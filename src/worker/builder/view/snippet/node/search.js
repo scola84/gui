@@ -2,11 +2,30 @@ import defaults from 'lodash-es/defaultsDeep';
 import { Node } from '../node';
 
 export class Search extends Node {
-  constructor(options) {
+  constructor(options = {}) {
     super(options);
 
+    this._storage = null;
     this._wildcard = null;
+
+    this.setStorage(options.storage);
     this.setWildcard(options.wildcard);
+  }
+
+  getOptions() {
+    return Object.assign(super.getOptions(), {
+      storage: this._storage,
+      wildcard: this._wildcard
+    });
+  }
+
+  getStorage() {
+    return this._storage;
+  }
+
+  setStorage(value = localStorage) {
+    this._storage = value;
+    return this;
   }
 
   getWildcard() {
@@ -16,6 +35,10 @@ export class Search extends Node {
   setWildcard(value = '*') {
     this._wildcard = value;
     return this;
+  }
+
+  storage(value) {
+    return this.setStorage(value);
   }
 
   wildcard(value) {
@@ -53,7 +76,7 @@ export class Search extends Node {
   }
 
   resolveInput(box) {
-    sessionStorage.setItem('search-' + this._id, box.input);
+    this._storage.setItem('search-' + this._id, box.input);
 
     box.list.clear = true;
 
@@ -72,7 +95,7 @@ export class Search extends Node {
       .attr('name', 'search')
       .attr('type', 'search');
 
-    const value = sessionStorage.getItem('search-' + this._id);
+    const value = this._storage.getItem('search-' + this._id);
 
     if (value) {
       this._node.classed('in', true);
