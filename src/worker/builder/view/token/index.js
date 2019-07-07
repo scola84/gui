@@ -10,7 +10,7 @@ const cls = clsBase.reduce((object, name) => {
     [camel(name)]: {
       object: Node,
       options: {
-        class: name,
+        class: camel(name),
         name: 'div'
       }
     }
@@ -34,7 +34,7 @@ const snippet = Object.keys(snippetBase).reduce((master, group) => {
       [camel(name)]: {
         object: snippetBase[group][name],
         options: {
-          class: name
+          class: camel(name)
         }
       }
     });
