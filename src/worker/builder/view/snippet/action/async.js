@@ -36,8 +36,8 @@ export class Async extends Action {
   resolveAfter(box, data) {
     const fn = [];
 
-    for (let i = 0; i < this._list.length; i += 1) {
-      fn[fn.length] = this.asyncify(box, data, this._list[i]);
+    for (let i = 0; i < this._args.length; i += 1) {
+      fn[fn.length] = this.asyncify(box, data, this._args[i]);
     }
 
     this._handler(fn, (error, results) => {

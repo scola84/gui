@@ -1,4 +1,3 @@
-import { event } from 'd3';
 import { Plot } from './plot';
 
 export class Circle extends Plot {
@@ -27,7 +26,7 @@ export class Circle extends Plot {
   }
 
   appendCircle(box, key, j, set, endogenous, exogenous) {
-    const [circle, tip] = this._list;
+    const [circle, tip] = this._args;
     const [from, to, datum] = set[j] || [0, 0, {}];
 
     const data = {

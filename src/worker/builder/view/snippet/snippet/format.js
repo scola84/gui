@@ -74,8 +74,8 @@ export class Format extends Snippet {
     let string = null;
     let value = null;
 
-    for (let i = 0; i < this._list.length; i += 1) {
-      value = this.resolveValue(box, data, this._list[i]);
+    for (let i = 0; i < this._args.length; i += 1) {
+      value = this.resolveValue(box, data, this._args[i]);
 
       [code, ...args] = Array.isArray(value) ?
         value : [value, data];

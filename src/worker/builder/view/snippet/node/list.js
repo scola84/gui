@@ -30,7 +30,7 @@ export class List extends Generator {
     const [
       item,
       empty
-    ] = this._list;
+    ] = this._args;
 
     if (box.busy === true) {
       delete box.busy;

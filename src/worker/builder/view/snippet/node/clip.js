@@ -17,11 +17,11 @@ export class Clip extends Node {
   }
 
   resolveInner(box, data) {
-    for (let i = 0; i < this._list.length; i += 1) {
+    for (let i = 0; i < this._args.length; i += 1) {
       if (i === box.tab) {
-        this.resolveValue(box, data, this._list[i]);
+        this.resolveValue(box, data, this._args[i]);
       } else {
-        this._list[i].remove();
+        this._args[i].remove();
       }
     }
 

@@ -40,8 +40,8 @@ export class Event extends Action {
   }
 
   removeBefore() {
-    for (let i = 0; i < this._list.length; i += 1) {
-      this.unbind(this._list[i]);
+    for (let i = 0; i < this._args.length; i += 1) {
+      this.unbind(this._args[i]);
     }
 
     this.removeOuter();
@@ -50,16 +50,16 @@ export class Event extends Action {
   resolveAfter() {
     const result = [];
 
-    for (let i = 0; i < this._list.length; i += 1) {
-      result[result.length] = this._list[i].node();
+    for (let i = 0; i < this._args.length; i += 1) {
+      result[result.length] = this._args[i].node();
     }
 
     return result;
   }
 
   resolveInner(box, data) {
-    for (let i = 0; i < this._list.length; i += 1) {
-      this.bind(box, data, this._list[i]);
+    for (let i = 0; i < this._args.length; i += 1) {
+      this.bind(box, data, this._args[i]);
     }
 
     return this.resolveAfter(box, data);

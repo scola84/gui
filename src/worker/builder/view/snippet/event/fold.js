@@ -51,8 +51,8 @@ export class Fold extends Event {
     const result = [];
     let snippet = null;
 
-    for (let i = 0; i < this._list.length; i += 1) {
-      snippet = this._list[i];
+    for (let i = 0; i < this._args.length; i += 1) {
+      snippet = this._args[i];
 
       this.load(box, data, snippet);
       this.fold(box, data, snippet);

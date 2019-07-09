@@ -26,7 +26,7 @@ export class Rect extends Plot {
   }
 
   appendRect(box, key, j, set, endogenous, exogenous) {
-    const [rect, tip] = this._list;
+    const [rect, tip] = this._args;
     const [from, to, datum] = set[j] || [0, 0, {}];
 
     const data = {

@@ -8,16 +8,16 @@ export class Snippet {
 
   constructor(options = {}) {
     this._allow = null;
+    this._args = null;
     this._builder = null;
     this._id = null;
-    this._list = null;
     this._node = null;
     this._parent = null;
 
     this.setAllow(options.allow);
+    this.setArgs(options.args);
     this.setBuilder(options.builder);
     this.setId(options.id);
-    this.setList(options.list);
     this.setNode(options.node);
     this.setParent(options.parent);
   }
@@ -25,7 +25,7 @@ export class Snippet {
   clone() {
     const options = this.getOptions();
 
-    options.list = options.list.map((snippet) => {
+    options.args = options.args.map((snippet) => {
       return snippet instanceof Snippet ?
         snippet.clone() : snippet;
     });
@@ -36,9 +36,9 @@ export class Snippet {
   getOptions() {
     return {
       allow: this._allow,
+      args: this._args,
       builder: this._builder,
       id: this._id,
-      list: this._list,
       parent: this._parent
     };
   }
@@ -49,6 +49,22 @@ export class Snippet {
 
   setAllow(value = null) {
     this._allow = value;
+    return this;
+  }
+
+  getArgs() {
+    return this._args;
+  }
+
+  setArgs(value = []) {
+    this._args = value;
+
+    for (let i = 0; i < this._args.length; i += 1) {
+      if (this._args[i] instanceof Snippet) {
+        this._args[i].setParent(this);
+      }
+    }
+
     return this;
   }
 
@@ -67,22 +83,6 @@ export class Snippet {
 
   setId(value = ++id) {
     this._id = value;
-    return this;
-  }
-
-  getList() {
-    return this._list;
-  }
-
-  setList(value = []) {
-    this._list = value;
-
-    for (let i = 0; i < this._list.length; i += 1) {
-      if (this._list[i] instanceof Snippet) {
-        this._list[i].setParent(this);
-      }
-    }
-
     return this;
   }
 
@@ -108,8 +108,8 @@ export class Snippet {
     return this.setAllow(value);
   }
 
-  append(...list) {
-    return this.setList(this._list.concat(list));
+  append(...args) {
+    return this.setArgs(this._args.concat(args));
   }
 
   id(value) {
@@ -127,14 +127,14 @@ export class Snippet {
       result[result.length] = this;
     }
 
-    return this.findRecursive(result, this._list, compare);
+    return this.findRecursive(result, this._args, compare);
   }
 
-  findRecursive(result, list, compare) {
+  findRecursive(result, args, compare) {
     let snippet = null;
 
-    for (let i = 0; i < list.length; i += 1) {
-      snippet = list[i];
+    for (let i = 0; i < args.length; i += 1) {
+      snippet = args[i];
 
       if (snippet instanceof Snippet) {
         result = result.concat(snippet.find(compare));
@@ -159,8 +159,8 @@ export class Snippet {
   }
 
   removeInner() {
-    for (let i = 0; i < this._list.length; i += 1) {
-      this._list[i].remove();
+    for (let i = 0; i < this._args.length; i += 1) {
+      this._args[i].remove();
     }
 
     this.removeAfter();

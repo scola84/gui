@@ -100,7 +100,7 @@ export class Path extends Plot {
     data = this.prepare(data);
 
     const [fill, stroke] = this.preparePath(box, data);
-    const path = this._list[0];
+    const [path] = this._args;
 
     for (let i = stroke.length - 1; i >= 0; i -= 1) {
       if (this._fill) {

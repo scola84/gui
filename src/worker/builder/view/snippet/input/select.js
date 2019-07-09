@@ -9,8 +9,8 @@ export class Select extends Input {
   validateAfter(box, data, error, name, value) {
     const values = [];
 
-    for (let i = 0; i < this._list.length; i += 1) {
-      values[values.length] = this._list[i]
+    for (let i = 0; i < this._args.length; i += 1) {
+      values[values.length] = this._args[i]
         .resolveAttribute(box, data, 'value');
     }
 

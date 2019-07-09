@@ -2,7 +2,7 @@ import { Snippet } from '../snippet';
 
 export class Selector extends Snippet {
   resolveAfter(box, data) {
-    const query = this._list[0];
+    const [query] = this._args;
 
     if (typeof query === 'function') {
       return this.resolveFunction(box, data, query);

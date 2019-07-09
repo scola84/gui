@@ -183,8 +183,8 @@ export class Node extends Snippet {
   }
 
   resolveInner(box, data) {
-    for (let i = 0; i < this._list.length; i += 1) {
-      this.resolveValue(box, data, this._list[i]);
+    for (let i = 0; i < this._args.length; i += 1) {
+      this.resolveValue(box, data, this._args[i]);
     }
 
     return this.resolveAfter(box, data);

@@ -13,7 +13,7 @@ export class Grid extends Generator {
   }
 
   resolveInner(box, data) {
-    const [line] = this._list;
+    const [line] = this._args;
 
     const axes = this._builder.selector((snippet) => {
       return snippet instanceof Axis;

@@ -36,13 +36,13 @@ export class Action extends Snippet {
     return this;
   }
 
-  act(...list) {
-    this._act = list;
+  act(...args) {
+    this._act = args;
     return this;
   }
 
-  err(...list) {
-    this._err = list;
+  err(...args) {
+    this._err = args;
     return this;
   }
 

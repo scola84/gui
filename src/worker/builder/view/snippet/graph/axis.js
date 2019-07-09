@@ -48,7 +48,7 @@ export class Axis extends Generator {
   }
 
   resolveInner(box, data) {
-    const [tick] = this._list;
+    const [tick] = this._args;
     const ticks = this._scale.calculateTicks();
 
     const position = this._scale.mapPosition();
