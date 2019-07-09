@@ -68,10 +68,6 @@ textarea {
   -webkit-appearance: textfield;
 }
 
-.immediate {
-  transition-duration: 0s !important;
-}
-
 .transition {
   transition: all 0.25s ease-in-out;
 }

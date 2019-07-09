@@ -55,7 +55,7 @@ export class Fold extends Event {
       snippet = this._args[i];
 
       this.load(box, data, snippet);
-      this.fold(box, data, snippet);
+      this.fold(box, data, snippet, true);
 
       result[result.length] = snippet.node();
     }
@@ -78,16 +78,22 @@ export class Fold extends Event {
   attach(item, immediate) {
     item.style('width');
 
+    if (immediate) {
+      item.style('transition-duration', '0s');
+    }
+
     item
       .classed('out', false)
-      .classed('immediate', immediate)
       .on('transitionend.scola-fold', () => {
         item
           .style('height', null)
+          .style('transition-duration', null)
           .on('.scola-fold', null);
       });
 
-    const duration = parseFloat(item.style('transition-duration'));
+    const duration = parseFloat(
+      item.style('transition-duration')
+    );
 
     if (duration === 0) {
       item.dispatch('transitionend');
@@ -100,11 +106,15 @@ export class Fold extends Event {
     item.style('height', height);
     item.style('width');
 
+    if (immediate) {
+      item.style('transition-duration', '0s');
+    }
+
     item
       .classed('out', true)
-      .classed('immediate', immediate)
       .on('transitionend.scola-fold', () => {
         item
+          .style('transition-duration', null)
           .on('transitionend.scola-fold', null)
           .remove();
       });
@@ -116,14 +126,12 @@ export class Fold extends Event {
     }
   }
 
-  fold(box, data, snippet) {
+  fold(box, data, snippet, immediate = false) {
     const group = snippet.node();
     const isFolded = group.classed('folded');
-    const immediate = group.classed('immediate');
     const snippets = this._filter(snippet);
 
     group.classed('folded', !isFolded);
-    group.classed('immediate', false);
 
     if (isFolded) {
       this.show(snippets, immediate);
@@ -154,7 +162,6 @@ export class Fold extends Event {
 
     snippet
       .node()
-      .classed('immediate', true)
       .classed('folded', !isFolded);
   }
 
