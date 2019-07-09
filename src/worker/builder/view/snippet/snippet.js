@@ -1,9 +1,9 @@
-import { Worker } from '@scola/worker';
+import { Builder } from '@scola/worker';
 let id = 0;
 
 export class Snippet {
-  static attach(...args) {
-    Worker.attach(...args);
+  static attachFactories(...args) {
+    Builder.attachFactories(...args);
   }
 
   constructor(options = {}) {

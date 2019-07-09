@@ -1,11 +1,11 @@
 import { event } from 'd3';
 import { Axis } from './axis';
 import { Generator } from '../generator';
-import { token } from './plot/';
+import { map } from './plot/';
 
 export class Plot extends Generator {
   static setup() {
-    Plot.attach(Plot, { token });
+    Plot.attachFactories(Plot, { map });
   }
 
   constructor(options = {}) {

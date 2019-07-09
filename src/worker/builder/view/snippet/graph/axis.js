@@ -1,9 +1,9 @@
 import { Generator } from '../generator';
-import { Linear, token } from './axis/';
+import { Linear, map } from './axis/';
 
 export class Axis extends Generator {
   static setup() {
-    Axis.attach(Axis, { token });
+    Axis.attachFactories(Axis, { map });
   }
 
   constructor(options = {}) {

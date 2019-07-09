@@ -1,10 +1,10 @@
-import { Worker } from '@scola/worker';
+import { Builder } from '@scola/worker';
 import { select } from 'd3';
-import * as token from './view/token';
+import * as map from './view/map';
 
-export class ViewBuilder extends Worker {
+export class ViewBuilder extends Builder {
   static setup() {
-    ViewBuilder.attach(ViewBuilder, token);
+    ViewBuilder.attachFactories(ViewBuilder, map);
   }
 
   constructor(options = {}) {
