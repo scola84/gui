@@ -10,6 +10,8 @@ export class Search extends Node {
 
     this.setStorage(options.storage);
     this.setWildcard(options.wildcard);
+
+    this.class('transition');
   }
 
   getOptions() {

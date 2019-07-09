@@ -1,6 +1,11 @@
 import { Node } from '../node';
 
 export class Message extends Node {
+  constructor(options = {}) {
+    super(options);
+    this.class('transition');
+  }
+
   resolveAfter(box, data) {
     if (typeof data.status === 'undefined') {
       return this._node;

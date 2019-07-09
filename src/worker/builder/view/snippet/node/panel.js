@@ -2,6 +2,11 @@ import { select } from 'd3';
 import { Node } from '../node';
 
 export class Panel extends Node {
+  constructor(options = {}) {
+    super(options);
+    this.class('transition');
+  }
+
   resolveBefore(box, data) {
     const effect = ['rtl', 'ltr', 'ins']
       .find((name) => box.options[name] === true) || 'none';

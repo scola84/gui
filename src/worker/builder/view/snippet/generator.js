@@ -2,6 +2,11 @@ import { select, selectAll } from 'd3';
 import { Node } from './node';
 
 export class Generator extends Node {
+  constructor(options = {}) {
+    super(options);
+    this.class('transition');
+  }
+
   appendChild(box, data, snippet = null) {
     if (snippet === null) {
       return null;
@@ -13,6 +18,10 @@ export class Generator extends Node {
 
     node = Array.isArray(node) ? node[0] : node;
 
+    const transition = select(node.node().parentNode)
+      .classed('transition');
+
+    node.classed('transition', transition);
     node.style('width');
     node.classed('in', true);
 

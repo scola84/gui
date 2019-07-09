@@ -1,6 +1,11 @@
 import { Node } from '../node';
 
 export class Progress extends Node {
+  constructor(options = {}) {
+    super(options);
+    this.class('transition');
+  }
+
   resolveAfter(box, data) {
     if (data.lengthComputable !== true) {
       return this._node;
@@ -21,6 +26,14 @@ export class Progress extends Node {
           .style('width', null)
           .on('.scola-progress', null);
       });
+
+    const duration = parseFloat(
+      this._node.style('transition-duration')
+    );
+
+    if (duration === 0) {
+      this._node.dispatch('transitionend');
+    }
 
     return this._node;
   }

@@ -2,6 +2,11 @@ import { select } from 'd3';
 import { Node } from '../node';
 
 export class Tip extends Node {
+  constructor(options = {}) {
+    super(options);
+    this.class('transition');
+  }
+
   removeOuter() {
     this._node
       .classed('out', true)
