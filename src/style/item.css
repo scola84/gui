@@ -89,6 +89,10 @@
   opacity: 0;
 }
 
+.item.transition {
+  transition-property: height, min-height, opacity;
+}
+
 /* Children */
 
 .item > * {
@@ -113,13 +117,14 @@
 /* Icon */
 
 .item > .icon {
+  color: rgb(14, 122, 254);
   display: flex;
   text-align: center;
   width: 1.5em;
 }
 
 .item > .icon:before {
-  font-size: 1.9em;
+  font-size: 2em;
 }
 
 .item > .icon:last-child {

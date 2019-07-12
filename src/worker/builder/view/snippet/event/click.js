@@ -1,4 +1,3 @@
-import { select } from 'd3';
 import { Event } from '../event';
 
 export class Click extends Event {
@@ -8,7 +7,7 @@ export class Click extends Event {
   }
 
   handle(box, data) {
-    if (select(event.target).classed('click') === true) {
+    if (event.target.closest('.click') !== null) {
       this.pass(box, data);
     }
 

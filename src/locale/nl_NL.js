@@ -3,6 +3,9 @@ const required = 'Dit veld is verplicht.';
 const pattern = 'Deze waarde is niet goed (%(pattern)s).';
 
 export const nl_NL = {
+  button: {
+    back: 'Terug'
+  },
   input: {
     checkbox: {
       required
@@ -121,5 +124,21 @@ export const nl_NL = {
       required,
       type: 'Dit is geen postcode.'
     }
+  },
+  message: {
+    nodata: 'Geen gegevens gevonden'
+  },
+  search: {
+    placeholder: 'Zoeken'
+  },
+  status: {
+    400: 'De gegevens zijn niet juist.',
+    404: 'Het pad is niet gevonden.',
+    405: 'De bewerking is niet toegestaan.',
+    409: 'Er is een conflict opgetreden.',
+    413: 'De gegevens zijn te groot.',
+    500: 'Er is een serverfout opgetreden.',
+    502: 'Er is een verbindingsfout opgetreden.',
+    504: 'Er is een verbindingsfout opgetreden.'
   }
 };

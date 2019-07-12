@@ -99,7 +99,7 @@
 }
 
 .panel > * > .bar .button:before {
-  font-size: 1.9em;
+  font-size: 2em;
   position: absolute;
   top: 50%;
   transform: translate(0,-50%);
@@ -193,7 +193,7 @@
 
 .panel > .body .button:before {
   display: block;
-  font-size: 1.9em;
+  font-size: 2em;
   width: 100%;
 }
 

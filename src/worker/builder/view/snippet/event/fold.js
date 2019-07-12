@@ -129,7 +129,10 @@ export class Fold extends Event {
   fold(box, data, snippet, immediate = false) {
     const group = snippet.node();
     const isFolded = group.classed('folded');
-    const snippets = this._filter(snippet);
+
+    const snippets = this._filter ?
+      this._filter(snippet) :
+      snippet.find((s) => s.node && s.node().classed('item'));
 
     group.classed('folded', !isFolded);
 

@@ -5,9 +5,11 @@ export class Search extends Node {
   constructor(options = {}) {
     super(options);
 
+    this._placeholder = null;
     this._storage = null;
     this._wildcard = null;
 
+    this.setPlaceholder(options.placeholder);
     this.setStorage(options.storage);
     this.setWildcard(options.wildcard);
 
@@ -19,6 +21,15 @@ export class Search extends Node {
       storage: this._storage,
       wildcard: this._wildcard
     });
+  }
+
+  getPlaceholder() {
+    return this._placeholder;
+  }
+
+  setPlaceholder(value = null) {
+    this._placeholder = value;
+    return this;
   }
 
   getStorage() {
@@ -37,6 +48,10 @@ export class Search extends Node {
   setWildcard(value = '*') {
     this._wildcard = value;
     return this;
+  }
+
+  placeholder(value) {
+    return this.setPlaceholder(value);
   }
 
   storage(value) {
@@ -91,11 +106,14 @@ export class Search extends Node {
   }
 
   resolveSearch(box, data) {
+    const placeholder = this.resolveValue(box, data, this._placeholder);
+
     const input = this._node
       .append('input')
       .attr('autocomplete', 'on')
       .attr('name', 'search')
-      .attr('type', 'search');
+      .attr('type', 'search')
+      .attr('placeholder', placeholder);
 
     const value = this._storage.getItem('search-' + this._id);
 

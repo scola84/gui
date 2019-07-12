@@ -40,6 +40,10 @@
   text-transform: uppercase;
 }
 
+.group > .title:active {
+  opacity: 0.5;
+}
+
 .group > .title.fold:after {
   font-family: Ionicons;
   font-size: 1.25em;
