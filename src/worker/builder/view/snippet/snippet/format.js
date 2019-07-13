@@ -42,14 +42,39 @@ export class Format extends Snippet {
   constructor(options = {}) {
     super(options);
 
+    this._args = null;
+    this._code = null;
     this._locale = null;
+
+    this.setArgs(options.args);
+    this.setCode(options.code);
     this.setLocale(options.locale);
   }
 
   getOptions() {
     return Object.assign(super.getOptions(), {
+      args: this._args,
+      code: this._code,
       locale: this._locale
     });
+  }
+
+  getArgs() {
+    return this._args;
+  }
+
+  setArgs(value = null) {
+    this._args = value;
+    return this;
+  }
+
+  getCode() {
+    return this._code;
+  }
+
+  setCode(value = null) {
+    this._code = value;
+    return this;
   }
 
   getLocale() {
@@ -61,37 +86,34 @@ export class Format extends Snippet {
     return this;
   }
 
+  args(value) {
+    return this.setArgs(value);
+  }
+
+  code(value) {
+    return this.setCode(value);
+  }
+
   locale(value) {
     return this.setLocale(value);
   }
 
   resolveAfter(box, data) {
-    const result = [];
+    let string = '';
+
     const flocale = this.resolveValue(box, data, this._locale);
+    const code = this.resolveValue(box, data, this._code);
+    const args = this.resolveValue(box, data, this._args);
 
-    let args = null;
-    let code = null;
-    let string = null;
-    let value = null;
+    string = get(strings, `${flocale}.${code}`);
+    string = typeof string === 'undefined' ? code : string;
 
-    for (let i = 0; i < this._args.length; i += 1) {
-      value = this.resolveValue(box, data, this._args[i]);
-
-      [code, ...args] = Array.isArray(value) ?
-        value : [value, data];
-
-      string = get(strings, `${flocale}.${code}`);
-      string = typeof string === 'undefined' ? code : string;
-
-      try {
-        string = vsprintf(string, args, flocale);
-      } catch (error) {
-        string = error.message;
-      }
-
-      result[result.length] = string;
+    try {
+      string = vsprintf(string, args, flocale);
+    } catch (error) {
+      string = error.message;
     }
 
-    return result;
+    return string;
   }
 }

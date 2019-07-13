@@ -2,11 +2,6 @@ import { select, selectAll } from 'd3';
 import { Node } from './node';
 
 export class Generator extends Node {
-  constructor(options = {}) {
-    super(options);
-    this.class('transition');
-  }
-
   appendChild(box, data, snippet = null) {
     if (snippet === null) {
       return null;

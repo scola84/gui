@@ -11,6 +11,8 @@ export class Axis extends Generator {
 
     this._scale = null;
     this.setScale(options.scale);
+
+    this.class('transition');
   }
 
   getScale() {

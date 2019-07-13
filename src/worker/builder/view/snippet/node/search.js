@@ -63,7 +63,7 @@ export class Search extends Node {
   }
 
   formatSearch(value) {
-    const parts = value.match(/[^"\s]+|"[^"]+"/g);
+    const parts = value.match(/[^"\s]+|"[^"]+"/g) || [];
 
     let match = null;
     let part = null;
@@ -77,7 +77,11 @@ export class Search extends Node {
       }
     }
 
-    return parts.join(' ');
+    if (parts.length > 0) {
+      return parts.join(' ').trim();
+    }
+
+    return void 0;
   }
 
   resolveBefore(box, data) {
@@ -96,10 +100,7 @@ export class Search extends Node {
     this._storage.setItem('search-' + this._id, box.input);
 
     box.list.clear = true;
-
-    box.list.search = box.input ?
-      this.formatSearch(box.input) :
-      null;
+    box.list.search = this.formatSearch(box.input);
 
     delete box.input;
     return this._node;

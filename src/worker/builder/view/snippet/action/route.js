@@ -2,12 +2,34 @@ import { ViewRouter } from '../../../../router';
 import { Action } from '../action';
 
 export class Route extends Action {
-  resolveAfter(box, data) {
-    let route = null;
+  constructor(options = {}) {
+    super(options);
 
-    for (let i = 0; i < this._args.length; i += 1) {
-      route = this.resolveValue(box, data, this._args[i]);
-      ViewRouter.handle(box, data, route);
-    }
+    this._view = null;
+    this.setView(options.view);
+  }
+
+  getOptions() {
+    return Object.assign(super.getOptions(), {
+      view: this._view
+    });
+  }
+
+  getView() {
+    return this._view;
+  }
+
+  setView(value = null) {
+    this._view = value;
+    return this;
+  }
+
+  view(value) {
+    return this.setView(value);
+  }
+
+  resolveAfter(box, data) {
+    const route = this.resolveValue(box, data, this._view);
+    ViewRouter.handle(box, data, route);
   }
 }

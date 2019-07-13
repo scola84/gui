@@ -2,6 +2,11 @@ import { Axis } from './axis';
 import { Generator } from '../generator';
 
 export class Grid extends Generator {
+  constructor(options) {
+    super(options);
+    this.class('transition');
+  }
+
   removeInner() {
     this.removeChildren();
     this.removeAfter();

@@ -1,22 +1,25 @@
-import { createBrowser } from '@scola/http';
+import { Url, createBrowser } from '@scola/http';
 import { Worker } from '@scola/worker';
 import defaults from 'lodash-es/defaultsDeep';
-import { Async } from './async';
+import { Action } from '../action';
 
-export class Request extends Async {
+export class Request extends Action {
   constructor(options = {}) {
     super(options);
 
     this._client = null;
     this._indicator = null;
+    this._resource = null;
 
     this.setClient(options.client);
     this.setIndicator(options.indicator);
+    this.setResource(options.resource);
   }
 
   getOptions() {
     return Object.assign(super.getOptions(), {
-      indicator: this._indicator
+      indicator: this._indicator,
+      resource: this._resource
     });
   }
 
@@ -38,6 +41,15 @@ export class Request extends Async {
     return this;
   }
 
+  getResource() {
+    return this._resource;
+  }
+
+  setResource(value = null) {
+    this._resource = value;
+    return this;
+  }
+
   client(value) {
     return this.setClient(value);
   }
@@ -46,16 +58,37 @@ export class Request extends Async {
     return this.setIndicator(value);
   }
 
-  asyncify(box, data, options) {
+  resource(value) {
+    return this.setResource(value);
+  }
+
+  resolveAfter(box, data) {
     if (this._client === null) {
       this._client = createBrowser();
     }
 
-    options = this.resolveValue(box, data, options);
+    let options = this.resolveValue(box, data, this._resource);
 
     if (typeof options === 'string') {
-      const [method, url] = options.split(' ');
-      options = url ? { method, url } : { url: method };
+      let [
+        method,
+        url = null
+      ] = options.split(' ');
+
+      if (url === null) {
+        url = method;
+        method = void 0;
+      }
+
+      url = Url.parse(url);
+
+      options = {
+        method,
+        url: {
+          path: url.path,
+          query: url.query
+        }
+      };
     }
 
     options = defaults({}, options, {
@@ -63,25 +96,25 @@ export class Request extends Async {
         box
       },
       url: {
-        hostname: window.location.hostname
+        hostname: window.location.hostname,
+        port: window.location.port,
+        scheme: window.location.protocol.slice(0, -1)
       }
     });
 
-    return (callback) => {
-      this._client.transformer.connect(new Worker({
-        act: (b, result) => {
-          this._client.transformer.setWorker(null);
-          callback(null, result);
-        },
-        err: (b, error) => {
-          this._client.transformer.setWorker(null);
-          callback(error);
-        }
-      }));
+    this._client.transformer.connect(new Worker({
+      act: (b, result) => {
+        this._client.transformer.setWorker(null);
+        this.pass(box, result);
+      },
+      err: (b, error) => {
+        this._client.transformer.setWorker(null);
+        this.fail(box, error);
+      }
+    }));
 
-      this._client.connector.handle(options, data, (event) => {
-        this.resolveValue(box, event, this._indicator);
-      });
-    };
+    this._client.connector.handle(options, data, (event) => {
+      this.resolveValue(box, event, this._indicator);
+    });
   }
 }

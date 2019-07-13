@@ -13,6 +13,8 @@ export class Plot extends Generator {
 
     this._data = null;
     this.setData(options.data);
+
+    this.class('transition');
   }
 
   getData() {

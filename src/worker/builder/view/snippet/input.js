@@ -127,6 +127,15 @@ export class Input extends Node {
     const name = this.resolveAttribute(box, data, 'name');
     const value = data[name];
 
+    const multiple = this.resolveAttribute(box, data, 'multiple');
+
+    if (typeof multiple !== 'undefined') {
+      if (Array.isArray(value) === false) {
+        this.setError(error, name, value, 'array');
+        return null;
+      }
+    }
+
     if (Array.isArray(value) === false) {
       return this.validateBefore(box, data, error, name, value);
     }
