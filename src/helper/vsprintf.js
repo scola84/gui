@@ -3,17 +3,18 @@ import sprintf from 'sprintf-js';
 import {
   luxon,
   marked,
-  number
+  number,
+  string
 } from './vsprintf/';
 
-const format = { l: luxon, m: marked, n: number };
+const formatters = { l: luxon, m: marked, n: number, s: string };
 const regexpBase = '%((\\((\\w+)\\))?((\\d+)\\$)?)([b-gijostTuvxXlmn])(\\[(.+)\\])?';
 const regexpGlobal = new RegExp(regexpBase, 'g');
 const regexpSingle = new RegExp(regexpBase);
-const reductor = (name) => (a, v) => v[name] || a;
+const reductor = (name) => (a, v) => typeof v[name] === 'undefined' ? a : v[name];
 
-export function vsprintf(string, args, locale) {
-  const matches = string.match(regexpGlobal) || [];
+export function vsprintf(format, args, locale) {
+  const matches = format.match(regexpGlobal) || [];
 
   let match = null;
   let name = null;
@@ -33,15 +34,15 @@ export function vsprintf(string, args, locale) {
         args.reduce(reductor(name), '') :
         args[i]);
 
-    if (format[type]) {
-      string = string.replace(
+    if (formatters[type]) {
+      format = format.replace(
         match,
-        format[type](value, options, locale)
+        formatters[type](value, options, locale)
       );
     }
   }
 
-  return sprintf.vsprintf(string, args);
+  return sprintf.vsprintf(format, args);
 }
 
-Object.assign(vsprintf, format);
+Object.assign(vsprintf, formatters);
