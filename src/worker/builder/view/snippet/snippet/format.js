@@ -42,30 +42,21 @@ export class Format extends Snippet {
   constructor(options = {}) {
     super(options);
 
-    this._args = null;
     this._code = null;
     this._locale = null;
+    this._values = null;
 
-    this.setArgs(options.args);
     this.setCode(options.code);
     this.setLocale(options.locale);
+    this.setValues(options.values);
   }
 
   getOptions() {
     return Object.assign(super.getOptions(), {
-      args: this._args,
       code: this._code,
-      locale: this._locale
+      locale: this._locale,
+      values: this._values
     });
-  }
-
-  getArgs() {
-    return this._args;
-  }
-
-  setArgs(value = null) {
-    this._args = value;
-    return this;
   }
 
   getCode() {
@@ -86,8 +77,13 @@ export class Format extends Snippet {
     return this;
   }
 
-  args(value) {
-    return this.setArgs(value);
+  getValues() {
+    return this._values;
+  }
+
+  setValues(value = null) {
+    this._values = value;
+    return this;
   }
 
   code(value) {
@@ -98,18 +94,24 @@ export class Format extends Snippet {
     return this.setLocale(value);
   }
 
+  values(value) {
+    return this.setValues(value);
+  }
+
   resolveAfter(box, data) {
     let string = '';
 
     const flocale = this.resolveValue(box, data, this._locale);
     const code = this.resolveValue(box, data, this._code);
-    const args = this.resolveValue(box, data, this._args);
+
+    let values = this.resolveValue(box, data, this._values);
+    values = Array.isArray(values) ? values : [values];
 
     string = get(strings, `${flocale}.${code}`);
     string = typeof string === 'undefined' ? code : string;
 
     try {
-      string = vsprintf(string, args, flocale);
+      string = vsprintf(string, values, flocale);
     } catch (error) {
       string = error.message;
     }
