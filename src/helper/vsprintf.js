@@ -3,11 +3,10 @@ import sprintf from 'sprintf-js';
 import {
   luxon,
   marked,
-  number,
-  string
+  number
 } from './vsprintf/';
 
-const formatters = { l: luxon, m: marked, n: number, s: string };
+const formatters = { l: luxon, m: marked, n: number };
 const regexpBase = '%((\\((\\w+)\\))?((\\d+)\\$)?)([b-gijostTuvxXlmn])(\\[(.+)\\])?';
 const regexpGlobal = new RegExp(regexpBase, 'g');
 const regexpSingle = new RegExp(regexpBase);

@@ -9,16 +9,22 @@ export class Request extends Action {
 
     this._client = null;
     this._indicator = null;
+    this._list = null;
+    this._object = null;
     this._resource = null;
 
     this.setClient(options.client);
     this.setIndicator(options.indicator);
+    this.setList(options.list);
+    this.setObject(options.object);
     this.setResource(options.resource);
   }
 
   getOptions() {
     return Object.assign(super.getOptions(), {
       indicator: this._indicator,
+      list: this._list,
+      object: this._object,
       resource: this._resource
     });
   }
@@ -41,6 +47,24 @@ export class Request extends Action {
     return this;
   }
 
+  getList() {
+    return this._list;
+  }
+
+  setList(value = false) {
+    this._list = value;
+    return this;
+  }
+
+  getObject() {
+    return this._object;
+  }
+
+  setObject(value = null) {
+    this._object = value;
+    return this;
+  }
+
   getResource() {
     return this._resource;
   }
@@ -56,6 +80,14 @@ export class Request extends Action {
 
   indicator(value) {
     return this.setIndicator(value);
+  }
+
+  list() {
+    return this.setList(true);
+  }
+
+  object(value) {
+    return this.setObject(value);
   }
 
   resource(value) {
@@ -98,9 +130,16 @@ export class Request extends Action {
       url: {
         hostname: window.location.hostname,
         port: window.location.port,
+        query: {},
         scheme: window.location.protocol.slice(0, -1)
       }
     });
+
+    if (this._list) {
+      this.resolveList(box, options);
+    } else if (this._object) {
+      this.resolveObject(box, options);
+    }
 
     this._client.transformer.connect(new Worker({
       act: (b, result) => {
@@ -116,5 +155,24 @@ export class Request extends Action {
     this._client.connector.handle(options, data, (event) => {
       this.resolveValue(box, event, this._indicator);
     });
+  }
+
+  resolveList(box, options) {
+    const names = ['count', 'offset', 'search'];
+    const list = box.list || {};
+
+    let name = null;
+
+    for (let i = 0; i < names.length; i += 1) {
+      name = names[i];
+
+      if (typeof list[name] !== 'undefined') {
+        options.url.query[name] = list[name];
+      }
+    }
+  }
+
+  resolveObject(box, options) {
+    options.url.path += '/' + box.params[this._object];
   }
 }
