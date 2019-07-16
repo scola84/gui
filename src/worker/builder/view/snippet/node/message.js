@@ -17,10 +17,10 @@ export class Message extends Node {
       code += '.' + data.code;
     }
 
-    const text = this._builder.format([
-      code,
-      data
-    ]);
+    const text = this._builder
+      .format()
+      .code(code)
+      .values(data);
 
     this._node.text(
       this.resolveValue(box, data, text)
