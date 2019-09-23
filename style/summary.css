@@ -1,4 +1,4 @@
-.summary .body {
+.block.summary > .body {
   background: white;
   display: flex;
   padding: 1em;
@@ -181,7 +181,7 @@
 }
 
 @media (min-width: 48em) {
-  .summary .body {
+  .block.summary > .body {
     border-radius: 1em;
   }
 

@@ -317,7 +317,7 @@
 }
 
 .block.unwrap > .body > li .unwrap {
-  white-space: normal;
+  white-space: normal !important;
 }
 
 .section.menu .outset .block,
