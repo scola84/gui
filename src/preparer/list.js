@@ -1,5 +1,6 @@
 import { event, select } from 'd3';
 import throttle from 'lodash-es/throttle';
+import { DateTime } from 'luxon';
 import GraphicWorker from '../worker/graphic';
 
 export default class ListPreparer extends GraphicWorker {
@@ -51,17 +52,55 @@ export default class ListPreparer extends GraphicWorker {
     }
 
     const parts = value.match(/[^"\s]+|"[^"]+"/g);
-    let match = null;
+    let quoteMatch = null;
+    let rangeMatch = null;
 
     for (let i = 0; i < parts.length; i += 1) {
-      match = parts[i].match(/".+"/);
+      quoteMatch = parts[i].match(/".+"/);
+      rangeMatch = parts[i].match(/\.\./);
 
-      if (match === null) {
+      if (rangeMatch !== null) {
+        parts[i] = this._formatRange(parts[i])
+      } else if (quoteMatch === null) {
         parts[i] = format(parts[i]);
       }
     }
 
     return parts.join(' ');
+  }
+
+  _formatRange(value) {
+    let [begin, end] = value.split('..');
+    let beginDate = null
+    let endDate = null
+
+    if (begin === '*') {
+      begin = ''
+    } else {
+      beginDate = DateTime.fromFormat(begin, this.format({}, null, null, {
+        data: {},
+        name: 'search.begin'
+      }))
+
+      if (beginDate.isValid) {
+        begin = beginDate.valueOf()
+      }
+    }
+
+    if (end === '*') {
+      end = ''
+    } else {
+      endDate = DateTime.fromFormat(end, this.format({}, null, null, {
+        data: {},
+        name: 'search.end'
+      }))
+
+      if (endDate.isValid) {
+        end = endDate.valueOf()
+      }
+    }
+
+    return `(${begin};${end}]`
   }
 
   _prepareScroll(route, data, callback) {
