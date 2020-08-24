@@ -52,15 +52,19 @@ export default class ListPreparer extends GraphicWorker {
     }
 
     const parts = value.match(/[^"\s]+|"[^"]+"/g);
+    let dateMatch = null;
     let quoteMatch = null;
     let rangeMatch = null;
 
     for (let i = 0; i < parts.length; i += 1) {
+      dateMatch = this._parseDate(parts[i], 'search.begin');
       quoteMatch = parts[i].match(/".+"/);
       rangeMatch = parts[i].match(/\.\./);
 
-      if (rangeMatch !== null) {
-        parts[i] = this._formatRange(parts[i])
+      if (dateMatch !== null && dateMatch.isValid) {
+        parts[i] = this._formatDate(parts[i]);
+      } else if (rangeMatch !== null) {
+        parts[i] = this._formatRange(parts[i]);
       } else if (quoteMatch === null) {
         parts[i] = format(parts[i]);
       }
@@ -69,38 +73,53 @@ export default class ListPreparer extends GraphicWorker {
     return parts.join(' ');
   }
 
+  _formatDate(value) {
+    const beginDate = this._parseDate(value, 'search.begin')
+    const endDate = beginDate.plus({ day: 1 })
+    return `[${beginDate.valueOf()};${endDate.valueOf()})`
+  }
+
   _formatRange(value) {
     let [begin, end] = value.split('..');
-    let beginDate = null
-    let endDate = null
+    let beginDate = null;
+    let endDate = null;
 
     if (begin === '*') {
-      begin = ''
+      begin = '';
     } else {
-      beginDate = DateTime.fromFormat(begin, this.format({}, null, null, {
-        data: {},
-        name: 'search.begin'
-      }))
+      beginDate = this._parseDate(begin, 'search.begin');
 
       if (beginDate.isValid) {
-        begin = beginDate.valueOf()
+        begin = beginDate.valueOf();
       }
     }
 
     if (end === '*') {
-      end = ''
+      end = '';
     } else {
-      endDate = DateTime.fromFormat(end, this.format({}, null, null, {
-        data: {},
-        name: 'search.end'
-      }))
+      endDate = this._parseDate(end, 'search.end');
 
       if (endDate.isValid) {
-        end = endDate.valueOf()
+        end = endDate.valueOf();
       }
     }
 
-    return `(${begin};${end}]`
+    return `[${begin};${end}]`
+  }
+
+  _parseDate(value, name) {
+    const format = this.format({}, null, null, {
+      data: {},
+      name
+    });
+
+    if (!format) {
+      return null;
+    }
+
+    return DateTime.fromFormat(value, format, {
+      zone: 'UTC'
+    });
   }
 
   _prepareScroll(route, data, callback) {
